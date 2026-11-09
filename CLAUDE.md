@@ -144,6 +144,8 @@ Modern amenities are not optional:
   saves desktop and phone screenshots (Playwright) and warns about
   horizontal overflow (`BROWSER=webkit` for Safari's engine: check both, the
   user browses with Safari), and `node scripts/a11y.ts http://localhost:4321
-  <path>...` runs axe-core at both widths. Put screenshots in a scratch
+  <path>...` runs axe-core at both widths. For refactors that should not
+  change the look, `node scripts/visual-snapshots.ts capture <url> <dir>`
+  before and after, then `compare <dir-a> <dir-b>`. Put screenshots in a scratch
   directory, not the repo.
 - Commit only when the user asks.

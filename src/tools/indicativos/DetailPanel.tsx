@@ -1,5 +1,6 @@
 // Properties of one callsign: status, when it frees up, phonetics, Morse,
 // copy, how to request it, and near misses when it is not available.
+import type { ComponentChildren } from 'preact';
 import { useEffect, useMemo, useState } from 'preact/hooks';
 import {
   STATUS_INFO,
@@ -16,6 +17,9 @@ import {
   type CallsignIndex,
   type Cell,
 } from '../../lib/callsigns/index.ts';
+import { formatDecimal } from '../../lib/format.ts';
+import { CopyButton } from '../../ui/CopyButton.tsx';
+import { ToolPanel } from '../../ui/ToolPanel.tsx';
 import { useMorsePlayer } from './morseAudio.ts';
 
 export const REQUEST_URL =
@@ -23,11 +27,17 @@ export const REQUEST_URL =
 
 const SPEEDS = [10, 15, 20, 25, 30];
 
+/** "PY2" → "ponto traço traço ponto, …", for screen readers. */
+const spokenMorse = (callsign: string) =>
+  morse(callsign)
+    .map((code) => [...code].map((sym) => (sym === '.' ? 'ponto' : 'traço')).join(' '))
+    .join(', ');
+
 interface Props {
   callsign: string;
   index: CallsignIndex;
   onClose: () => void;
-  renderCell: (cell: Cell) => preact.ComponentChildren;
+  renderCell: (cell: Cell) => ComponentChildren;
 }
 
 export function DetailPanel({ callsign, index, onClose, renderCell }: Props) {
@@ -37,39 +47,25 @@ export function DetailPanel({ callsign, index, onClose, renderCell }: Props) {
   const free = freeFrom(callsign, index);
   const similar = useMemo(() => (info.requestable ? [] : nearMisses(callsign, index)), [callsign, info.requestable, index]);
   const [wpm, setWpm] = useState(20);
-  const [copied, setCopied] = useState(false);
   const player = useMorsePlayer();
   const units = morseUnits(callsign);
 
-  useEffect(() => {
-    setCopied(false);
-    player.stop();
-  }, [callsign]);
-
-  const copy = async () => {
-    try {
-      await navigator.clipboard.writeText(callsign);
-      setCopied(true);
-    } catch {
-      setCopied(false);
-    }
-  };
+  useEffect(() => player.stop(), [callsign]);
 
   const where = c?.uf ? UF_NAMES[c.uf] : c?.island ? 'ilhas oceânicas' : undefined;
   const cls = c ? (c.licenseClass === 'AB' ? 'classes A e B' : 'classe C') : undefined;
 
   return (
-    <aside class="tool-panel panel-raised" aria-label={`Propriedades de ${callsign}`}>
-      <header class="tool-panel__head">
-        <span class={`cs-cell cs-cell--${status} cs-detail__call`}>{callsign}</span>
-        <button class="btn tool-panel__copy" type="button" onClick={copy} aria-label={`Copiar ${callsign}`}>
-          {copied ? 'Copiado!' : 'Copiar'}
-        </button>
-        <button class="tool-panel__close" type="button" onClick={onClose} aria-label="Fechar propriedades" title="Fechar">
-          <span aria-hidden="true">×</span>
-        </button>
-      </header>
-
+    <ToolPanel
+      label={`Propriedades de ${callsign}`}
+      onClose={onClose}
+      header={
+        <>
+          <span class={`cs-cell cs-cell--${status} cs-detail__call`}>{callsign}</span>
+          <CopyButton text={callsign} label={`Copiar ${callsign}`} class="tool-panel__copy" />
+        </>
+      }
+    >
       <p class="tool-panel__status">
         <strong>{info.label}</strong>
         {where && cls && (
@@ -90,14 +86,14 @@ export function DetailPanel({ callsign, index, onClose, renderCell }: Props) {
         <dt>Fonética</dt>
         <dd>{phonetic(callsign).join(' ')}</dd>
         <dt>Morse</dt>
-        <dd class="cs-detail__morse" aria-label={morse(callsign).join(' ').replace(/\./g, 'ponto ').replace(/-/g, 'traço ')}>
+        <dd class="cs-detail__morse" aria-label={spokenMorse(callsign)}>
           {morse(callsign).map((code, i) => (
             <span key={i}>{code.replace(/\./g, '·').replace(/-/g, '−')}</span>
           ))}
         </dd>
         <dt>Duração</dt>
         <dd>
-          {units} unidades, {(units * dotSeconds(wpm)).toFixed(1).replace('.', ',')} s a {wpm} ppm
+          {units} unidades, {formatDecimal(units * dotSeconds(wpm), 1)} s a {wpm} ppm
         </dd>
       </dl>
 
@@ -137,6 +133,6 @@ export function DetailPanel({ callsign, index, onClose, renderCell }: Props) {
           </ul>
         </>
       )}
-    </aside>
+    </ToolPanel>
   );
 }

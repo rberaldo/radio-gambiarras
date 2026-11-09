@@ -5,9 +5,10 @@ import Window from '../../components/win95/Window.astro';
 import CallsignTool from '../../tools/indicativos/CallsignTool.tsx';
 import meta from '../../../data/callsigns/meta.json';
 import type { MetaFile } from '../../lib/callsigns/index.ts';
+import { formatDate } from '../../lib/format.ts';
 
 const { newestLicensing } = meta as MetaFile;
-const dataDate = newestLicensing ? new Date(`${newestLicensing}T12:00:00Z`).toLocaleDateString('pt-BR') : '?';
+const dataDate = newestLicensing ? formatDate(newestLicensing) : '?';
 ---
 
 <Desktop

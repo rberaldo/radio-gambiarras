@@ -2,6 +2,7 @@
 // over the rules: a callsign listed as in use is taken even if the rules
 // would call it reserved.
 import { expandGroups, type ReleasedFile, type TakenFile } from './data.ts';
+import { formatDate } from '../format.ts';
 import { classify } from './rules.ts';
 
 export type Status =
@@ -109,8 +110,7 @@ export function freeFrom(callsign: string, index: CallsignIndex): FreeFrom | und
 
 /** "a partir de 01/11/2027" or "até 23/10/2027, no máximo", in Portuguese. */
 export function describeFreeFrom(f: FreeFrom): string {
-  const [y, m, d] = f.date.split('-');
-  const date = `${d}/${m}/${y}`;
+  const date = formatDate(f.date);
   return f.atLatest ? `Fica livre até ${date}, no máximo (pode já estar livre).` : `Deve ficar livre a partir de ${date}.`;
 }
 

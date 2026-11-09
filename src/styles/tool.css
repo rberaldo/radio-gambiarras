@@ -142,6 +142,48 @@
 }
 
 
+/* Loading and error states (src/ui/LoadState.tsx) */
+.tool-loading,
+.tool-error {
+  max-width: 28rem;
+  margin: var(--sp-6) auto;
+}
+
+/* A Win95-style progress bar with marching blocks */
+.tool-progress {
+  height: 1.25rem;
+  padding: var(--sp-1);
+  overflow: hidden;
+  border: 1px solid var(--m-line);
+  border-radius: var(--m-radius);
+  background: var(--m-surface);
+}
+
+.tool-progress span {
+  display: block;
+  width: 40%;
+  height: 100%;
+  background: repeating-linear-gradient(90deg, var(--c-select) 0 10px, transparent 10px 12px);
+  animation: tool-march 1.6s steps(12) infinite;
+}
+
+@keyframes tool-march {
+  from {
+    transform: translateX(-100%);
+  }
+  to {
+    transform: translateX(250%);
+  }
+}
+
+.tool-error {
+  padding: var(--sp-4);
+  border: 1px solid var(--m-line);
+  border-radius: var(--m-radius);
+  background: var(--m-surface);
+  box-shadow: var(--m-shadow);
+}
+
 /* Nothing to show */
 .tool-empty {
   padding: var(--sp-5);
