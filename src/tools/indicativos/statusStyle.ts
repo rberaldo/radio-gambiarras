@@ -7,9 +7,10 @@ export const STATUS_MARK: Record<Status, string> = {
   'em-uso': '',
   vencida: '†',
   quarentena: '◷',
+  'quarentena-incerta': '?',
   reservado: '✕',
   invalido: '',
 };
 
 /** Order of the legend. */
-export const LEGEND_ORDER: Status[] = ['livre', 'quarentena', 'em-uso', 'vencida', 'reservado'];
+export const LEGEND_ORDER: Status[] = ['livre', 'quarentena-incerta', 'quarentena', 'em-uso', 'vencida', 'reservado'];

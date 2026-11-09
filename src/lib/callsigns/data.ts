@@ -23,6 +23,20 @@ export interface TakenFile {
 export interface ReleasedFile {
   format: number;
   released: Record<string, string>;
+  /**
+   * Callsigns from an older third-party snapshot that are gone now, with no
+   * known release date. Each may still be in quarantine until `until` at the
+   * latest.
+   */
+  seeded?: SeededGroup;
+}
+
+export interface SeededGroup {
+  source: string;
+  snapshotDate: string;
+  until: string;
+  /** Space-separated, sorted. */
+  callsigns: string;
 }
 
 export interface MetaFile {

@@ -202,9 +202,14 @@
   text-decoration: line-through;
 }
 
-.cs-cell--quarentena {
+.cs-cell--quarentena,
+.cs-cell--quarentena-incerta {
   background: repeating-linear-gradient(135deg, var(--c-field) 0 4px, var(--c-light-inner) 4px 6px);
   color: var(--c-text-muted);
+}
+
+.cs-cell--quarentena-incerta {
+  color: var(--c-text);
 }
 
 .cs-empty {

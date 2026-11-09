@@ -34,6 +34,7 @@ export function countStatuses(cells: readonly Cell[]): StatusCounts {
     'em-uso': 0,
     vencida: 0,
     quarentena: 0,
+    'quarentena-incerta': 0,
     reservado: 0,
     livre: 0,
     invalido: 0,

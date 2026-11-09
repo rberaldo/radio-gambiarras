@@ -8,7 +8,9 @@ import {
   reduce,
   updateCallsigns,
   updateReleased,
+  updateSeeded,
 } from '../scripts/anatel/callsigns.ts';
+import { buildSeed } from '../scripts/anatel/seed-released.ts';
 import { parseDelimited } from '../scripts/lib/csv.ts';
 
 // Synthetic rows: every personal field holds an obviously fake marker so the
@@ -100,6 +102,24 @@ describe('released history', () => {
 
   it('starts empty without a previous snapshot', () => {
     expect(updateReleased(undefined, set('PY2AA'), {}, '2026-11-09')).toEqual({});
+  });
+});
+
+describe('seeded history', () => {
+  const set = (...cs: string[]) => new Set(cs);
+  const group = { source: 's', snapshotDate: '2025-04-09', until: '2027-10-23', callsigns: 'PU2KAA PY2AB' };
+
+  it('builds a seed from callsigns that are gone, expiring a year after the data date', () => {
+    const seed = buildSeed('PY2AA\npy2ab\nPU2KAA\nN/I\n', set('PY2AA'), '2026-10-23', '2025-04-09', 's');
+    expect(seed).toEqual(group);
+  });
+
+  it('drops seeded callsigns that are taken again', () => {
+    expect(updateSeeded(group, set('PY2AB'), '2026-11-10')?.callsigns).toBe('PU2KAA');
+  });
+
+  it('drops the group when it expires', () => {
+    expect(updateSeeded(group, set(), '2027-10-23')).toBeUndefined();
   });
 });
 

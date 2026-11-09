@@ -24,7 +24,7 @@ conventions, then the docs a milestone points to.
 2. ~~GitHub repository.~~ Settled: public repo
    <https://github.com/rberaldo/radio-gambiarras>, default branch `main`.
    Is "Rádio Gambiarras" also the site name? Not confirmed.
-3. ~~Seeding the quarantine history.~~ Settled: no seed (see M2.5).
+3. ~~Seeding the quarantine history.~~ Settled: seeded (see M2.5).
 4. **Anatel dataset license.** Anatel describes its open data as free to
    reuse with credit, but the license for this dataset could not be read
    during research. Confirm it in a browser before launch.
@@ -209,13 +209,14 @@ Pipeline:
   `data/callsigns/released.json`. Remove an entry when the callsign
   reappears or after one year.
   Done when: tests cover disappear, reappear and expiry.
-- [x] **M2.5 History seed (user decision).** Seeded on 2026-11-09, then
-  dropped the same day at the user's request: the seed's release dates were
-  unknowable (no archived copies of Anatel's file between April 2025 and
-  October 2026 exist: Internet Archive has none, community mirrors start in
-  October 2026), so "pode estar em quarentena" was a guess for 2,191
-  callsigns. Quarantine now comes only from our own daily comparison
-  (M2.4), which started empty on 2026-11-09. Do not reintroduce a seed.
+- [x] **M2.5 History seed (user decision).** Done 2026-11-09, approved by
+  the user. 2,191 callsigns that were in use on 2025-04-09 (third-party
+  snapshot, `hmagarotto/anatel-indicativo-livre` `used.txt`) and are absent
+  now are stored in `released.json` under `seeded`, without dates, valid
+  until 2027-10-23 (one year after the current data date). The UI must show
+  them as less certain than callsigns we saw disappear ourselves, e.g.
+  "pode estar em quarentena". The daily job drops a seeded callsign when it
+  reappears and the whole group on its expiry date.
 - [x] **M2.6 Scheduled workflow.** Written 2026-11-09 (`.github/workflows/dados.yml`,
   daily at 15:30 UTC, no npm install). Still to confirm on GitHub: a manual
   run finishes in under a minute and makes no commit when data is unchanged.
@@ -242,7 +243,8 @@ Pipeline:
 Interface (M2.8 can start as soon as M2.1 and M2.3 are done):
 
 - [x] **M2.8 Data loading and status.** Done 2026-11-09. `src/lib/callsigns/status.ts`
-  (six states, including `invalido`); data types shared in `src/lib/callsigns/data.ts`; page
+  (seven states, including `quarentena-incerta` for the seed and
+  `invalido`); data types shared in `src/lib/callsigns/data.ts`; page
   `/indicativos` exists but stays unlinked until M2.15. Loads in ~120 ms.
   Load `taken.json` and
   `released.json` once, lazily, and expose `statusOf(callsign)` implementing
@@ -422,4 +424,4 @@ Not planned. Move one into a milestone only when the user asks.
 | 2026-11-08 | Daily data refresh is a plain scheduled script that fetches about 3.3 MB and commits only on change. |
 | 2026-11-09 | Repository: public `rberaldo/radio-gambiarras` on GitHub. |
 | 2026-11-09 | Site name: Rádio Gambiarras. Jokes (404, loading messages) left for the user to write later. |
-| 2026-11-09 | Quarantine seed from an April 2025 snapshot added, then dropped: release dates unknowable. Quarantine comes only from our own daily tracking. |
+| 2026-11-09 | Quarantine history seeded from an April 2025 third-party snapshot, marked as uncertain. |
