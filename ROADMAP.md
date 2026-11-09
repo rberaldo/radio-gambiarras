@@ -446,11 +446,16 @@ Map:
   clustered at low zoom); click → circle with a 10–150 km slider; the
   repeaters inside highlighted and listed in a panel sorted by distance
   (callsign, output, shift, tone or "subtom desconhecido", city, distance,
-  accuracy); band and mode filters; "Baixar planilha" and "Baixar para o
+  accuracy); band and mode filters; "Baixar CSV" and "Baixar para o
   CHIRP" for the selection; URL state (`lat`, `lon`, `raio`, filters, selected
   repeater). A keyboard and screen-reader path: a place search or coordinates
   field and the text list. Data date and attribution in the status bar.
-- [ ] **M3.8 Corrections through GitHub Issues.** An issue form
+- [x] **M3.8 Corrections through GitHub Issues.** Done 2026-11-09. The form is
+  generated from `src/lib/repeaters/correction.ts`
+  (`node scripts/repeaters/issue-form.ts`); the workflow has no concurrency
+  group (GitHub would cancel queued approvals) and instead retries the push
+  on a fresh main; `dados.yml` rebases before pushing. Needs the labels
+  `correcao` and `aprovada` created in GitHub (by the user). An issue form
   `.github/ISSUE_TEMPLATE/correcao-repetidora.yml` (repeater id, tone from
   the CTCSS list plus "nenhum"/"não sei", DCS, lat/lon, modes, on air, notes,
   how you know); the site's "Sugerir correção" builds the

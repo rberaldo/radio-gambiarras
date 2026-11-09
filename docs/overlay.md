@@ -42,6 +42,31 @@ merges it with Anatel's data (`src/lib/repeaters/merge.ts`).
 `src/lib/repeaters/overlay.ts`) and explains every problem in Portuguese.
 Run it before committing a change.
 
-Suggestions arrive as GitHub issues (form `correcao-repetidora`); adding the
-label `aprovada` applies them automatically (roadmap M3.8, documented here
-when built).
+## Corrections through GitHub issues
+
+People suggest corrections with the issue form "Correção de repetidora"
+(`.github/ISSUE_TEMPLATE/correcao-repetidora.yml`). The map's "Sugerir
+correção" button opens it prefilled with the repeater id and what the site
+shows; "avise sobre uma repetidora nova" opens it with the chosen point.
+
+1. Read the issue. Check it makes sense (tone from someone who tested it,
+   a position on a hill rather than in town, a club's announcement...). Edit
+   the issue to fix small mistakes, or ask in a comment.
+2. Add the label `aprovada`. `.github/workflows/correcoes.yml` parses the
+   form (`scripts/repeaters/issue.ts`), merges it into `overlay.json` (blank
+   answers keep earlier values; a tone replaces a DCS code and vice versa),
+   validates the whole file, commits to main (which deploys the site),
+   comments with the applied entry and closes the issue.
+3. If the issue cannot be applied, the job comments why and removes the
+   label; fix the issue and add the label again.
+
+The source shown on the site is the callsign the person gave (or their
+GitHub login), what they said about how they know, and the issue number.
+
+The form is generated: edit the fields in `src/lib/repeaters/correction.ts`
+and run `node scripts/repeaters/issue-form.ts`; a test fails if the committed
+form is stale. The labels `correcao` (added by the form) and `aprovada` must
+exist in the repository.
+
+Apply an issue locally (for testing) with
+`ISSUE_BODY="$(cat body.md)" ISSUE_NUMBER=1 ISSUE_AUTHOR=login node scripts/repeaters/apply-issue.ts`.

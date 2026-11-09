@@ -51,4 +51,6 @@ jobs:
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
           git commit -m "Atualiza dados da Anatel ($(date -u +%F))"
+          # An approved correction (correcoes.yml) may have pushed meanwhile; it only touches overlay.json.
+          git pull --rebase --quiet origin main
           git push

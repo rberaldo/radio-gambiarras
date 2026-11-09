@@ -1,6 +1,9 @@
 // Everything known about one repeater, with the accuracy of each piece made clear.
+import { correctionUrl, repeaterCorrection } from '../../lib/repeaters/correction.ts';
 import { BAND_TEXT, LICENSE_TEXT, formatKm, formatMHz, formatShift, toneText } from '../../lib/repeaters/display.ts';
+import type { Point } from '../../lib/repeaters/geo.ts';
 import type { Repeater } from '../../lib/repeaters/merge.ts';
+import { site } from '../../site.ts';
 import { formatDate } from '../../lib/format.ts';
 import { CopyButton } from '../../ui/CopyButton.tsx';
 import { ToolPanel } from '../../ui/ToolPanel.tsx';
@@ -8,10 +11,12 @@ import { ToolPanel } from '../../ui/ToolPanel.tsx';
 interface Props {
   repeater: Repeater;
   distanceKm?: number;
+  /** The point the circle is around, passed on to a correction. */
+  picked?: Point;
   onClose: () => void;
 }
 
-export function RepeaterDetail({ repeater: r, distanceKm, onClose }: Props) {
+export function RepeaterDetail({ repeater: r, distanceKm, picked, onClose }: Props) {
   return (
     <ToolPanel
       label={`Repetidora ${r.callsign} em ${formatMHz(r.output)} MHz`}
@@ -76,6 +81,15 @@ export function RepeaterDetail({ repeater: r, distanceKm, onClose }: Props) {
           Dados da Anatel. A posição é a sede do município e o subtom é desconhecido até alguém informar.
         </p>
       )}
+      <div class="rp-suggest">
+        <p>
+          <strong>Sabe algo desta repetidora?</strong> Subtom, local da antena, modos digitais, se está no ar: conte pelo
+          GitHub (precisa de uma conta). Alguém confere e o mapa se atualiza.
+        </p>
+        <a class="btn" href={correctionUrl(repeaterCorrection(site.repo, r, location.href, picked))} target="_blank" rel="noopener">
+          Sugerir correção
+        </a>
+      </div>
     </ToolPanel>
   );
 }

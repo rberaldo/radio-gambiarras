@@ -140,10 +140,22 @@
 
 .rp-results__downloads {
   display: flex;
-  flex-wrap: wrap;
-  gap: var(--sp-2) var(--sp-3);
-  align-items: center;
+  flex-direction: column;
+  gap: var(--sp-3);
   margin-bottom: var(--sp-3);
+}
+
+/* The two downloads share one row */
+.rp-results__buttons {
+  display: flex;
+  gap: var(--sp-2);
+}
+
+.rp-results__buttons .btn {
+  flex: 1 1 auto;
+  min-width: 0;
+  padding-inline: var(--sp-3);
+  white-space: nowrap;
 }
 
 .rp-results__channel {
@@ -233,5 +245,15 @@
 
 .rp-detail__source {
   color: var(--m-text-muted);
+  font-size: var(--fs-sm);
+}
+
+.rp-suggest {
+  margin-top: var(--sp-4);
+  padding-top: var(--sp-3);
+  border-top: 1px solid var(--m-line-soft);
+}
+
+.rp-suggest p {
   font-size: var(--fs-sm);
 }

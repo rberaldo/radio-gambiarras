@@ -17,6 +17,14 @@
   cursor: pointer;
 }
 
+/* A link that looks like a button (e.g. opens a form elsewhere) */
+a.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+}
+
 .btn:active:not(:disabled),
 .btn[aria-pressed='true'] {
   box-shadow: var(--bevel-pressed);
