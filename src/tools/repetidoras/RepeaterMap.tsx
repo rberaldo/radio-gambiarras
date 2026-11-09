@@ -17,7 +17,43 @@ import { BASE_STYLE_URL, BRAZIL_BOUNDS, DEM_MAX_ZOOM, DEM_URL, RELIEF_ATTRIBUTIO
 
 maplibregl.setWorkerUrl(workerUrl);
 
-const COLORS = { navy: '#000080', green: '#008000', darkGreen: '#006400', white: '#ffffff', gold: '#ffcc00' };
+const COLORS = { navy: '#000080', green: '#008000', darkGreen: '#006400', white: '#ffffff', gold: '#ffcc00', red: '#cc0000', black: '#000000' };
+
+// The clicked point, as a pixel-art pushpin (X outline, R red, W white); the needle's tip is the point.
+const PIN = [
+  '...XXXXX...',
+  '..XRRRRRX..',
+  '.XRRRRRRRX.',
+  '.XRRWWWRRX.',
+  'XRRWWWWWRRX',
+  'XRRWWWWWRRX',
+  'XRRWWWWWRRX',
+  '.XRRWWWRRX.',
+  '.XRRRRRRRX.',
+  '..XRRRRRX..',
+  '..XRRRRRX..',
+  '...XRRRX...',
+  '....XXX....',
+  // A long needle, so the head clears a repeater badge on the same spot.
+  ...Array<string>(12).fill('.....X.....'),
+];
+const PIN_SCALE = 4; // device pixels per pin pixel, shown at pixelRatio 2
+
+function pinImage(): ImageData {
+  const w = PIN[0]!.length * PIN_SCALE;
+  const h = PIN.length * PIN_SCALE;
+  const img = new ImageData(w, h);
+  const rgb: Record<string, string> = { X: COLORS.black, R: COLORS.red, W: COLORS.white };
+  for (let y = 0; y < h; y++) {
+    for (let x = 0; x < w; x++) {
+      const c = rgb[PIN[Math.floor(y / PIN_SCALE)]![Math.floor(x / PIN_SCALE)]!];
+      if (!c) continue;
+      const i = (y * w + x) * 4;
+      img.data.set([parseInt(c.slice(1, 3), 16), parseInt(c.slice(3, 5), 16), parseInt(c.slice(5, 7), 16), 255], i);
+    }
+  }
+  return img;
+}
 
 /** Where the map should move to; a new object moves it again. */
 export interface Focus {
@@ -51,9 +87,18 @@ function addRepeaterLayers(map: maplibregl.Map) {
   });
   map.addSource('circle', { type: 'geojson', data: EMPTY });
   map.addSource('active', { type: 'geojson', data: EMPTY });
+  map.addSource('center', { type: 'geojson', data: EMPTY });
+  map.addImage('center-pin', pinImage(), { pixelRatio: 2 });
 
   map.addLayer({ id: 'circle-fill', type: 'fill', source: 'circle', paint: { 'fill-color': COLORS.navy, 'fill-opacity': 0.08 } });
   map.addLayer({ id: 'circle-line', type: 'line', source: 'circle', paint: { 'line-color': COLORS.navy, 'line-width': 2, 'line-dasharray': [2, 1] } });
+  // Under the badges, so a cluster on the same spot keeps its count readable.
+  map.addLayer({
+    id: 'center-pin',
+    type: 'symbol',
+    source: 'center',
+    layout: { 'icon-image': 'center-pin', 'icon-anchor': 'bottom', 'icon-allow-overlap': true, 'icon-ignore-placement': true },
+  });
   map.addLayer({
     id: 'clusters',
     type: 'circle',
@@ -198,7 +243,12 @@ export function RepeaterMap({ repeaters, inside, center, radiusKm, activeId, foc
 
   useEffect(() => {
     if (!ready) return;
-    (mapRef.current!.getSource('circle') as GeoJSONSource).setData(center ? circlePolygon(center, radiusKm) : EMPTY);
+    const map = mapRef.current!;
+    (map.getSource('circle') as GeoJSONSource).setData(center ? circlePolygon(center, radiusKm) : EMPTY);
+    const pin: FeatureCollection = center
+      ? { type: 'FeatureCollection', features: [{ type: 'Feature', properties: {}, geometry: { type: 'Point', coordinates: [center.lon, center.lat] } }] }
+      : EMPTY;
+    (map.getSource('center') as GeoJSONSource).setData(pin);
   }, [ready, center?.lat, center?.lon, radiusKm]);
 
   useEffect(() => {
