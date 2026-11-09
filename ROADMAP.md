@@ -23,8 +23,7 @@ conventions, then the docs a milestone points to.
 2. ~~GitHub repository.~~ Settled: public repo
    <https://github.com/rberaldo/radio-gambiarras>, default branch `main`.
    Is "Rádio Gambiarras" also the site name? Not confirmed.
-3. **Seeding the quarantine history** (task M2.5): start empty, or seed from a
-   third-party April 2025 snapshot of callsigns in use?
+3. ~~Seeding the quarantine history.~~ Settled: seeded (see M2.5).
 4. **Anatel dataset license.** Anatel describes its open data as free to
    reuse with credit, but the license for this dataset could not be read
    during research. Confirm it in a browser before launch.
@@ -209,9 +208,14 @@ Pipeline:
   `data/callsigns/released.json`. Remove an entry when the callsign
   reappears or after one year.
   Done when: tests cover disappear, reappear and expiry.
-- [ ] **M2.5 History seed (user decision, optional).** See open question 3.
-  If approved, mark callsigns that were in use in April 2025 and are absent
-  now as possibly in quarantine, with the uncertainty stated in the UI.
+- [x] **M2.5 History seed (user decision).** Done 2026-11-09, approved by
+  the user. 2,191 callsigns that were in use on 2025-04-09 (third-party
+  snapshot, `hmagarotto/anatel-indicativo-livre` `used.txt`) and are absent
+  now are stored in `released.json` under `seeded`, without dates, valid
+  until 2027-10-23 (one year after the current data date). The UI must show
+  them as less certain than callsigns we saw disappear ourselves, e.g.
+  "pode estar em quarentena". The daily job drops a seeded callsign when it
+  reappears and the whole group on its expiry date.
 - [x] **M2.6 Scheduled workflow.** Written 2026-11-09 (`.github/workflows/dados.yml`,
   daily at 15:30 UTC, no npm install). Still to confirm on GitHub: a manual
   run finishes in under a minute and makes no commit when data is unchanged.
@@ -403,3 +407,4 @@ Not planned. Move one into a milestone only when the user asks.
 | 2026-11-08 | Repeater tones and exact positions come from an overlay the user maintains by hand; visitor suggestions need the user's approval; no request to PY2CER. |
 | 2026-11-08 | Daily data refresh is a plain scheduled script that fetches about 3.3 MB and commits only on change. |
 | 2026-11-09 | Repository: public `rberaldo/radio-gambiarras` on GitHub. |
+| 2026-11-09 | Quarantine history seeded from an April 2025 third-party snapshot, marked as uncertain. |

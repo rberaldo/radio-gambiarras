@@ -165,7 +165,12 @@ export async function updateCallsigns(csvText: string, dataDir: string, today: s
     oldReleased?.released ?? {},
     today,
   );
-  const newReleasedJson = toJson({ format: FORMAT_VERSION, released } satisfies ReleasedFile);
+  const seeded = oldReleased?.seeded && updateSeeded(oldReleased.seeded, expandTaken(reduction.taken), today);
+  const newReleasedJson = toJson({
+    format: FORMAT_VERSION,
+    released,
+    ...(seeded ? { seeded } : {}),
+  } satisfies ReleasedFile);
   const releasedChanged = !oldReleased || toJson(oldReleased) !== newReleasedJson;
 
   if (!takenChanged && !releasedChanged) return { changed: false, reduction };
@@ -194,6 +199,27 @@ export async function updateCallsigns(csvText: string, dataDir: string, today: s
 export interface ReleasedFile {
   format: number;
   released: Record<string, string>;
+  /**
+   * Callsigns from an older third-party snapshot that are gone now, with no
+   * known release date. Each may still be in quarantine until `until` at the
+   * latest. Added once by seed-released.ts.
+   */
+  seeded?: SeededGroup;
+}
+
+export interface SeededGroup {
+  source: string;
+  snapshotDate: string;
+  until: string;
+  /** Space-separated, sorted. */
+  callsigns: string;
+}
+
+/** Drops seeded callsigns that are taken again, and the whole group once it expires. */
+export function updateSeeded(group: SeededGroup, now: Set<string>, today: string): SeededGroup | undefined {
+  if (today >= group.until) return undefined;
+  const callsigns = group.callsigns.split(' ').filter((cs) => cs && !now.has(cs));
+  return { ...group, callsigns: callsigns.join(' ') };
 }
 
 /** How long a released callsign stays in the history. */
