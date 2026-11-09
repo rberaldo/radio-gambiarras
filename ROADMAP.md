@@ -290,7 +290,10 @@ Interface (M2.8 can start as soon as M2.1 and M2.3 are done):
   button (Web Audio, adjustable speed) and the length in dot units so short,
   rhythmic callsigns stand out; a copy button; and "Como solicitar" with the
   link to Anatel's licensing page.
-- [ ] **M2.13 URL state and copy.** Filters, query and selected callsign live
+- [x] **M2.13 URL state and copy.** Done 2026-11-09: `?classe=&uf=&sufixo=&prefixo=&mostrar=&q=&ind=`
+  (defaults omitted, `replaceState`); stale warning computed in the browser
+  (over 14 days); "Como isto funciona?" note.
+  Filters, query and selected callsign live
   in the query string. Add the disclaimers, the "dados da Anatel,
   atualizados em …" status-bar text, and a visible notice when the data is
   stale (see M2.6).

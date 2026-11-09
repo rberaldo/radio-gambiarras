@@ -1,5 +1,5 @@
 // The callsign tool's interactive part: search, filters and the grid.
-import { useEffect, useMemo, useState } from 'preact/hooks';
+import { useEffect, useMemo, useRef, useState } from 'preact/hooks';
 import {
   STATUS_INFO,
   UFS,
@@ -12,38 +12,25 @@ import {
   freeFrom,
   type CallsignIndex,
   type Cell,
-  type LicenseClass,
   type Status,
-  type Uf,
 } from '../../lib/callsigns/index.ts';
 import { DetailPanel } from './DetailPanel.tsx';
 import { LEGEND_ORDER, STATUS_MARK } from './statusStyle.ts';
 import { useCallsignIndex } from './useCallsignIndex.ts';
+import { DEFAULT_STATE, readState, writeState, type Show, type ToolState, type UfChoice } from './urlState.ts';
 import { VirtualGrid } from './VirtualGrid.tsx';
 import './callsigns.css';
 
 const fmt = (n: number) => n.toLocaleString('pt-BR');
 
-type UfChoice = Uf | 'todos';
-
-type Show = 'todos' | 'livres' | 'talvez';
-
 /** What each "Mostrar" option keeps; undefined keeps everything. */
 const SHOW_STATUSES: Record<Show, readonly Status[] | undefined> = {
   todos: undefined,
   livres: ['livre'],
-  talvez: ['livre', 'quarentena-incerta', 'quarentena'],
+  quarentena: ['livre', 'quarentena-incerta', 'quarentena'],
 };
 
-const SHOW_LABELS: Record<Show, string> = { todos: 'Todos', livres: 'Livres', talvez: 'Livres ou em quarentena' };
-
-interface Filters {
-  licenseClass: LicenseClass;
-  uf: UfChoice;
-  length: 2 | 3;
-  prefix?: string;
-  show: Show;
-}
+const SHOW_LABELS: Record<Show, string> = { todos: 'Todos', livres: 'Livres', quarentena: 'Livres ou em quarentena' };
 
 function SearchBox({ query, setQuery }: { query: string; setQuery: (q: string) => void }) {
   return (
@@ -73,7 +60,7 @@ function SearchBox({ query, setQuery }: { query: string; setQuery: (q: string) =
   );
 }
 
-function FilterBar({ filters, set, prefixes }: { filters: Filters; set: (f: Partial<Filters>) => void; prefixes: string[] }) {
+function FilterBar({ filters, set, prefixes }: { filters: ToolState; set: (f: Partial<ToolState>) => void; prefixes: string[] }) {
   return (
     <fieldset class="fieldset cs-filters">
       <legend>Filtros</legend>
@@ -194,11 +181,68 @@ function CellButton({
   );
 }
 
-function Browser({ index }: { index: CallsignIndex }) {
-  const [filters, setFilters] = useState<Filters>({ licenseClass: 'C', uf: 'SP', length: 2, show: 'todos' });
-  const [query, setQuery] = useState('');
-  const [selected, setSelected] = useState<string>();
-  const set = (f: Partial<Filters>) => setFilters((old) => ({ ...old, ...f }));
+/** Days after which the data date gets a visible warning. */
+const STALE_DAYS = 14;
+
+function StaleNotice({ dataDate }: { dataDate?: string }) {
+  if (!dataDate) return null;
+  const days = Math.floor((Date.now() - Date.parse(`${dataDate}T12:00:00Z`)) / 86_400_000);
+  if (days <= STALE_DAYS) return null;
+  const [y, m, d] = dataDate.split('-');
+  return (
+    <p class="cs-stale" role="note">
+      <span class="cs-stale__icon" aria-hidden="true">
+        !
+      </span>
+      <span>
+        A Anatel não atualiza estes dados desde <strong>{`${d}/${m}/${y}`}</strong> ({days} dias). Indicativos atribuídos
+        depois disso aparecem como livres.
+      </span>
+    </p>
+  );
+}
+
+function About() {
+  return (
+    <details class="cs-about">
+      <summary>Como isto funciona?</summary>
+      <ul>
+        <li>
+          A lista de indicativos em uso vem dos dados abertos da Anatel e é atualizada uma vez por dia. Nomes e documentos
+          dos titulares não são publicados aqui.
+        </li>
+        <li>
+          Os indicativos possíveis seguem as regras do Ato Anatel nº 3.448/2026: prefixo do estado, classe e sufixos
+          proibidos (como SOS e a série QAA–QZZ).
+        </li>
+        <li>
+          Um indicativo cancelado fica reservado por um ano. Quando um indicativo some da base, marcamos como “em
+          quarentena”. Os que estavam em uso em abril de 2025 e sumiram depois aparecem como “pode estar em quarentena”,
+          porque não sabemos quando saíram.
+        </li>
+        <li>
+          “Livre” quer dizer apenas que não encontramos o indicativo na base. Quem decide é a Anatel, no pedido de
+          licenciamento.
+        </li>
+      </ul>
+    </details>
+  );
+}
+
+function Browser({ index, dataDate }: { index: CallsignIndex; dataDate?: string }) {
+  const [filters, setFilters] = useState<ToolState>(() =>
+    typeof location === 'undefined' ? DEFAULT_STATE : readState(location.search),
+  );
+  const set = (f: Partial<ToolState>) => setFilters((old) => ({ ...old, ...f }));
+  const { query, selected } = filters;
+  const setQuery = (q: string) => set({ query: q });
+  const setSelected = (cs: string | undefined) => set({ selected: cs });
+
+  // Keep the URL in step without adding history entries for every keystroke.
+  useEffect(() => {
+    const qs = writeState(filters);
+    if (qs !== location.search) history.replaceState(null, '', `${location.pathname}${qs}${location.hash}`);
+  }, [filters]);
 
   const uf = filters.uf === 'todos' ? undefined : filters.uf;
   const blocks = uf ? blockChoices(uf, filters.licenseClass, filters.licenseClass === 'AB' ? filters.length : undefined) : [];
@@ -226,10 +270,13 @@ function Browser({ index }: { index: CallsignIndex }) {
   const taken = counts['em-uso'] + counts.vencida;
   const maybe = counts['quarentena-incerta'] + counts.quarentena;
 
-  // Typing a complete callsign selects it, so its properties show up.
+  // Typing a complete callsign selects it, so its properties show up. The
+  // first render keeps the selection that came in the URL.
   const exact = result?.exact?.callsign;
+  const lastExact = useRef(exact);
   useEffect(() => {
-    if (exact) setSelected(exact);
+    if (exact && exact !== lastExact.current) setSelected(exact);
+    lastExact.current = exact;
   }, [exact]);
 
   const cellButton = (cell: Cell) => (
@@ -256,6 +303,7 @@ function Browser({ index }: { index: CallsignIndex }) {
 
   return (
     <div class="cs-browser">
+      <StaleNotice dataDate={dataDate} />
       <SearchBox query={query} setQuery={setQuery} />
       <FilterBar filters={filters} set={set} prefixes={searching ? [] : blocks.map((b) => b.prefix)} />
 
@@ -283,11 +331,12 @@ function Browser({ index }: { index: CallsignIndex }) {
       </div>
 
       <Legend />
+      <About />
     </div>
   );
 }
 
-export default function CallsignTool() {
+export default function CallsignTool({ dataDate }: { dataDate?: string }) {
   const data = useCallsignIndex();
 
   if (data.state === 'loading') {
@@ -317,5 +366,5 @@ export default function CallsignTool() {
     );
   }
 
-  return <Browser index={data.index} />;
+  return <Browser index={data.index} dataDate={dataDate} />;
 }

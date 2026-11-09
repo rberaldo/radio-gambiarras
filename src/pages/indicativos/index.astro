@@ -18,7 +18,7 @@ const dataDate = newestLicensing ? new Date(`${newestLicensing}T12:00:00Z`).toLo
 >
   <Window title="Indicativos" current="/indicativos">
     <Icon slot="icon" name="indicativos" size={16} />
-    <CallsignTool client:load />
+    <CallsignTool client:load dataDate={newestLicensing} />
     <Fragment slot="status">
       <span>Dados da Anatel até {dataDate}</span>
       <span>Quem decide é a Anatel</span>

@@ -35,6 +35,49 @@
   box-shadow: var(--bevel-raised);
 }
 
+/* Stale data warning */
+.cs-stale {
+  display: flex;
+  gap: var(--sp-3);
+  align-items: center;
+  margin: 0 0 var(--sp-4);
+  padding: var(--sp-2) var(--sp-3);
+  background: var(--c-field);
+  box-shadow: var(--bevel-sunken);
+  font-size: var(--fs-sm);
+}
+
+.cs-stale__icon {
+  display: grid;
+  flex: none;
+  place-items: center;
+  width: 1.5rem;
+  height: 1.5rem;
+  border: 1px solid var(--c-shadow);
+  border-radius: 50%;
+  background: var(--c-warning);
+  font-weight: bold;
+}
+
+/* How it works */
+.cs-about {
+  margin-top: var(--sp-3);
+  font-size: var(--fs-sm);
+}
+
+.cs-about summary {
+  cursor: pointer;
+}
+
+.cs-about ul {
+  margin: var(--sp-2) 0 0;
+  padding-left: var(--sp-6);
+}
+
+.cs-about li {
+  margin-bottom: var(--sp-2);
+}
+
 /* Search */
 .cs-search {
   display: flex;
