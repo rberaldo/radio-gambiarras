@@ -12,7 +12,7 @@ web.dev and others (sources below). The visual language itself is in
 | State in the URL (shareable, survives reload) | `src/ui/useUrlState.ts` with a tested `readState`/`writeState` pair per tool |
 | Main search box | `src/ui/SearchField.tsx` (Ctrl/⌘K focuses, Escape clears, "Limpar" only when there is text) |
 | Mutually exclusive options | `src/ui/Segmented.tsx` (native radios, so arrow keys and screen readers work) |
-| Detail panel beside a grid | `src/ui/ToolPanel.tsx` (Escape closes, focus returns to the opener) |
+| Detail panel beside a grid | `src/ui/ToolPanel.tsx` (Escape closes, focus returns to the opener; `autoFocus` moves focus into it when it replaces what was clicked) |
 | Copy a code | `src/ui/CopyButton.tsx` (inline "Copiado!" plus a polite live region) |
 | Nothing to show | `src/ui/EmptyState.tsx`, always with the action that fixes it |
 | Data loading | `src/ui/LoadState.tsx` (`Loading`, `LoadError` with retry) |

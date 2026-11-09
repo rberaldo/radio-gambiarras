@@ -1,0 +1,237 @@
+/* Controls */
+.rp-controls {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-3);
+  margin-bottom: var(--sp-4);
+}
+
+.rp-controls__place {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--sp-2) var(--sp-3);
+  align-items: center;
+}
+
+.rp-controls__place > .tool-filters__label {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+}
+
+.rp-controls__place .field {
+  flex: 1 1 16rem;
+  min-width: 0;
+}
+
+.rp-controls__problem {
+  margin: 0;
+  font-size: var(--fs-sm);
+}
+
+.rp-controls__row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--sp-3) var(--sp-6);
+  align-items: center;
+}
+
+.rp-controls__radius input[type='range'] {
+  width: min(16rem, 50vw);
+}
+
+.rp-controls__radius output {
+  min-width: 4.5rem;
+  font-weight: 600;
+}
+
+/* Map beside the panel; on phones the map comes first */
+.rp-layout {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: var(--sp-3);
+}
+
+.rp-map {
+  position: relative;
+  display: flex;
+  height: 55dvh;
+  min-height: 18rem;
+  border: 1px solid var(--m-line);
+  border-radius: var(--m-radius);
+  box-shadow: var(--m-shadow);
+  overflow: hidden;
+}
+
+.rp-map__canvas {
+  flex: 1;
+}
+
+.rp-map__error {
+  position: absolute;
+  inset: auto var(--sp-3) var(--sp-3);
+  margin: 0;
+  padding: var(--sp-3);
+  border: 1px solid var(--m-line);
+  background: var(--m-quar-bg);
+}
+
+.rp-side {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+@media (min-width: 56rem) {
+  .rp-layout {
+    flex-direction: row;
+  }
+
+  .rp-map {
+    flex: 1;
+    height: auto;
+    min-height: 24rem;
+  }
+
+  .rp-side {
+    flex: none;
+    width: 23rem;
+    overflow-y: auto;
+    /* Take the map's height and scroll inside */
+    contain: size;
+  }
+
+  /* The side column already scrolls; the detail panel just fills it. */
+  .rp-side .tool-panel {
+    width: auto;
+    overflow: visible;
+    contain: none;
+  }
+}
+
+@media (min-width: 40.0625rem) and (min-height: 34rem) {
+  .desktop--fit .rp-map {
+    flex: 1;
+  }
+}
+
+/* Intro and results */
+.rp-intro,
+.rp-results {
+  padding: var(--sp-4);
+  border: 1px solid var(--m-line);
+  border-radius: var(--m-radius);
+  background: var(--m-surface);
+  box-shadow: var(--m-shadow);
+}
+
+.rp-intro__note,
+.rp-results__note {
+  color: var(--m-text-muted);
+  font-size: var(--fs-sm);
+}
+
+.rp-results__head {
+  margin-bottom: var(--sp-3);
+}
+
+.rp-results__downloads {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--sp-2) var(--sp-3);
+  align-items: center;
+  margin-bottom: var(--sp-3);
+}
+
+.rp-results__channel {
+  display: flex;
+  gap: var(--sp-2);
+  align-items: center;
+}
+
+.rp-results__channel .field {
+  width: 5rem;
+}
+
+.rp-list {
+  margin: var(--sp-3) 0 0;
+  padding: 0;
+  list-style: none;
+  border-top: 1px solid var(--m-line-soft);
+}
+
+.rp-row {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  gap: 0 var(--sp-3);
+  width: 100%;
+  padding: var(--sp-2) var(--sp-1);
+  border: 0;
+  border-bottom: 1px solid var(--m-line-soft);
+  background: none;
+  color: var(--m-text);
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.rp-row:hover {
+  background: var(--m-select-soft);
+}
+
+.rp-row[aria-pressed='true'] {
+  background: var(--m-select);
+  color: var(--m-select-text);
+}
+
+.rp-row__call {
+  font-family: var(--font-mono);
+  font-weight: 700;
+}
+
+.rp-row__freq small {
+  color: inherit;
+  opacity: 0.75;
+}
+
+.rp-row__dist {
+  text-align: right;
+}
+
+.rp-row__meta {
+  grid-column: 1 / -1;
+  font-size: var(--fs-sm);
+  opacity: 0.8;
+}
+
+/* Detail */
+.rp-detail__title {
+  display: flex;
+  flex: 1;
+  flex-wrap: wrap;
+  gap: 0 var(--sp-3);
+  align-items: baseline;
+  margin: 0;
+  font-size: var(--fs-lg);
+}
+
+.rp-detail__title strong {
+  font-family: var(--font-mono);
+}
+
+.rp-detail__freq {
+  color: var(--m-text-muted);
+  font-size: var(--fs-md);
+}
+
+.rp-unknown {
+  color: var(--m-quar-text);
+}
+
+.rp-detail__source {
+  color: var(--m-text-muted);
+  font-size: var(--fs-sm);
+}

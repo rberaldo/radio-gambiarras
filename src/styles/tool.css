@@ -63,6 +63,10 @@
   }
 }
 
+.tool-panel:focus {
+  outline: none;
+}
+
 .tool-panel p {
   margin-bottom: var(--sp-3);
 }
@@ -240,4 +244,9 @@
   .tool-search__shortcut {
     display: none;
   }
+}
+
+/* The panel takes focus only so Escape works; its controls show their own rings. */
+.window__body .tool-panel:focus-visible {
+  outline: none;
 }

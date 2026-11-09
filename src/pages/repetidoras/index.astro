@@ -1,0 +1,33 @@
+---
+import Desktop from '../../layouts/Desktop.astro';
+import Icon from '../../components/win95/Icon.astro';
+import Window from '../../components/win95/Window.astro';
+import RepeaterTool from '../../tools/repetidoras/RepeaterTool.tsx';
+import anatel from '../../../data/repeaters/anatel.json';
+import meta from '../../../data/repeaters/meta.json';
+import overlay from '../../../data/repeaters/overlay.json';
+import { formatDate } from '../../lib/format.ts';
+import { validateOverlay, type OverlayFile } from '../../lib/repeaters/overlay.ts';
+import type { AnatelRepeatersFile } from '../../lib/repeaters/types.ts';
+
+// A bad correction stops the deploy instead of reaching visitors.
+const problems = validateOverlay(overlay as OverlayFile, new Set((anatel as AnatelRepeatersFile).repeaters.map((r) => r.id)));
+if (problems.length) throw new Error(`data/repeaters/overlay.json:\n  ${problems.join('\n  ')}`);
+---
+
+<Desktop
+  title="Repetidoras"
+  windowTitle="Repetidoras"
+  fit
+  description="Mapa das repetidoras de 2 m e 70 cm do Brasil. Clique num lugar e baixe as repetidoras próximas para o CHIRP."
+>
+  <Window title="Repetidoras" current="/repetidoras">
+    <Icon slot="icon" name="repetidoras" size={16} />
+    {/* Rendered only in the browser: the map needs WebGL and the state comes from the URL. */}
+    <RepeaterTool client:only="preact" />
+    <Fragment slot="status">
+      <span>Dados da Anatel de {formatDate(meta.updatedAt)}</span>
+      <span>Posições aproximadas até receberem correção</span>
+    </Fragment>
+  </Window>
+</Desktop>

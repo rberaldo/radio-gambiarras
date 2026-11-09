@@ -418,7 +418,8 @@ Library (pure, tested; can run in parallel with the data tasks):
 
 Map:
 
-- [ ] **M3.6 Map prototype (user reviews).** Built 2026-11-09 at `/prototipo-mapa`
+- [x] **M3.6 Map prototype (user reviews).** Approved by the user 2026-11-09; the
+  prototype page was removed in M3.7. Built at `/prototipo-mapa`
   (noindex, unlinked): MapLibre 6.17 + maplibre-contour 0.1.1 work together
   (worker bundled with `?worker&url`, `vite.worker.format: 'es'`). Map page
   weight ≈ 520 KB gzipped (main 370 KB + worker 150 KB). Neighbours faded
@@ -433,7 +434,14 @@ Map:
   versions (plugin support for MapLibre 6 is unverified: smoke-test). Check
   bundle size, Safari, and smoothness on a phone profile. The user approves
   the look before M3.7.
-- [ ] **M3.7 Repeater map.** The tool page (fit layout, lazy MapLibre
+- [x] **M3.7 Repeater map.** Done 2026-11-09 at `/repetidoras` (registry entry
+  stays `soon` until M3.9). Place field takes "Município/UF" or coordinates
+  (decimal, decimal comma, DMS); "Minha localização"; band filter only (no
+  mode filter: Anatel lists every repeater as FM, digital modes come from
+  corrections); clusters count how many are inside the circle ("2/4").
+  `ToolPanel` gained `autoFocus` so Escape works after clicking a row.
+  Mapterhorn answers 404 for a few ocean tiles at low zoom (console noise,
+  harmless). The tool page (fit layout, lazy MapLibre
   island): repeaters as a GeoJSON layer (exact vs approximate markers,
   clustered at low zoom); click → circle with a 10–150 km slider; the
   repeaters inside highlighted and listed in a panel sorted by distance
