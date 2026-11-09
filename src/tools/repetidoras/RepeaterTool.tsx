@@ -81,6 +81,7 @@ function Tool({ repeaters }: { repeaters: Repeater[] }) {
           activeId={state.selected}
           focus={focus}
           onPick={pick}
+          onClear={() => set({ lat: undefined, lon: undefined })}
           onSelect={(selected) => set({ selected })}
         />
         <div class="rp-side">
@@ -108,7 +109,10 @@ function Tool({ repeaters }: { repeaters: Repeater[] }) {
               <p class="rp-intro__note">
                 São repetidoras com licença na Anatel: nem todas estão no ar, e algumas nem chegaram a ser instaladas.
               </p>
-              <p>Clique num lugar do mapa (um pico, uma cidade) ou use a busca acima para ver as repetidoras ao redor.</p>
+              <p>
+                Clique num lugar do mapa (um pico, uma cidade) ou use a busca acima para ver as repetidoras ao redor. O botão direito
+                apaga a área.
+              </p>
               <p class="rp-intro__note">
                 Marcadores cheios estão no local da antena; vazios, na sede do município. Verde é dentro do raio. Números agrupam
                 várias repetidoras: clique para aproximar ou abrir o grupo.

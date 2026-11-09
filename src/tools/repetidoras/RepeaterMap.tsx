@@ -94,6 +94,8 @@ interface Props {
   activeId?: string;
   focus?: Focus;
   onPick: (point: Point) => void;
+  /** Right click: forget the picked point. */
+  onClear: () => void;
   onSelect: (id: string) => void;
 }
 
@@ -324,14 +326,14 @@ function closeSpider(map: maplibregl.Map) {
   for (const [layer, filter] of Object.entries(CLUSTER_LAYERS)) map.setFilter(layer, filter);
 }
 
-export function RepeaterMap({ repeaters, inside, center, radiusKm, activeId, focus, onPick, onSelect }: Props) {
+export function RepeaterMap({ repeaters, inside, center, radiusKm, activeId, focus, onPick, onClear, onSelect }: Props) {
   const container = useRef<HTMLDivElement>(null);
   const mapRef = useRef<maplibregl.Map | undefined>(undefined);
   const [ready, setReady] = useState(false);
   const [error, setError] = useState<string>();
   // Handlers change every render; the map's listeners read the latest ones.
-  const handlers = useRef({ onPick, onSelect });
-  handlers.current = { onPick, onSelect };
+  const handlers = useRef({ onPick, onClear, onSelect });
+  handlers.current = { onPick, onClear, onSelect };
   // The fanned-out stack, if any; state so the open repeater's ring can follow it.
   const [spider, setSpider] = useState<Spider>();
   const spiderRef = useRef<Spider | undefined>(undefined);
@@ -370,6 +372,10 @@ export function RepeaterMap({ repeaters, inside, center, radiusKm, activeId, foc
         maxBounds: BRAZIL_BOUNDS,
         minZoom: 3,
         maxZoom: MAX_ZOOM,
+        // North stays up: the compass is hidden, and the right button clears the point instead of rotating.
+        dragRotate: false,
+        pitchWithRotate: false,
+        touchPitch: false,
         attributionControl: { compact: true, customAttribution: RELIEF_ATTRIBUTION },
       });
       mapRef.current = map;
@@ -418,6 +424,12 @@ export function RepeaterMap({ repeaters, inside, center, radiusKm, activeId, foc
         if (spiderRef.current) return unspider();
         handlers.current.onPick({ lat: e.lngLat.lat, lon: e.lngLat.lng });
       });
+      map.on('contextmenu', (e: MapMouseEvent) => {
+        e.preventDefault();
+        unspider();
+        handlers.current.onClear();
+      });
+      map.touchZoomRotate.disableRotation();
       // Fanned-out markers sit at screen distances, which a zoom would break.
       map.on('zoomstart', unspider);
       map.getContainer().addEventListener('keydown', (e) => e.key === 'Escape' && unspider());
