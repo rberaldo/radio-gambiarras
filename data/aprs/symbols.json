@@ -1,0 +1,801 @@
+{
+ "source": "github.com/rberaldo/aprs-symbol-search (Portuguese descriptions by PU1JAZ; codes and unused flags from its English list)",
+ "imported": "2026-11-09",
+ "symbols": [
+  {
+   "table": "/",
+   "char": "!",
+   "description": "Delegacia, polícia"
+  },
+  {
+   "table": "/",
+   "char": "#",
+   "description": "Digipeater"
+  },
+  {
+   "table": "/",
+   "char": "$",
+   "description": "Telefone, celular"
+  },
+  {
+   "table": "/",
+   "char": "%",
+   "description": "Cluster de DX"
+  },
+  {
+   "table": "/",
+   "char": "&",
+   "description": "Gateway em HF"
+  },
+  {
+   "table": "/",
+   "char": "'",
+   "description": "Avião pequeno, aeronave pequena"
+  },
+  {
+   "table": "/",
+   "char": "(",
+   "description": "Estação terrena móvel"
+  },
+  {
+   "table": "/",
+   "char": ")",
+   "description": "Cadeira de rodas, deficiente"
+  },
+  {
+   "table": "/",
+   "char": "*",
+   "description": "Moto de neve"
+  },
+  {
+   "table": "/",
+   "char": "+",
+   "description": "Cruz Vermelha"
+  },
+  {
+   "table": "/",
+   "char": ",",
+   "description": "Escoteiros (meninos)"
+  },
+  {
+   "table": "/",
+   "char": "-",
+   "description": "Casa"
+  },
+  {
+   "table": "/",
+   "char": ".",
+   "description": "X vermelho"
+  },
+  {
+   "table": "/",
+   "char": "/",
+   "description": "Ponto vermelho"
+  },
+  {
+   "table": "/",
+   "char": "0",
+   "description": "Círculo numerado: 0"
+  },
+  {
+   "table": "/",
+   "char": "1",
+   "description": "Círculo numerado: 1"
+  },
+  {
+   "table": "/",
+   "char": "2",
+   "description": "Círculo numerado: 2"
+  },
+  {
+   "table": "/",
+   "char": "3",
+   "description": "Círculo numerado: 3"
+  },
+  {
+   "table": "/",
+   "char": "4",
+   "description": "Círculo numerado: 4"
+  },
+  {
+   "table": "/",
+   "char": "5",
+   "description": "Círculo numerado: 5"
+  },
+  {
+   "table": "/",
+   "char": "6",
+   "description": "Círculo numerado: 6"
+  },
+  {
+   "table": "/",
+   "char": "7",
+   "description": "Círculo numerado: 7"
+  },
+  {
+   "table": "/",
+   "char": "8",
+   "description": "Círculo numerado: 8"
+  },
+  {
+   "table": "/",
+   "char": "9",
+   "description": "Círculo numerado: 9"
+  },
+  {
+   "table": "/",
+   "char": ":",
+   "description": "Fogo"
+  },
+  {
+   "table": "/",
+   "char": ";",
+   "description": "Acampamento, barraca"
+  },
+  {
+   "table": "/",
+   "char": "<",
+   "description": "Motocicleta"
+  },
+  {
+   "table": "/",
+   "char": "=",
+   "description": "Locomotiva, veículo ferroviário"
+  },
+  {
+   "table": "/",
+   "char": ">",
+   "description": "Carro"
+  },
+  {
+   "table": "/",
+   "char": "?",
+   "description": "Servidor de arquivos"
+  },
+  {
+   "table": "/",
+   "char": "@",
+   "description": "Caminho previsto para furacão"
+  },
+  {
+   "table": "/",
+   "char": "A",
+   "description": "Posto de socorro"
+  },
+  {
+   "table": "/",
+   "char": "B",
+   "description": "BBS"
+  },
+  {
+   "table": "/",
+   "char": "C",
+   "description": "Canoa"
+  },
+  {
+   "table": "/",
+   "char": "E",
+   "description": "Olho, globo ocular"
+  },
+  {
+   "table": "/",
+   "char": "F",
+   "description": "Veículo agrícola, trator"
+  },
+  {
+   "table": "/",
+   "char": "G",
+   "description": "Grid square 3 por 3"
+  },
+  {
+   "table": "/",
+   "char": "H",
+   "description": "Hotel"
+  },
+  {
+   "table": "/",
+   "char": "I",
+   "description": "Estação de rede TCP/IP"
+  },
+  {
+   "table": "/",
+   "char": "K",
+   "description": "Escola"
+  },
+  {
+   "table": "/",
+   "char": "L",
+   "description": "Usuário de PC"
+  },
+  {
+   "table": "/",
+   "char": "M",
+   "description": "Apple Macintosh"
+  },
+  {
+   "table": "/",
+   "char": "N",
+   "description": "Estação NTS"
+  },
+  {
+   "table": "/",
+   "char": "O",
+   "description": "Balão"
+  },
+  {
+   "table": "/",
+   "char": "P",
+   "description": "Viatura policial, carro de polícia"
+  },
+  {
+   "table": "/",
+   "char": "R",
+   "description": "Veículo recreativo, motorhome, trailer, RV"
+  },
+  {
+   "table": "/",
+   "char": "S",
+   "description": "Ônibus Espacial"
+  },
+  {
+   "table": "/",
+   "char": "T",
+   "description": "SSTV"
+  },
+  {
+   "table": "/",
+   "char": "U",
+   "description": "Ônibus"
+  },
+  {
+   "table": "/",
+   "char": "V",
+   "description": "ATV, Televisão Amadora"
+  },
+  {
+   "table": "/",
+   "char": "W",
+   "description": "Local de serviço meteorológico"
+  },
+  {
+   "table": "/",
+   "char": "X",
+   "description": "Helicóptero"
+  },
+  {
+   "table": "/",
+   "char": "Y",
+   "description": "Veleiro, barco a vela"
+  },
+  {
+   "table": "/",
+   "char": "Z",
+   "description": "Bandeira do Windows"
+  },
+  {
+   "table": "/",
+   "char": "[",
+   "description": "Humano"
+  },
+  {
+   "table": "/",
+   "char": "\\",
+   "description": "Triângulo de DF (orientação)"
+  },
+  {
+   "table": "/",
+   "char": "]",
+   "description": "Caixa de correio, Correios, carta"
+  },
+  {
+   "table": "/",
+   "char": "^",
+   "description": "Avião grande, aeronave grande"
+  },
+  {
+   "table": "/",
+   "char": "_",
+   "description": "Estação meteorológica"
+  },
+  {
+   "table": "/",
+   "char": "`",
+   "description": "Antena parabólica satelital"
+  },
+  {
+   "table": "/",
+   "char": "a",
+   "description": "Ambulância"
+  },
+  {
+   "table": "/",
+   "char": "b",
+   "description": "Bicicleta"
+  },
+  {
+   "table": "/",
+   "char": "c",
+   "description": "Posto de comando de incidentes"
+  },
+  {
+   "table": "/",
+   "char": "d",
+   "description": "Posto de bombeiros, corpo de bombeiros"
+  },
+  {
+   "table": "/",
+   "char": "e",
+   "description": "Cavalo, equestre"
+  },
+  {
+   "table": "/",
+   "char": "f",
+   "description": "Carro de bombeiros, caminhão de bombeiros"
+  },
+  {
+   "table": "/",
+   "char": "g",
+   "description": "Planador"
+  },
+  {
+   "table": "/",
+   "char": "h",
+   "description": "Hospital"
+  },
+  {
+   "table": "/",
+   "char": "i",
+   "description": "IOTA, Ilhas no Ar, Islands on the Air"
+  },
+  {
+   "table": "/",
+   "char": "j",
+   "description": "Jeep"
+  },
+  {
+   "table": "/",
+   "char": "k",
+   "description": "Caminhonete"
+  },
+  {
+   "table": "/",
+   "char": "l",
+   "description": "Notebook, laptop"
+  },
+  {
+   "table": "/",
+   "char": "m",
+   "description": "Repetidora Mic-E"
+  },
+  {
+   "table": "/",
+   "char": "n",
+   "description": "Nó, alvo"
+  },
+  {
+   "table": "/",
+   "char": "o",
+   "description": "Centro de operações de emergência"
+  },
+  {
+   "table": "/",
+   "char": "p",
+   "description": "Cachorro"
+  },
+  {
+   "table": "/",
+   "char": "q",
+   "description": "Grid square 2 por 2"
+  },
+  {
+   "table": "/",
+   "char": "r",
+   "description": "Torre repetidora"
+  },
+  {
+   "table": "/",
+   "char": "s",
+   "description": "Lancha, embarcação a motor, barco"
+  },
+  {
+   "table": "/",
+   "char": "t",
+   "description": "Parada para caminhoneiros"
+  },
+  {
+   "table": "/",
+   "char": "u",
+   "description": "Caminhão"
+  },
+  {
+   "table": "/",
+   "char": "v",
+   "description": "Van"
+  },
+  {
+   "table": "/",
+   "char": "w",
+   "description": "Estação de água"
+  },
+  {
+   "table": "/",
+   "char": "x",
+   "description": "X / Unix"
+  },
+  {
+   "table": "/",
+   "char": "y",
+   "description": "Casa, antena yagi"
+  },
+  {
+   "table": "/",
+   "char": "z",
+   "description": "Abrigo"
+  },
+  {
+   "table": "\\",
+   "char": "!",
+   "description": "Emergência"
+  },
+  {
+   "table": "\\",
+   "char": "#",
+   "description": "Digipeater, estrela verde"
+  },
+  {
+   "table": "\\",
+   "char": "$",
+   "description": "Banco ou caixa automático"
+  },
+  {
+   "table": "\\",
+   "char": "&",
+   "description": "Estação gateway"
+  },
+  {
+   "table": "\\",
+   "char": "'",
+   "description": "Batida / local de acidente"
+  },
+  {
+   "table": "\\",
+   "char": "(",
+   "description": "Nublado"
+  },
+  {
+   "table": "\\",
+   "char": ")",
+   "description": "Firenet MEO, Obsrevação da Terra MODIS"
+  },
+  {
+   "table": "\\",
+   "char": "*",
+   "description": "Neve"
+  },
+  {
+   "table": "\\",
+   "char": "+",
+   "description": "Igreja"
+  },
+  {
+   "table": "\\",
+   "char": ",",
+   "description": "Escoteiros (meninas), escoteiras"
+  },
+  {
+   "table": "\\",
+   "char": "-",
+   "description": "Casa, antena para HF"
+  },
+  {
+   "table": "\\",
+   "char": ".",
+   "description": "Ambíguo, interrogação dentro de círculo"
+  },
+  {
+   "table": "\\",
+   "char": "/",
+   "description": "Ponto de destino"
+  },
+  {
+   "table": "\\",
+   "char": "0",
+   "description": "Círculo, IRLP / Echolink/WIRES"
+  },
+  {
+   "table": "\\",
+   "char": "8",
+   "description": "802.11 WiFi ou outro nó de rede"
+  },
+  {
+   "table": "\\",
+   "char": "9",
+   "description": "Posto de combustível"
+  },
+  {
+   "table": "\\",
+   "char": ":",
+   "description": "Granizo"
+  },
+  {
+   "table": "\\",
+   "char": ";",
+   "description": "Parque, área de picnic, banco"
+  },
+  {
+   "table": "\\",
+   "char": "<",
+   "description": "Uma bandeira vermelha, bandeira vermelha única"
+  },
+  {
+   "table": "\\",
+   "char": ">",
+   "description": "Carro vermelho"
+  },
+  {
+   "table": "\\",
+   "char": "?",
+   "description": "Quiosque de informações"
+  },
+  {
+   "table": "\\",
+   "char": "@",
+   "description": "Fucarão, tempestade tropical"
+  },
+  {
+   "table": "\\",
+   "char": "A",
+   "description": "Caixa branca"
+  },
+  {
+   "table": "\\",
+   "char": "B",
+   "description": "Neve e vento"
+  },
+  {
+   "table": "\\",
+   "char": "C",
+   "description": "Guarda Costeira"
+  },
+  {
+   "table": "\\",
+   "char": "D",
+   "description": "Garoa"
+  },
+  {
+   "table": "\\",
+   "char": "E",
+   "description": "Fumaça, chaminé"
+  },
+  {
+   "table": "\\",
+   "char": "F",
+   "description": "Chuva congelante"
+  },
+  {
+   "table": "\\",
+   "char": "G",
+   "description": "Aguaceiro de neve"
+  },
+  {
+   "table": "\\",
+   "char": "H",
+   "description": "Névoa seca"
+  },
+  {
+   "table": "\\",
+   "char": "I",
+   "description": "Aguaceiro"
+  },
+  {
+   "table": "\\",
+   "char": "J",
+   "description": "Raio"
+  },
+  {
+   "table": "\\",
+   "char": "K",
+   "description": "HT Kenwood"
+  },
+  {
+   "table": "\\",
+   "char": "L",
+   "description": "Farol"
+  },
+  {
+   "table": "\\",
+   "char": "N",
+   "description": "Bóia de navegação"
+  },
+  {
+   "table": "\\",
+   "char": "O",
+   "description": "Foguete"
+  },
+  {
+   "table": "\\",
+   "char": "P",
+   "description": "Estacionamento"
+  },
+  {
+   "table": "\\",
+   "char": "Q",
+   "description": "Terremento"
+  },
+  {
+   "table": "\\",
+   "char": "R",
+   "description": "Restaurante"
+  },
+  {
+   "table": "\\",
+   "char": "S",
+   "description": "Satélite"
+  },
+  {
+   "table": "\\",
+   "char": "T",
+   "description": "Tempestade de raios"
+  },
+  {
+   "table": "\\",
+   "char": "U",
+   "description": "Ensolarado"
+  },
+  {
+   "table": "\\",
+   "char": "V",
+   "description": "VORTAC, Auxílio de navegaçã"
+  },
+  {
+   "table": "\\",
+   "char": "W",
+   "description": "Local do NWS (National Weather Service)"
+  },
+  {
+   "table": "\\",
+   "char": "X",
+   "description": "Farmácia"
+  },
+  {
+   "table": "\\",
+   "char": "[",
+   "description": "Nuvem muro, parece de nuvens, wall cloud"
+  },
+  {
+   "table": "\\",
+   "char": "^",
+   "description": "Avião, aeronave"
+  },
+  {
+   "table": "\\",
+   "char": "_",
+   "description": "Estação meteorológica"
+  },
+  {
+   "table": "\\",
+   "char": "`",
+   "description": "Chuva"
+  },
+  {
+   "table": "\\",
+   "char": "a",
+   "description": "Diamante vermelho, losango vermelho"
+  },
+  {
+   "table": "\\",
+   "char": "b",
+   "description": "Tempestade de areia, nuvem de poeira"
+  },
+  {
+   "table": "\\",
+   "char": "c",
+   "description": "Triângulo CD, RACES, CERTS, SATERN"
+  },
+  {
+   "table": "\\",
+   "char": "d",
+   "description": "Local de DX"
+  },
+  {
+   "table": "\\",
+   "char": "e",
+   "description": "Saraiva"
+  },
+  {
+   "table": "\\",
+   "char": "f",
+   "description": "Nuvem funil"
+  },
+  {
+   "table": "\\",
+   "char": "g",
+   "description": "Duas bandeiras vermelhas, bandeira vermelha dupla"
+  },
+  {
+   "table": "\\",
+   "char": "h",
+   "description": "Loja, mercado"
+  },
+  {
+   "table": "\\",
+   "char": "i",
+   "description": "Caixa preta, ponto de interesse"
+  },
+  {
+   "table": "\\",
+   "char": "j",
+   "description": "Área em obras, escavadora"
+  },
+  {
+   "table": "\\",
+   "char": "k",
+   "description": "SUV, ATV, veículo utilitário esportivo"
+  },
+  {
+   "table": "\\",
+   "char": "m",
+   "description": "Placa, tela com três dígitos"
+  },
+  {
+   "table": "\\",
+   "char": "n",
+   "description": "Triângulo vermelho"
+  },
+  {
+   "table": "\\",
+   "char": "o",
+   "description": "Círculo pequeno"
+  },
+  {
+   "table": "\\",
+   "char": "p",
+   "description": "Parcialmente nublado"
+  },
+  {
+   "table": "\\",
+   "char": "r",
+   "description": "Banheiros, WC, toalete"
+  },
+  {
+   "table": "\\",
+   "char": "s",
+   "description": "Navio, embarcação, barco"
+  },
+  {
+   "table": "\\",
+   "char": "t",
+   "description": "Tornado"
+  },
+  {
+   "table": "\\",
+   "char": "u",
+   "description": "Caminhão"
+  },
+  {
+   "table": "\\",
+   "char": "v",
+   "description": "Van"
+  },
+  {
+   "table": "\\",
+   "char": "w",
+   "description": "Enchente"
+  },
+  {
+   "table": "\\",
+   "char": "y",
+   "description": "Skywarn"
+  },
+  {
+   "table": "\\",
+   "char": "z",
+   "description": "Abrigo"
+  },
+  {
+   "table": "\\",
+   "char": "{",
+   "description": "Neblina"
+  }
+ ]
+}

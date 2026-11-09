@@ -435,7 +435,8 @@ by name or code, see it large, and learn how to type it.
 
 - [x] **M4.1 Get the code (user).**
 - [x] **M4.2 Review and plan.** This section.
-- [ ] **M4.3 Data and images.** Write `data/aprs/symbols.json` once from the
+- [x] **M4.3 Data and images.** Done 2026-11-09: 159 symbols; two bugs in the
+  old Portuguese data fixed on import (see docs/data-sources.md). Write `data/aprs/symbols.json` once from the
   old repo's Portuguese list: `table` (`/` or `\`), `char`, `description`;
   drop the placeholders and the unused entries (the old site hid them too).
   Vendor hessu's `aprs-symbols-64-0/1.png` and their `@2x` versions into

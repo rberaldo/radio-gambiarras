@@ -190,3 +190,20 @@ inputs: do not import from them.
 4. No bulk import from any third-party list. No permission request to PY2CER.
 5. Known risks: licensed does not mean on the air (544 rows have validity
    `N/I`); coverage differs from community lists in both directions.
+
+## APRS symbols (static)
+
+- `data/aprs/symbols.json`: 159 symbols (86 primary `/`, 73 alternate `\`),
+  imported once on 2026-11-09 from <https://github.com/rberaldo/aprs-symbol-search>.
+  Descriptions are the user's own Portuguese translations
+  (`symbols/symbols-pt-br.js`); codes and the "unused" flags come from that
+  repo's English `symbols/symbols.json`, because the Portuguese file has two
+  bugs: one entry says `used` instead of `unused`, and six alternate codes
+  (`\b \f \n \r \t \v`) were turned into control characters by JavaScript
+  string escapes. Placeholders and unused symbols are left out.
+- `public/aprs/aprs-symbols-64-{0,1}[@2x].png`: Heikki Hannikainen's
+  <https://github.com/hessu/aprs-symbols>, copied unchanged (commit f2286a9,
+  2024-10-10); see `public/aprs/CREDITS.txt`. Per-symbol sources and licenses
+  are in that repo's COPYRIGHT.md; credit and link to the repo wherever the
+  images are shown.
+- No pipeline: this data does not change upstream in any way we track.

@@ -1,0 +1,11 @@
+APRS symbol images by Heikki Hannikainen (OH7LZB) and contributors:
+https://github.com/hessu/aprs-symbols
+
+Files: png/aprs-symbols-64-0.png (primary table), png/aprs-symbols-64-1.png
+(alternate table) and their @2x versions, copied unchanged from commit
+f2286a9 (2024-10-10). The source and license of each symbol are documented in
+that repository's COPYRIGHT.md; its README asks users of the set to link to
+the repository.
+
+Layout: 16 columns x 6 rows of 64 px cells per sheet; the cell for a symbol
+character c is (c - 33), so "!" is the first cell and ">" is cell 29.
