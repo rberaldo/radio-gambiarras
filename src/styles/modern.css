@@ -13,8 +13,8 @@
   --m-paper: #f4f1e8;
   --m-surface: #ffffff;
   --m-ink: #000000;
-  --m-line: #000000;
-  --m-line-soft: #808080;
+  --m-line: #6e6e6e;
+  --m-line-soft: #a0a0a0;
   --m-text: #000000;
   --m-text-muted: #4a4a4a;
   --m-select: #000080;
@@ -28,9 +28,9 @@
   --m-quar-text: #665200;
   --m-quar-line: #999900;
   --m-radius: 2px;
-  --m-shadow: 3px 3px 0 var(--m-ink);
-  --m-shadow-sm: 2px 2px 0 var(--m-ink);
-  --m-shadow-lift: 4px 4px 0 var(--m-ink);
+  --m-shadow: 2px 2px 0 rgb(0 0 0 / 0.25);
+  --m-shadow-sm: 1px 1px 0 rgb(0 0 0 / 0.25);
+  --m-shadow-lift: 3px 3px 0 rgb(0 0 0 / 0.25);
   --m-focus: 2px dotted var(--m-ink);
   --m-label-font: 'Lucida Console', 'Courier New', ui-monospace, monospace;
 }
@@ -51,7 +51,7 @@
 .ui-modern .window__body .field {
   min-height: 2.5rem;
   padding: var(--sp-2) var(--sp-3);
-  border: 2px solid var(--m-line);
+  border: 1px solid var(--m-line);
   border-radius: var(--m-radius);
   background-color: var(--m-surface);
   box-shadow: inset 2px 2px 0 rgb(0 0 0 / 0.12);
@@ -65,7 +65,7 @@
 .ui-modern .window__body .btn {
   min-height: 2.5rem;
   padding: 0 var(--sp-4);
-  border: 2px solid var(--m-line);
+  border: 1px solid var(--m-line);
   border-radius: var(--m-radius);
   background: var(--m-surface);
   box-shadow: var(--m-shadow);
@@ -83,35 +83,41 @@
 
 .ui-modern .window__body .btn:active:not(:disabled) {
   padding: 0 var(--sp-4);
-  transform: translate(3px, 3px);
+  transform: translate(2px, 2px);
   box-shadow: none;
 }
 
 .ui-modern .window__body .btn:disabled {
   border-color: var(--m-line-soft);
-  box-shadow: 3px 3px 0 var(--m-line-soft);
+  box-shadow: none;
   color: var(--m-line-soft);
   text-shadow: none;
 }
 
-/* Group boxes become cards; the legend becomes a navy tab */
+/* Group boxes become cards with a quiet label */
 .ui-modern .window__body .fieldset {
   padding: var(--sp-4) var(--sp-5);
-  border: 2px solid var(--m-line);
+  border: 1px solid var(--m-line);
   border-radius: var(--m-radius);
   background: var(--m-surface);
   box-shadow: var(--m-shadow);
 }
 
 .ui-modern .window__body .fieldset > legend {
-  padding: var(--sp-1) var(--sp-3);
-  border: 2px solid var(--m-line);
-  background: var(--m-select);
-  color: var(--m-select-text);
+  float: left;
+  width: 100%;
+  padding: 0;
+  margin-bottom: var(--sp-3);
+  background: none;
+  color: var(--m-text-muted);
   font-family: var(--m-label-font);
-  font-size: var(--fs-sm);
+  font-size: 0.8125rem;
   letter-spacing: 0.06em;
   text-transform: uppercase;
+}
+
+.ui-modern .window__body .fieldset > legend + * {
+  clear: both;
 }
 
 /* Small labels in a "system" monospace */
@@ -139,8 +145,8 @@
   gap: 0;
   min-height: 2.5rem;
   padding: 0 var(--sp-4);
-  border: 2px solid var(--m-line);
-  margin-left: -2px;
+  border: 1px solid var(--m-line);
+  margin-left: -1px;
   background: var(--m-surface);
   box-shadow: var(--m-shadow);
   color: var(--m-text);
@@ -180,14 +186,14 @@
 /* Callsign tool: the stale notice is a Windows tooltip */
 .ui-modern .cs-stale {
   padding: var(--sp-3) var(--sp-4);
-  border: 2px solid var(--m-line);
+  border: 1px solid var(--m-line);
   border-radius: var(--m-radius);
   background: var(--m-quar-bg);
   box-shadow: var(--m-shadow);
 }
 
 .ui-modern .cs-stale__icon {
-  border: 2px solid var(--m-line);
+  border: 1px solid var(--m-line);
   border-radius: 0;
 }
 
@@ -222,7 +228,7 @@
 }
 
 .ui-modern .vgrid {
-  border: 2px solid var(--m-line);
+  border: 1px solid var(--m-line);
   border-radius: var(--m-radius);
   background: var(--m-surface);
   box-shadow: var(--m-shadow);
@@ -270,12 +276,11 @@
 }
 
 .ui-modern .cs-cell:hover {
-  border-color: var(--m-ink);
-  box-shadow: var(--m-shadow-sm);
+  border-color: var(--m-select);
 }
 
 .ui-modern .cs-cell[aria-pressed='true'] {
-  border-color: var(--m-ink);
+  border-color: var(--m-select);
   background: var(--m-select);
   color: var(--m-select-text);
 }
@@ -300,7 +305,7 @@
 /* Detail panel: one card, big callsign, quiet labels */
 .ui-modern .cs-detail.panel-raised {
   padding: var(--sp-5);
-  border: 2px solid var(--m-line);
+  border: 1px solid var(--m-line);
   border-radius: var(--m-radius);
   background: var(--m-surface);
   box-shadow: var(--m-shadow);
@@ -339,7 +344,7 @@
 .ui-modern .cs-detail__close {
   width: 2.25rem;
   height: 2.25rem;
-  border: 2px solid var(--m-line);
+  border: 1px solid var(--m-line);
   border-radius: var(--m-radius);
   background: var(--m-surface);
   box-shadow: var(--m-shadow-sm);
@@ -352,7 +357,7 @@
 
 .ui-modern .cs-detail__facts {
   padding: var(--sp-4) 0 0;
-  border-top: 2px solid var(--m-line);
+  border-top: 1px solid var(--m-line);
   background: none;
   box-shadow: none;
 }
@@ -371,7 +376,7 @@
 /* About page */
 .ui-modern .author__photo {
   padding: 0;
-  border: 2px solid var(--m-line);
+  border: 1px solid var(--m-line);
   box-shadow: var(--m-shadow);
 }
 
