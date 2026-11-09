@@ -8,6 +8,14 @@
 import { readFile, writeFile, mkdir } from 'node:fs/promises';
 import { join } from 'node:path';
 import { parse } from '../../src/lib/callsigns/index.ts';
+import {
+  FORMAT_VERSION,
+  expandTaken,
+  type MetaFile,
+  type ReleasedFile,
+  type SeededGroup,
+  type TakenFile,
+} from '../../src/lib/callsigns/data.ts';
 import { brDateToIso, parseDelimited } from '../lib/csv.ts';
 import { DEFAULT_OUT as DEFAULT_CSV } from './fetch.ts';
 
@@ -37,29 +45,7 @@ export const EXPECTED_HEADER = [
 /** Fail rather than publish when the row count drops more than this. */
 export const MAX_ROW_DROP = 0.2;
 
-export const FORMAT_VERSION = 1;
-
-/**
- * The published file. Suffixes are grouped by prefix and space-separated to
- * keep it small. "active" holds callsigns with any station whose status is
- * Ativa or N/I; "expired" those whose every station is Vencida. Both mean
- * the callsign is taken.
- */
-export interface TakenFile {
-  format: number;
-  active: Record<string, string>;
-  expired: Record<string, string>;
-}
-
-export interface MetaFile {
-  source: string;
-  sourceUrl: string;
-  /** Date the published callsigns last changed. */
-  updatedAt: string;
-  /** Newest "Data do Último Licenciamento" in the data: how fresh Anatel's file is. */
-  newestLicensing?: string;
-  counts: { rows: number; callsigns: number; active: number; expired: number; rejected: number };
-}
+export { FORMAT_VERSION, expandTaken, type MetaFile, type ReleasedFile, type SeededGroup, type TakenFile };
 
 export interface Reduction {
   taken: TakenFile;
@@ -191,30 +177,6 @@ export async function updateCallsigns(csvText: string, dataDir: string, today: s
   return { changed: true, reduction };
 }
 
-/**
- * Callsigns that disappeared from Anatel's file, with the date we first saw
- * them missing. A cancelled callsign stays reserved for one year (Ato 3448,
- * item 12.1.1), so these are probably in quarantine.
- */
-export interface ReleasedFile {
-  format: number;
-  released: Record<string, string>;
-  /**
-   * Callsigns from an older third-party snapshot that are gone now, with no
-   * known release date. Each may still be in quarantine until `until` at the
-   * latest. Added once by seed-released.ts.
-   */
-  seeded?: SeededGroup;
-}
-
-export interface SeededGroup {
-  source: string;
-  snapshotDate: string;
-  until: string;
-  /** Space-separated, sorted. */
-  callsigns: string;
-}
-
 /** Drops seeded callsigns that are taken again, and the whole group once it expires. */
 export function updateSeeded(group: SeededGroup, now: Set<string>, today: string): SeededGroup | undefined {
   if (today >= group.until) return undefined;
@@ -224,16 +186,6 @@ export function updateSeeded(group: SeededGroup, now: Set<string>, today: string
 
 /** How long a released callsign stays in the history. */
 export const QUARANTINE_YEARS = 1;
-
-export function expandTaken(taken: TakenFile): Set<string> {
-  const all = new Set<string>();
-  for (const group of [taken.active, taken.expired]) {
-    for (const [prefix, suffixes] of Object.entries(group)) {
-      for (const suffix of suffixes.split(' ')) if (suffix) all.add(prefix + suffix);
-    }
-  }
-  return all;
-}
 
 const addYears = (isoDate: string, years: number) => `${Number(isoDate.slice(0, 4)) + years}${isoDate.slice(4)}`;
 

@@ -1,0 +1,26 @@
+---
+import Desktop from '../../layouts/Desktop.astro';
+import Icon from '../../components/win95/Icon.astro';
+import Window from '../../components/win95/Window.astro';
+import CallsignTool from '../../tools/indicativos/CallsignTool.tsx';
+import meta from '../../../data/callsigns/meta.json';
+import type { MetaFile } from '../../lib/callsigns/index.ts';
+
+const { newestLicensing } = meta as MetaFile;
+const dataDate = newestLicensing ? new Date(`${newestLicensing}T12:00:00Z`).toLocaleDateString('pt-BR') : '?';
+---
+
+<Desktop
+  title="Indicativos"
+  windowTitle="Indicativos"
+  description="Veja quais indicativos de chamada de radioamador estão livres em cada estado."
+>
+  <Window title="Indicativos" current="/indicativos">
+    <Icon slot="icon" name="indicativos" size={16} />
+    <CallsignTool client:load />
+    <Fragment slot="status">
+      <span>Dados da Anatel até {dataDate}</span>
+      <span>Quem decide é a Anatel</span>
+    </Fragment>
+  </Window>
+</Desktop>

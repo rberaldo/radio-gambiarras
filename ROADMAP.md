@@ -242,7 +242,11 @@ Pipeline:
 
 Interface (M2.8 can start as soon as M2.1 and M2.3 are done):
 
-- [ ] **M2.8 Data loading and status.** Load `taken.json` and
+- [x] **M2.8 Data loading and status.** Done 2026-11-09. `src/lib/callsigns/status.ts`
+  (seven states, including `quarentena-incerta` for the seed and
+  `invalido`); data types shared in `src/lib/callsigns/data.ts`; page
+  `/indicativos` exists but stays unlinked until M2.15. Loads in ~120 ms.
+  Load `taken.json` and
   `released.json` once, lazily, and expose `statusOf(callsign)` implementing
   the status model. Loading and error states in Win95 style.
 - [ ] **M2.9 Filters and grid.** Filters for class (A/B or C), state, and
