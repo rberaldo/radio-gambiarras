@@ -12,6 +12,7 @@ import {
   type CallsignIndex,
   type Cell,
   type LicenseClass,
+  type Status,
   type Uf,
 } from '../../lib/callsigns/index.ts';
 import { LEGEND_ORDER, STATUS_MARK } from './statusStyle.ts';
@@ -23,12 +24,23 @@ const fmt = (n: number) => n.toLocaleString('pt-BR');
 
 type UfChoice = Uf | 'todos';
 
+type Show = 'todos' | 'livres' | 'talvez';
+
+/** What each "Mostrar" option keeps; undefined keeps everything. */
+const SHOW_STATUSES: Record<Show, readonly Status[] | undefined> = {
+  todos: undefined,
+  livres: ['livre'],
+  talvez: ['livre', 'quarentena-incerta'],
+};
+
+const SHOW_LABELS: Record<Show, string> = { todos: 'Todos', livres: 'Livres', talvez: 'Livres e talvez livres' };
+
 interface Filters {
   licenseClass: LicenseClass;
   uf: UfChoice;
   length: 2 | 3;
   prefix?: string;
-  onlyFree: boolean;
+  show: Show;
 }
 
 function SearchBox({ query, setQuery }: { query: string; setQuery: (q: string) => void }) {
@@ -123,10 +135,15 @@ function FilterBar({ filters, set, prefixes }: { filters: Filters; set: (f: Part
         </label>
       )}
 
-      <label class="check cs-filters__group">
-        <input type="checkbox" checked={filters.onlyFree} onChange={(e) => set({ onlyFree: (e.currentTarget as HTMLInputElement).checked })} />
-        Mostrar só livres
-      </label>
+      <div class="cs-filters__group" role="radiogroup" aria-label="Mostrar">
+        <span class="cs-filters__label">Mostrar</span>
+        {(Object.keys(SHOW_LABELS) as Show[]).map((s) => (
+          <label class="check" key={s}>
+            <input type="radio" name="cs-show" checked={filters.show === s} onChange={() => set({ show: s })} />
+            {SHOW_LABELS[s]}
+          </label>
+        ))}
+      </div>
     </fieldset>
   );
 }
@@ -190,7 +207,7 @@ function ExactResult({ cell, index, onPick }: { cell: Cell; index: CallsignIndex
 }
 
 function Browser({ index }: { index: CallsignIndex }) {
-  const [filters, setFilters] = useState<Filters>({ licenseClass: 'C', uf: 'SP', length: 2, onlyFree: false });
+  const [filters, setFilters] = useState<Filters>({ licenseClass: 'C', uf: 'SP', length: 2, show: 'todos' });
   const [query, setQuery] = useState('');
   const [selected, setSelected] = useState<string>();
   const set = (f: Partial<Filters>) => setFilters((old) => ({ ...old, ...f }));
@@ -210,8 +227,11 @@ function Browser({ index }: { index: CallsignIndex }) {
   );
   const counts = useMemo(() => countStatuses(baseCells), [baseCells]);
   const cells = useMemo(
-    () => (filters.onlyFree ? baseCells.filter((c) => STATUS_INFO[c.status].requestable) : baseCells),
-    [baseCells, filters.onlyFree],
+    () => {
+      const keep = SHOW_STATUSES[filters.show];
+      return keep ? baseCells.filter((c) => keep.includes(c.status)) : baseCells;
+    },
+    [baseCells, filters.show],
   );
 
   const where = uf ? UF_NAMES[uf] : 'todos os estados';
@@ -260,7 +280,7 @@ function Browser({ index }: { index: CallsignIndex }) {
           renderCell={(i) => <CellButton cell={cells[i]!} selected={selected === cells[i]!.callsign} onSelect={setSelected} />}
         />
       ) : (
-        (searching || block) && <p class="cs-empty">{filters.onlyFree ? 'Nenhum indicativo livre aqui.' : 'Nenhum indicativo encontrado.'}</p>
+        (searching || block) && <p class="cs-empty">{baseCells.length > 0 ? 'Nenhum indicativo livre aqui.' : 'Nenhum indicativo encontrado.'}</p>
       )}
 
       <Legend />
