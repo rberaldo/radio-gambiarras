@@ -86,7 +86,7 @@ export function RepeaterDetail({ repeater: r, distanceKm, picked, onClose }: Pro
       <div class="rp-suggest">
         <p>
           <strong>Sabe algo desta repetidora?</strong> Subtom, local da antena, modos digitais, se está no ar: conte pelo
-          GitHub (precisa de uma conta). Alguém confere e o mapa se atualiza.
+          GitHub (precisa de uma conta).
         </p>
         <a class="btn" href={correctionUrl(repeaterCorrection(site.repo, r, location.href, picked))} target="_blank" rel="noopener">
           Sugerir correção
