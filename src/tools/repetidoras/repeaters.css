@@ -160,10 +160,17 @@
 
   .rp-side {
     flex: none;
-    width: 23rem;
+    width: 20.7rem;
     overflow-y: auto;
     /* Take the map's height and scroll inside */
     contain: size;
+  }
+
+  /* The white box runs the map's full height, even with little in it */
+  .rp-side > .rp-intro,
+  .rp-side > .rp-results,
+  .rp-side > .tool-panel {
+    flex: 1 0 auto;
   }
 
   /* The side column already scrolls; the detail panel just fills it. */
