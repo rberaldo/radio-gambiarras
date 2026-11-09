@@ -4,6 +4,7 @@ export const site = {
   description: 'Ferramentas para o radioamador',
   lang: 'pt-BR',
   repo: 'https://github.com/rberaldo/radio-gambiarras',
+  author: { name: 'Rafael Beraldo', callsign: 'PU1JAZ' },
 } as const;
 
 export interface MetaPage {

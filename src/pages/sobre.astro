@@ -11,7 +11,8 @@ import { site } from '../site';
 
     <p>
       O {site.name} reúne ferramentas pequenas e práticas para radioamadores brasileiros. É um projeto
-      pessoal, gratuito, sem anúncios e sem rastreadores.
+      pessoal, gratuito, sem anúncios e sem rastreadores, feito por {site.author.name},{' '}
+      <strong>{site.author.callsign}</strong>.
     </p>
 
     <fieldset class="fieldset">
@@ -41,6 +42,6 @@ import { site } from '../site';
       </p>
     </fieldset>
 
-    <span slot="status">73!</span>
+    <span slot="status">73! de {site.author.callsign}</span>
   </Window>
 </Desktop>
