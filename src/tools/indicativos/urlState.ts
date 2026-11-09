@@ -16,7 +16,7 @@ export interface ToolState {
   selected?: string;
 }
 
-export const DEFAULT_STATE: ToolState = { licenseClass: 'C', uf: 'SP', length: 2, show: 'todos', query: '' };
+export const DEFAULT_STATE: ToolState = { licenseClass: 'C', uf: 'RJ', length: 2, show: 'todos', query: '' };
 
 const SHOWS: readonly Show[] = ['todos', 'livres', 'quarentena'];
 

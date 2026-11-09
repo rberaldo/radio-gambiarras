@@ -300,7 +300,12 @@ Interface (M2.8 can start as soon as M2.1 and M2.3 are done):
 - [ ] **M2.14 Occupancy summary.** A small table per state: how many 2-letter,
   3-letter and class C callsigns are in use out of how many possible.
   Useful for seeing where 2-letter suffixes are scarce.
-- [ ] **M2.15 Release.** Set the registry entry to `available`. Full review:
+- [x] **M2.15 Release.** Released 2026-11-09 with the user's go-ahead.
+  Checked: desktop icon, start menu and menu bar links; keyboard walk
+  (search, segmented filters with arrow keys, grid cells, panel); Safari
+  engine; loading, error and empty states; axe 0 violations. Default state
+  changed to RJ at the user's request.
+  Set the registry entry to `available`. Full review:
   keyboard, screen sizes, slow network, data file missing.
   Done when: the user has tried it and signed off.
 
@@ -412,7 +417,9 @@ Until this milestone the tool stays a grayed-out "em breve" entry.
 
 Not planned. Move one into a milestone only when the user asks.
 
-- Callsigns: a shortlist of favorites with a shareable link; special event
+- Callsigns: arrow-key navigation inside the grid (today Tab reaches only the
+  rendered cells; search is the keyboard path to any callsign); a shortlist
+  of favorites ("Acompanhar") with a shareable link; special event
   callsigns (`ZV`–`ZZ`); islands in the UI; an alternative phonetic
   alphabet; spoken phonetics.
 - Repeaters: DMR details from RadioID or BrandMeister (check their terms

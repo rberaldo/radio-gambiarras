@@ -21,7 +21,7 @@ export const tools: readonly Tool[] = [
     title: 'Indicativos',
     description: 'Veja quais indicativos de chamada estão livres em cada região.',
     icon: 'indicativos',
-    status: 'soon',
+    status: 'available',
   },
   {
     slug: 'repetidoras',

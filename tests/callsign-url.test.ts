@@ -10,15 +10,15 @@ describe('URL state', () => {
   it('round-trips every field', () => {
     const state = {
       licenseClass: 'AB' as const,
-      uf: 'RJ' as const,
+      uf: 'MG' as const,
       length: 3 as const,
-      prefix: 'PY1',
+      prefix: 'PY4',
       show: 'quarentena' as const,
-      query: 'PY1RB',
-      selected: 'PY1RBA',
+      query: 'PY4RB',
+      selected: 'PY4RBA',
     };
     const qs = writeState(state);
-    expect(qs).toBe('?classe=ab&uf=RJ&sufixo=3&prefixo=PY1&mostrar=quarentena&q=PY1RB&ind=PY1RBA');
+    expect(qs).toBe('?classe=ab&uf=MG&sufixo=3&prefixo=PY4&mostrar=quarentena&q=PY4RB&ind=PY4RBA');
     expect(readState(qs)).toEqual(state);
   });
 
@@ -29,7 +29,7 @@ describe('URL state', () => {
   it('ignores junk and normalizes case', () => {
     const s = readState('?classe=x&uf=ZZ&sufixo=9&prefixo=<b>&mostrar=tudo&ind=nope&q=' + 'A'.repeat(50));
     expect(s).toEqual({ ...DEFAULT_STATE, query: 'A'.repeat(20) });
-    expect(readState('?uf=rj&ind=py1rb').uf).toBe('RJ');
+    expect(readState('?uf=mg&ind=py1rb').uf).toBe('MG');
     expect(readState('?ind=py1rb').selected).toBe('PY1RB');
   });
 
