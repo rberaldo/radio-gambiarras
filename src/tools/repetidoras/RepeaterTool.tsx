@@ -110,12 +110,13 @@ function Tool({ repeaters }: { repeaters: Repeater[] }) {
               </p>
               <p>Clique num lugar do mapa (um pico, uma cidade) ou use a busca acima para ver as repetidoras ao redor.</p>
               <p class="rp-intro__note">
-                Marcadores vazios estão na sede do município, não no local real da repetidora. Números agrupam várias
-                repetidoras: clique para aproximar.
+                Marcadores cheios estão no local da antena; vazios, na sede do município. Verde é dentro do raio. Números agrupam
+                várias repetidoras: clique para aproximar ou abrir o grupo.
               </p>
               <p class="rp-intro__note">
-                Losangos são repetidoras digitais (DMR, D-STAR, Fusion). A Anatel não informa o modo, então só aparecem como digitais
-                as que alguém já informou; as demais contam como FM.
+                Losangos são repetidoras digitais (DMR, D-STAR, Fusion), e um grupo só de digitais também; um losango pequeno no canto
+                de um grupo avisa que há digitais nele. A Anatel não informa o modo, então só aparecem como digitais as que alguém já
+                informou; as demais contam como FM.
               </p>
               <p class="rp-intro__note">
                 Falta uma repetidora, ou sabe o subtom e o local de alguma? Abra uma no mapa e use “Sugerir correção”, ou{' '}

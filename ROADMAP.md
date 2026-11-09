@@ -505,6 +505,11 @@ Map:
   (17); clicking such a group fans it out ("spiderfy", circle up to 8,
   spiral beyond; `src/tools/repetidoras/spider.ts`). A click elsewhere,
   zooming, a filter change or Escape folds it back.
+- Pre-release change (2026-11-09, user's decision): one meaning per marker
+  trait. Shape: circle FM, diamond digital. Fill: solid known site, hollow
+  town seat. Color: green inside the radius, navy outside. Groups are
+  diamonds when all their repeaters are digital, circles otherwise, with a
+  small diamond on the corner when some are digital.
 - [ ] **M3.9 Release.** Credits (Anatel, OpenFreeMap/OpenMapTiles/OSM,
   Mapterhorn/Copernicus, OpenTopoMap if used) on the tool and `/sobre`;
   approximate-position explanation; registry entry to `available`; full

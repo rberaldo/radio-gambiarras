@@ -59,14 +59,14 @@ function pinImage(): ImageData {
 const rgba = (hex: string) => [parseInt(hex.slice(1, 3), 16), parseInt(hex.slice(3, 5), 16), parseInt(hex.slice(5, 7), 16), 255];
 
 /**
- * A digital repeater's marker: a diamond with the same fill and outline rules
- * as the FM circles. `half` is the half-diagonal in device pixels (shown at
- * pixelRatio 2); the outline is 2 CSS pixels thick, like the circles'.
+ * A diamond for digital repeaters and all-digital groups. `half` is the
+ * half-diagonal and `width` the outline, in device pixels (shown at
+ * pixelRatio 2, so 4 means 2 CSS pixels, like the circles' outline).
  */
-function diamondImage(half: number, fill: string, line: string): ImageData {
+function diamondImage(half: number, fill: string, line: string, width = 4): ImageData {
   const size = half * 2 + 1;
   const img = new ImageData(size, size);
-  const inner = half - Math.round(4 * Math.SQRT2);
+  const inner = half - Math.round(width * Math.SQRT2);
   for (let y = 0; y < size; y++) {
     for (let x = 0; x < size; x++) {
       const d = Math.abs(x - half) + Math.abs(y - half);
@@ -105,11 +105,14 @@ const MAX_ZOOM = 17;
 
 const CLUSTER_FILTER: maplibregl.ExpressionSpecification = ['has', 'point_count'];
 
-/**
- * One repeater per marker: circles for FM, diamonds for digital. Exact
- * positions are filled, approximate ones (município seat) hollow; inside
- * the selection circle, green.
- */
+// One visual meaning per trait (decided with the user, 2026-11-09):
+//   shape: circle = FM, diamond = digital (a group: diamond only when all are digital)
+//   fill:  solid = known site, hollow = town seat
+//   color: green = inside the selection circle, navy = outside
+const SEL: maplibregl.ExpressionSpecification = ['==', ['get', 'sel'], 1];
+const LINE: maplibregl.ExpressionSpecification = ['case', SEL, COLORS.green, COLORS.navy];
+
+/** One repeater per marker: circles for FM, diamonds for digital. */
 function addMarkerLayers(map: maplibregl.Map, prefix: string, source: string, filter: maplibregl.ExpressionSpecification) {
   map.addLayer({
     id: `${prefix}-points`,
@@ -117,9 +120,9 @@ function addMarkerLayers(map: maplibregl.Map, prefix: string, source: string, fi
     source,
     filter: ['all', filter, ['!', ['get', 'digital']]],
     paint: {
-      'circle-radius': ['case', ['==', ['get', 'sel'], 1], 7, 6],
-      'circle-color': ['case', ['==', ['get', 'sel'], 1], COLORS.green, ['get', 'exact'], COLORS.navy, COLORS.white],
-      'circle-stroke-color': ['case', ['==', ['get', 'sel'], 1], COLORS.white, COLORS.navy],
+      'circle-radius': 6,
+      'circle-color': ['case', ['get', 'exact'], LINE, COLORS.white],
+      'circle-stroke-color': LINE,
       'circle-stroke-width': 2,
     },
   });
@@ -129,12 +132,29 @@ function addMarkerLayers(map: maplibregl.Map, prefix: string, source: string, fi
     source,
     filter: ['all', filter, ['get', 'digital']],
     layout: {
-      'icon-image': ['case', ['==', ['get', 'sel'], 1], 'diamond-sel', ['get', 'exact'], 'diamond-exact', 'diamond-approx'],
+      'icon-image': ['concat', 'diamond-', ['case', SEL, 'in', 'out'], '-', ['case', ['get', 'exact'], 'exact', 'approx']],
       'icon-allow-overlap': true,
       'icon-ignore-placement': true,
     },
   });
 }
+
+/** Group badges: circles, or diamonds when every repeater in the group is digital. */
+const ALL_DIGITAL: maplibregl.ExpressionSpecification = ['==', ['get', 'dig'], ['get', 'point_count']];
+const SOME_DIGITAL: maplibregl.ExpressionSpecification = ['all', ['>', ['get', 'dig'], 0], ['<', ['get', 'dig'], ['get', 'point_count']]];
+const ALL_IN: maplibregl.ExpressionSpecification = ['==', ['get', 'sel'], ['get', 'point_count']];
+const SOME_IN: maplibregl.ExpressionSpecification = ['>', ['get', 'sel'], 0];
+/** Badge radius in CSS pixels by group size. */
+const BADGE_RADIUS: maplibregl.ExpressionSpecification = ['step', ['get', 'point_count'], 11, 10, 14, 50, 18];
+
+/** Layers drawing group badges, with their own filters; a fanned-out group is hidden from all of them. */
+const CLUSTER_LAYERS: Record<string, maplibregl.ExpressionSpecification> = {
+  clusters: ['all', CLUSTER_FILTER, ['!', ALL_DIGITAL]],
+  'cluster-diamonds': ['all', CLUSTER_FILTER, ALL_DIGITAL],
+  'cluster-notch': ['all', CLUSTER_FILTER, SOME_DIGITAL],
+  'cluster-count': CLUSTER_FILTER,
+};
+const CLICKABLE_CLUSTERS = ['clusters', 'cluster-diamonds'];
 
 function addRepeaterLayers(map: maplibregl.Map) {
   map.addSource('repeaters', {
@@ -143,8 +163,8 @@ function addRepeaterLayers(map: maplibregl.Map) {
     cluster: true,
     clusterRadius: 28,
     clusterMaxZoom: MAX_ZOOM,
-    // Each cluster counts how many of its repeaters are inside the circle.
-    clusterProperties: { sel: ['+', ['get', 'sel']] },
+    // Each cluster counts how many of its repeaters are inside the circle, and how many are digital.
+    clusterProperties: { sel: ['+', ['get', 'sel']], dig: ['+', ['case', ['get', 'digital'], 1, 0]] },
   });
   map.addSource('circle', { type: 'geojson', data: EMPTY });
   map.addSource('active', { type: 'geojson', data: EMPTY });
@@ -153,9 +173,15 @@ function addRepeaterLayers(map: maplibregl.Map) {
   map.addSource('spider-legs', { type: 'geojson', data: EMPTY });
   map.addSource('spider-hub', { type: 'geojson', data: EMPTY });
   map.addImage('center-pin', pinImage(), { pixelRatio: 2 });
-  map.addImage('diamond-approx', diamondImage(21, COLORS.white, COLORS.navy), { pixelRatio: 2 });
-  map.addImage('diamond-exact', diamondImage(21, COLORS.navy, COLORS.navy), { pixelRatio: 2 });
-  map.addImage('diamond-sel', diamondImage(23, COLORS.green, COLORS.white), { pixelRatio: 2 });
+  for (const [where, line] of [['in', COLORS.green], ['out', COLORS.navy]] as const) {
+    map.addImage(`diamond-${where}-exact`, diamondImage(21, line, line), { pixelRatio: 2 });
+    map.addImage(`diamond-${where}-approx`, diamondImage(21, COLORS.white, line), { pixelRatio: 2 });
+  }
+  // Group badges at the size of the smallest circle badge, scaled up with icon-size.
+  map.addImage('cluster-diamond-all', diamondImage(30, COLORS.green, COLORS.green, 6), { pixelRatio: 2 });
+  map.addImage('cluster-diamond-some', diamondImage(30, COLORS.white, COLORS.green, 6), { pixelRatio: 2 });
+  map.addImage('cluster-diamond-none', diamondImage(30, COLORS.white, COLORS.navy, 4), { pixelRatio: 2 });
+  map.addImage('cluster-notch', diamondImage(11, COLORS.navy, COLORS.white, 3), { pixelRatio: 2 });
 
   map.addLayer({ id: 'circle-fill', type: 'fill', source: 'circle', paint: { 'fill-color': COLORS.navy, 'fill-opacity': 0.08 } });
   map.addLayer({ id: 'circle-line', type: 'line', source: 'circle', paint: { 'line-color': COLORS.navy, 'line-width': 2, 'line-dasharray': [2, 1] } });
@@ -170,20 +196,46 @@ function addRepeaterLayers(map: maplibregl.Map) {
     id: 'clusters',
     type: 'circle',
     source: 'repeaters',
-    filter: CLUSTER_FILTER,
+    filter: CLUSTER_LAYERS.clusters,
     paint: {
       // All inside: green; some inside: green ring; none: white.
-      'circle-color': ['case', ['==', ['get', 'sel'], ['get', 'point_count']], COLORS.green, COLORS.white],
-      'circle-stroke-color': ['case', ['>', ['get', 'sel'], 0], COLORS.green, COLORS.navy],
-      'circle-stroke-width': ['case', ['>', ['get', 'sel'], 0], 3, 2],
-      'circle-radius': ['step', ['get', 'point_count'], 11, 10, 14, 50, 18],
+      'circle-color': ['case', ALL_IN, COLORS.green, COLORS.white],
+      'circle-stroke-color': ['case', SOME_IN, COLORS.green, COLORS.navy],
+      'circle-stroke-width': ['case', SOME_IN, 3, 2],
+      'circle-radius': BADGE_RADIUS,
+    },
+  });
+  map.addLayer({
+    id: 'cluster-diamonds',
+    type: 'symbol',
+    source: 'repeaters',
+    filter: CLUSTER_LAYERS['cluster-diamonds'],
+    layout: {
+      'icon-image': ['case', ALL_IN, 'cluster-diamond-all', SOME_IN, 'cluster-diamond-some', 'cluster-diamond-none'],
+      // The image is 15 px across its half-diagonal; diamonds need about 1.35× a circle's radius to look as big.
+      'icon-size': ['step', ['get', 'point_count'], 1, 10, 1.25, 50, 1.6],
+      'icon-allow-overlap': true,
+      'icon-ignore-placement': true,
+    },
+  });
+  // Some digital in a mixed group: a small diamond on the badge's upper right.
+  map.addLayer({
+    id: 'cluster-notch',
+    type: 'symbol',
+    source: 'repeaters',
+    filter: CLUSTER_LAYERS['cluster-notch'],
+    layout: {
+      'icon-image': 'cluster-notch',
+      'icon-offset': ['step', ['get', 'point_count'], ['literal', [9, -9]], 10, ['literal', [11, -11]], 50, ['literal', [14, -14]]],
+      'icon-allow-overlap': true,
+      'icon-ignore-placement': true,
     },
   });
   map.addLayer({
     id: 'cluster-count',
     type: 'symbol',
     source: 'repeaters',
-    filter: CLUSTER_FILTER,
+    filter: CLUSTER_LAYERS['cluster-count'],
     layout: {
       // "2/4" when only some of the cluster is inside the circle.
       'text-field': [
@@ -197,7 +249,7 @@ function addRepeaterLayers(map: maplibregl.Map) {
       'text-allow-overlap': true,
     },
     paint: {
-      'text-color': ['case', ['==', ['get', 'sel'], ['get', 'point_count']], COLORS.white, ['>', ['get', 'sel'], 0], COLORS.darkGreen, COLORS.navy],
+      'text-color': ['case', ALL_IN, COLORS.white, SOME_IN, COLORS.darkGreen, COLORS.navy],
     },
   });
   addMarkerLayers(map, 'repeater', 'repeaters', ['!', ['has', 'point_count']]);
@@ -263,16 +315,13 @@ async function openSpider(map: maplibregl.Map, clusterId: number, hub: [number, 
   (map.getSource('spider') as GeoJSONSource).setData({ type: 'FeatureCollection', features: markers });
   (map.getSource('spider-legs') as GeoJSONSource).setData(legs);
   (map.getSource('spider-hub') as GeoJSONSource).setData({ type: 'FeatureCollection', features: [pointFeature(hub)] });
-  const hide: maplibregl.FilterSpecification = ['all', CLUSTER_FILTER, ['!=', ['get', 'cluster_id'], clusterId]];
-  map.setFilter('clusters', hide);
-  map.setFilter('cluster-count', hide);
+  for (const [layer, filter] of Object.entries(CLUSTER_LAYERS)) map.setFilter(layer, ['all', filter, ['!=', ['get', 'cluster_id'], clusterId]]);
   return { clusterId, positions };
 }
 
 function closeSpider(map: maplibregl.Map) {
   for (const id of SPIDER_SOURCES) (map.getSource(id) as GeoJSONSource | undefined)?.setData(EMPTY);
-  map.setFilter('clusters', CLUSTER_FILTER);
-  map.setFilter('cluster-count', CLUSTER_FILTER);
+  for (const [layer, filter] of Object.entries(CLUSTER_LAYERS)) map.setFilter(layer, filter);
 }
 
 export function RepeaterMap({ repeaters, inside, center, radiusKm, activeId, focus, onPick, onSelect }: Props) {
@@ -335,7 +384,7 @@ export function RepeaterMap({ repeaters, inside, center, radiusKm, activeId, foc
         setReady(true);
       });
       // A cluster splits by zooming in; one that cannot (its repeaters share a spot) fans out instead.
-      map.on('click', 'clusters', async (e: MapLayerMouseEvent) => {
+      const onCluster = async (e: MapLayerMouseEvent) => {
         const f = e.features?.[0];
         if (!map || !f || map.queryRenderedFeatures(e.point, { layers: SPIDER_LAYERS }).length) return;
         const clusterId = f.properties.cluster_id as number;
@@ -355,7 +404,8 @@ export function RepeaterMap({ repeaters, inside, center, radiusKm, activeId, foc
         const opened = await openSpider(map, clusterId, hub);
         spiderRef.current = opened;
         setSpider(opened);
-      });
+      };
+      for (const layer of CLICKABLE_CLUSTERS) map.on('click', layer, onCluster);
       for (const layer of POINT_LAYERS) {
         map.on('click', layer, (e: MapLayerMouseEvent) => {
           const id = e.features?.[0]?.properties.id as string | undefined;
@@ -363,7 +413,7 @@ export function RepeaterMap({ repeaters, inside, center, radiusKm, activeId, foc
         });
       }
       map.on('click', (e: MapMouseEvent) => {
-        if (!map || map.queryRenderedFeatures(e.point, { layers: ['clusters', ...POINT_LAYERS] }).length) return;
+        if (!map || map.queryRenderedFeatures(e.point, { layers: [...CLICKABLE_CLUSTERS, ...POINT_LAYERS] }).length) return;
         // The first click elsewhere only folds a fanned-out stack back.
         if (spiderRef.current) return unspider();
         handlers.current.onPick({ lat: e.lngLat.lat, lon: e.lngLat.lng });
@@ -371,7 +421,7 @@ export function RepeaterMap({ repeaters, inside, center, radiusKm, activeId, foc
       // Fanned-out markers sit at screen distances, which a zoom would break.
       map.on('zoomstart', unspider);
       map.getContainer().addEventListener('keydown', (e) => e.key === 'Escape' && unspider());
-      for (const layer of ['clusters', ...POINT_LAYERS]) {
+      for (const layer of [...CLICKABLE_CLUSTERS, ...POINT_LAYERS]) {
         map.on('mouseenter', layer, () => (map!.getCanvas().style.cursor = 'pointer'));
         map.on('mouseleave', layer, () => (map!.getCanvas().style.cursor = ''));
       }
