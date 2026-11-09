@@ -115,6 +115,10 @@ Modern amenities are not optional:
   out to be wrong or blocked, write that down in the roadmap instead of
   silently working around it.
 - Stay inside the task. New ideas go under "Ideas / later" in the roadmap.
+- Scripts in `scripts/` run directly with `node` (Node strips TypeScript
+  types), so relative imports in `scripts/` and `src/lib/` must use explicit
+  `.ts` extensions, and only erasable TypeScript syntax is allowed (no
+  enums, parameter properties or `override`).
 - Logic that can be pure goes in `src/lib/` with Vitest tests. Callsign rules,
   distance calculations and the CHIRP export must be tested.
 - Before calling a task done: `npm run check`, `npm test` and `npm run build`

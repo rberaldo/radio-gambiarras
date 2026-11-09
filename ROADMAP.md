@@ -155,7 +155,14 @@ This matters to the user. The design:
 
 Rules library:
 
-- [ ] **M2.1 Rules data and library.** `src/lib/callsigns/`: the Ato 3448
+- [x] **M2.1 Rules data and library.** Done 2026-11-09 (`src/lib/callsigns/`,
+  142 tests). Checked against the real Anatel file of 2026-11-08: 46,661
+  distinct well-formed callsigns; 46,483 regular, 154 foreigner, 1 forbidden
+  suffix in use anyway, 23 outside every block (legacy `PV2` outside K–Y,
+  2-letter class C like `PU5PC`, special `ZZ`, old `PY0E…`/`PY0U…`).
+  Consequences: the pipeline keeps every well-formed callsign, even outside
+  the blocks; and in M2.8 Anatel's "em uso" must win over the rules'
+  "reservado". `src/lib/callsigns/`: the Ato 3448
   tables as data; `parse` and `normalize`; `ufOf(callsign)`;
   `blocksFor(uf, class)`; enumeration of a block's suffixes; classification
   of a suffix as regular, forbidden or foreigner. Classes A and B share
@@ -168,14 +175,20 @@ Rules library:
 
 Pipeline:
 
-- [ ] **M2.2 Anatel fetch.** `scripts/anatel/fetch.ts`: range-fetch the zip's
+- [x] **M2.2 Anatel fetch.** Done 2026-11-09. Live run: 3,273,940 bytes
+  downloaded in 0.5 s, CRC verified, 71,328 rows. `scripts/anatel/fetch.ts`: range-fetch the zip's
   central directory, locate `Estacoes_Radioamador.csv` by name, range-fetch
   and inflate that member, verify its CRC32. Handle zip64 fields. Fall back
   to a full download if ranges are refused. Fail with a clear message if the
   member is missing.
   Done when: unit tests pass against a small synthetic zip, and a manual run
   against the live URL prints the member's size and row count.
-- [ ] **M2.3 Callsign reduction.** `scripts/anatel/callsigns.ts`: parse the
+- [x] **M2.3 Callsign reduction.** Done 2026-11-09. Live data: 46,661
+  callsigns (46,364 active, 297 expired), 15 rejects; `taken.json` 181 KB,
+  85 KB gzipped; second run writes nothing; no personal values in `data/`.
+  Design note: `meta.json` has no fetch timestamp (it would change daily and
+  force a deploy); it records `updatedAt` (when the callsigns last changed)
+  and `newestLicensing` (freshness of Anatel's file). `scripts/anatel/callsigns.ts`: parse the
   CSV (BOM, `;`, CRLF), check the header matches the expected 18 columns,
   normalize and validate callsigns, collapse to one record per callsign with
   its best status, and write `data/callsigns/taken.json` plus a `meta.json`

@@ -1,0 +1,13 @@
+{
+ "source": "Anatel, dados abertos: Estações licenciadas do Serviço de Radioamador",
+ "sourceUrl": "https://www.anatel.gov.br/dadosabertos/paineis_de_dados/outorga_e_licenciamento/estacoes_licenciadas.zip",
+ "updatedAt": "2026-11-09",
+ "newestLicensing": "2026-10-23",
+ "counts": {
+  "rows": 71328,
+  "callsigns": 46661,
+  "active": 46364,
+  "expired": 297,
+  "rejected": 15
+ }
+}
