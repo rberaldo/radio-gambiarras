@@ -10,7 +10,7 @@ import { ControlBar } from './ControlBar.tsx';
 import { RepeaterDetail } from './RepeaterDetail.tsx';
 import { RepeaterMap, type Focus } from './RepeaterMap.tsx';
 import { ResultsPanel } from './ResultsPanel.tsx';
-import { useRepeaters } from './useRepeaters.ts';
+import { SHOW_DIGITAL_ONLY, useRepeaters } from './useRepeaters.ts';
 import { DEFAULT_STATE, RADIUS, readState, writeState } from './urlState.ts';
 import { correctionUrl, missingRepeater } from '../../lib/repeaters/correction.ts';
 import { site } from '../../site.ts';
@@ -98,6 +98,7 @@ function Tool({ repeaters }: { repeaters: Repeater[] }) {
                 Marcadores vazios estão na sede do município, não no local real da repetidora. Números agrupam várias
                 repetidoras: clique para aproximar.
               </p>
+              {!SHOW_DIGITAL_ONLY && <p class="rp-intro__note">Repetidoras só digitais (DMR, D-STAR, Fusion) ainda não aparecem no mapa: chegam em breve.</p>}
               <p class="rp-intro__note">
                 Falta uma repetidora, ou sabe o subtom e o local de alguma? Abra uma no mapa e use “Sugerir correção”, ou{' '}
                 <a href={correctionUrl(missingRepeater(site.repo, location.href))} target="_blank" rel="noopener">

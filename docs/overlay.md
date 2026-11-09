@@ -61,8 +61,21 @@ exports (in `private/`, never committed) with
   source line; approving a correction for the repeater clears the flag. To
   list what still needs checking: entries with `unverified`.
 
-RepeaterBook's GPX export was checked and not used: its coordinates are
-mostly the town centre, rounded to about 1 km, and some are far off.
+Positions came next, with
+`node scripts/repeaterbook/positions.ts private/worldwide_repeaters_*.gpx`:
+
+- RepeaterBook's GPX export: only points with 4+ decimals that are 1 to
+  40 km from the município seat (most GPX points are the town centre
+  rounded to about 1 km, and some are far off).
+- Otherwise the site name in the note, looked up on OpenStreetMap
+  (Nominatim, one request per second, answers cached in
+  `private/geocode-cache.json`) within 40 km of the town: peaks and hills
+  first, then towers, places and neighbourhoods; never streets. One-word
+  names must match exactly.
+- Both stay `unverified` and show on the map as exact positions.
+
+Sites not found (e.g. Morro do Itaoca, absent from OpenStreetMap) keep the
+município seat until a correction arrives.
 
 ## Corrections through GitHub issues
 

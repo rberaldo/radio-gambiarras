@@ -3,9 +3,17 @@
 import { useCallback, useEffect, useState } from 'preact/hooks';
 import anatelUrl from '../../../data/repeaters/anatel.json?url';
 import overlay from '../../../data/repeaters/overlay.json';
+import { isFm } from '../../lib/repeaters/export.ts';
 import { mergeRepeaters, type Repeater } from '../../lib/repeaters/merge.ts';
 import type { OverlayFile } from '../../lib/repeaters/overlay.ts';
 import type { AnatelRepeatersFile } from '../../lib/repeaters/types.ts';
+
+/**
+ * Digital-only repeaters (DMR, D-STAR, Fusion without FM) are hidden for now;
+ * the user will add digital support later (decided 2026-11-09). Their data
+ * stays in the overlay. Mixed FM + digital repeaters are shown.
+ */
+export const SHOW_DIGITAL_ONLY = false;
 
 export type RepeatersState =
   | { state: 'loading' }
@@ -24,7 +32,10 @@ export function useRepeaters(): RepeatersState & { retry: () => void } {
         if (!res.ok) throw new Error(`HTTP ${res.status}`);
         return res.json() as Promise<AnatelRepeatersFile>;
       })
-      .then((file) => alive && setResult({ state: 'ready', repeaters: mergeRepeaters(file.repeaters, overlay as OverlayFile) }))
+      .then((file) => {
+        const merged = mergeRepeaters(file.repeaters, overlay as OverlayFile);
+        if (alive) setResult({ state: 'ready', repeaters: SHOW_DIGITAL_ONLY ? merged : merged.filter(isFm) });
+      })
       .catch((err: unknown) => alive && setResult({ state: 'error', message: err instanceof Error ? err.message : String(err) }));
     return () => {
       alive = false;

@@ -473,8 +473,13 @@ Map:
   the user's RepeaterBook CSV exports (`scripts/repeaterbook/import.ts`,
   `docs/overlay.md`): 282 entries for Anatel repeaters (204 tones, digital
   modes, site names), marked `unverified`, source not shown on the site. The
-  user checks them by hand over time. GPX export rejected (town-centre
-  coordinates).
+  user checks them by hand over time. Then 49 positions
+  (`scripts/repeaterbook/positions.ts`): 24 from precise GPX points, 25 from
+  site names found on OpenStreetMap (Nominatim). The "digitais chegam em
+  breve" note is in the intro and the results.
+- Pre-release change (2026-11-09, user's decision): digital-only repeaters
+  are hidden (`SHOW_DIGITAL_ONLY` in `src/tools/repetidoras/useRepeaters.ts`);
+  mixed FM + digital ones stay. The user will add digital support later.
 - [ ] **M3.9 Release.** Credits (Anatel, OpenFreeMap/OpenMapTiles/OSM,
   Mapterhorn/Copernicus, OpenTopoMap if used) on the tool and `/sobre`;
   approximate-position explanation; registry entry to `available`; full

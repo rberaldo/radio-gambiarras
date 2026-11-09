@@ -11,14 +11,16 @@
    "notes": "Ligada a IRLP."
   },
   "PP1CDI@147.360": {
-   "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
+   "source": "RepeaterBook, exportação de 2026-11-09; posição pelo nome do local no OpenStreetMap (a conferir)",
    "date": "2026-11-09",
    "unverified": true,
    "tone": 88.5,
    "modes": [
     "FM"
    ],
-   "notes": "Local: Morro de São Carlos."
+   "notes": "Local: Morro de São Carlos.",
+   "lat": -20.70083,
+   "lon": -40.9787
   },
   "PP1CG@146.870": {
    "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
@@ -76,14 +78,16 @@
    ]
   },
   "PP1MDS@146.850": {
-   "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
+   "source": "RepeaterBook, exportação de 2026-11-09; posição do GPX (a conferir)",
    "date": "2026-11-09",
    "unverified": true,
    "tone": 88.5,
    "modes": [
     "FM"
    ],
-   "notes": "Local: Morro Santa Marta."
+   "notes": "Local: Morro Santa Marta.",
+   "lat": -21.05001,
+   "lon": -41.35769
   },
   "PP1MUQ@145.370": {
    "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
@@ -95,13 +99,15 @@
    ]
   },
   "PP1RDJ@145.450": {
-   "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
+   "source": "RepeaterBook, exportação de 2026-11-09; posição pelo nome do local no OpenStreetMap (a conferir)",
    "date": "2026-11-09",
    "unverified": true,
    "modes": [
     "FM"
    ],
-   "notes": "Local: Morro de São Carlos."
+   "notes": "Local: Morro de São Carlos.",
+   "lat": -20.70083,
+   "lon": -40.9787
   },
   "PP1RK@147.180": {
    "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
@@ -158,14 +164,16 @@
    ]
   },
   "PP5AMC@146.770": {
-   "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
+   "source": "RepeaterBook, exportação de 2026-11-09; posição do GPX (a conferir)",
    "date": "2026-11-09",
    "unverified": true,
    "tone": 88.5,
    "modes": [
     "FM"
    ],
-   "notes": "Local: Morro da Cruz."
+   "notes": "Local: Morro da Cruz.",
+   "lat": -27.5872,
+   "lon": -48.5333
   },
   "PP5ARA@145.490": {
    "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
@@ -213,13 +221,15 @@
    ]
   },
   "PP5CDA@146.610": {
-   "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
+   "source": "RepeaterBook, exportação de 2026-11-09; posição do GPX (a conferir)",
    "date": "2026-11-09",
    "unverified": true,
    "tone": 88.5,
    "modes": [
     "FM"
-   ]
+   ],
+   "lat": -27.239,
+   "lon": -52.01166
   },
   "PP5CHA@439.200": {
    "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
@@ -230,13 +240,15 @@
    ]
   },
   "PP5CRE@146.830": {
-   "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
+   "source": "RepeaterBook, exportação de 2026-11-09; posição do GPX (a conferir)",
    "date": "2026-11-09",
    "unverified": true,
    "modes": [
     "FM"
    ],
-   "notes": "Local: Pico Bradador."
+   "notes": "Local: Pico Bradador.",
+   "lat": -26.02343,
+   "lon": -48.94258
   },
   "PP5CRS@147.120": {
    "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
@@ -257,13 +269,15 @@
    ]
   },
   "PP5JCR@146.770": {
-   "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
+   "source": "RepeaterBook, exportação de 2026-11-09; posição do GPX (a conferir)",
    "date": "2026-11-09",
    "unverified": true,
    "tone": 67,
    "modes": [
     "FM"
-   ]
+   ],
+   "lat": -27.1781,
+   "lon": -51.504
   },
   "PP5JDS@146.950": {
    "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
@@ -293,23 +307,27 @@
    ]
   },
   "PP5MFA@439.675": {
-   "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
+   "source": "RepeaterBook, exportação de 2026-11-09; posição pelo nome do local no OpenStreetMap (a conferir)",
    "date": "2026-11-09",
    "unverified": true,
    "modes": [
     "D-STAR"
    ],
-   "notes": "Local: Alto de Mafra."
+   "notes": "Local: Alto de Mafra.",
+   "lat": -26.12151,
+   "lon": -49.80808
   },
   "PP5MFT@147.330": {
-   "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
+   "source": "RepeaterBook, exportação de 2026-11-09; posição pelo nome do local no OpenStreetMap (a conferir)",
    "date": "2026-11-09",
    "unverified": true,
    "tone": 123,
    "modes": [
     "FM"
    ],
-   "notes": "Local: Morro do Funil. Ligada a EchoLink."
+   "notes": "Local: Morro do Funil. Ligada a EchoLink.",
+   "lat": -27.27401,
+   "lon": -50.12955
   },
   "PP5MPA@147.180": {
    "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
@@ -339,14 +357,16 @@
    ]
   },
   "PP5RPT@147.330": {
-   "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
+   "source": "RepeaterBook, exportação de 2026-11-09; posição do GPX (a conferir)",
    "date": "2026-11-09",
    "unverified": true,
    "tone": 67,
    "modes": [
     "FM"
    ],
-   "notes": "Local: Morro do Wanda. Ligada a EchoLink."
+   "notes": "Local: Morro do Wanda. Ligada a EchoLink.",
+   "lat": -27.54807,
+   "lon": -48.63929
   },
   "PP5SAT@147.030": {
    "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
@@ -375,14 +395,16 @@
    ]
   },
   "PP6DV@146.610": {
-   "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
+   "source": "RepeaterBook, exportação de 2026-11-09; posição do GPX (a conferir)",
    "date": "2026-11-09",
    "unverified": true,
    "modes": [
     "D-STAR",
     "FM",
     "DMR"
-   ]
+   ],
+   "lat": -10.8441,
+   "lon": -37.0684
   },
   "PR7AAA@147.000": {
    "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
@@ -412,13 +434,15 @@
    ]
   },
   "PS7LJV@146.930": {
-   "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
+   "source": "RepeaterBook, exportação de 2026-11-09; posição do GPX (a conferir)",
    "date": "2026-11-09",
    "unverified": true,
    "modes": [
     "FM"
    ],
-   "notes": "Local: LABRE."
+   "notes": "Local: LABRE.",
+   "lat": -5.8136,
+   "lon": -35.19487
   },
   "PS8GES@145.390": {
    "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
@@ -465,13 +489,15 @@
    ]
   },
   "PT2RAP@146.650": {
-   "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
+   "source": "RepeaterBook, exportação de 2026-11-09; posição pelo nome do local no OpenStreetMap (a conferir)",
    "date": "2026-11-09",
    "unverified": true,
    "modes": [
     "FM"
    ],
-   "notes": "Local: Brazlândia."
+   "notes": "Local: Brazlândia.",
+   "lat": -15.68089,
+   "lon": -48.19426
   },
   "PT7RPD@145.250": {
    "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
@@ -591,14 +617,16 @@
    "notes": "Local: Morro da Itaoca."
   },
   "PY1JPA@146.730": {
-   "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
+   "source": "RepeaterBook, exportação de 2026-11-09; posição pelo nome do local no OpenStreetMap (a conferir)",
    "date": "2026-11-09",
    "unverified": true,
    "tone": 88.5,
    "modes": [
     "FM"
    ],
-   "notes": "Local: Jacarepaguá."
+   "notes": "Local: Jacarepaguá.",
+   "lat": -22.95317,
+   "lon": -43.37158
   },
   "PY1KYZ@147.100": {
    "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
@@ -612,14 +640,16 @@
    "notes": "Ligada a EchoLink."
   },
   "PY1LAE@146.890": {
-   "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
+   "source": "RepeaterBook, exportação de 2026-11-09; posição pelo nome do local no OpenStreetMap (a conferir)",
    "date": "2026-11-09",
    "unverified": true,
    "tone": 100,
    "modes": [
     "FM"
    ],
-   "notes": "Local: Mendanha."
+   "notes": "Local: Mendanha.",
+   "lat": -22.84913,
+   "lon": -43.54375
   },
   "PY1LFC@146.710": {
    "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
@@ -677,13 +707,15 @@
    ]
   },
   "PY1MRD@439.875": {
-   "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
+   "source": "RepeaterBook, exportação de 2026-11-09; posição pelo nome do local no OpenStreetMap (a conferir)",
    "date": "2026-11-09",
    "unverified": true,
    "modes": [
     "DMR"
    ],
-   "notes": "Local: Mendanha."
+   "notes": "Local: Mendanha.",
+   "lat": -22.84913,
+   "lon": -43.54375
   },
   "PY1MRH@439.425": {
    "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
@@ -865,14 +897,16 @@
    ]
   },
   "PY2AA@147.060": {
-   "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
+   "source": "RepeaterBook, exportação de 2026-11-09; posição pelo nome do local no OpenStreetMap (a conferir)",
    "date": "2026-11-09",
    "unverified": true,
    "tone": 123,
    "modes": [
     "FM"
    ],
-   "notes": "Local: metrô Carrão."
+   "notes": "Local: metrô Carrão.",
+   "lat": -23.54987,
+   "lon": -46.53858
   },
   "PY2APU@147.030": {
    "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
@@ -931,13 +965,15 @@
    ]
   },
   "PY2FBI@439.150": {
-   "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
+   "source": "RepeaterBook, exportação de 2026-11-09; posição do GPX (a conferir)",
    "date": "2026-11-09",
    "unverified": true,
    "tone": 82.5,
    "modes": [
     "FM"
-   ]
+   ],
+   "lat": -22.88997,
+   "lon": -47.07701
   },
   "PY2FEJ@147.300": {
    "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
@@ -949,13 +985,15 @@
    ]
   },
   "PY2FII@147.000": {
-   "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
+   "source": "RepeaterBook, exportação de 2026-11-09; posição do GPX (a conferir)",
    "date": "2026-11-09",
    "unverified": true,
    "tone": 82.5,
    "modes": [
     "FM"
-   ]
+   ],
+   "lat": -22.66002,
+   "lon": -46.75359
   },
   "PY2FJE@439.125": {
    "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
@@ -984,23 +1022,27 @@
    ]
   },
   "PY2KAB@146.810": {
-   "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
+   "source": "RepeaterBook, exportação de 2026-11-09; posição do GPX (a conferir)",
    "date": "2026-11-09",
    "unverified": true,
    "tone": 82.5,
    "modes": [
     "FM"
    ],
-   "notes": "Local: Observatório de Campinas."
+   "notes": "Local: Observatório de Campinas.",
+   "lat": -22.90203,
+   "lon": -46.82749
   },
   "PY2KAC@146.710": {
-   "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
+   "source": "RepeaterBook, exportação de 2026-11-09; posição do GPX (a conferir)",
    "date": "2026-11-09",
    "unverified": true,
    "tone": 82.5,
    "modes": [
     "FM"
-   ]
+   ],
+   "lat": -22.40164,
+   "lon": -46.94456
   },
   "PY2KAD@145.350": {
    "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
@@ -1090,14 +1132,16 @@
    ]
   },
   "PY2KAS@146.890": {
-   "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
+   "source": "RepeaterBook, exportação de 2026-11-09; posição do GPX (a conferir)",
    "date": "2026-11-09",
    "unverified": true,
    "tone": 79.7,
    "modes": [
     "FM"
    ],
-   "notes": "Local: Pico do Itapeva."
+   "notes": "Local: Pico do Itapeva.",
+   "lat": -22.77167,
+   "lon": -45.54333
   },
   "PY2KAS@146.930": {
    "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
@@ -1136,13 +1180,15 @@
    ]
   },
   "PY2KBF@147.060": {
-   "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
+   "source": "RepeaterBook, exportação de 2026-11-09; posição do GPX (a conferir)",
    "date": "2026-11-09",
    "unverified": true,
    "tone": 88.5,
    "modes": [
     "FM"
-   ]
+   ],
+   "lat": -23.07009,
+   "lon": -47.20759
   },
   "PY2KBH@145.430": {
    "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
@@ -1152,6 +1198,13 @@
    "modes": [
     "D-STAR"
    ]
+  },
+  "PY2KBL@146.850": {
+   "source": "RepeaterBook, exportação de 2026-11-09; posição do GPX (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "lat": -22.56333,
+   "lon": -44.96
   },
   "PY2KBS@145.330": {
    "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
@@ -1215,13 +1268,15 @@
    "notes": "Ligada a EchoLink."
   },
   "PY2KDB@147.150": {
-   "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
+   "source": "RepeaterBook, exportação de 2026-11-09; posição pelo nome do local no OpenStreetMap (a conferir)",
    "date": "2026-11-09",
    "unverified": true,
    "modes": [
     "FM"
    ],
-   "notes": "Local: Capelinha."
+   "notes": "Local: Capelinha.",
+   "lat": -22.45636,
+   "lon": -45.12798
   },
   "PY2KDD@145.430": {
    "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
@@ -1279,14 +1334,16 @@
    ]
   },
   "PY2KDO@147.330": {
-   "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
+   "source": "RepeaterBook, exportação de 2026-11-09; posição do GPX (a conferir)",
    "date": "2026-11-09",
    "unverified": true,
    "tone": 74.4,
    "modes": [
     "FM"
    ],
-   "notes": "Local: Barreiro."
+   "notes": "Local: Barreiro.",
+   "lat": -23.04802,
+   "lon": -46.92373
   },
   "PY2KDV@146.730": {
    "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
@@ -1317,14 +1374,16 @@
    "notes": "Local: Nazaré Paulista."
   },
   "PY2KES@145.490": {
-   "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
+   "source": "RepeaterBook, exportação de 2026-11-09; posição pelo nome do local no OpenStreetMap (a conferir)",
    "date": "2026-11-09",
    "unverified": true,
    "tone": 100,
    "modes": [
     "FM"
    ],
-   "notes": "Local: Serra do Itapeti."
+   "notes": "Local: Serra do Itapeti.",
+   "lat": -23.45349,
+   "lon": -46.18807
   },
   "PY2KEV@145.470": {
    "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
@@ -1401,14 +1460,16 @@
    "notes": "Local: Caixa d'água."
   },
   "PY2KKK@439.500": {
-   "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
+   "source": "RepeaterBook, exportação de 2026-11-09; posição do GPX (a conferir)",
    "date": "2026-11-09",
    "unverified": true,
    "tone": 82.5,
    "modes": [
     "FM"
    ],
-   "notes": "Local: Cambuí."
+   "notes": "Local: Cambuí.",
+   "lat": -22.89592,
+   "lon": -47.0568
   },
   "PY2KLF@147.300": {
    "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
@@ -1439,22 +1500,26 @@
    ]
   },
   "PY2KMA@145.330": {
-   "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
+   "source": "RepeaterBook, exportação de 2026-11-09; posição do GPX (a conferir)",
    "date": "2026-11-09",
    "unverified": true,
    "modes": [
     "DMR"
-   ]
+   ],
+   "lat": -23.5629,
+   "lon": -46.6547
   },
   "PY2KMA@439.475": {
-   "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
+   "source": "RepeaterBook, exportação de 2026-11-09; posição pelo nome do local no OpenStreetMap (a conferir)",
    "date": "2026-11-09",
    "unverified": true,
    "tone": 67,
    "modes": [
     "FM"
    ],
-   "notes": "Local: Palácio dos Bandeirantes."
+   "notes": "Local: Palácio dos Bandeirantes.",
+   "lat": -23.60156,
+   "lon": -46.71238
   },
   "PY2KMB@439.725": {
    "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
@@ -1466,23 +1531,27 @@
    ]
   },
   "PY2KMX@146.730": {
-   "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
+   "source": "RepeaterBook, exportação de 2026-11-09; posição pelo nome do local no OpenStreetMap (a conferir)",
    "date": "2026-11-09",
    "unverified": true,
    "tone": 136.5,
    "modes": [
     "FM"
    ],
-   "notes": "Local: Pico do Urubu - Serra do Itapety."
+   "notes": "Local: Pico do Urubu - Serra do Itapety.",
+   "lat": -23.48461,
+   "lon": -46.20639
   },
   "PY2KNF@147.270": {
-   "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
+   "source": "RepeaterBook, exportação de 2026-11-09; posição do GPX (a conferir)",
    "date": "2026-11-09",
    "unverified": true,
    "tone": 67,
    "modes": [
     "FM"
-   ]
+   ],
+   "lat": -23.2574,
+   "lon": -46.435
   },
   "PY2KOQ@146.690": {
    "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
@@ -1568,14 +1637,16 @@
    ]
   },
   "PY2KRB@439.050": {
-   "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
+   "source": "RepeaterBook, exportação de 2026-11-09; posição do GPX (a conferir)",
    "date": "2026-11-09",
    "unverified": true,
    "tone": 67,
    "modes": [
     "FM"
    ],
-   "notes": "Local: Taipas."
+   "notes": "Local: Taipas.",
+   "lat": -23.4164,
+   "lon": -46.70805
   },
   "PY2KRJ@147.180": {
    "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
@@ -1595,14 +1666,16 @@
    ]
   },
   "PY2KSA@439.600": {
-   "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
+   "source": "RepeaterBook, exportação de 2026-11-09; posição pelo nome do local no OpenStreetMap (a conferir)",
    "date": "2026-11-09",
    "unverified": true,
    "tone": 123,
    "modes": [
     "FM"
    ],
-   "notes": "Local: Paranapiacaba."
+   "notes": "Local: Paranapiacaba.",
+   "lat": -23.77785,
+   "lon": -46.30129
   },
   "PY2KSC@145.270": {
    "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
@@ -1614,23 +1687,27 @@
    ]
   },
   "PY2KSM@147.360": {
-   "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
+   "source": "RepeaterBook, exportação de 2026-11-09; posição do GPX (a conferir)",
    "date": "2026-11-09",
    "unverified": true,
    "modes": [
     "DMR"
    ],
-   "notes": "Local: Morro da pedra."
+   "notes": "Local: Morro da pedra.",
+   "lat": -23.5629,
+   "lon": -46.6547
   },
   "PY2KSM@439.200": {
-   "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
+   "source": "RepeaterBook, exportação de 2026-11-09; posição pelo nome do local no OpenStreetMap (a conferir)",
    "date": "2026-11-09",
    "unverified": true,
    "tone": 123,
    "modes": [
     "FM"
    ],
-   "notes": "Local: Mata Fria."
+   "notes": "Local: Mata Fria.",
+   "lat": -23.35554,
+   "lon": -46.53216
   },
   "PY2KSP@147.300": {
    "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
@@ -1749,13 +1826,15 @@
    "notes": "Local: Bento Gonçalves."
   },
   "PY3RVT@146.930": {
-   "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
+   "source": "RepeaterBook, exportação de 2026-11-09; posição do GPX (a conferir)",
    "date": "2026-11-09",
    "unverified": true,
    "modes": [
     "FM"
    ],
-   "notes": "Local: Lago Harmonia."
+   "notes": "Local: Lago Harmonia.",
+   "lat": -29.40194,
+   "lon": -51.80167
   },
   "PY4AGC@439.525": {
    "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
@@ -1837,22 +1916,26 @@
    ]
   },
   "PY4FA@146.870": {
-   "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
+   "source": "RepeaterBook, exportação de 2026-11-09; posição do GPX (a conferir)",
    "date": "2026-11-09",
    "unverified": true,
    "tone": 82.5,
    "modes": [
     "FM"
-   ]
+   ],
+   "lat": -22.88117,
+   "lon": -46.31231
   },
   "PY4FYR@145.230": {
-   "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
+   "source": "RepeaterBook, exportação de 2026-11-09; posição pelo nome do local no OpenStreetMap (a conferir)",
    "date": "2026-11-09",
    "unverified": true,
    "modes": [
     "FM"
    ],
-   "notes": "Local: Serra dos Ferreiras."
+   "notes": "Local: Serra dos Ferreiras.",
+   "lat": -19.69877,
+   "lon": -44.78438
   },
   "PY4KTD@146.830": {
    "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
@@ -1882,7 +1965,7 @@
    ]
   },
   "PY4RAT@439.925": {
-   "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
+   "source": "RepeaterBook, exportação de 2026-11-09; posição pelo nome do local no OpenStreetMap (a conferir)",
    "date": "2026-11-09",
    "unverified": true,
    "modes": [
@@ -1890,7 +1973,9 @@
     "D-STAR",
     "Fusion"
    ],
-   "notes": "Local: Serra Bocaina."
+   "notes": "Local: Serra Bocaina.",
+   "lat": -21.32399,
+   "lon": -45.00916
   },
   "PY4RCC@145.270": {
    "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
@@ -1955,14 +2040,16 @@
    ]
   },
   "PY4RE@439.125": {
-   "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
+   "source": "RepeaterBook, exportação de 2026-11-09; posição pelo nome do local no OpenStreetMap (a conferir)",
    "date": "2026-11-09",
    "unverified": true,
    "tone": 91.5,
    "modes": [
     "FM"
    ],
-   "notes": "Local: Pico dos Cabritos. Ligada a EchoLink."
+   "notes": "Local: Pico dos Cabritos. Ligada a EchoLink.",
+   "lat": -22.85943,
+   "lon": -46.29527
   },
   "PY4RFA@147.330": {
    "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
@@ -1990,14 +2077,16 @@
    ]
   },
   "PY4RIT@146.690": {
-   "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
+   "source": "RepeaterBook, exportação de 2026-11-09; posição pelo nome do local no OpenStreetMap (a conferir)",
    "date": "2026-11-09",
    "unverified": true,
    "tone": 97.4,
    "modes": [
     "FM"
    ],
-   "notes": "Local: Pico dos Dias."
+   "notes": "Local: Pico dos Dias.",
+   "lat": -22.53505,
+   "lon": -45.58249
   },
   "PY4RJB@145.410": {
    "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
@@ -2098,14 +2187,16 @@
    ]
   },
   "PY4RPT@145.290": {
-   "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
+   "source": "RepeaterBook, exportação de 2026-11-09; posição pelo nome do local no OpenStreetMap (a conferir)",
    "date": "2026-11-09",
    "unverified": true,
    "tone": 82.5,
    "modes": [
     "FM"
    ],
-   "notes": "Local: Pico do Ibituruna."
+   "notes": "Local: Pico do Ibituruna.",
+   "lat": -18.88625,
+   "lon": -41.91853
   },
   "PY4RRI@147.030": {
    "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
@@ -2214,14 +2305,16 @@
    ]
   },
   "PY5ART@147.210": {
-   "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
+   "source": "RepeaterBook, exportação de 2026-11-09; posição pelo nome do local no OpenStreetMap (a conferir)",
    "date": "2026-11-09",
    "unverified": true,
    "tone": 110.9,
    "modes": [
     "FM"
    ],
-   "notes": "Local: Morro Azul."
+   "notes": "Local: Morro Azul.",
+   "lat": -25.27065,
+   "lon": -49.33323
   },
   "PY5AZA@439.500": {
    "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
@@ -2277,14 +2370,16 @@
    ]
   },
   "PY5CTV@145.210": {
-   "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
+   "source": "RepeaterBook, exportação de 2026-11-09; posição pelo nome do local no OpenStreetMap (a conferir)",
    "date": "2026-11-09",
    "unverified": true,
    "tone": 110.9,
    "modes": [
     "FM"
    ],
-   "notes": "Local: Pico Caratuva."
+   "notes": "Local: Pico Caratuva.",
+   "lat": -25.24117,
+   "lon": -48.82983
   },
   "PY5DCG@146.810": {
    "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
@@ -2340,14 +2435,16 @@
    ]
   },
   "PY5GRU@146.630": {
-   "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
+   "source": "RepeaterBook, exportação de 2026-11-09; posição pelo nome do local no OpenStreetMap (a conferir)",
    "date": "2026-11-09",
    "unverified": true,
    "tone": 110.9,
    "modes": [
     "FM"
    ],
-   "notes": "Local: Morro dos Perdidos."
+   "notes": "Local: Morro dos Perdidos.",
+   "lat": -25.89076,
+   "lon": -48.95726
   },
   "PY5IGU@146.970": {
    "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
@@ -2376,13 +2473,15 @@
    "notes": "Ligada a EchoLink."
   },
   "PY5MED@145.390": {
-   "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
+   "source": "RepeaterBook, exportação de 2026-11-09; posição do GPX (a conferir)",
    "date": "2026-11-09",
    "unverified": true,
    "tone": 88.5,
    "modes": [
     "FM"
-   ]
+   ],
+   "lat": -25.20667,
+   "lon": -54.07389
   },
   "PY5MNG@145.450": {
    "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
@@ -2412,14 +2511,16 @@
    ]
   },
   "PY5PRD@147.090": {
-   "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
+   "source": "RepeaterBook, exportação de 2026-11-09; posição pelo nome do local no OpenStreetMap (a conferir)",
    "date": "2026-11-09",
    "unverified": true,
    "tone": 110.9,
    "modes": [
     "FM"
    ],
-   "notes": "Local: Campo Magro, Morro do Cal."
+   "notes": "Local: Campo Magro, Morro do Cal.",
+   "lat": -25.38682,
+   "lon": -49.55262
   },
   "PY5RCM@145.490": {
    "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
@@ -2441,14 +2542,16 @@
    "notes": "Ligada a EchoLink."
   },
   "PY5TEL@146.770": {
-   "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
+   "source": "RepeaterBook, exportação de 2026-11-09; posição pelo nome do local no OpenStreetMap (a conferir)",
    "date": "2026-11-09",
    "unverified": true,
    "tone": 110.9,
    "modes": [
     "FM"
    ],
-   "notes": "Local: Bigorrilho. Ligada a EchoLink."
+   "notes": "Local: Bigorrilho. Ligada a EchoLink.",
+   "lat": -25.43391,
+   "lon": -49.2994
   },
   "PY5TEP@147.060": {
    "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
