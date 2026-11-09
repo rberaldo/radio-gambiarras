@@ -54,9 +54,26 @@ const ISO_DATE = /^\d{4}-\d{2}-\d{2}$/;
 const UFS = new Set('AC AL AP AM BA CE DF ES GO MA MT MS MG PA PB PR PE PI RJ RN RS RO RR SC SP SE TO'.split(' '));
 
 /**
+ * An entry for a repeater Anatel no longer lists, which does not describe a
+ * repeater of its own (no input, município or UF): a correction left behind
+ * when a licence lapsed or a repeater was renumbered. The site skips it; the
+ * maintainer decides whether to delete it or complete it as a new repeater.
+ */
+export const isOrphan = (id: string, e: OverlayEntry, anatelIds: ReadonlySet<string>) =>
+  !anatelIds.has(id) && e.input === undefined && e.municipio === undefined && e.uf === undefined;
+
+/** Ids of orphaned entries (see isOrphan), for a warning: they never block a build. */
+export function orphanedEntries(file: OverlayFile, anatelIds: ReadonlySet<string>): string[] {
+  return Object.entries(file.entries)
+    .filter(([id, e]) => isOrphan(id, e, anatelIds))
+    .map(([id]) => id);
+}
+
+/**
  * Problems in an overlay file, as readable messages ("PY2KJP@146.610: tom 88
  * não é um tom CTCSS padrão"). `anatelIds` are the repeaters Anatel lists;
- * entries for other repeaters must say where they are and their input.
+ * entries for other repeaters must say where they are and their input,
+ * unless they are orphans (see isOrphan), which are only warned about.
  */
 export function validateOverlay(file: OverlayFile, anatelIds: ReadonlySet<string>): string[] {
   const errors: string[] = [];
@@ -84,7 +101,7 @@ export function validateOverlay(file: OverlayFile, anatelIds: ReadonlySet<string
     }
     if (e.unverified !== undefined && e.unverified !== true) err('unverified só pode ser true (ou ausente)');
     if (e.modes) for (const mode of e.modes) if (!MODES.includes(mode)) err(`modo ${mode} desconhecido`);
-    if (!anatelIds.has(id)) {
+    if (!anatelIds.has(id) && !isOrphan(id, e, anatelIds)) {
       if (e.input === undefined || (band && bandOf(e.input) !== band)) err(`não está na Anatel: informe a entrada (input) na faixa de ${band ? BANDS[band].label : '?'}`);
       if (!e.municipio?.trim() || !e.uf || !UFS.has(e.uf)) err('não está na Anatel: informe município e UF');
       if (e.lat === undefined) err('não está na Anatel: informe a posição (lat, lon)');

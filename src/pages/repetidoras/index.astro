@@ -7,12 +7,16 @@ import anatel from '../../../data/repeaters/anatel.json';
 import meta from '../../../data/repeaters/meta.json';
 import overlay from '../../../data/repeaters/overlay.json';
 import { formatDate } from '../../lib/format.ts';
-import { validateOverlay, type OverlayFile } from '../../lib/repeaters/overlay.ts';
+import { orphanedEntries, validateOverlay, type OverlayFile } from '../../lib/repeaters/overlay.ts';
 import type { AnatelRepeatersFile } from '../../lib/repeaters/types.ts';
 
-// A bad correction stops the deploy instead of reaching visitors.
-const problems = validateOverlay(overlay as OverlayFile, new Set((anatel as AnatelRepeatersFile).repeaters.map((r) => r.id)));
+// A bad correction stops the deploy instead of reaching visitors. Corrections
+// for repeaters Anatel dropped are skipped and only warned about.
+const anatelIds = new Set((anatel as AnatelRepeatersFile).repeaters.map((r) => r.id));
+const problems = validateOverlay(overlay as OverlayFile, anatelIds);
 if (problems.length) throw new Error(`data/repeaters/overlay.json:\n  ${problems.join('\n  ')}`);
+const orphans = orphanedEntries(overlay as OverlayFile, anatelIds);
+if (orphans.length) console.warn(`overlay.json: ${orphans.length} entries for repeaters Anatel no longer lists (skipped): ${orphans.join(', ')}`);
 ---
 
 <Desktop

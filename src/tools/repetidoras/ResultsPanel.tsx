@@ -1,14 +1,13 @@
 // The repeaters inside the circle, nearest first, or along a trail, in
 // walking order; with the downloads.
 import { useEffect, useRef } from 'preact/hooks';
-import { correctionUrl, missingRepeater } from '../../lib/repeaters/correction.ts';
 import { BAND_TEXT, formatKm, formatMHz, formatShift, modeBadge, toneText } from '../../lib/repeaters/display.ts';
 import { chirpCsv, isFm, spreadsheetCsv } from '../../lib/repeaters/export.ts';
 import type { Nearby, Point } from '../../lib/repeaters/geo.ts';
-import { site } from '../../site.ts';
 import { formatNumber, plural } from '../../lib/format.ts';
 import { CopyButton } from '../../ui/CopyButton.tsx';
 import { EmptyState } from '../../ui/EmptyState.tsx';
+import { MissingRepeaterLink } from './MissingRepeaterLink.tsx';
 import type { ModeChoice } from './urlState.ts';
 
 interface Props {
@@ -22,9 +21,12 @@ interface Props {
   /** Used in file names: where the circle is. */
   label: string;
   activeId?: string;
-  /** Row to focus when the list comes back after closing a repeater. */
+  /** Row to focus when the list comes back after closing a repeater; onFocused says it was used. */
   focusId?: string;
+  onFocused: () => void;
   onSelect: (id: string) => void;
+  /** Forget the point or trail (also a right click on the map, which phones do not have). */
+  onClear: () => void;
   onWiden?: () => void;
 }
 
@@ -37,24 +39,32 @@ function download(name: string, content: string) {
   setTimeout(() => URL.revokeObjectURL(url), 1000);
 }
 
-export function ResultsPanel({ nearby, radiusKm, mode, center, trail, label, activeId, focusId, onSelect, onWiden }: Props) {
+export function ResultsPanel({ nearby, radiusKm, mode, center, trail, label, activeId, focusId, onFocused, onSelect, onClear, onWiden }: Props) {
   const list = useRef<HTMLOListElement>(null);
 
-  // Coming back from a repeater's details: keep the keyboard on its row.
+  // Coming back from a repeater's details: keep the keyboard on its row, once.
   useEffect(() => {
-    if (focusId) list.current?.querySelector<HTMLElement>(`[data-id="${CSS.escape(focusId)}"]`)?.focus();
+    if (!focusId) return;
+    list.current?.querySelector<HTMLElement>(`[data-id="${CSS.escape(focusId)}"]`)?.focus();
+    onFocused();
   }, []);
   const fm = nearby.filter((n) => isFm(n.repeater)).length;
   const exact = nearby.filter((n) => n.repeater.position?.exact).length;
 
   const where = trail ? 'da trilha' : 'deste ponto';
+  const clearButton = (
+    <button class="btn" type="button" onClick={onClear}>
+      Limpar
+    </button>
+  );
   const trailHead = trail && (
-    <div class="rp-trail">
+    <div class="rp-top rp-trail">
       <p>
         <strong>{trail.name ?? 'Trilha sem nome'}</strong> · {formatNumber(Math.round(trail.lengthKm))} km
         {nearby.length > 1 && ' · em ordem de caminhada'}
       </p>
-      <CopyButton text={trail.link} label="Copiar o link desta trilha" class="rp-trail__copy" />
+      <CopyButton text={trail.link} label="Copiar o link desta trilha" />
+      {clearButton}
     </div>
   );
 
@@ -65,10 +75,7 @@ export function ResultsPanel({ nearby, radiusKm, mode, center, trail, label, act
         <EmptyState action={onWiden ? { label: 'Aumentar o raio', onClick: onWiden } : undefined}>
           {mode === 'digital' ? 'Nenhuma repetidora digital conhecida' : 'Nenhuma repetidora'} a até {radiusKm} km {where}. Conhece
           uma?{' '}
-          <a href={correctionUrl(missingRepeater(site.repo, location.href, center))} target="_blank" rel="noopener">
-            Avise
-          </a>
-          .
+          <MissingRepeaterLink picked={center}>Avise</MissingRepeaterLink>.
         </EmptyState>
       </>
     );
@@ -77,19 +84,20 @@ export function ResultsPanel({ nearby, radiusKm, mode, center, trail, label, act
   return (
     <section class="rp-results" aria-label={trail ? 'Repetidoras ao longo da trilha' : 'Repetidoras no raio'}>
       {trailHead}
-      <p class="rp-results__head">
-        <strong>{plural(nearby.length, 'repetidora', 'repetidoras')}</strong> a até {radiusKm} km{trail && ' da trilha'}
-        {exact < nearby.length && <> · {exact === 0 ? 'todas com posição aproximada' : `${nearby.length - exact} com posição aproximada`}</>}
-      </p>
-      <div class="rp-results__downloads">
-        <div class="rp-results__buttons">
-          <button class="btn" type="button" onClick={() => download(`repetidoras-${label}.csv`, spreadsheetCsv(nearby))}>
-            Baixar CSV
-          </button>
-          <button class="btn" type="button" disabled={fm === 0} onClick={() => download(`chirp-${label}.csv`, chirpCsv(nearby))}>
-            Baixar para o CHIRP
-          </button>
-        </div>
+      <div class="rp-top">
+        <p class="rp-results__head">
+          <strong>{plural(nearby.length, 'repetidora', 'repetidoras')}</strong> a até {radiusKm} km{trail && ' da trilha'}
+          {exact < nearby.length && <> · {exact === 0 ? 'todas com posição aproximada' : `${nearby.length - exact} com posição aproximada`}</>}
+        </p>
+        {!trail && clearButton}
+      </div>
+      <div class="rp-results__buttons">
+        <button class="btn" type="button" onClick={() => download(`repetidoras-${label}.csv`, spreadsheetCsv(nearby))}>
+          Baixar CSV
+        </button>
+        <button class="btn" type="button" disabled={fm === 0} onClick={() => download(`chirp-${label}.csv`, chirpCsv(nearby))}>
+          Baixar para o CHIRP
+        </button>
       </div>
       {fm === 0 ? (
         <p class="rp-results__note">O CHIRP só leva repetidoras FM.</p>
@@ -116,11 +124,7 @@ export function ResultsPanel({ nearby, radiusKm, mode, center, trail, label, act
         ))}
       </ol>
       <p class="rp-results__note">
-        Falta alguma?{' '}
-        <a href={correctionUrl(missingRepeater(site.repo, location.href, center))} target="_blank" rel="noopener">
-          Avise sobre uma repetidora nova
-        </a>
-        .
+        Falta alguma? <MissingRepeaterLink picked={center}>Avise sobre uma repetidora nova</MissingRepeaterLink>.
       </p>
     </section>
   );

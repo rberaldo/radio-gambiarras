@@ -29,3 +29,18 @@ export function daysSince(iso: string, today: Date = new Date()): number {
 export function plural(n: number, one: string, many: string): string {
   return `${formatNumber(n)} ${n === 1 ? one : many}`;
 }
+
+/** Lowercase without accents, for matching typed text: "estacao" finds "Estação". */
+export function foldAccents(text: string): string {
+  return text.normalize('NFD').replace(/\p{M}/gu, '').toLowerCase();
+}
+
+/** For file names: "Travessia Petrópolis–Teresópolis" → "travessia-petropolis-teresopolis". */
+export function slug(text: string, maxLength = 40): string {
+  return (
+    foldAccents(text)
+      .replace(/[^a-z0-9]+/g, '-')
+      .slice(0, maxLength)
+      .replace(/^-+|-+$/g, '') || 'sem-nome'
+  );
+}

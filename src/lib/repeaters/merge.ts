@@ -1,6 +1,6 @@
 // Combines Anatel's licensed repeaters with the overlay into the records
 // the map shows and exports.
-import type { Mode, OverlayEntry, OverlayFile } from './overlay.ts';
+import { isOrphan, type Mode, type OverlayEntry, type OverlayFile } from './overlay.ts';
 import { bandOf, type AnatelRepeater, type Band, type LicenseStatus } from './types.ts';
 
 export interface Repeater {
@@ -75,7 +75,8 @@ export function mergeRepeaters(anatel: readonly AnatelRepeater[], overlay: Overl
 
   const known = new Set(anatel.map((a) => a.id));
   for (const [id, e] of Object.entries(overlay.entries)) {
-    if (known.has(id)) continue;
+    // Ours or orphaned: a correction for a repeater Anatel dropped has nothing to stand on.
+    if (known.has(id) || isOrphan(id, e, known)) continue;
     const [callsign, freq] = id.split('@') as [string, string];
     const output = Number(freq);
     merged.push(

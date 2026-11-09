@@ -9,6 +9,27 @@ export interface Point {
 const EARTH_RADIUS_KM = 6371.0088;
 const rad = (deg: number) => (deg * Math.PI) / 180;
 
+/**
+ * Km per degree on the same sphere as distanceKm, for flat projections over
+ * short distances (a trail piece, a circle on the map), so all agree.
+ */
+export const KM_PER_DEG_LAT = (Math.PI * EARTH_RADIUS_KM) / 180;
+export const kmPerDegLon = (lat: number) => KM_PER_DEG_LAT * Math.cos(rad(lat));
+
+/**
+ * Where p falls on the segment a–b, in a flat projection with `kx` km per
+ * degree of longitude: the distance in km and the fraction t along it (0–1).
+ */
+export function toSegment(p: Point, a: Point, b: Point, kx: number): { km: number; t: number } {
+  const dx = (b.lon - a.lon) * kx;
+  const dy = (b.lat - a.lat) * KM_PER_DEG_LAT;
+  const px = (p.lon - a.lon) * kx;
+  const py = (p.lat - a.lat) * KM_PER_DEG_LAT;
+  const len2 = dx * dx + dy * dy;
+  const t = len2 ? Math.max(0, Math.min(1, (px * dx + py * dy) / len2)) : 0;
+  return { km: Math.hypot(px - t * dx, py - t * dy), t };
+}
+
 /** Great-circle distance in km (haversine). */
 export function distanceKm(a: Point, b: Point): number {
   const dLat = rad(b.lat - a.lat);
@@ -32,7 +53,6 @@ export interface Nearby {
  * to well under 1% at these distances.
  */
 export function alongTrack(repeaters: readonly Repeater[], lines: readonly (readonly Point[])[], radiusKm: number): Nearby[] {
-  const KM_PER_DEG_LAT = 110.574;
   interface Piece {
     a: Point;
     b: Point;
@@ -47,7 +67,7 @@ export function alongTrack(repeaters: readonly Repeater[], lines: readonly (read
     for (let i = 1; i < line.length; i++) {
       const a = line[i - 1]!;
       const b = line[i]!;
-      const kx = 111.32 * Math.cos(rad((a.lat + b.lat) / 2));
+      const kx = kmPerDegLon((a.lat + b.lat) / 2);
       const lengthKm = Math.hypot((b.lon - a.lon) * kx, (b.lat - a.lat) * KM_PER_DEG_LAT);
       pieces.push({ a, b, kx, startKm: total, lengthKm });
       total += lengthKm;
@@ -61,7 +81,7 @@ export function alongTrack(repeaters: readonly Repeater[], lines: readonly (read
   }
   // A box around the whole trail rules out most of the country at once.
   const padLat = radiusKm / KM_PER_DEG_LAT;
-  const padLon = radiusKm / (111.32 * Math.cos(rad(Math.max(Math.abs(s), Math.abs(n)))));
+  const padLon = radiusKm / kmPerDegLon(Math.max(Math.abs(s), Math.abs(n)));
 
   const found: Nearby[] = [];
   for (const repeater of repeaters) {
@@ -70,15 +90,9 @@ export function alongTrack(repeaters: readonly Repeater[], lines: readonly (read
     let best = Infinity;
     let bestAlong = 0;
     for (const q of pieces) {
-      const dx = (q.b.lon - q.a.lon) * q.kx;
-      const dy = (q.b.lat - q.a.lat) * KM_PER_DEG_LAT;
-      const px = (p.lon - q.a.lon) * q.kx;
-      const py = (p.lat - q.a.lat) * KM_PER_DEG_LAT;
-      const len2 = dx * dx + dy * dy;
-      const t = len2 ? Math.max(0, Math.min(1, (px * dx + py * dy) / len2)) : 0;
-      const d = Math.hypot(px - t * dx, py - t * dy);
-      if (d < best) {
-        best = d;
+      const { km, t } = toSegment(p, q.a, q.b, q.kx);
+      if (km < best) {
+        best = km;
         bestAlong = q.startKm + t * q.lengthKm;
       }
     }

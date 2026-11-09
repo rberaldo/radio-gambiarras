@@ -1,18 +1,16 @@
-// GeoJSON for the map: repeaters as points (with flags clusters can count)
-// and the selection circle.
+// GeoJSON for the map: repeaters as points (with flags groups can count),
+// the selection circle, a trail's corridor, and the bounds to frame them.
 import type { Feature, FeatureCollection, Point as GeoPoint, Polygon } from 'geojson';
 import { isDigital } from '../../lib/repeaters/display.ts';
-import { distanceKm, type Point } from '../../lib/repeaters/geo.ts';
+import { KM_PER_DEG_LAT, distanceKm, kmPerDegLon, type Point } from '../../lib/repeaters/geo.ts';
 import type { Repeater } from '../../lib/repeaters/merge.ts';
 
 export interface PointProps {
   id: string;
-  callsign: string;
-  band: string;
   exact: boolean;
   /** Known to carry a digital mode: drawn as a diamond. */
   digital: boolean;
-  /** 1 when inside the selection circle, so clusters can add them up. */
+  /** 1 when inside the circle or corridor, so groups can add them up. */
   sel: 0 | 1;
 }
 
@@ -23,7 +21,7 @@ export function repeaterPoints(repeaters: readonly Repeater[], selected: Readonl
       .filter((r) => r.position)
       .map((r) => ({
         type: 'Feature',
-        properties: { id: r.id, callsign: r.callsign, band: r.band, exact: r.position!.exact, digital: isDigital(r), sel: selected.has(r.id) ? 1 : 0 },
+        properties: { id: r.id, exact: r.position!.exact, digital: isDigital(r), sel: selected.has(r.id) ? 1 : 0 },
         geometry: { type: 'Point', coordinates: [r.position!.lon, r.position!.lat] },
       })),
   };
@@ -32,8 +30,8 @@ export function repeaterPoints(repeaters: readonly Repeater[], selected: Readonl
 /** A circle as a polygon; accurate enough on screen for radii up to a few hundred km. */
 export function circlePolygon(center: Point, km: number, steps = 96): Feature<Polygon> {
   const ring: number[][] = [];
-  const dLat = km / 110.574;
-  const dLon = km / (111.32 * Math.cos((center.lat * Math.PI) / 180));
+  const dLat = km / KM_PER_DEG_LAT;
+  const dLon = km / kmPerDegLon(center.lat);
   for (let i = 0; i <= steps; i++) {
     const a = (i / steps) * 2 * Math.PI;
     ring.push([center.lon + dLon * Math.cos(a), center.lat + dLat * Math.sin(a)]);
@@ -72,5 +70,21 @@ export function corridorCircles(lines: readonly (readonly Point[])[], km: number
   }
   return { type: 'FeatureCollection', features: centers.map((c) => circlePolygon(c, km, 48)) };
 }
+
+/** Bounds that show a circle of `km` around a point, as [[west, south], [east, north]]. */
+export function circleBounds(c: Point, km: number): [[number, number], [number, number]] {
+  const dLat = km / KM_PER_DEG_LAT;
+  const dLon = km / kmPerDegLon(c.lat);
+  return [
+    [c.lon - dLon, c.lat - dLat],
+    [c.lon + dLon, c.lat + dLat],
+  ];
+}
+
+export const pointFeature = (coordinates: [number, number], properties: Record<string, unknown> = {}): Feature<GeoPoint> => ({
+  type: 'Feature',
+  properties,
+  geometry: { type: 'Point', coordinates },
+});
 
 export const EMPTY: FeatureCollection = { type: 'FeatureCollection', features: [] };

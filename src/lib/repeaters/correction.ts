@@ -63,10 +63,10 @@ export function correctionUrl({ repo, id, title, context }: CorrectionLink): str
 
 const pointText = (p: Point) => `${p.lat.toFixed(5)}, ${p.lon.toFixed(5)}`;
 
-/** Link to correct a repeater on the map, with what the site shows about it. */
 /** The page address without a trail after "#": it can be kilobytes long, too much for an issue link. */
 const withoutTrail = (url: string) => url.split('#')[0]!;
 
+/** Link to correct a repeater on the map, with what the site shows about it. */
 export function repeaterCorrection(repo: string, r: Repeater, pageUrl: string, picked?: Point): CorrectionLink {
   const position = r.position
     ? r.position.exact

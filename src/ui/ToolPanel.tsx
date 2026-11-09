@@ -33,8 +33,11 @@ export function ToolPanel({ label, header, onClose, autoFocus = false, children 
       const focusWasHere = !active || active === document.body || panel.current?.contains(active);
       const el = opener.current;
       if (!focusWasHere || !(el instanceof HTMLElement)) return;
+      // Unless the page already put focus somewhere meaningful (a list back on its row): Safari
+      // does not focus a clicked button, so the "opener" may just be the page.
       requestAnimationFrame(() => {
-        if (el.isConnected) el.focus();
+        const now = document.activeElement;
+        if (el.isConnected && (!now || now === document.body)) el.focus();
       });
     };
   }, []);

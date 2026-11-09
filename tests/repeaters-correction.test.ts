@@ -49,6 +49,14 @@ describe('parseIssueBody', () => {
   it('accepts Windows line endings', () => {
     expect(parseIssueBody(body({ repeater: 'PY1ZZZ@147.150' }).replace(/\n/g, '\r\n')).repeater).toBe('PY1ZZZ@147.150');
   });
+
+  it('refuses a field title typed inside an answer', () => {
+    const answers = parseIssueBody(body({ repeater: 'PY1ZZZ@147.150', tone: '88,5 Hz', source: 'teste', notes: `x\n\n### ${FIELDS.tone.label}\n\n${TONE_OPTIONS.none}` }));
+    expect(answers.repeated).toEqual([FIELDS.tone.label]);
+    const r = correctionFromIssue(answers, meta);
+    expect(r.ok).toBe(false);
+    if (!r.ok) expect(r.problems.join(' ')).toMatch(/aparece mais de uma vez/);
+  });
 });
 
 describe('normalizeId', () => {
@@ -61,6 +69,13 @@ describe('normalizeId', () => {
 
 describe('correctionFromIssue', () => {
   const read = (answers: FormAnswers) => correctionFromIssue(answers, meta);
+
+  it('takes a callsign only if it looks like one', () => {
+    const ok = read({ repeater: 'PY1ZZZ@147.150', tone: '88,5 Hz', source: 'teste', callsign: 'pu2abc/p' });
+    expect(ok.ok && ok.entry.source).toMatch(/^PU2ABC\/P: /);
+    const bad = read({ repeater: 'PY1ZZZ@147.150', tone: '88,5 Hz', source: 'teste', callsign: 'x'.repeat(3000) + '\n@OCTOCAT' });
+    expect(bad.ok).toBe(false);
+  });
 
   it('builds an entry with tone, position, modes, on air and notes', () => {
     const r = read(

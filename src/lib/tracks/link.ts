@@ -6,7 +6,7 @@ import type { Point } from '../repeaters/geo.ts';
 import { simplifyTrack } from './simplify.ts';
 import { cleanTrack, type Track } from './track.ts';
 
-/** Links much longer than this get cut by chat apps and some browsers. */
+/** The "#trilha=…" part stays within this; links much longer get cut by chat apps and some browsers. */
 export const MAX_LINK_CHARS = 3000;
 
 function encodeNumber(n: number): string {
@@ -63,15 +63,18 @@ export function decodeLine(s: string): Point[] | undefined {
 const encodeTrack = (t: Track) => t.lines.map(encodeLine).join(',');
 
 /**
- * The trail as it goes in a link: simplified just enough to fit. Results
- * are computed on this version, so whoever opens the link sees the same list.
+ * The trail as it goes in a link: simplified just enough to fit, measured as
+ * written in the link (escapes included). Results are computed on this
+ * version, so whoever opens the link sees the same list.
  */
 export function shareableTrack(track: Track): Track {
-  for (const toleranceKm of [0.01, 0.02, 0.05, 0.1, 0.2, 0.5, 1, 2]) {
-    const t = simplifyTrack(track, toleranceKm);
-    if (encodeTrack(t).length <= MAX_LINK_CHARS) return t;
+  // Each try starts from the last one: already small, so a long log costs one pass, not eight.
+  let t = track;
+  for (const toleranceKm of [0.01, 0.02, 0.05, 0.1, 0.2, 0.5, 1, 2, 5]) {
+    t = simplifyTrack(t, toleranceKm);
+    if (writeTrackHash(t).length <= MAX_LINK_CHARS) return t;
   }
-  return simplifyTrack(track, 5);
+  return t;
 }
 
 /** "#trilha=…&nome=…" for a trail already made shareable. */

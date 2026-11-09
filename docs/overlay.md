@@ -43,6 +43,17 @@ merges it with Anatel's data (`src/lib/repeaters/merge.ts`).
 `src/lib/repeaters/overlay.ts`) and explains every problem in Portuguese.
 Run it before committing a change.
 
+## When Anatel drops a repeater
+
+An entry whose repeater no longer appears in Anatel's file, and which does
+not describe a repeater of its own (no `input`, `municipio` or `uf`), is an
+*orphan*: usually a lapsed licence or a renumbered repeater. Orphans never
+block a build or an approval; the map skips them, the build prints a warning,
+and the daily job's log shows `::warning::` with their ids. Delete them, or
+complete them (input, município, UF, position) to keep the repeater on the
+map as one Anatel does not list. An entry that fills only some of those
+fields is still an error.
+
 ## Bootstrap from RepeaterBook (2026-11-09)
 
 The overlay was seeded once from the maintainer's own RepeaterBook CSV

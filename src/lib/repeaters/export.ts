@@ -9,6 +9,13 @@ function field(value: string, delimiter: string): string {
   return value.includes(delimiter) || /["\r\n]/.test(value) ? `"${value.replace(/"/g, '""')}"` : value;
 }
 
+/**
+ * Free text that came from contributors (notes, município, source): a leading
+ * = + - @ would make Excel or LibreOffice run it as a formula, so it gets a
+ * leading apostrophe and is shown as plain text.
+ */
+export const asText = (value: string) => (/^[=+\-@\t\r]/.test(value) ? `'${value}` : value);
+
 const ptNumber = (n: number, digits: number) => n.toFixed(digits).replace('.', ',');
 
 const LICENSE_LABELS: Record<Repeater['license'], string> = {
@@ -47,7 +54,7 @@ export function spreadsheetCsv(rows: readonly Nearby[]): string {
       toneLabel(r),
       r.dcs ?? '',
       r.modes.join(' '),
-      r.municipio,
+      asText(r.municipio),
       r.uf,
       r.position ? ptNumber(r.position.lat, 5) : '',
       r.position ? ptNumber(r.position.lon, 5) : '',
@@ -57,8 +64,8 @@ export function spreadsheetCsv(rows: readonly Nearby[]): string {
       LICENSE_LABELS[r.license],
       r.validUntil ?? '',
       r.onAir === undefined ? '' : r.onAir ? 'sim' : 'não',
-      r.notes ?? '',
-      r.correction ? `${r.correction.source} (${r.correction.date})` : '',
+      asText(r.notes ?? ''),
+      r.correction ? asText(`${r.correction.source} (${r.correction.date})`) : '',
     ]
       .map((v) => field(v, d))
       .join(d),

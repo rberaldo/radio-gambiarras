@@ -102,3 +102,13 @@ describe('exports along a trail', () => {
     expect(chirpCsv(rows)).toContain(',km 12 da trilha; São Paulo/SP;');
   });
 });
+
+describe('spreadsheet safety', () => {
+  it('keeps contributed text from running as a formula', () => {
+    const csv = spreadsheetCsv([{ repeater: base({ notes: '=HYPERLINK("http://x","y")', correction: { source: '@evil', date: '2026-11-09' } }), distanceKm: 1 }]);
+    expect(csv).toContain(`"'=HYPERLINK(""http://x"",""y"")"`);
+    expect(csv).toContain("'@evil (2026-11-09)");
+    // Negative coordinates stay numbers.
+    expect(csv).toMatch(/;-23,/);
+  });
+});

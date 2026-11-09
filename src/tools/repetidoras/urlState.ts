@@ -1,10 +1,8 @@
 // The repeater map's state in the query string. Defaults are left out.
 // Example: /repetidoras?lat=-22.9497&lon=-43.2851&raio=50&banda=2m&modo=digital&rep=PY1BAB%40147.030
-import type { Band } from '../../lib/repeaters/types.ts';
+import type { BandChoice, ModeChoice } from '../../lib/repeaters/filter.ts';
 
-export type BandChoice = 'todas' | Band;
-/** FM includes repeaters of unknown mode; mixed FM + digital ones are in both. */
-export type ModeChoice = 'todos' | 'fm' | 'digital';
+export type { BandChoice, ModeChoice };
 
 export const RADIUS = { min: 10, max: 150, step: 5, default: 50 } as const;
 
@@ -55,4 +53,12 @@ export function writeState(state: MapState): string {
   if (state.selected) p.set('rep', state.selected);
   const qs = p.toString();
   return qs ? `?${qs}` : '';
+}
+
+/**
+ * The link that shares a trail: the filters and radius, then the trail after
+ * "#". No point or open repeater: whoever opens it sees the whole trail.
+ */
+export function trailLink(base: string, state: MapState, trackHash: string): string {
+  return `${base}${writeState({ ...state, lat: undefined, lon: undefined, selected: undefined })}${trackHash}`;
 }

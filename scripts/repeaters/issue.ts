@@ -6,14 +6,23 @@ import { FIELDS, MODE_CHOICES, ON_AIR_OPTIONS, TONE_OPTIONS } from '../../src/li
 import type { Mode, OverlayEntry, OverlayFile } from '../../src/lib/repeaters/overlay.ts';
 
 type FieldKey = keyof typeof FIELDS;
-export type FormAnswers = Partial<Record<FieldKey, string>>;
+export type FormAnswers = Partial<Record<FieldKey, string>> & {
+  /** Field titles that appear more than once: someone typed one inside an answer. */
+  repeated?: string[];
+};
 
 const NO_RESPONSE = '_No response_';
 
-/** The answers in an issue body, by field. Unknown headings stay part of the previous answer. */
+/**
+ * The answers in an issue body, by field. Unknown headings stay part of the
+ * previous answer. A field title typed inside an answer would otherwise
+ * replace that field's real answer, so repeats are reported (see `repeated`).
+ */
 export function parseIssueBody(body: string): FormAnswers {
   const byLabel = new Map<string, FieldKey>(Object.entries(FIELDS).map(([key, f]) => [f.label, key as FieldKey]));
   const answers: FormAnswers = {};
+  const seen = new Set<FieldKey>();
+  const repeated: string[] = [];
   let current: FieldKey | undefined;
   let lines: string[] = [];
   const flush = () => {
@@ -26,6 +35,8 @@ export function parseIssueBody(body: string): FormAnswers {
     const key = heading ? byLabel.get(heading[1]!) : undefined;
     if (key) {
       flush();
+      if (seen.has(key)) repeated.push(FIELDS[key].label);
+      seen.add(key);
       current = key;
       lines = [];
     } else {
@@ -33,8 +44,12 @@ export function parseIssueBody(body: string): FormAnswers {
     }
   }
   flush();
+  if (repeated.length) answers.repeated = repeated;
   return answers;
 }
+
+/** A callsign as people write it, Brazilian or foreign: "PY1BEU", "PU2ABC/P", "W1AW". */
+const CALLSIGN = /^[A-Z0-9]{1,3}\d[A-Z0-9]{0,4}[A-Z](\/[A-Z0-9]{1,4})?$/;
 
 /** "PY1BEU @ 147,15" → "PY1BEU@147.150", or undefined. */
 export function normalizeId(raw: string): string | undefined {
@@ -60,12 +75,15 @@ export type ParsedCorrection = { ok: true; id: string; entry: OverlayEntry } | {
 /** The overlay entry an issue asks for, or the reasons it cannot be read. */
 export function correctionFromIssue(answers: FormAnswers, meta: IssueMeta): ParsedCorrection {
   const problems: string[] = [];
+  for (const label of answers.repeated ?? []) problems.push(`o título “${label}” aparece mais de uma vez; tire-o das respostas`);
   const id = normalizeId(answers.repeater ?? '');
   if (!id) problems.push(`"${answers.repeater ?? ''}" não parece INDICATIVO@saída, como PY1BEU@147.150`);
 
   const how = (answers.source ?? '').replace(/\s+/g, ' ').trim();
   if (!how) problems.push('falta dizer como você sabe');
-  const who = (answers.callsign ?? '').trim().toUpperCase() || `@${meta.author}`;
+  const typed = (answers.callsign ?? '').trim().toUpperCase();
+  if (typed && !CALLSIGN.test(typed)) problems.push(`"${typed.slice(0, 20)}" não parece um indicativo`);
+  const who = typed && CALLSIGN.test(typed) ? typed : `@${meta.author}`;
   const entry: OverlayEntry = { source: `${who}: ${how.slice(0, 200)} (issue #${meta.number})`, date: meta.date };
 
   const tone = (answers.tone ?? '').trim();

@@ -109,7 +109,7 @@ const fold = (s: string) =>
 /** "PICO DO IBITURUNA" → "Pico do Ibituruna"; short acronyms (LABRE) stay. */
 function tidyCase(s: string): string {
   if (s !== s.toUpperCase() || !/\s/.test(s)) return s;
-  return s.toLowerCase().replace(/(^|\s)(\p{L})/gu, (m, sp: string, ch: string) => sp + ch.toUpperCase()).replace(/\b(Do|Da|De|Dos|Das)\b/g, (w) => w.toLowerCase());
+  return s.toLowerCase().replace(/(^|\s)(\p{L})/gu, (_m, sp: string, ch: string) => sp + ch.toUpperCase()).replace(/\b(Do|Da|De|Dos|Das)\b/g, (w) => w.toLowerCase());
 }
 
 /**

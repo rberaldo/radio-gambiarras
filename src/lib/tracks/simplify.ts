@@ -1,27 +1,32 @@
 // Fewer points, same shape: Douglas–Peucker on a local flat projection.
 // A phone log of 50,000 points becomes a few hundred, which is all a 10 km
 // corridor or a link needs.
-import type { Point } from '../repeaters/geo.ts';
+import { KM_PER_DEG_LAT, kmPerDegLon, toSegment, type Point } from '../repeaters/geo.ts';
 import type { Track } from './track.ts';
 
-const KM_PER_DEG_LAT = 110.574;
-
-/** Distance in km from p to the segment a–b, all in a local flat projection. */
-function offsetKm(p: Point, a: Point, b: Point, kmPerDegLon: number): number {
-  const ax = a.lon * kmPerDegLon;
-  const ay = a.lat * KM_PER_DEG_LAT;
-  const dx = b.lon * kmPerDegLon - ax;
-  const dy = b.lat * KM_PER_DEG_LAT - ay;
-  const px = p.lon * kmPerDegLon - ax;
-  const py = p.lat * KM_PER_DEG_LAT - ay;
-  const len2 = dx * dx + dy * dy;
-  const t = len2 ? Math.max(0, Math.min(1, (px * dx + py * dy) / len2)) : 0;
-  return Math.hypot(px - t * dx, py - t * dy);
+/**
+ * Drops points closer than `toleranceKm` to the last one kept: one cheap pass
+ * that takes most of a dense or jittery log away before Douglas–Peucker,
+ * whose cost grows fast with noise. The last point always stays.
+ */
+function thin(line: readonly Point[], toleranceKm: number, kx: number): Point[] {
+  const out = [line[0]!];
+  const max2 = toleranceKm * toleranceKm;
+  for (let i = 1; i < line.length - 1; i++) {
+    const p = line[i]!;
+    const last = out[out.length - 1]!;
+    const dx = (p.lon - last.lon) * kx;
+    const dy = (p.lat - last.lat) * KM_PER_DEG_LAT;
+    if (dx * dx + dy * dy > max2) out.push(p);
+  }
+  out.push(line[line.length - 1]!);
+  return out;
 }
 
-export function simplifyLine(line: readonly Point[], toleranceKm: number): Point[] {
-  if (line.length <= 2) return [...line];
-  const kmPerDegLon = 111.32 * Math.cos((line[0]!.lat * Math.PI) / 180);
+export function simplifyLine(source: readonly Point[], toleranceKm: number): Point[] {
+  if (source.length <= 2) return [...source];
+  const kx = kmPerDegLon(source[0]!.lat);
+  const line = thin(source, toleranceKm, kx);
   const keep = new Uint8Array(line.length);
   keep[0] = keep[line.length - 1] = 1;
   // Iterative, so a long log cannot overflow the stack.
@@ -31,7 +36,7 @@ export function simplifyLine(line: readonly Point[], toleranceKm: number): Point
     let worst = -1;
     let worstKm = toleranceKm;
     for (let i = first + 1; i < last; i++) {
-      const km = offsetKm(line[i]!, line[first]!, line[last]!, kmPerDegLon);
+      const { km } = toSegment(line[i]!, line[first]!, line[last]!, kx);
       if (km > worstKm) {
         worst = i;
         worstKm = km;

@@ -2,6 +2,7 @@
 // downloads, so a radio's channel list reads "RIO PY1XXX", "POA PY3XXX".
 // Well-known cities use the tag people already say or see on airport signs;
 // every other city gets initials or its first three letters.
+import { foldAccents } from '../format.ts';
 
 /** Tags people recognize, by "Município/UF". */
 const KNOWN: Record<string, string> = {
@@ -68,9 +69,7 @@ const KNOWN: Record<string, string> = {
 const CONNECTORS = new Set(['DE', 'DA', 'DO', 'DAS', 'DOS', 'DEL', 'E', 'D']);
 
 const plain = (s: string) =>
-  s
-    .normalize('NFD')
-    .replace(/[̀-ͯ]/g, '')
+  foldAccents(s)
     .toUpperCase()
     .replace(/[^A-Z ]+/g, ' ');
 

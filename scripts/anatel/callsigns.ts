@@ -82,9 +82,6 @@ export function reduce(csvText: string): Reduction {
   };
 }
 
-/** Stable serialization, so identical data gives identical bytes. */
-
-
 export interface UpdateResult {
   changed: boolean;
   reduction: Reduction;

@@ -2,7 +2,7 @@ import { describe, expect, it } from 'vitest';
 import anatelFile from '../data/repeaters/anatel.json';
 import overlayFile from '../data/repeaters/overlay.json';
 import { mergeRepeaters } from '../src/lib/repeaters/merge.ts';
-import { validateOverlay, type OverlayFile } from '../src/lib/repeaters/overlay.ts';
+import { orphanedEntries, validateOverlay, type OverlayFile } from '../src/lib/repeaters/overlay.ts';
 import type { AnatelRepeater, AnatelRepeatersFile } from '../src/lib/repeaters/types.ts';
 
 const anatel: AnatelRepeater[] = [
@@ -35,10 +35,25 @@ describe('validateOverlay', () => {
   });
 
   it('requires full details for repeaters Anatel does not list', () => {
-    const errors = validateOverlay(overlay({ 'PY9NEW@145.330': { tone: 'none', source: 'clube', date: '2026-11-09' } }), ids).join('\n');
+    const errors = validateOverlay(overlay({ 'PY9NEW@145.330': { tone: 'none', municipio: 'Itu', source: 'clube', date: '2026-11-09' } }), ids).join('\n');
     expect(errors).toMatch(/informe a entrada/);
     expect(errors).toMatch(/informe município e UF/);
     expect(errors).toMatch(/informe a posição/);
+  });
+
+  it('only warns about corrections for repeaters Anatel dropped, and the map skips them', () => {
+    // A tone confirmed for PY2OLD, whose licence then disappeared from Anatel's file.
+    const file = overlay({ 'PY2OLD@145.330': { tone: 88.5, source: 'clube', date: '2026-11-09' } });
+    expect(validateOverlay(file, ids)).toEqual([]);
+    expect(orphanedEntries(file, ids)).toEqual(['PY2OLD@145.330']);
+    expect(mergeRepeaters(anatel, file).map((r) => r.id)).not.toContain('PY2OLD@145.330');
+  });
+
+  it('keeps the committed overlay valid if Anatel drops any one repeater', () => {
+    const real = (anatelFile as AnatelRepeatersFile).repeaters.map((r) => r.id);
+    const corrected = Object.keys((overlayFile as OverlayFile).entries).filter((id) => real.includes(id));
+    const without = new Set(real.filter((id) => id !== corrected[0]));
+    expect(validateOverlay(overlayFile as OverlayFile, without)).toEqual([]);
   });
 
   it('passes for the committed overlay file', () => {

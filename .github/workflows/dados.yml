@@ -51,6 +51,12 @@ jobs:
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
           git commit -m "Atualiza dados da Anatel ($(date -u +%F))"
-          # An approved correction (correcoes.yml) may have pushed meanwhile; it only touches overlay.json.
-          git pull --rebase --quiet origin main
-          git push
+          # An approved correction (correcoes.yml) may push meanwhile; it only touches
+          # overlay.json, so rebasing onto it is safe. Retry a few times, then fail loudly.
+          for attempt in 1 2 3 4 5; do
+            git pull --rebase --quiet origin main
+            if git push --quiet origin HEAD:main; then exit 0; fi
+            sleep $((attempt * 5))
+          done
+          echo "::error::could not push the data update after 5 attempts"
+          exit 1

@@ -17,6 +17,7 @@ import {
   type Band,
   type LicenseStatus,
 } from '../../src/lib/repeaters/types.ts';
+import { orphanedEntries, type OverlayFile } from '../../src/lib/repeaters/overlay.ts';
 import { brDateToIso } from '../lib/csv.ts';
 import { olderThanYears, readJson, toJson } from '../lib/json.ts';
 import { DEFAULT_OUT as DEFAULT_CSV } from './fetch.ts';
@@ -261,4 +262,8 @@ if (import.meta.main) {
   }
   if (reduction.rejected.length) console.log(`rejected:\n  ${reduction.rejected.join('\n  ')}`);
   console.log(changed ? `data changed; wrote ${dataDir}` : 'data unchanged; nothing written');
+  // Corrections whose repeater left Anatel: the site skips them, the maintainer decides.
+  const overlay = await readJson<OverlayFile>(join(dataDir, 'overlay.json'));
+  const orphans = overlay ? orphanedEntries(overlay, new Set(reduction.repeaters.map((r) => r.id))) : [];
+  if (orphans.length) console.log(`::warning::overlay.json has ${orphans.length} corrections for repeaters Anatel no longer lists: ${orphans.join(', ')}`);
 }

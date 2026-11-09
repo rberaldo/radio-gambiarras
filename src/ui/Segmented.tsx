@@ -23,7 +23,7 @@ export function Segmented<T extends string | number>({ label, name, options, val
       <span class="tool-filters__label">{label}</span>
       {options.map((o) => (
         <label class="check" key={o.value}>
-          <input type="radio" name={name} checked={o.value === value} onChange={() => onChange(o.value)} />
+          <input type="radio" name={name} value={String(o.value)} checked={o.value === value} onChange={() => onChange(o.value)} />
           {o.label}
         </label>
       ))}

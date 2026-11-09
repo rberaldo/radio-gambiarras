@@ -1,6 +1,7 @@
 // Where to look and how far: a place box (a town with repeaters or
 // coordinates), "minha localização", the radius, the band and the mode.
 import { useState } from 'preact/hooks';
+import { foldAccents } from '../../lib/format.ts';
 import { parseCoordinates } from '../../lib/repeaters/coordinates.ts';
 import type { Point } from '../../lib/repeaters/geo.ts';
 import { Segmented, type SegmentedOption } from '../../ui/Segmented.tsx';
@@ -119,7 +120,7 @@ export function ControlBar({ places, radiusKm, band, mode, onGo, onRadius, onBan
 
 /** Case- and accent-insensitive match on the place name, with or without "/UF". */
 function findPlace(places: ReadonlyMap<string, Point>, typed: string): Point | undefined {
-  const fold = (s: string) => s.normalize('NFD').replace(/\p{M}/gu, '').toLowerCase().trim();
+  const fold = (s: string) => foldAccents(s).trim();
   const t = fold(typed);
   for (const [name, point] of places) if (fold(name) === t || fold(name.split('/')[0]!) === t) return point;
   return undefined;

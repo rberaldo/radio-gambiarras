@@ -1,4 +1,6 @@
 import { describe, expect, it } from 'vitest';
+import type { Feature, Point as GeoPoint } from 'geojson';
+import { shouldFanOut } from '../src/tools/repetidoras/mapSpider.ts';
 import { spiderOffsets } from '../src/tools/repetidoras/spider.ts';
 
 const dist = ([ax, ay]: [number, number], [bx, by]: [number, number]) => Math.hypot(ax - bx, ay - by);
@@ -27,5 +29,21 @@ describe('spiderOffsets', () => {
   it('keeps a big stack within reach on a phone', () => {
     const far = Math.max(...spiderOffsets(25).map((p) => dist(p, [0, 0])));
     expect(far).toBeLessThan(140);
+  });
+});
+
+describe('shouldFanOut', () => {
+  const at = (lon: number, lat: number): Feature<GeoPoint> => ({ type: 'Feature', properties: {}, geometry: { type: 'Point', coordinates: [lon, lat] } });
+
+  it('fans out a group sharing one spot, at any zoom', () => {
+    expect(shouldFanOut([at(-43.2, -22.9), at(-43.2, -22.9)], 9)).toBe(true);
+  });
+
+  it('zooms in on a group that will split', () => {
+    expect(shouldFanOut([at(-43.2, -22.9), at(-43.1, -22.9)], 9)).toBe(false);
+  });
+
+  it('fans out when even the deepest zoom would not split it', () => {
+    expect(shouldFanOut([at(-43.2, -22.9), at(-43.20001, -22.9)], 18)).toBe(true);
   });
 });

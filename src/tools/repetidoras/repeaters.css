@@ -87,28 +87,34 @@
   text-align: center;
 }
 
-/* A trail's name, length and share link, above its list */
-.rp-trail {
+/* A panel's first line: what is shown, then its buttons (Copiar, Limpar) */
+.rp-top {
   display: flex;
-  gap: var(--sp-3);
+  gap: var(--sp-2);
   align-items: center;
-  justify-content: space-between;
   margin-bottom: var(--sp-3);
-  padding-bottom: var(--sp-3);
-  border-bottom: 1px solid var(--m-line-soft);
 }
 
-.rp-trail p {
+.rp-top p {
+  flex: 1;
   min-width: 0;
   margin: 0;
 }
 
-.rp-trail strong {
-  color: var(--m-trail);
+.rp-top .btn {
+  flex: none;
+  min-width: 0;
+  padding-inline: var(--sp-3);
 }
 
-.rp-trail__copy {
-  flex: none;
+/* A trail's name and length, set apart from the list below */
+.rp-trail {
+  padding-bottom: var(--sp-3);
+  border-bottom: 1px solid var(--m-line-soft);
+}
+
+.rp-trail strong {
+  color: var(--m-trail);
 }
 
 .rp-map {
@@ -190,21 +196,11 @@
   font-size: var(--fs-sm);
 }
 
-.rp-results__head {
-  margin-bottom: var(--sp-3);
-}
-
-.rp-results__downloads {
-  display: flex;
-  flex-direction: column;
-  gap: var(--sp-3);
-  margin-bottom: var(--sp-3);
-}
-
 /* The two downloads share one row */
 .rp-results__buttons {
   display: flex;
   gap: var(--sp-2);
+  margin-bottom: var(--sp-3);
 }
 
 .rp-results__buttons .btn {

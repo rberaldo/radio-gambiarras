@@ -510,11 +510,21 @@ Map:
   town seat. Color: green inside the radius, navy outside. Groups are
   diamonds when all their repeaters are digital, circles otherwise, with a
   small diamond on the corner when some are digital.
-- [ ] **M3.9 Release.** Credits (Anatel, OpenFreeMap/OpenMapTiles/OSM,
+- [x] **M3.9 Release.** Credits (Anatel, OpenFreeMap/OpenMapTiles/OSM,
   Mapterhorn/Copernicus, OpenTopoMap if used) on the tool and `/sobre`;
   approximate-position explanation; registry entry to `available`; full
   review (keyboard, phone, Safari, axe). The user signs off. Then test a
   CHIRP import in the real application.
+  Released 2026-11-09 on the user's "ship it", after a three-part review
+  (UI code, libraries and workflows, browser QA in WebKit and Chromium).
+  Fixed then: races in the group fan-out and trail drops, focus return in
+  Safari, a visible "Limpar" (phones have no right click; Android long
+  press no longer clears), overlay entries for repeaters Anatel drops now
+  warn instead of breaking every deploy, CSV formula injection, repeated
+  headings and unchecked callsigns in correction issues, GPX edge cases,
+  link length, a retry for the daily push. RepeaterMap split into
+  mapLayers, mapSpider and markerImages. Still for the user: test a real
+  CHIRP import and the correction workflow on a real issue.
 
 Done early (2026-11-09, user's request), hidden for now: drop a GPX file on
 the map to see the repeaters along the trail (`src/lib/tracks/`,

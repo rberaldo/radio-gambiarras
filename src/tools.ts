@@ -28,7 +28,7 @@ export const tools: readonly Tool[] = [
     title: 'Repetidoras',
     description: 'Mapa de repetidoras de 2 m e 70 cm, com exportação para o CHIRP.',
     icon: 'repetidoras',
-    status: 'soon',
+    status: 'available',
   },
   {
     slug: 'aprs',

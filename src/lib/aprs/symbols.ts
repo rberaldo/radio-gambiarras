@@ -1,5 +1,6 @@
 // APRS symbols: types, where each one sits on hessu's sprite sheets, and
 // search. The data lives in data/aprs/symbols.json (see docs/data-sources.md).
+import { foldAccents } from '../format.ts';
 
 /** "/" is the primary table, "\" the alternate one. */
 export type AprsTable = '/' | '\\';
@@ -43,9 +44,7 @@ export function cellOf(char: string): { column: number; row: number } {
 }
 
 /** Lowercase without accents, so "estacao" finds "Estação". */
-export function fold(text: string): string {
-  return text.normalize('NFD').replace(/\p{M}/gu, '').toLowerCase();
-}
+export const fold = foldAccents;
 
 const words = (text: string) => fold(text).split(/[^\p{L}\p{N}]+/u).filter(Boolean);
 
