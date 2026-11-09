@@ -1,6 +1,6 @@
-// The site name is not final. Change it here and nowhere else.
+// The site name lives here and nowhere else.
 export const site = {
-  name: 'Nome do Site',
+  name: 'Rádio Gambiarras',
   description: 'Ferramentas para o radioamador',
   lang: 'pt-BR',
   repo: 'https://github.com/rberaldo/radio-gambiarras',

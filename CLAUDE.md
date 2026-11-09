@@ -3,7 +3,7 @@
 A static website with small, self-contained tools for Brazilian amateur radio
 operators. The work plan lives in `ROADMAP.md`; read it before starting any task.
 
-The site name is not chosen yet. It must live in exactly one place
+The site is called **Rádio Gambiarras**. The name lives in exactly one place
 (`src/site.ts`) so that renaming is a one-line change.
 
 ## Decisions already made (do not re-open without asking the user)

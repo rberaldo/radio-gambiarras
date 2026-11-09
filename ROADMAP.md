@@ -19,7 +19,8 @@ conventions, then the docs a milestone points to.
 
 ## Open questions for the user
 
-1. **Site name and domain.** Undecided. Use the placeholder in `src/site.ts`.
+1. ~~Site name.~~ Settled 2026-11-09: "Rádio Gambiarras". Domain: none yet
+   (radio-gambiarras.netlify.app).
 2. ~~GitHub repository.~~ Settled: public repo
    <https://github.com/rberaldo/radio-gambiarras>, default branch `main`.
    Is "Rádio Gambiarras" also the site name? Not confirmed.
@@ -49,7 +50,7 @@ relies on.
   (`astro check`), `test`.
   Done when: all five scripts run cleanly on a fresh clone.
 - [x] **M0.2 Site config and tool registry.** Done 2026-11-09; the name is
-  the placeholder "Nome do Site" in `src/site.ts`. `src/site.ts` (name
+  set in `src/site.ts` ("Rádio Gambiarras" since 2026-11-09). `src/site.ts` (name
   placeholder, meta pages) and `src/tools.ts` with three entries:
   `indicativos`, `repetidoras`, `aprs`, all with status `soon` for now.
   Types for the registry, and a unit test that slugs are unique.
@@ -409,4 +410,5 @@ Not planned. Move one into a milestone only when the user asks.
 | 2026-11-08 | Repeater tones and exact positions come from an overlay the user maintains by hand; visitor suggestions need the user's approval; no request to PY2CER. |
 | 2026-11-08 | Daily data refresh is a plain scheduled script that fetches about 3.3 MB and commits only on change. |
 | 2026-11-09 | Repository: public `rberaldo/radio-gambiarras` on GitHub. |
+| 2026-11-09 | Site name: Rádio Gambiarras. Jokes (404, loading messages) left for the user to write later. |
 | 2026-11-09 | Quarantine history seeded from an April 2025 third-party snapshot, marked as uncertain. |
