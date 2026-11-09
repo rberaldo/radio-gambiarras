@@ -35,6 +35,67 @@
   box-shadow: var(--bevel-raised);
 }
 
+/* Search */
+.cs-search {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--sp-2) var(--sp-3);
+  align-items: center;
+  margin-bottom: var(--sp-4);
+}
+
+.cs-search__input {
+  flex: 1 1 14rem;
+  min-width: 0;
+  font-family: var(--font-mono);
+  text-transform: uppercase;
+}
+
+.cs-search__input::placeholder {
+  text-transform: none;
+}
+
+.cs-search__hint {
+  flex-basis: 100%;
+  margin: 0;
+  font-size: var(--fs-sm);
+}
+
+.cs-exact {
+  margin-bottom: var(--sp-4);
+}
+
+.cs-exact__head {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--sp-3);
+  align-items: center;
+}
+
+.cs-exact__call {
+  width: auto;
+  min-width: 7rem;
+  height: 2.25rem;
+  border-color: var(--c-shadow-inner);
+  font-size: var(--fs-lg);
+  cursor: default;
+}
+
+.cs-similar {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(84px, 1fr));
+  gap: var(--sp-1);
+  margin: 0;
+  padding: var(--sp-1);
+  list-style: none;
+  background: var(--c-field);
+  box-shadow: var(--bevel-sunken);
+}
+
+.cs-similar .cs-cell {
+  height: 30px;
+}
+
 /* Filters */
 .cs-filters {
   display: flex;

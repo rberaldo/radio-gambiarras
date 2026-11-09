@@ -1,4 +1,4 @@
-// The callsign tool's interactive part: filters and the grid of a block.
+// The callsign tool's interactive part: search, filters and the grid.
 import { useMemo, useRef, useState } from 'preact/hooks';
 import {
   STATUS_INFO,
@@ -8,7 +8,10 @@ import {
   blockChoices,
   countStatuses,
   letterOffsets,
+  nearMisses,
+  search,
   type CallsignIndex,
+  type Cell,
   type LicenseClass,
   type Uf,
 } from '../../lib/callsigns/index.ts';
@@ -19,12 +22,42 @@ import './callsigns.css';
 
 const fmt = (n: number) => n.toLocaleString('pt-BR');
 
+type UfChoice = Uf | 'todos';
+
 interface Filters {
   licenseClass: LicenseClass;
-  uf: Uf;
+  uf: UfChoice;
   length: 2 | 3;
   prefix?: string;
   onlyFree: boolean;
+}
+
+function SearchBox({ query, setQuery }: { query: string; setQuery: (q: string) => void }) {
+  return (
+    <div class="cs-search">
+      <label for="cs-query" class="cs-filters__label">
+        Buscar
+      </label>
+      <input
+        id="cs-query"
+        class="field cs-search__input"
+        type="search"
+        value={query}
+        placeholder="PY2RB, RBR, PY2?AB, *RB"
+        autocomplete="off"
+        autocapitalize="characters"
+        spellcheck={false}
+        aria-describedby="cs-query-hint"
+        onInput={(e) => setQuery((e.currentTarget as HTMLInputElement).value)}
+      />
+      <button class="btn" type="button" disabled={!query} onClick={() => setQuery('')}>
+        Limpar
+      </button>
+      <p id="cs-query-hint" class="cs-search__hint">
+        Digite um indicativo, só o sufixo, ou use <kbd>?</kbd> para uma letra qualquer e <kbd>*</kbd> para várias.
+      </p>
+    </div>
+  );
 }
 
 function FilterBar({ filters, set, prefixes }: { filters: Filters; set: (f: Partial<Filters>) => void; prefixes: string[] }) {
@@ -51,8 +84,9 @@ function FilterBar({ filters, set, prefixes }: { filters: Filters; set: (f: Part
         <select
           class="field"
           value={filters.uf}
-          onChange={(e) => set({ uf: (e.currentTarget as HTMLSelectElement).value as Uf, prefix: undefined })}
+          onChange={(e) => set({ uf: (e.currentTarget as HTMLSelectElement).value as UfChoice, prefix: undefined })}
         >
+          <option value="todos">Todos os estados</option>
           {UFS.map((uf) => (
             <option key={uf} value={uf}>
               {uf} – {UF_NAMES[uf]}
@@ -113,67 +147,134 @@ function Legend() {
   );
 }
 
+function CellButton({ cell, selected, onSelect }: { cell: Cell; selected: boolean; onSelect: (cs: string) => void }) {
+  return (
+    <button
+      type="button"
+      class={`cs-cell cs-cell--${cell.status}`}
+      aria-pressed={selected}
+      aria-label={`${cell.callsign}: ${STATUS_INFO[cell.status].label}`}
+      onClick={() => onSelect(cell.callsign)}
+    >
+      {cell.callsign}
+      {STATUS_MARK[cell.status] && <span class="cs-cell__mark">{STATUS_MARK[cell.status]}</span>}
+    </button>
+  );
+}
+
+function ExactResult({ cell, index, onPick }: { cell: Cell; index: CallsignIndex; onPick: (cs: string) => void }) {
+  const info = STATUS_INFO[cell.status];
+  const similar = useMemo(() => (info.requestable ? [] : nearMisses(cell.callsign, index)), [cell.callsign, info.requestable, index]);
+  return (
+    <section class="cs-exact panel-raised" aria-live="polite">
+      <p class="cs-exact__head">
+        <span class={`cs-cell cs-cell--${cell.status} cs-exact__call`}>{cell.callsign}</span>
+        <strong>{info.label}</strong>
+      </p>
+      <p>{info.description}</p>
+      {similar.length > 0 && (
+        <>
+          <p>
+            <strong>Parecidos e livres:</strong>
+          </p>
+          <ul class="cs-similar" role="list">
+            {similar.map((c) => (
+              <li key={c.callsign}>
+                <CellButton cell={c} selected={false} onSelect={onPick} />
+              </li>
+            ))}
+          </ul>
+        </>
+      )}
+    </section>
+  );
+}
+
 function Browser({ index }: { index: CallsignIndex }) {
   const [filters, setFilters] = useState<Filters>({ licenseClass: 'C', uf: 'SP', length: 2, onlyFree: false });
+  const [query, setQuery] = useState('');
   const [selected, setSelected] = useState<string>();
   const grid = useRef<VirtualGridHandle>(null);
   const set = (f: Partial<Filters>) => setFilters((old) => ({ ...old, ...f }));
 
-  const blocks = blockChoices(filters.uf, filters.licenseClass, filters.licenseClass === 'AB' ? filters.length : undefined);
-  const block = blocks.find((b) => b.prefix === filters.prefix) ?? blocks[0]!;
+  const uf = filters.uf === 'todos' ? undefined : filters.uf;
+  const blocks = uf ? blockChoices(uf, filters.licenseClass, filters.licenseClass === 'AB' ? filters.length : undefined) : [];
+  const block = blocks.find((b) => b.prefix === filters.prefix) ?? blocks[0];
 
-  const allCells = useMemo(() => blockCells(block, index), [block.id, index]);
-  const counts = useMemo(() => countStatuses(allCells), [allCells]);
-  const cells = useMemo(
-    () => (filters.onlyFree ? allCells.filter((c) => STATUS_INFO[c.status].requestable) : allCells),
-    [allCells, filters.onlyFree],
+  const searching = query.trim() !== '';
+  const result = useMemo(
+    () => (searching ? search(query, { licenseClass: filters.licenseClass, uf }, index) : null),
+    [searching, query, filters.licenseClass, uf, index],
   );
-  const offsets = useMemo(() => letterOffsets(cells), [cells]);
+  const baseCells = useMemo(
+    () => (searching ? (result?.cells ?? []) : block ? blockCells(block, index) : []),
+    [searching, result, block?.id, index],
+  );
+  const counts = useMemo(() => countStatuses(baseCells), [baseCells]);
+  const cells = useMemo(
+    () => (filters.onlyFree ? baseCells.filter((c) => STATUS_INFO[c.status].requestable) : baseCells),
+    [baseCells, filters.onlyFree],
+  );
+  const offsets = useMemo(() => (searching ? new Map<string, number>() : letterOffsets(cells)), [cells, searching]);
+
+  const where = uf ? UF_NAMES[uf] : 'todos os estados';
   const taken = counts['em-uso'] + counts.vencida;
+  const maybe = counts['quarentena-incerta'] + counts.quarentena;
+  const pick = (cs: string) => {
+    setSelected(cs);
+    setQuery(cs);
+  };
+
+  let summary;
+  if (searching && !result) summary = <>Busca inválida: use letras, números, <kbd>?</kbd> e <kbd>*</kbd>.</>;
+  else if (searching)
+    summary = (
+      <>
+        {fmt(baseCells.length)} resultados em {where}: <strong>{fmt(counts.livre)}</strong> livres, {fmt(maybe)} talvez em
+        quarentena, {fmt(taken)} em uso.
+      </>
+    );
+  else if (block)
+    summary = (
+      <>
+        <strong>{block.prefix}</strong> · {where}: <strong>{fmt(counts.livre)}</strong> livres, {fmt(maybe)} talvez em quarentena,{' '}
+        {fmt(taken)} em uso, de {fmt(baseCells.length)}.
+      </>
+    );
+  else summary = <>Escolha um estado para ver a grade, ou faça uma busca.</>;
 
   return (
     <div class="cs-browser">
-      <FilterBar filters={filters} set={set} prefixes={blocks.map((b) => b.prefix)} />
+      <SearchBox query={query} setQuery={setQuery} />
+      <FilterBar filters={filters} set={set} prefixes={searching ? [] : blocks.map((b) => b.prefix)} />
+
+      {result?.exact && <ExactResult cell={result.exact} index={index} onPick={pick} />}
 
       <p class="cs-summary" aria-live="polite">
-        <strong>{block.prefix}</strong> · {UF_NAMES[filters.uf]}: <strong>{fmt(counts.livre)}</strong> livres,{' '}
-        {fmt(counts['quarentena-incerta'] + counts.quarentena)} talvez em quarentena, {fmt(taken)} em uso, de{' '}
-        {fmt(allCells.length)}.
+        {summary}
       </p>
 
-      <nav class="cs-letters" aria-label="Ir para a letra">
-        {[...offsets.keys()].map((letter) => (
-          <button key={letter} type="button" class="cs-letters__btn" onClick={() => grid.current?.scrollToItem(offsets.get(letter)!)}>
-            {letter}
-          </button>
-        ))}
-      </nav>
+      {offsets.size > 0 && (
+        <nav class="cs-letters" aria-label="Ir para a letra">
+          {[...offsets.keys()].map((letter) => (
+            <button key={letter} type="button" class="cs-letters__btn" onClick={() => grid.current?.scrollToItem(offsets.get(letter)!)}>
+              {letter}
+            </button>
+          ))}
+        </nav>
+      )}
 
-      {cells.length === 0 ? (
-        <p class="cs-empty">Nenhum indicativo livre neste bloco.</p>
-      ) : (
+      {cells.length > 0 ? (
         <VirtualGrid
           ref={grid}
           count={cells.length}
           minCellWidth={84}
           rowHeight={34}
-          label={`Indicativos ${block.prefix}`}
-          renderCell={(i) => {
-            const cell = cells[i]!;
-            return (
-              <button
-                type="button"
-                class={`cs-cell cs-cell--${cell.status}`}
-                aria-pressed={selected === cell.callsign}
-                aria-label={`${cell.callsign}: ${STATUS_INFO[cell.status].label}`}
-                onClick={() => setSelected(cell.callsign)}
-              >
-                {cell.callsign}
-                {STATUS_MARK[cell.status] && <span class="cs-cell__mark">{STATUS_MARK[cell.status]}</span>}
-              </button>
-            );
-          }}
+          label={searching ? 'Resultados da busca' : `Indicativos ${block?.prefix ?? ''}`}
+          renderCell={(i) => <CellButton cell={cells[i]!} selected={selected === cells[i]!.callsign} onSelect={setSelected} />}
         />
+      ) : (
+        (searching || block) && <p class="cs-empty">{filters.onlyFree ? 'Nenhum indicativo livre aqui.' : 'Nenhum indicativo encontrado.'}</p>
       )}
 
       <Legend />

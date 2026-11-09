@@ -262,7 +262,12 @@ Interface (M2.8 can start as soon as M2.1 and M2.3 are done):
   Done when: switching to the largest block (an A/B 3-letter block, 16,900
   cells) stays smooth on a phone, and states are distinguishable without
   relying on color alone.
-- [ ] **M2.10 Search.** One search box that works across every block the
+- [x] **M2.10 Search.** Done 2026-11-09. Worst case ("A" in every state,
+  19,656 results) 67 ms at 4× CPU throttling; typical 10–20 ms. Near misses
+  also look beyond a full block (SP's 2-letter PY2 has 4 free of 676): one
+  letter longer (PY2RB → PY2RBA) and the state's other prefix (PR2RB).
+  State filter gained "Todos os estados".
+  One search box that works across every block the
   filters allow (all states when no state is chosen):
   - full or partial callsign (`PY2RB`), or a suffix alone (`RBR`);
   - wildcards: `?` for one letter, `*` for any run (`PY2?AB`, `*RB`);
