@@ -49,7 +49,28 @@ function pinImage(): ImageData {
       const c = rgb[PIN[Math.floor(y / PIN_SCALE)]![Math.floor(x / PIN_SCALE)]!];
       if (!c) continue;
       const i = (y * w + x) * 4;
-      img.data.set([parseInt(c.slice(1, 3), 16), parseInt(c.slice(3, 5), 16), parseInt(c.slice(5, 7), 16), 255], i);
+      img.data.set(rgba(c), i);
+    }
+  }
+  return img;
+}
+
+const rgba = (hex: string) => [parseInt(hex.slice(1, 3), 16), parseInt(hex.slice(3, 5), 16), parseInt(hex.slice(5, 7), 16), 255];
+
+/**
+ * A digital repeater's marker: a diamond with the same fill and outline rules
+ * as the FM circles. `half` is the half-diagonal in device pixels (shown at
+ * pixelRatio 2); the outline is 2 CSS pixels thick, like the circles'.
+ */
+function diamondImage(half: number, fill: string, line: string): ImageData {
+  const size = half * 2 + 1;
+  const img = new ImageData(size, size);
+  const inner = half - Math.round(4 * Math.SQRT2);
+  for (let y = 0; y < size; y++) {
+    for (let x = 0; x < size; x++) {
+      const d = Math.abs(x - half) + Math.abs(y - half);
+      if (d > half) continue;
+      img.data.set(rgba(d > inner ? line : fill), (y * size + x) * 4);
     }
   }
   return img;
@@ -75,6 +96,9 @@ interface Props {
   onSelect: (id: string) => void;
 }
 
+/** Layers with one clickable repeater per feature. */
+const POINT_LAYERS = ['repeater-points', 'repeater-diamonds'];
+
 function addRepeaterLayers(map: maplibregl.Map) {
   map.addSource('repeaters', {
     type: 'geojson',
@@ -89,6 +113,9 @@ function addRepeaterLayers(map: maplibregl.Map) {
   map.addSource('active', { type: 'geojson', data: EMPTY });
   map.addSource('center', { type: 'geojson', data: EMPTY });
   map.addImage('center-pin', pinImage(), { pixelRatio: 2 });
+  map.addImage('diamond-approx', diamondImage(21, COLORS.white, COLORS.navy), { pixelRatio: 2 });
+  map.addImage('diamond-exact', diamondImage(21, COLORS.navy, COLORS.navy), { pixelRatio: 2 });
+  map.addImage('diamond-sel', diamondImage(23, COLORS.green, COLORS.white), { pixelRatio: 2 });
 
   map.addLayer({ id: 'circle-fill', type: 'fill', source: 'circle', paint: { 'fill-color': COLORS.navy, 'fill-opacity': 0.08 } });
   map.addLayer({ id: 'circle-line', type: 'line', source: 'circle', paint: { 'line-color': COLORS.navy, 'line-width': 2, 'line-dasharray': [2, 1] } });
@@ -137,13 +164,25 @@ function addRepeaterLayers(map: maplibregl.Map) {
     id: 'repeater-points',
     type: 'circle',
     source: 'repeaters',
-    filter: ['!', ['has', 'point_count']],
+    filter: ['all', ['!', ['has', 'point_count']], ['!', ['get', 'digital']]],
     paint: {
       'circle-radius': ['case', ['==', ['get', 'sel'], 1], 7, 6],
       // Exact positions are filled, approximate ones (município seat) hollow.
       'circle-color': ['case', ['==', ['get', 'sel'], 1], COLORS.green, ['get', 'exact'], COLORS.navy, COLORS.white],
       'circle-stroke-color': ['case', ['==', ['get', 'sel'], 1], COLORS.white, COLORS.navy],
       'circle-stroke-width': 2,
+    },
+  });
+  // Digital repeaters: diamonds, same colors as the circles.
+  map.addLayer({
+    id: 'repeater-diamonds',
+    type: 'symbol',
+    source: 'repeaters',
+    filter: ['all', ['!', ['has', 'point_count']], ['get', 'digital']],
+    layout: {
+      'icon-image': ['case', ['==', ['get', 'sel'], 1], 'diamond-sel', ['get', 'exact'], 'diamond-exact', 'diamond-approx'],
+      'icon-allow-overlap': true,
+      'icon-ignore-placement': true,
     },
   });
   map.addLayer({
@@ -218,15 +257,17 @@ export function RepeaterMap({ repeaters, inside, center, radiusKm, activeId, foc
         const zoom = await (map.getSource('repeaters') as GeoJSONSource).getClusterExpansionZoom(f.properties.cluster_id as number);
         map.easeTo({ center: (f.geometry as GeoPoint).coordinates as [number, number], zoom: Math.min(zoom, 15) });
       });
-      map.on('click', 'repeater-points', (e: MapLayerMouseEvent) => {
-        const id = e.features?.[0]?.properties.id as string | undefined;
-        if (id) handlers.current.onSelect(id);
-      });
+      for (const layer of POINT_LAYERS) {
+        map.on('click', layer, (e: MapLayerMouseEvent) => {
+          const id = e.features?.[0]?.properties.id as string | undefined;
+          if (id) handlers.current.onSelect(id);
+        });
+      }
       map.on('click', (e: MapMouseEvent) => {
-        if (!map || map.queryRenderedFeatures(e.point, { layers: ['clusters', 'repeater-points'] }).length) return;
+        if (!map || map.queryRenderedFeatures(e.point, { layers: ['clusters', ...POINT_LAYERS] }).length) return;
         handlers.current.onPick({ lat: e.lngLat.lat, lon: e.lngLat.lng });
       });
-      for (const layer of ['clusters', 'repeater-points']) {
+      for (const layer of ['clusters', ...POINT_LAYERS]) {
         map.on('mouseenter', layer, () => (map!.getCanvas().style.cursor = 'pointer'));
         map.on('mouseleave', layer, () => (map!.getCanvas().style.cursor = ''));
       }

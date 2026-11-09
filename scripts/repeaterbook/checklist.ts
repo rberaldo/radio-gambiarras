@@ -22,10 +22,9 @@ export function checklistLine(id: string, e: OverlayEntry, a: AnatelRepeater): s
   const lat = e.lat ?? a.lat;
   const lon = e.lon ?? a.lon;
   const link = lat !== undefined && lon !== undefined ? `${SITE}/repetidoras?lat=${lat.toFixed(4)}&lon=${lon.toFixed(4)}&raio=30&rep=${encodeURIComponent(id)}` : '';
-  const digitalOnly = e.modes && !e.modes.includes('FM');
   const facts = [
     `subtom ${toneText(e)}`,
-    e.modes ? `modos ${e.modes.join(', ')}${digitalOnly ? ' (só digital, oculta no mapa)' : ''}` : '',
+    e.modes ? `modos ${e.modes.join(', ')}` : '',
     positionText(e),
     e.notes ?? '',
   ].filter(Boolean);

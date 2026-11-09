@@ -1,10 +1,10 @@
 // Where to look and how far: a place box (a town with repeaters or
-// coordinates), "minha localização", the radius and the band.
+// coordinates), "minha localização", the radius, the band and the mode.
 import { useState } from 'preact/hooks';
 import { parseCoordinates } from '../../lib/repeaters/coordinates.ts';
 import type { Point } from '../../lib/repeaters/geo.ts';
 import { Segmented, type SegmentedOption } from '../../ui/Segmented.tsx';
-import { RADIUS, type BandChoice } from './urlState.ts';
+import { RADIUS, type BandChoice, type ModeChoice } from './urlState.ts';
 
 const BAND_OPTIONS: readonly SegmentedOption<BandChoice>[] = [
   { value: 'todas', label: 'Todas' },
@@ -12,17 +12,25 @@ const BAND_OPTIONS: readonly SegmentedOption<BandChoice>[] = [
   { value: '70cm', label: '70 cm' },
 ];
 
+const MODE_OPTIONS: readonly SegmentedOption<ModeChoice>[] = [
+  { value: 'todos', label: 'Todos' },
+  { value: 'fm', label: 'FM' },
+  { value: 'digital', label: 'Digital' },
+];
+
 interface Props {
   /** "Município/UF" → its seat, for the place box suggestions. */
   places: ReadonlyMap<string, Point>;
   radiusKm: number;
   band: BandChoice;
+  mode: ModeChoice;
   onGo: (point: Point) => void;
   onRadius: (km: number) => void;
   onBand: (band: BandChoice) => void;
+  onMode: (mode: ModeChoice) => void;
 }
 
-export function ControlBar({ places, radiusKm, band, onGo, onRadius, onBand }: Props) {
+export function ControlBar({ places, radiusKm, band, mode, onGo, onRadius, onBand, onMode }: Props) {
   const [text, setText] = useState('');
   const [problem, setProblem] = useState<string>();
   const [locating, setLocating] = useState(false);
@@ -103,6 +111,7 @@ export function ControlBar({ places, radiusKm, band, onGo, onRadius, onBand }: P
           <output class="tabular">{radiusKm} km</output>
         </label>
         <Segmented label="Faixa" name="rp-band" options={BAND_OPTIONS} value={band} onChange={onBand} />
+        <Segmented label="Modo" name="rp-mode" options={MODE_OPTIONS} value={mode} onChange={onMode} />
       </div>
     </div>
   );

@@ -203,6 +203,23 @@
   text-align: right;
 }
 
+/* Digital modes ("DMR", "FM+DMR"); plain FM has none */
+.rp-badge {
+  display: inline-block;
+  margin-left: var(--sp-2);
+  padding: 0 var(--sp-1);
+  border: 1px solid currentColor;
+  color: var(--c-select);
+  font-family: var(--font-mono);
+  font-size: var(--fs-sm);
+  line-height: 1.3;
+  vertical-align: 0.1em;
+}
+
+.rp-row[aria-pressed='true'] .rp-badge {
+  color: inherit;
+}
+
 .rp-row__meta {
   grid-column: 1 / -1;
   font-size: var(--fs-sm);

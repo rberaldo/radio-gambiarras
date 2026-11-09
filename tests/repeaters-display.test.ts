@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { formatKm, formatMHz, formatShift, toneText } from '../src/lib/repeaters/display.ts';
+import { formatKm, formatMHz, formatShift, isDigital, modeBadge, toneText } from '../src/lib/repeaters/display.ts';
 
 describe('repeater display', () => {
   it('formats frequencies and shifts', () => {
@@ -18,5 +18,14 @@ describe('repeater display', () => {
 
   it('formats distances', () => {
     expect(formatKm(12.345)).toBe('12,3 km');
+  });
+
+  it('marks digital repeaters with a badge, FM first', () => {
+    expect(modeBadge({ modes: [] })).toBeUndefined();
+    expect(modeBadge({ modes: ['FM'] })).toBeUndefined();
+    expect(modeBadge({ modes: ['DMR'] })).toBe('DMR');
+    expect(modeBadge({ modes: ['DMR', 'FM'] })).toBe('FM+DMR');
+    expect(isDigital({ modes: ['FM', 'Fusion'] })).toBe(true);
+    expect(isDigital({ modes: [] })).toBe(false);
   });
 });

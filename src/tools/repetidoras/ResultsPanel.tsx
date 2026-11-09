@@ -1,16 +1,18 @@
 // The repeaters inside the circle, nearest first, with the downloads.
 import { useEffect, useRef } from 'preact/hooks';
 import { correctionUrl, missingRepeater } from '../../lib/repeaters/correction.ts';
-import { BAND_TEXT, formatKm, formatMHz, formatShift, toneText } from '../../lib/repeaters/display.ts';
+import { BAND_TEXT, formatKm, formatMHz, formatShift, modeBadge, toneText } from '../../lib/repeaters/display.ts';
 import { chirpCsv, isFm, spreadsheetCsv } from '../../lib/repeaters/export.ts';
 import type { Nearby, Point } from '../../lib/repeaters/geo.ts';
 import { site } from '../../site.ts';
 import { plural } from '../../lib/format.ts';
 import { EmptyState } from '../../ui/EmptyState.tsx';
+import type { ModeChoice } from './urlState.ts';
 
 interface Props {
   nearby: readonly Nearby[];
   radiusKm: number;
+  mode: ModeChoice;
   /** The circle's center, passed on when someone reports a missing repeater. */
   center: Point;
   /** Used in file names: where the circle is. */
@@ -31,7 +33,7 @@ function download(name: string, content: string) {
   setTimeout(() => URL.revokeObjectURL(url), 1000);
 }
 
-export function ResultsPanel({ nearby, radiusKm, center, label, activeId, focusId, onSelect, onWiden }: Props) {
+export function ResultsPanel({ nearby, radiusKm, mode, center, label, activeId, focusId, onSelect, onWiden }: Props) {
   const list = useRef<HTMLOListElement>(null);
 
   // Coming back from a repeater's details: keep the keyboard on its row.
@@ -44,7 +46,8 @@ export function ResultsPanel({ nearby, radiusKm, center, label, activeId, focusI
   if (nearby.length === 0) {
     return (
       <EmptyState action={onWiden ? { label: 'Aumentar o raio', onClick: onWiden } : undefined}>
-        Nenhuma repetidora a até {radiusKm} km deste ponto. Conhece uma?{' '}
+        {mode === 'digital' ? 'Nenhuma repetidora digital conhecida' : 'Nenhuma repetidora'} a até {radiusKm} km deste ponto. Conhece
+        uma?{' '}
         <a href={correctionUrl(missingRepeater(site.repo, location.href, center))} target="_blank" rel="noopener">
           Avise
         </a>
@@ -69,7 +72,11 @@ export function ResultsPanel({ nearby, radiusKm, center, label, activeId, focusI
           </button>
         </div>
       </div>
-      {fm < nearby.length && <p class="rp-results__note">O arquivo do CHIRP leva só as {fm} repetidoras FM.</p>}
+      {fm === 0 ? (
+        <p class="rp-results__note">O CHIRP só leva repetidoras FM.</p>
+      ) : (
+        fm < nearby.length && <p class="rp-results__note">O arquivo do CHIRP leva só {fm === 1 ? 'a repetidora FM' : `as ${fm} repetidoras FM`}.</p>
+      )}
       <ol ref={list} class="rp-list" role="list">
         {nearby.map(({ repeater: r, distanceKm }) => (
           <li key={r.id}>
@@ -77,6 +84,7 @@ export function ResultsPanel({ nearby, radiusKm, center, label, activeId, focusI
               <span class="rp-row__call">{r.callsign}</span>
               <span class="rp-row__freq">
                 {formatMHz(r.output)} <small>{formatShift(r.shift)}</small>
+                {modeBadge(r) && <span class="rp-badge">{modeBadge(r)}</span>}
               </span>
               <span class="rp-row__dist tabular">{formatKm(distanceKm)}</span>
               <span class="rp-row__meta">

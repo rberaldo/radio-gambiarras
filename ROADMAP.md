@@ -492,6 +492,14 @@ Map:
   frequency matches only; RepeaterBook tones kept where the two disagree
   (10 cases). All `unverified`. The PDF lacks the tone column for CE, MG,
   SC, SE and SP: the user may save those states again and rerun.
+- Pre-release change (2026-11-09, user's decision): digital repeaters are
+  back. A "Modo" control (Todos | FM | Digital, `?modo=`) next to Faixa
+  filters the map and the list; unknown modes count as FM, mixed ones are in
+  both. Digital repeaters are diamonds on the map (same fill rules as the
+  circles) and carry a badge ("DMR", "FM+DMR") in the list and detail. The
+  CHIRP file stays FM-only. Anatel has no mode, so only reported ones show
+  as digital (59 on 2026-11-09). Status bar and intro say the repeaters are
+  licensed, not necessarily on the air or even installed.
 - [ ] **M3.9 Release.** Credits (Anatel, OpenFreeMap/OpenMapTiles/OSM,
   Mapterhorn/Copernicus, OpenTopoMap if used) on the tool and `/sobre`;
   approximate-position explanation; registry entry to `available`; full

@@ -32,3 +32,13 @@ export const LICENSE_TEXT: Record<Repeater['license'], string> = {
 export const formatKm = (km: number) => `${pt(km, 1)} km`;
 
 export const BAND_TEXT: Record<Repeater['band'], string> = { '2m': '2 m', '70cm': '70 cm' };
+
+/** Whether a repeater is known to carry a digital mode (it may carry FM too). */
+export const isDigital = (r: Pick<Repeater, 'modes'>) => r.modes.some((m) => m !== 'FM');
+
+/** Badge for digital repeaters: "DMR", "FM+DMR", "D-STAR+DMR". Nothing for plain FM or unknown modes. */
+export function modeBadge(r: Pick<Repeater, 'modes'>): string | undefined {
+  if (!isDigital(r)) return undefined;
+  const fm = r.modes.includes('FM') ? ['FM'] : [];
+  return [...fm, ...r.modes.filter((m) => m !== 'FM')].join('+');
+}

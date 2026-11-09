@@ -1,6 +1,6 @@
 // Everything known about one repeater, with the accuracy of each piece made clear.
 import { correctionUrl, repeaterCorrection } from '../../lib/repeaters/correction.ts';
-import { BAND_TEXT, LICENSE_TEXT, formatKm, formatMHz, formatShift, toneText } from '../../lib/repeaters/display.ts';
+import { BAND_TEXT, LICENSE_TEXT, formatKm, formatMHz, formatShift, modeBadge, toneText } from '../../lib/repeaters/display.ts';
 import type { Point } from '../../lib/repeaters/geo.ts';
 import type { Repeater } from '../../lib/repeaters/merge.ts';
 import { site } from '../../site.ts';
@@ -27,6 +27,7 @@ export function RepeaterDetail({ repeater: r, distanceKm, picked, onClose }: Pro
           <p class="rp-detail__title">
             <strong>{r.callsign}</strong>
             <span class="rp-detail__freq">{formatMHz(r.output)} MHz</span>
+            {modeBadge(r) && <span class="rp-badge">{modeBadge(r)}</span>}
           </p>
           <CopyButton text={formatMHz(r.output).replace(',', '.')} label={`Copiar a frequência ${formatMHz(r.output)}`} class="tool-panel__copy" />
         </>

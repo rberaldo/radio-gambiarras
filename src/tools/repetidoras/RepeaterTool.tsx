@@ -10,8 +10,10 @@ import { ControlBar } from './ControlBar.tsx';
 import { RepeaterDetail } from './RepeaterDetail.tsx';
 import { RepeaterMap, type Focus } from './RepeaterMap.tsx';
 import { ResultsPanel } from './ResultsPanel.tsx';
-import { SHOW_DIGITAL_ONLY, useRepeaters } from './useRepeaters.ts';
-import { DEFAULT_STATE, RADIUS, readState, writeState } from './urlState.ts';
+import { useRepeaters } from './useRepeaters.ts';
+import { DEFAULT_STATE, RADIUS, readState, writeState, type BandChoice, type ModeChoice } from './urlState.ts';
+import { isDigital } from '../../lib/repeaters/display.ts';
+import { isFm } from '../../lib/repeaters/export.ts';
 import { correctionUrl, missingRepeater } from '../../lib/repeaters/correction.ts';
 import { site } from '../../site.ts';
 import './repeaters.css';
@@ -25,13 +27,19 @@ function placesOf(repeaters: readonly Repeater[]): Map<string, Point> {
   return new Map([...places].sort(([a], [b]) => a.localeCompare(b, 'pt-BR')));
 }
 
+const MODE_TEST: Record<ModeChoice, (r: Repeater) => boolean> = { todos: () => true, fm: isFm, digital: isDigital };
+
+function filterRepeaters(repeaters: readonly Repeater[], band: BandChoice, mode: ModeChoice): Repeater[] {
+  return repeaters.filter((r) => (band === 'todas' || r.band === band) && MODE_TEST[mode](r));
+}
+
 function Tool({ repeaters }: { repeaters: Repeater[] }) {
   const [state, set] = useUrlState(readState, writeState, DEFAULT_STATE);
   const center = state.lat !== undefined && state.lon !== undefined ? { lat: state.lat, lon: state.lon } : undefined;
   // The map moves only when asked (place box, location, opening a link), not on every click.
   const [focus, setFocus] = useState<Focus | undefined>(() => (center ? { center, radiusKm: state.radiusKm } : undefined));
 
-  const shown = useMemo(() => (state.band === 'todas' ? repeaters : repeaters.filter((r) => r.band === state.band)), [repeaters, state.band]);
+  const shown = useMemo(() => filterRepeaters(repeaters, state.band, state.mode), [repeaters, state.band, state.mode]);
   const places = useMemo(() => placesOf(repeaters), [repeaters]);
   const nearby = useMemo(() => (center ? withinRadius(shown, center, state.radiusKm) : []), [shown, center?.lat, center?.lon, state.radiusKm]);
   const inside = useMemo(() => new Set(nearby.map((n) => n.repeater.id)), [nearby]);
@@ -58,9 +66,11 @@ function Tool({ repeaters }: { repeaters: Repeater[] }) {
         places={places}
         radiusKm={state.radiusKm}
         band={state.band}
+        mode={state.mode}
         onGo={go}
         onRadius={(radiusKm) => set({ radiusKm })}
         onBand={(band) => set({ band })}
+        onMode={(mode) => set({ mode })}
       />
       <div class="rp-layout">
         <RepeaterMap
@@ -80,6 +90,7 @@ function Tool({ repeaters }: { repeaters: Repeater[] }) {
             <ResultsPanel
               nearby={nearby}
               radiusKm={state.radiusKm}
+              mode={state.mode}
               center={center}
               label={label}
               activeId={state.selected}
@@ -90,15 +101,22 @@ function Tool({ repeaters }: { repeaters: Repeater[] }) {
           ) : (
             <div class="rp-intro">
               <p>
-                <strong>{plural(shown.length, 'repetidora', 'repetidoras')}</strong> licenciadas na Anatel
+                <strong>{plural(shown.length, state.mode === 'digital' ? 'repetidora digital' : 'repetidora', state.mode === 'digital' ? 'repetidoras digitais' : 'repetidoras')}</strong>{' '}
+                {state.mode === 'digital' ? 'conhecidas' : 'licenciadas na Anatel'}
                 {state.band !== 'todas' && ' nesta faixa'}.
+              </p>
+              <p class="rp-intro__note">
+                São repetidoras com licença na Anatel: nem todas estão no ar, e algumas nem chegaram a ser instaladas.
               </p>
               <p>Clique num lugar do mapa (um pico, uma cidade) ou use a busca acima para ver as repetidoras ao redor.</p>
               <p class="rp-intro__note">
                 Marcadores vazios estão na sede do município, não no local real da repetidora. Números agrupam várias
                 repetidoras: clique para aproximar.
               </p>
-              {!SHOW_DIGITAL_ONLY && <p class="rp-intro__note">Repetidoras só digitais (DMR, D-STAR, Fusion) ainda não aparecem no mapa: chegam em breve.</p>}
+              <p class="rp-intro__note">
+                Losangos são repetidoras digitais (DMR, D-STAR, Fusion). A Anatel não informa o modo, então só aparecem como digitais
+                as que alguém já informou; as demais contam como FM.
+              </p>
               <p class="rp-intro__note">
                 Falta uma repetidora, ou sabe o subtom e o local de alguma? Abra uma no mapa e use “Sugerir correção”, ou{' '}
                 <a href={correctionUrl(missingRepeater(site.repo, location.href))} target="_blank" rel="noopener">

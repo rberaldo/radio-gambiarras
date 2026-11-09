@@ -1,6 +1,7 @@
 // GeoJSON for the map: repeaters as points (with flags clusters can count)
 // and the selection circle.
 import type { Feature, FeatureCollection, Point as GeoPoint, Polygon } from 'geojson';
+import { isDigital } from '../../lib/repeaters/display.ts';
 import type { Point } from '../../lib/repeaters/geo.ts';
 import type { Repeater } from '../../lib/repeaters/merge.ts';
 
@@ -9,6 +10,8 @@ export interface PointProps {
   callsign: string;
   band: string;
   exact: boolean;
+  /** Known to carry a digital mode: drawn as a diamond. */
+  digital: boolean;
   /** 1 when inside the selection circle, so clusters can add them up. */
   sel: 0 | 1;
 }
@@ -20,7 +23,7 @@ export function repeaterPoints(repeaters: readonly Repeater[], selected: Readonl
       .filter((r) => r.position)
       .map((r) => ({
         type: 'Feature',
-        properties: { id: r.id, callsign: r.callsign, band: r.band, exact: r.position!.exact, sel: selected.has(r.id) ? 1 : 0 },
+        properties: { id: r.id, callsign: r.callsign, band: r.band, exact: r.position!.exact, digital: isDigital(r), sel: selected.has(r.id) ? 1 : 0 },
         geometry: { type: 'Point', coordinates: [r.position!.lon, r.position!.lat] },
       })),
   };
