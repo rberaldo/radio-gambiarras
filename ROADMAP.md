@@ -405,7 +405,13 @@ Data:
 
 Library (pure, tested; can run in parallel with the data tasks):
 
-- [ ] **M3.5 Geometry, CSV and CHIRP.** Great-circle distance and "within
+- [x] **M3.5 Geometry, CSV and CHIRP.** Done 2026-11-09: `src/lib/repeaters/geo.ts`
+  and `export.ts` (spreadsheet: `;`, decimal commas, BOM for Brazilian Excel).
+  Real check: 72 repeaters within 50 km of Pico da Tijuca. Note for M3.7: all
+  repeaters of a município share its seat (e.g. every Rio repeater on one
+  point), so the map must group stacked markers and flag approximate
+  positions clearly.
+  Great-circle distance and "within
   radius, sorted by distance"; the spreadsheet writer; the CHIRP writer
   exactly per `docs/chirp-csv.md` (filler values for unknown tones, dot
   decimals). Tests for simplex/+/−, tone, no tone, unknown tone.
