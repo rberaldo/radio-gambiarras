@@ -1,5 +1,6 @@
 # Daily data refresh. Downloads only the amateur CSV from Anatel's archive
-# (about 3.3 MB), reduces it, and commits data/ only when it changed. A commit
+# (about 3.3 MB), reduces it to callsigns and repeaters, and commits data/
+# only when it changed. A commit
 # triggers a Netlify deploy; a quiet day costs a few seconds and nothing else.
 # The scripts use only Node built-ins, so there is no npm install.
 name: Atualizar dados
@@ -33,6 +34,9 @@ jobs:
 
       - name: Reduce callsigns
         run: node scripts/anatel/callsigns.ts
+
+      - name: Reduce repeaters
+        run: node scripts/anatel/repeaters.ts
 
       - name: Check freshness
         run: node scripts/anatel/freshness.ts

@@ -390,13 +390,18 @@ Data:
   normalized name + UF (case, accents, apostrophes, the odd `Pr`); a small
   alias table for leftovers. Every repeater gets coordinates or appears in a
   short, explained unmatched list.
-- [ ] **M3.3 Overlay and merge.** `data/repeaters/overlay.json`, keyed by
+- [x] **M3.3 Overlay and merge.** Done 2026-11-09: `src/lib/repeaters/overlay.ts`
+  (format, validation with Portuguese messages), `merge.ts`, empty
+  `data/repeaters/overlay.json`, `docs/overlay.md`. The map page should
+  validate at build time so a bad overlay fails the deploy (M3.7).
+  `data/repeaters/overlay.json`, keyed by
   callsign + output frequency: optional tone (CTCSS), DCS, exact lat/lon,
   mode (FM, DMR, D-STAR, Fusion), on-air status, notes; required source and
   date for every entry. Can also add repeaters Anatel lacks. Schema check in
   tests. A merge in `src/lib/repeaters/` produces the final records, each
   marked "posição exata" or "posição aproximada".
-- [ ] **M3.4 Wire into the daily job.** Extend `.github/workflows/dados.yml`.
+- [x] **M3.4 Wire into the daily job.** Done 2026-11-09: a "Reduce repeaters"
+  step in `.github/workflows/dados.yml`, from the same download.
 
 Library (pure, tested; can run in parallel with the data tasks):
 
