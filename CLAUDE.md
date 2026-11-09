@@ -164,4 +164,6 @@ one component per file.
   change the look, `node scripts/visual-snapshots.ts capture <url> <dir>`
   before and after, then `compare <dir-a> <dir-b>`. Put screenshots in a scratch
   directory, not the repo.
+- After changing `.github/workflows/`, run `actionlint` (Homebrew) before
+  pushing: an invalid workflow only fails on GitHub, silently.
 - Commit only when the user asks.
