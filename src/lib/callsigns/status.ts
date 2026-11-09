@@ -75,6 +75,8 @@ export interface CallsignIndex {
   /** Callsign to the date we saw it disappear. */
   released: ReadonlyMap<string, string>;
   seeded: ReadonlySet<string>;
+  /** Last day the seeded callsigns can still be in quarantine. */
+  seededUntil?: string;
 }
 
 export function buildIndex(taken: TakenFile, released: ReleasedFile): CallsignIndex {
@@ -83,7 +85,33 @@ export function buildIndex(taken: TakenFile, released: ReleasedFile): CallsignIn
     expired: expandGroups(taken.expired),
     released: new Map(Object.entries(released.released)),
     seeded: new Set(released.seeded?.callsigns.split(' ').filter(Boolean) ?? []),
+    seededUntil: released.seeded?.until,
   };
+}
+
+/** How long a cancelled callsign stays reserved (Ato 3448, item 12.1.1). */
+export const QUARANTINE_YEARS = 1;
+
+export interface FreeFrom {
+  /** ISO date. */
+  date: string;
+  /** True when it is the latest possible date, not the exact one. */
+  atLatest: boolean;
+}
+
+/** When a callsign in quarantine should become free, if it is in quarantine. */
+export function freeFrom(callsign: string, index: CallsignIndex): FreeFrom | undefined {
+  const released = index.released.get(callsign);
+  if (released) return { date: `${Number(released.slice(0, 4)) + QUARANTINE_YEARS}${released.slice(4)}`, atLatest: false };
+  if (index.seeded.has(callsign) && index.seededUntil) return { date: index.seededUntil, atLatest: true };
+  return undefined;
+}
+
+/** "a partir de 01/11/2027" or "até 23/10/2027, no máximo", in Portuguese. */
+export function describeFreeFrom(f: FreeFrom): string {
+  const [y, m, d] = f.date.split('-');
+  const date = `${d}/${m}/${y}`;
+  return f.atLatest ? `Fica livre até ${date}, no máximo (pode já estar livre).` : `Deve ficar livre a partir de ${date}.`;
 }
 
 /**

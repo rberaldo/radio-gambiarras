@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { STATUS_INFO, buildIndex, statusOf, type Status } from '../src/lib/callsigns';
+import { STATUS_INFO, buildIndex, describeFreeFrom, freeFrom, statusOf, type Status } from '../src/lib/callsigns';
 
 const index = buildIndex(
   {
@@ -49,5 +49,23 @@ describe('statusOf', () => {
       expect(info.label).not.toBe('');
       expect(info.description).not.toBe('');
     }
+  });
+});
+
+describe('freeFrom', () => {
+  it('gives the exact date for callsigns we saw disappear', () => {
+    const f = freeFrom('PY2AC', index)!;
+    expect(f).toEqual({ date: '2027-11-01', atLatest: false });
+    expect(describeFreeFrom(f)).toBe('Deve ficar livre a partir de 01/11/2027.');
+  });
+
+  it('gives the latest possible date for seeded callsigns', () => {
+    const f = freeFrom('PY2AD', index)!;
+    expect(f).toEqual({ date: '2027-10-23', atLatest: true });
+    expect(describeFreeFrom(f)).toMatch(/até 23\/10\/2027, no máximo/);
+  });
+
+  it('is undefined for callsigns not in quarantine', () => {
+    expect(freeFrom('PY2AE', index)).toBeUndefined();
   });
 });

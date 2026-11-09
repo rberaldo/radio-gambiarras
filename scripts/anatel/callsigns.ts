@@ -7,7 +7,7 @@
 // and released.json (callsigns that disappeared) when that history changed.
 import { readFile, writeFile, mkdir } from 'node:fs/promises';
 import { join } from 'node:path';
-import { parse } from '../../src/lib/callsigns/index.ts';
+import { QUARANTINE_YEARS, parse } from '../../src/lib/callsigns/index.ts';
 import {
   FORMAT_VERSION,
   expandTaken,
@@ -45,7 +45,7 @@ export const EXPECTED_HEADER = [
 /** Fail rather than publish when the row count drops more than this. */
 export const MAX_ROW_DROP = 0.2;
 
-export { FORMAT_VERSION, expandTaken, type MetaFile, type ReleasedFile, type SeededGroup, type TakenFile };
+export { FORMAT_VERSION, QUARANTINE_YEARS, expandTaken, type MetaFile, type ReleasedFile, type SeededGroup, type TakenFile };
 
 export interface Reduction {
   taken: TakenFile;
@@ -184,8 +184,6 @@ export function updateSeeded(group: SeededGroup, now: Set<string>, today: string
   return { ...group, callsigns: callsigns.join(' ') };
 }
 
-/** How long a released callsign stays in the history. */
-export const QUARANTINE_YEARS = 1;
 
 const addYears = (isoDate: string, years: number) => `${Number(isoDate.slice(0, 4)) + years}${isoDate.slice(4)}`;
 

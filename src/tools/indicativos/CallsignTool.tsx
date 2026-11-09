@@ -9,6 +9,8 @@ import {
   countStatuses,
   nearMisses,
   search,
+  describeFreeFrom,
+  freeFrom,
   type CallsignIndex,
   type Cell,
   type LicenseClass,
@@ -30,10 +32,10 @@ type Show = 'todos' | 'livres' | 'talvez';
 const SHOW_STATUSES: Record<Show, readonly Status[] | undefined> = {
   todos: undefined,
   livres: ['livre'],
-  talvez: ['livre', 'quarentena-incerta'],
+  talvez: ['livre', 'quarentena-incerta', 'quarentena'],
 };
 
-const SHOW_LABELS: Record<Show, string> = { todos: 'Todos', livres: 'Livres', talvez: 'Livres e talvez livres' };
+const SHOW_LABELS: Record<Show, string> = { todos: 'Todos', livres: 'Livres', talvez: 'Livres ou em quarentena' };
 
 interface Filters {
   licenseClass: LicenseClass;
@@ -163,13 +165,27 @@ function Legend() {
   );
 }
 
-function CellButton({ cell, selected, onSelect }: { cell: Cell; selected: boolean; onSelect: (cs: string) => void }) {
+function CellButton({
+  cell,
+  index,
+  selected,
+  onSelect,
+}: {
+  cell: Cell;
+  index: CallsignIndex;
+  selected: boolean;
+  onSelect: (cs: string) => void;
+}) {
+  const label = STATUS_INFO[cell.status].label;
+  const free = cell.status === 'quarentena' || cell.status === 'quarentena-incerta' ? freeFrom(cell.callsign, index) : undefined;
+  const hint = free ? `${label}. ${describeFreeFrom(free)}` : label;
   return (
     <button
       type="button"
       class={`cs-cell cs-cell--${cell.status}`}
       aria-pressed={selected}
-      aria-label={`${cell.callsign}: ${STATUS_INFO[cell.status].label}`}
+      aria-label={`${cell.callsign}: ${hint}`}
+      title={hint}
       onClick={() => onSelect(cell.callsign)}
     >
       {cell.callsign}
@@ -180,6 +196,7 @@ function CellButton({ cell, selected, onSelect }: { cell: Cell; selected: boolea
 
 function ExactResult({ cell, index, onPick }: { cell: Cell; index: CallsignIndex; onPick: (cs: string) => void }) {
   const info = STATUS_INFO[cell.status];
+  const free = freeFrom(cell.callsign, index);
   const similar = useMemo(() => (info.requestable ? [] : nearMisses(cell.callsign, index)), [cell.callsign, info.requestable, index]);
   return (
     <section class="cs-exact panel-raised" aria-live="polite">
@@ -188,6 +205,11 @@ function ExactResult({ cell, index, onPick }: { cell: Cell; index: CallsignIndex
         <strong>{info.label}</strong>
       </p>
       <p>{info.description}</p>
+      {free && (
+        <p>
+          <strong>{describeFreeFrom(free)}</strong>
+        </p>
+      )}
       {similar.length > 0 && (
         <>
           <p>
@@ -196,7 +218,7 @@ function ExactResult({ cell, index, onPick }: { cell: Cell; index: CallsignIndex
           <ul class="cs-similar" role="list">
             {similar.map((c) => (
               <li key={c.callsign}>
-                <CellButton cell={c} selected={false} onSelect={onPick} />
+                <CellButton cell={c} index={index} selected={false} onSelect={onPick} />
               </li>
             ))}
           </ul>
@@ -277,7 +299,7 @@ function Browser({ index }: { index: CallsignIndex }) {
           minCellWidth={84}
           rowHeight={34}
           label={searching ? 'Resultados da busca' : `Indicativos ${block?.prefix ?? ''}`}
-          renderCell={(i) => <CellButton cell={cells[i]!} selected={selected === cells[i]!.callsign} onSelect={setSelected} />}
+          renderCell={(i) => <CellButton cell={cells[i]!} index={index} selected={selected === cells[i]!.callsign} onSelect={setSelected} />}
         />
       ) : (
         (searching || block) && <p class="cs-empty">{baseCells.length > 0 ? 'Nenhum indicativo livre aqui.' : 'Nenhum indicativo encontrado.'}</p>
