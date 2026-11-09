@@ -15,7 +15,7 @@ Location,Name,Frequency,Duplex,Offset,Tone,rToneFreq,cToneFreq,DtcsCode,DtcsPola
 | Column | Meaning and allowed values |
 |---|---|
 | Location | Integer channel number. Required. |
-| Name | Free text. The radio truncates it; keep to 6–7 uppercase ASCII characters (a callsign fits). |
+| Name | Free text. The radio truncates it. We write the city tag and the callsign, `RIO PY1XXX` (`src/lib/repeaters/cityCode.ts`, user's choice, 2026-11-09): up to 10 characters, so radios with 6–8 character names cut the end of the callsign. |
 | Frequency | Receive frequency in MHz, dot decimal, up to 6 decimals (`146.610000`). |
 | Duplex | Empty (simplex), `+`, `-`, `split` (Offset is then the absolute TX frequency) or `off`. |
 | Offset | Shift magnitude in MHz (`0.600000`, `5.000000`). The sign is in Duplex. |

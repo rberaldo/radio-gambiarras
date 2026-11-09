@@ -1,5 +1,6 @@
 // Downloads: a spreadsheet for people and a CSV CHIRP can import into a radio.
 // The CHIRP format follows docs/chirp-csv.md exactly.
+import { cityCode } from './cityCode.ts';
 import type { Nearby } from './geo.ts';
 import type { Repeater } from './merge.ts';
 
@@ -30,11 +31,12 @@ function toneLabel(r: Repeater): string {
 export function spreadsheetCsv(rows: readonly Nearby[]): string {
   const d = ';';
   const header = [
-    'Indicativo', 'Saída (MHz)', 'Entrada (MHz)', 'Deslocamento (MHz)', 'Subtom (Hz)', 'DCS', 'Modos', 'Município', 'UF',
+    'Sigla', 'Indicativo', 'Saída (MHz)', 'Entrada (MHz)', 'Deslocamento (MHz)', 'Subtom (Hz)', 'DCS', 'Modos', 'Município', 'UF',
     'Latitude', 'Longitude', 'Posição', 'Distância (km)', 'Licença', 'Validade', 'No ar', 'Observações', 'Fonte da correção',
   ];
   const lines = rows.map(({ repeater: r, distanceKm }) =>
     [
+      cityCode(r.municipio, r.uf),
       r.callsign,
       ptNumber(r.output, 3),
       ptNumber(r.input, 3),
@@ -66,6 +68,9 @@ export const CHIRP_HEADER =
 /** Whether a repeater can be programmed as an analog FM channel. Unknown modes count as FM (most are). */
 export const isFm = (r: Repeater) => r.modes.length === 0 || r.modes.includes('FM');
 
+/** Channel name: the city tag, then the callsign ("RIO PY1XXX"). */
+export const chirpName = (r: Repeater) => [cityCode(r.municipio, r.uf), r.callsign].filter(Boolean).join(' ');
+
 /**
  * CHIRP generic CSV for the FM repeaters among `rows`, numbered from
  * `firstChannel`. Every row has all 21 columns, dot decimals, and CHIRP's
@@ -94,7 +99,7 @@ export function chirpCsv(rows: readonly Nearby[], firstChannel = 1): string {
         .join('; ');
       return [
         String(firstChannel + i),
-        r.callsign,
+        chirpName(r),
         r.output.toFixed(6),
         duplex,
         Math.abs(r.shift).toFixed(6),

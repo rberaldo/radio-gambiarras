@@ -466,6 +466,9 @@ Map:
   `validateOverlay`, commit and push, comment and close; on errors, comment
   them and remove the label. Labels: `correcao`, `aprovada`. Document the flow
   in `docs/overlay.md`.
+- Pre-release change (2026-11-09, user's request): downloads put a city tag
+  before the callsign (`RIO PY1XXX`, `POA PY3XXX`; `src/lib/repeaters/cityCode.ts`);
+  the CSV has it in a "Sigla" column. CHIRP names grow to ~10 characters.
 - [ ] **M3.9 Release.** Credits (Anatel, OpenFreeMap/OpenMapTiles/OSM,
   Mapterhorn/Copernicus, OpenTopoMap if used) on the tool and `/sobre`;
   approximate-position explanation; registry entry to `available`; full

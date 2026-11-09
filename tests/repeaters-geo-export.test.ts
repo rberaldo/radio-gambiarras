@@ -37,15 +37,15 @@ describe('withinRadius', () => {
 describe('spreadsheetCsv', () => {
   it('writes a Brazilian-Excel-friendly table', () => {
     const csv = spreadsheetCsv([{ repeater: base({ tone: 88.5, notes: 'Pico; alto', correction: { source: 'PU1JAZ', date: '2026-11-09' } }), distanceKm: 12.345 }]);
-    expect(csv.startsWith('﻿Indicativo;Saída (MHz);')).toBe(true);
+    expect(csv.startsWith('﻿Sigla;Indicativo;Saída (MHz);')).toBe(true);
     const row = csv.split('\r\n')[1]!;
-    expect(row).toContain('PY2KJP;146,610;146,010;-0,600;88,5;;;São Paulo;SP;-23,55000;-46,63000;aproximada (sede do município);12,3;ativa');
+    expect(row).toContain('SP;PY2KJP;146,610;146,010;-0,600;88,5;;;São Paulo;SP;-23,55000;-46,63000;aproximada (sede do município);12,3;ativa');
     expect(row).toContain('"Pico; alto"');
     expect(row).toContain('PU1JAZ (2026-11-09)');
   });
 
   it('says when the tone is unknown or not needed', () => {
-    const row = (r: Repeater) => spreadsheetCsv([{ repeater: r, distanceKm: 1 }]).split('\r\n')[1]!.split(';')[4];
+    const row = (r: Repeater) => spreadsheetCsv([{ repeater: r, distanceKm: 1 }]).split('\r\n')[1]!.split(';')[5];
     expect(row(base({}))).toBe('desconhecido');
     expect(row(base({ tone: 'none' }))).toBe('nenhum');
   });
@@ -61,12 +61,12 @@ describe('chirpCsv', () => {
   });
 
   it('writes minus shift with a tone', () => {
-    expect(lines([base({ tone: 88.5 })])[1]).toBe('1,PY2KJP,146.610000,-,0.600000,Tone,88.5,88.5,023,NN,023,Tone->Tone,FM,5.00,,50W,São Paulo/SP; posição aproximada,,,,');
+    expect(lines([base({ tone: 88.5 })])[1]).toBe('1,SP PY2KJP,146.610000,-,0.600000,Tone,88.5,88.5,023,NN,023,Tone->Tone,FM,5.00,,50W,São Paulo/SP; posição aproximada,,,,');
   });
 
   it('writes plus shift, simplex and DCS', () => {
-    expect(lines([base({ output: 147.18, input: 147.78, shift: 0.6 })])[1]).toMatch(/^1,PY2KJP,147\.180000,\+,0\.600000,,/);
-    expect(lines([base({ output: 145.9, input: 145.9, shift: 0 })])[1]).toMatch(/^1,PY2KJP,145\.900000,,0\.000000,,/);
+    expect(lines([base({ output: 147.18, input: 147.78, shift: 0.6 })])[1]).toMatch(/^1,SP PY2KJP,147\.180000,\+,0\.600000,,/);
+    expect(lines([base({ output: 145.9, input: 145.9, shift: 0 })])[1]).toMatch(/^1,SP PY2KJP,145\.900000,,0\.000000,,/);
     expect(lines([base({ dcs: '754' })])[1]).toMatch(/,DTCS,88\.5,88\.5,754,NN,754,/);
   });
 
@@ -79,7 +79,7 @@ describe('chirpCsv', () => {
 
   it('numbers channels from the chosen start and skips digital-only repeaters', () => {
     const out = lines([base({}), base({ id: 'D', callsign: 'PY2DMR', modes: ['DMR'] }), base({ id: 'E', callsign: 'PY2E', modes: ['FM', 'DMR'] })], 100);
-    expect(out.slice(1).map((l) => l.split(',').slice(0, 2).join(','))).toEqual(['100,PY2KJP', '101,PY2E']);
+    expect(out.slice(1).map((l) => l.split(',').slice(0, 2).join(','))).toEqual(['100,SP PY2KJP', '101,SP PY2E']);
     expect(isFm(base({ modes: ['D-STAR'] }))).toBe(false);
   });
 
