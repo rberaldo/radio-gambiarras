@@ -382,7 +382,10 @@ Data:
   removed repeaters with dates in `data/repeaters/changes.json`. Reject log
   to the job output. Commit only on change. Tests for each kind of dirty
   value listed in `docs/data-sources.md`.
-- [ ] **M3.2 Município coordinates.** Vendor the MIT-licensed
+- [x] **M3.2 Município coordinates.** Done 2026-11-09: all 1,213 repeaters
+  located (one alias: Anatel's "São Caitano"/PE is "São Caetano" in the table).
+  Table vendored in `data/geo/` (pipeline only, not sent to visitors).
+  Vendor the MIT-licensed
   `kelvins/municipios-brasileiros` table (keep its license) and join on
   normalized name + UF (case, accents, apostrophes, the odd `Pr`); a small
   alias table for leftovers. Every repeater gets coordinates or appears in a

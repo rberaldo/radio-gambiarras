@@ -21,6 +21,7 @@ import { brDateToIso } from '../lib/csv.ts';
 import { olderThanYears, readJson, toJson } from '../lib/json.ts';
 import { DEFAULT_OUT as DEFAULT_CSV } from './fetch.ts';
 import { parseFrequencyField } from './frequencies.ts';
+import { loadMunicipioLookup, type MunicipioLookup } from './municipios.ts';
 import { readStations } from './stations.ts';
 
 export const DEFAULT_DATA_DIR = 'data/repeaters';
@@ -44,6 +45,8 @@ export interface RepeatersMeta {
     otherBands: number;
     /** Values that could not be used, logged by the job. */
     rejected: number;
+    /** Repeaters whose município was not found in the coordinates table. */
+    unlocated: number;
   };
 }
 
@@ -59,6 +62,8 @@ export interface Reduction {
   repeaters: AnatelRepeater[];
   counts: RepeatersMeta['counts'];
   rejected: string[];
+  /** "UF / município" names not found in the coordinates table. */
+  unlocated: string[];
 }
 
 const STATUS_RANK: Record<LicenseStatus, number> = { ativa: 0, 'sem-data': 1, vencida: 2 };
@@ -72,7 +77,7 @@ function licenseStatus(value: string): LicenseStatus {
 
 const round3 = (n: number) => Math.round(n * 1000) / 1000;
 
-export function reduceRepeaters(csvText: string): Reduction {
+export function reduceRepeaters(csvText: string, findMunicipio: MunicipioLookup): Reduction {
   const { rows, col } = readStations(csvText);
   const iType = col('Tipo de Estação');
   const iCall = col('Indicativo');
@@ -124,6 +129,8 @@ export function reduceRepeaters(csvText: string): Reduction {
       };
       const validUntil = brDateToIso(row[iValid]!);
       if (validUntil) repeater.validUntil = validUntil;
+      const place = findMunicipio(repeater.municipio, repeater.uf);
+      if (place) Object.assign(repeater, { ibge: place.ibge, lat: place.lat, lon: place.lon });
 
       // The same repeater can appear on several license rows: keep the best status.
       const known = byId.get(repeater.id);
@@ -140,11 +147,21 @@ export function reduceRepeaters(csvText: string): Reduction {
   );
   const byBand: Record<Band, number> = { '2m': 0, '70cm': 0 };
   for (const r of repeaters) byBand[r.band]++;
+  const unlocatedRepeaters = repeaters.filter((r) => r.lat === undefined);
+  const unlocated = [...new Set(unlocatedRepeaters.map((r) => `${r.uf} / ${r.municipio}`))].sort();
 
   return {
     repeaters,
-    counts: { rows: repeaterRows, repeaters: repeaters.length, byBand, otherBands, rejected: rejected.length },
+    counts: {
+      rows: repeaterRows,
+      repeaters: repeaters.length,
+      byBand,
+      otherBands,
+      rejected: rejected.length,
+      unlocated: unlocatedRepeaters.length,
+    },
     rejected,
+    unlocated,
   };
 }
 
@@ -177,8 +194,13 @@ export interface UpdateResult {
   reduction: Reduction;
 }
 
-export async function updateRepeaters(csvText: string, dataDir: string, today: string): Promise<UpdateResult> {
-  const reduction = reduceRepeaters(csvText);
+export async function updateRepeaters(
+  csvText: string,
+  dataDir: string,
+  today: string,
+  findMunicipio: MunicipioLookup,
+): Promise<UpdateResult> {
+  const reduction = reduceRepeaters(csvText, findMunicipio);
   const metaPath = join(dataDir, 'meta.json');
   const dataPath = join(dataDir, 'anatel.json');
   const changesPath = join(dataDir, 'changes.json');
@@ -227,12 +249,16 @@ if (import.meta.main) {
   const csvPath = process.argv[2] ?? DEFAULT_CSV;
   const dataDir = process.argv[3] ?? DEFAULT_DATA_DIR;
   const today = new Date().toISOString().slice(0, 10);
-  const { changed, reduction } = await updateRepeaters(await readFile(csvPath, 'utf8'), dataDir, today);
+  const findMunicipio = await loadMunicipioLookup();
+  const { changed, reduction } = await updateRepeaters(await readFile(csvPath, 'utf8'), dataDir, today, findMunicipio);
   const c = reduction.counts;
   console.log(
     `repeater rows ${c.rows}; repeaters ${c.repeaters} (2 m ${c.byBand['2m']}, 70 cm ${c.byBand['70cm']}); ` +
-      `other bands ${c.otherBands}; rejected ${c.rejected}`,
+      `other bands ${c.otherBands}; rejected ${c.rejected}; unlocated ${c.unlocated}`,
   );
+  if (reduction.unlocated.length) {
+    console.log(`municípios not found (add to ALIASES in scripts/anatel/municipios.ts):\n  ${reduction.unlocated.join('\n  ')}`);
+  }
   if (reduction.rejected.length) console.log(`rejected:\n  ${reduction.rejected.join('\n  ')}`);
   console.log(changed ? `data changed; wrote ${dataDir}` : 'data unchanged; nothing written');
 }

@@ -3,7 +3,16 @@ import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { afterEach, beforeEach, describe, expect, it } from 'vitest';
 import { reduceRepeaters, updateChanges, updateRepeaters } from '../scripts/anatel/repeaters.ts';
+import { municipioLookup, normalizeName } from '../scripts/anatel/municipios.ts';
 import { EXPECTED_HEADER } from '../scripts/anatel/stations.ts';
+
+const find = municipioLookup([
+  { ibge: 3550308, nome: 'São Paulo', uf: 'SP', lat: -23.5329, lon: -46.6395 },
+  { ibge: 3509502, nome: 'Campinas', uf: 'SP', lat: -22.9053, lon: -47.0659 },
+  { ibge: 4106902, nome: 'Curitiba', uf: 'PR', lat: -25.4195, lon: -49.2646 },
+  { ibge: 2613107, nome: 'São Caetano', uf: 'PE', lat: -8.3376, lon: -36.2869 },
+  { ibge: 1500107, nome: "Pau D'Arco", uf: 'PA', lat: -7.8, lon: -50.0 },
+]);
 
 // Synthetic rows; personal fields hold a marker so the test can check none leak.
 const SECRET = 'SECRETO';
@@ -28,7 +37,7 @@ describe('reduceRepeaters', () => {
     row('PY1FFF', '146,700 / 146,100 MHz', { type: 'Fixa', uf: 'RJ' }), // not a repeater
     row('X', '146,700 / 146,100 MHz'),
   );
-  const r = reduceRepeaters(sample);
+  const r = reduceRepeaters(sample, find);
   const ids = r.repeaters.map((x) => x.id);
 
   it('keeps 2 m and 70 cm pairs, one record per callsign and output', () => {
@@ -39,7 +48,7 @@ describe('reduceRepeaters', () => {
     const kjp = r.repeaters.find((x) => x.id === 'PY2KJP@146.610')!;
     expect(kjp).toEqual({
       id: 'PY2KJP@146.610', callsign: 'PY2KJP', band: '2m', output: 146.61, input: 146.01,
-      municipio: 'São Paulo', uf: 'SP', status: 'ativa', validUntil: '2031-06-05',
+      municipio: 'São Paulo', uf: 'SP', ibge: 3550308, lat: -23.5329, lon: -46.6395, status: 'ativa', validUntil: '2031-06-05',
     });
     const uhf = r.repeaters.find((x) => x.id === 'PY2AAA@439.650')!;
     expect(uhf).toMatchObject({ band: '70cm', output: 439.65, input: 434.65 });
@@ -50,7 +59,7 @@ describe('reduceRepeaters', () => {
   });
 
   it('counts other bands and logs junk', () => {
-    expect(r.counts).toEqual({ rows: 8, repeaters: 4, byBand: { '2m': 3, '70cm': 1 }, otherBands: 1, rejected: 4 });
+    expect(r.counts).toEqual({ rows: 8, repeaters: 4, byBand: { '2m': 3, '70cm': 1 }, otherBands: 1, rejected: 4, unlocated: 0 });
     expect(r.rejected.join('\n')).toMatch(/PY3BBB: entrada 14477 MHz fora da faixa/);
     expect(r.rejected.join('\n')).toMatch(/PY3CCC: frequência sem sentido/);
     expect(r.rejected.join('\n')).toMatch(/PY4DDD: sem frequência/);
@@ -98,15 +107,38 @@ describe('updateRepeaters', () => {
   const many = (n: number) => Array.from({ length: n }, (_, i) => row(`PY2A${String.fromCharCode(65 + (i % 26))}${String.fromCharCode(65 + Math.floor(i / 26))}`, '146,610 / 146,010 MHz'));
 
   it('writes once, then only when something changed', async () => {
-    expect((await updateRepeaters(csv(...many(10)), dir, '2026-11-09')).changed).toBe(true);
-    expect((await updateRepeaters(csv(...many(10)), dir, '2026-11-10')).changed).toBe(false);
-    expect((await updateRepeaters(csv(...many(11)), dir, '2026-11-11')).changed).toBe(true);
+    expect((await updateRepeaters(csv(...many(10)), dir, '2026-11-09', find)).changed).toBe(true);
+    expect((await updateRepeaters(csv(...many(10)), dir, '2026-11-10', find)).changed).toBe(false);
+    expect((await updateRepeaters(csv(...many(11)), dir, '2026-11-11', find)).changed).toBe(true);
     const changes = JSON.parse(await readFile(join(dir, 'changes.json'), 'utf8'));
     expect(Object.values(changes.added)).toEqual(['2026-11-11']);
   });
 
   it('refuses to publish when repeater rows collapse', async () => {
-    await updateRepeaters(csv(...many(100)), dir, '2026-11-09');
-    await expect(updateRepeaters(csv(...many(50)), dir, '2026-11-10')).rejects.toThrow(/refusing to publish/);
+    await updateRepeaters(csv(...many(100)), dir, '2026-11-09', find);
+    await expect(updateRepeaters(csv(...many(50)), dir, '2026-11-10', find)).rejects.toThrow(/refusing to publish/);
+  });
+});
+
+describe('município lookup', () => {
+  it('ignores accents, case, apostrophes and hyphens', () => {
+    expect(normalizeName("Pau d'Arco")).toBe('pau darco');
+    expect(normalizeName('SÃO JOÃO DEL-REI')).toBe('sao joao del rei');
+    expect(find('PAU DARCO', 'PA')?.ibge).toBe(1500107);
+  });
+
+  it('uses aliases for Anatel spellings', () => {
+    expect(find('São Caitano', 'PE')?.ibge).toBe(2613107);
+  });
+
+  it('needs the right UF', () => {
+    expect(find('Campinas', 'RJ')).toBeUndefined();
+  });
+
+  it('lists repeaters it cannot place', () => {
+    const r = reduceRepeaters(csv(row('PY2ZZZ', '146,610 / 146,010 MHz', { city: 'Lugar Nenhum' })), find);
+    expect(r.unlocated).toEqual(['SP / Lugar Nenhum']);
+    expect(r.counts.unlocated).toBe(1);
+    expect(r.repeaters[0]!.lat).toBeUndefined();
   });
 });

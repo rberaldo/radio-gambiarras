@@ -149,6 +149,15 @@ with IBGE code and coordinates) and place the repeater at the município seat.
 Every such point is approximate: repeaters sit on hilltops that can be tens of
 kilometres away. The UI must say so.
 
+### Implementation notes (2026-11-09)
+
+- `scripts/anatel/repeaters.ts` writes `data/repeaters/anatel.json` (1,213
+  repeaters: 832 on 2 m, 381 on 70 cm), `meta.json` and `changes.json`.
+- Coordinates come from `data/geo/municipios.json`, a reduced copy of
+  `kelvins/municipios-brasileiros` (MIT, commit 503e2f7, license in
+  `data/geo/municipios-LICENSE.txt`). Spelling differences go in `ALIASES`
+  in `scripts/anatel/municipios.ts`; the job lists any unlocated município.
+
 ### RepeaterBook: not usable
 
 - The export API returns `401 auth_missing` without an approved token

@@ -23,6 +23,10 @@ export interface AnatelRepeater {
   input: number;
   municipio: string;
   uf: string;
+  /** IBGE code and coordinates of the município's seat, when the name was found. */
+  ibge?: number;
+  lat?: number;
+  lon?: number;
   status: LicenseStatus;
   /** "Data de Validade da Estação", ISO date, when Anatel gives one. */
   validUntil?: string;
