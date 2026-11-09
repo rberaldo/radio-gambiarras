@@ -1,9 +1,10 @@
 // Takes desktop and phone screenshots of pages, for checking UI work.
 // Usage: node scripts/screenshot.ts <base-url> <out-dir> <path> [path...]
 // Example: node scripts/screenshot.ts http://localhost:4321 /tmp/shots / /componentes
+// BROWSER=webkit uses Safari's engine (the site's author browses with Safari).
 import { mkdir } from 'node:fs/promises';
 import { join } from 'node:path';
-import { chromium } from 'playwright';
+import { chromium, webkit } from 'playwright';
 
 const [base, outDir, ...paths] = process.argv.slice(2);
 if (!base || !outDir || paths.length === 0) {
@@ -17,7 +18,8 @@ const viewports = [
 ];
 
 await mkdir(outDir, { recursive: true });
-const browser = await chromium.launch();
+const engine = process.env.BROWSER === 'webkit' ? webkit : chromium;
+const browser = await engine.launch();
 try {
   for (const vp of viewports) {
     const page = await browser.newPage({
@@ -30,7 +32,7 @@ try {
         () => document.documentElement.scrollWidth > document.documentElement.clientWidth,
       );
       const slug = path.replace(/^\/|\/$/g, '').replace(/\//g, '_') || 'home';
-      const file = join(outDir, `${slug}-${vp.name}.png`);
+      const file = join(outDir, `${slug}-${vp.name}${engine === webkit ? '-webkit' : ''}.png`);
       await page.screenshot({ path: file, fullPage: true });
       console.log(`${file}${overflow ? '  WARNING: horizontal overflow' : ''}`);
     }

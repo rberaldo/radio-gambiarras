@@ -95,28 +95,27 @@
 
 /* Group boxes become cards with a quiet label */
 .window__body .fieldset {
-  padding: var(--sp-4) var(--sp-5);
+  position: relative;
+  /* Room for the label, which is positioned inside the top padding */
+  padding: calc(var(--sp-4) + 1.5rem) var(--sp-5) var(--sp-4);
   border: 1px solid var(--m-line);
   border-radius: var(--m-radius);
   background: var(--m-surface);
   box-shadow: var(--m-shadow);
 }
 
+/* Positioned, so no browser draws it on the border (Safari ignores a floated legend) */
 .window__body .fieldset > legend {
-  float: left;
-  width: 100%;
+  position: absolute;
+  top: var(--sp-4);
+  left: var(--sp-5);
   padding: 0;
-  margin-bottom: var(--sp-3);
   background: none;
   color: var(--m-text-muted);
   font-family: var(--m-label-font);
   font-size: 0.8125rem;
   letter-spacing: 0.06em;
   text-transform: uppercase;
-}
-
-.window__body .fieldset > legend + * {
-  clear: both;
 }
 
 /* Small labels in a "system" monospace */

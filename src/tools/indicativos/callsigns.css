@@ -354,3 +354,8 @@
     min-height: 15rem;
   }
 }
+
+/* Safari adds its own clear button to search fields; we have "Limpar" */
+.cs-search__input::-webkit-search-cancel-button {
+  appearance: none;
+}

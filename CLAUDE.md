@@ -139,7 +139,8 @@ Modern amenities are not optional:
   widths. With `npm run preview` running,
   `node scripts/screenshot.ts http://localhost:4321 <out-dir> <path>...`
   saves desktop and phone screenshots (Playwright) and warns about
-  horizontal overflow, and `node scripts/a11y.ts http://localhost:4321
+  horizontal overflow (`BROWSER=webkit` for Safari's engine: check both, the
+  user browses with Safari), and `node scripts/a11y.ts http://localhost:4321
   <path>...` runs axe-core at both widths. Put screenshots in a scratch
   directory, not the repo.
 - Commit only when the user asks.
