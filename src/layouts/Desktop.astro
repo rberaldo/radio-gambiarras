@@ -54,13 +54,13 @@ const fullTitle = title ? `${title} · ${site.name}` : site.name;
   /* Narrow screens: windows are maximized */
   @media (max-width: 40rem) {
     .desktop {
-      padding: 0 0 var(--taskbar-h);
+      padding: 0 0 calc(var(--taskbar-h) + var(--sp-3));
       gap: 0;
     }
 
     .desktop > :global(.window) {
       width: 100%;
-      min-height: calc(100dvh - var(--taskbar-h));
+      min-height: calc(100dvh - var(--taskbar-h) - var(--sp-3));
     }
   }
 </style>
