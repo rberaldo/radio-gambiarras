@@ -37,18 +37,6 @@ const fullTitle = title ? `${title} · ${site.name}` : site.name;
     <meta name="theme-color" content="#008080" />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     {noindex && <meta name="robots" content="noindex" />}
-    <script is:inline>
-      // Style preview: ?estilo=novo or ?estilo=antigo, remembered for this tab.
-      (function () {
-        var key = 'rg-estilo';
-        var choice = new URLSearchParams(location.search).get('estilo');
-        try {
-          if (choice === 'novo' || choice === 'antigo') sessionStorage.setItem(key, choice);
-          choice = sessionStorage.getItem(key);
-        } catch (e) {}
-        if (choice === 'novo') document.documentElement.classList.add('ui-modern');
-      })();
-    </script>
   </head>
   <body>
     <main class:list={['desktop', { 'desktop--fit': fit }]}>

@@ -434,5 +434,6 @@ Not planned. Move one into a milestone only when the user asks.
 | 2026-11-08 | Repeater tones and exact positions come from an overlay the user maintains by hand; visitor suggestions need the user's approval; no request to PY2CER. |
 | 2026-11-08 | Daily data refresh is a plain scheduled script that fetches about 3.3 MB and commits only on change. |
 | 2026-11-09 | Repository: public `rberaldo/radio-gambiarras` on GitHub. |
+| 2026-11-09 | Design: Win95 frame, modern interior ("modern design drawn with 1995's tools"); web-safe semantic colors. See CLAUDE.md. |
 | 2026-11-09 | Site name: Rádio Gambiarras. Jokes (404, loading messages) left for the user to write later. |
 | 2026-11-09 | Quarantine history seeded from an April 2025 third-party snapshot, marked as uncertain. |

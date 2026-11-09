@@ -54,18 +54,31 @@ grayed out and are not clickable.
 
 ## Design language
 
-Late-90s Windows 95 look, built with our own CSS (no UI framework):
+**Windows 95 frame, modern interior**, built with our own CSS (no UI
+framework). Decided with the user on 2026-11-09 after comparing previews.
 
-- Teal desktop background, gray (`#c0c0c0`) windows with beveled edges, navy
-  title bars, sunken input fields, raised buttons, a status bar at the bottom
-  of each window, and a taskbar with a start menu listing the tools.
+- **The frame is plain Windows 95:** teal desktop, gray beveled windows, navy
+  title bars, the menu bar, status bars, the taskbar with its start menu (Tux
+  on the button), pixel-art icons.
+- **Window interiors are modern design drawn with 1995's tools**
+  (`src/styles/interior.css`, scoped to `.window__body`): a warm paper
+  background, square corners, thin 1px gray borders, small *hard* offset
+  shadows (never blurred), buttons that sink when pressed, segmented controls
+  instead of radio rows, cards instead of group boxes, monospace small
+  labels, and the dotted focus outline.
+- **Semantic colors come from the web-safe palette:** navy `#000080` for
+  selection, Windows green `#008000` on `#CCFFCC` for free/available,
+  `#FFFFCC` for warnings and quarantine. Keep it restrained: an earlier
+  version with 2px black borders everywhere looked like Windows high-contrast
+  mode and was rejected.
 - The landing page is the desktop: one icon per tool.
 - Each tool is a window. The window's **menu bar is site navigation only**:
   links to the other tools and to the site's meta pages (home, about). A
   tool's own controls go in a toolbar or form inside the window body, never in
   the menu bar.
 - All colors, bevels and spacing come from CSS custom properties in
-  `src/styles/`. Components use the tokens, never literal values.
+  `src/styles/` (`--c-*` for the frame, `--m-*` for interiors). Components
+  use the tokens, never literal values.
 
 Modern amenities are not optional:
 

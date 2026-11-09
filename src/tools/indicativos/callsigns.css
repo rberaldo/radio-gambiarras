@@ -9,8 +9,9 @@
   height: 1.25rem;
   padding: var(--sp-1);
   overflow: hidden;
-  background: var(--c-field);
-  box-shadow: var(--bevel-sunken);
+  border: 1px solid var(--m-line);
+  border-radius: var(--m-radius);
+  background: var(--m-surface);
 }
 
 .cs-progress span {
@@ -32,7 +33,10 @@
 
 .cs-error {
   padding: var(--sp-4);
-  box-shadow: var(--bevel-raised);
+  border: 1px solid var(--m-line);
+  border-radius: var(--m-radius);
+  background: var(--m-surface);
+  box-shadow: var(--m-shadow);
 }
 
 /* Stale data warning */
@@ -42,8 +46,6 @@
   align-items: center;
   margin: 0 0 var(--sp-4);
   padding: var(--sp-2) var(--sp-3);
-  background: var(--c-field);
-  box-shadow: var(--bevel-sunken);
   font-size: var(--fs-sm);
 }
 
@@ -53,8 +55,6 @@
   place-items: center;
   width: 1.5rem;
   height: 1.5rem;
-  border: 1px solid var(--c-shadow);
-  border-radius: 50%;
   background: var(--c-warning);
   font-weight: bold;
 }
@@ -109,10 +109,7 @@
   grid-template-columns: repeat(auto-fill, minmax(84px, 1fr));
   gap: var(--sp-1);
   margin: 0;
-  padding: var(--sp-1);
   list-style: none;
-  background: var(--c-field);
-  box-shadow: var(--bevel-sunken);
 }
 
 .cs-similar .cs-cell {
@@ -168,7 +165,6 @@
 .cs-detail__call {
   flex: 1;
   height: 2.5rem;
-  border-color: var(--c-shadow-inner);
   font-size: var(--fs-lg);
   cursor: default;
 }
@@ -184,17 +180,10 @@
   width: 1.75rem;
   height: 1.6rem;
   padding: 0;
-  border: 0;
-  background: var(--c-face);
-  box-shadow: var(--bevel-raised);
   color: var(--c-text);
   font: inherit;
   font-weight: bold;
   cursor: pointer;
-}
-
-.cs-detail__close:active {
-  box-shadow: var(--bevel-pressed);
 }
 
 .cs-detail__close:focus-visible {
@@ -207,9 +196,6 @@
   grid-template-columns: max-content 1fr;
   gap: var(--sp-2) var(--sp-3);
   margin: 0 0 var(--sp-3);
-  padding: var(--sp-3);
-  background: var(--c-field);
-  box-shadow: var(--bevel-sunken);
 }
 
 .cs-detail__facts dt {
@@ -278,8 +264,6 @@
   contain: size;
   overflow-y: auto;
   overscroll-behavior: contain;
-  background: var(--c-field);
-  box-shadow: var(--bevel-sunken);
 }
 
 .vgrid__inner {
@@ -310,10 +294,6 @@
   cursor: pointer;
 }
 
-.cs-cell:hover {
-  border-color: var(--c-select);
-}
-
 .cs-cell:focus-visible {
   outline: var(--focus-ring);
   outline-offset: -3px;
@@ -332,35 +312,12 @@
   line-height: 1.2;
 }
 
-.cs-cell--livre {
-  font-weight: bold;
-}
-
-.cs-cell--em-uso,
-.cs-cell--vencida,
-.cs-cell--reservado {
-  background: var(--c-face);
-  color: var(--c-text-muted);
-}
-
-.cs-cell--reservado {
-  text-decoration: line-through;
-}
-
-.cs-cell--quarentena,
-.cs-cell--quarentena-incerta {
-  background: repeating-linear-gradient(135deg, var(--c-field) 0 4px, var(--c-light-inner) 4px 6px);
-  color: var(--c-text-muted);
-}
-
-.cs-cell--quarentena-incerta {
-  color: var(--c-text);
-}
-
 .cs-empty {
   padding: var(--sp-5);
-  background: var(--c-field);
-  box-shadow: var(--bevel-sunken);
+  border: 1px solid var(--m-line);
+  border-radius: var(--m-radius);
+  background: var(--m-surface);
+  color: var(--m-text-muted);
   text-align: center;
 }
 
