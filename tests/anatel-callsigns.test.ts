@@ -2,7 +2,7 @@ import { mkdtemp, readFile, readdir, rm } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { afterEach, beforeEach, describe, expect, it } from 'vitest';
-import { EXPECTED_HEADER, reduce, updateCallsigns } from '../scripts/anatel/callsigns.ts';
+import { EXPECTED_HEADER, expandTaken, reduce, updateCallsigns, updateReleased } from '../scripts/anatel/callsigns.ts';
 import { parseDelimited } from '../scripts/lib/csv.ts';
 
 // Synthetic rows: every personal field holds an obviously fake marker so the
@@ -68,6 +68,35 @@ describe('reduce', () => {
   });
 });
 
+describe('released history', () => {
+  const set = (...cs: string[]) => new Set(cs);
+
+  it('expands the taken file into callsigns', () => {
+    expect(expandTaken({ format: 1, active: { PY2: 'AA AB' }, expired: { PU2: 'KAA' } })).toEqual(
+      set('PY2AA', 'PY2AB', 'PU2KAA'),
+    );
+  });
+
+  it('adds callsigns that disappeared, keeping the first date seen', () => {
+    const r = updateReleased(set('PY2AA', 'PY2AB'), set('PY2AA'), { PP1AA: '2026-05-01' }, '2026-11-09');
+    expect(r).toEqual({ PP1AA: '2026-05-01', PY2AB: '2026-11-09' });
+    expect(updateReleased(set('PY2AB'), set(), r, '2026-11-10').PY2AB).toBe('2026-11-09');
+  });
+
+  it('drops callsigns that come back', () => {
+    expect(updateReleased(set(), set('PY2AB'), { PY2AB: '2026-11-09' }, '2026-11-20')).toEqual({});
+  });
+
+  it('drops callsigns after one year', () => {
+    const released = { PY2AB: '2025-11-09', PY2AC: '2025-11-10' };
+    expect(updateReleased(set(), set(), released, '2026-11-09')).toEqual({ PY2AC: '2025-11-10' });
+  });
+
+  it('starts empty without a previous snapshot', () => {
+    expect(updateReleased(undefined, set('PY2AA'), {}, '2026-11-09')).toEqual({});
+  });
+});
+
 describe('updateCallsigns', () => {
   let dir: string;
   beforeEach(async () => {
@@ -88,7 +117,15 @@ describe('updateCallsigns', () => {
     expect((await updateCallsigns(text, dir, '2026-11-10')).changed).toBe(false);
     const after = JSON.parse(await readFile(join(dir, 'meta.json'), 'utf8'));
     expect(after.updatedAt).toBe('2026-11-09');
-    expect((await readdir(dir)).sort()).toEqual(['meta.json', 'taken.json']);
+    expect((await readdir(dir)).sort()).toEqual(['meta.json', 'released.json', 'taken.json']);
+    expect(JSON.parse(await readFile(join(dir, 'released.json'), 'utf8')).released).toEqual({});
+  });
+
+  it('records callsigns that disappear between runs', async () => {
+    await updateCallsigns(csv(row('PY2AA', 'Ativa'), row('PY2AB', 'Vencida'), ...many(10)), dir, '2026-11-09');
+    await updateCallsigns(csv(row('PY2AA', 'Ativa'), ...many(10)), dir, '2026-11-10');
+    const released = JSON.parse(await readFile(join(dir, 'released.json'), 'utf8')).released;
+    expect(released).toEqual({ PY2AB: '2026-11-10' });
   });
 
   it('refuses to publish when the row count collapses', async () => {

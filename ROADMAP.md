@@ -203,7 +203,8 @@ Pipeline:
   callsigns).
   Done when: running it twice on the same input produces no diff, and a grep
   of `data/` finds no personal fields.
-- [ ] **M2.4 Disappearance history.** When a callsign present in the previous
+- [x] **M2.4 Disappearance history.** Done 2026-11-09; history starts empty
+  on 2026-11-09 (`data/callsigns/released.json`). When a callsign present in the previous
   snapshot is missing from the new one, record it with today's date in
   `data/callsigns/released.json`. Remove an entry when the callsign
   reappears or after one year.
