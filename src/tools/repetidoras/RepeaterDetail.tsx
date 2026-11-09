@@ -7,16 +7,19 @@ import { site } from '../../site.ts';
 import { formatDate } from '../../lib/format.ts';
 import { CopyButton } from '../../ui/CopyButton.tsx';
 import { ToolPanel } from '../../ui/ToolPanel.tsx';
+import { LineOfSight } from './LineOfSight.tsx';
 
 interface Props {
   repeater: Repeater;
   distanceKm?: number;
+  /** Where a line of sight starts: the picked point or the trail's nearest spot. */
+  losFrom?: Point;
   /** The point the circle is around, passed on to a correction. */
   picked?: Point;
   onClose: () => void;
 }
 
-export function RepeaterDetail({ repeater: r, distanceKm, picked, onClose }: Props) {
+export function RepeaterDetail({ repeater: r, distanceKm, losFrom, picked, onClose }: Props) {
   return (
     <ToolPanel
       label={`Repetidora ${r.callsign} em ${formatMHz(r.output)} MHz`}
@@ -73,6 +76,8 @@ export function RepeaterDetail({ repeater: r, distanceKm, picked, onClose }: Pro
         )}
       </dl>
       {r.notes && <p>{r.notes}</p>}
+      <h3 class="rp-detail__section">Visada</h3>
+      <LineOfSight repeater={r} from={losFrom} />
       {r.correction ? (
         <p class="rp-detail__source">
           Correção de {r.correction.source}, em {formatDate(r.correction.date)}.

@@ -44,6 +44,8 @@ export interface Nearby {
   distanceKm: number;
   /** Along a trail: km from its start to the spot nearest the repeater. */
   alongKm?: number;
+  /** Along a trail: that spot, where a line of sight to the repeater starts. */
+  nearest?: Point;
 }
 
 /**
@@ -89,14 +91,16 @@ export function alongTrack(repeaters: readonly Repeater[], lines: readonly (read
     if (!p || p.lat < s - padLat || p.lat > n + padLat || p.lon < w - padLon || p.lon > e + padLon) continue;
     let best = Infinity;
     let bestAlong = 0;
+    let nearest: Point = pieces[0]?.a ?? p;
     for (const q of pieces) {
       const { km, t } = toSegment(p, q.a, q.b, q.kx);
       if (km < best) {
         best = km;
         bestAlong = q.startKm + t * q.lengthKm;
+        nearest = { lat: q.a.lat + (q.b.lat - q.a.lat) * t, lon: q.a.lon + (q.b.lon - q.a.lon) * t };
       }
     }
-    if (best <= radiusKm) found.push({ repeater, distanceKm: best, alongKm: bestAlong });
+    if (best <= radiusKm) found.push({ repeater, distanceKm: best, alongKm: bestAlong, nearest });
   }
   return found.sort((x, y) => x.alongKm! - y.alongKm! || x.distanceKm - y.distanceKm || x.repeater.id.localeCompare(y.repeater.id));
 }

@@ -19,6 +19,7 @@ import { ResultsPanel } from './ResultsPanel.tsx';
 import { TrackDrop } from './TrackDrop.tsx';
 import { useRepeaters } from './useRepeaters.ts';
 import { BROKEN_LINK, useTrack } from './useTrack.ts';
+import { losFrom, useListLineOfSight } from './useLineOfSight.ts';
 import { DEFAULT_STATE, RADIUS, readState, trailLink, writeState } from './urlState.ts';
 import './repeaters.css';
 
@@ -55,7 +56,10 @@ export default function RepeaterTool() {
   );
   const inside = useMemo(() => new Set(nearby.map((n) => n.repeater.id)), [nearby]);
   const active = state.selected ? shown.find((r) => r.id === state.selected) : undefined;
-  const activeDistance = active && nearby.find((n) => n.repeater.id === active.id)?.distanceKm;
+  const activeNearby = active && nearby.find((n) => n.repeater.id === active.id);
+  const activeDistance = activeNearby?.distanceKm;
+  // Line of sight for the rows whose antenna site is known, worked out in the background.
+  const sight = useListLineOfSight(nearby, center);
 
   // A repeater hidden by a filter, or unknown (an old link), closes.
   useEffect(() => {
@@ -115,10 +119,11 @@ export default function RepeaterTool() {
     ) : data.state === 'error' ? (
       <LoadError detail={data.message} onRetry={data.retry} />
     ) : active ? (
-      <RepeaterDetail repeater={active} distanceKm={activeDistance} picked={center} onClose={closeDetail} />
+      <RepeaterDetail repeater={active} distanceKm={activeDistance} losFrom={losFrom(activeNearby, center)} picked={center} onClose={closeDetail} />
     ) : center || trail ? (
       <ResultsPanel
         nearby={nearby}
+        sight={sight}
         radiusKm={state.radiusKm}
         mode={state.mode}
         center={center}

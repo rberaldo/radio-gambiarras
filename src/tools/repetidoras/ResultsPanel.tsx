@@ -7,11 +7,15 @@ import type { Nearby, Point } from '../../lib/repeaters/geo.ts';
 import { formatNumber, plural } from '../../lib/format.ts';
 import { CopyButton } from '../../ui/CopyButton.tsx';
 import { EmptyState } from '../../ui/EmptyState.tsx';
+import type { LosResult } from '../../lib/radio/los.ts';
+import { VERDICT_TEXT } from './LineOfSight.tsx';
 import { MissingRepeaterLink } from './MissingRepeaterLink.tsx';
 import type { ModeChoice } from './urlState.ts';
 
 interface Props {
   nearby: readonly Nearby[];
+  /** Line of sight verdicts, for repeaters whose antenna site is known. */
+  sight: ReadonlyMap<string, LosResult>;
   radiusKm: number;
   mode: ModeChoice;
   /** The circle's center, passed on when someone reports a missing repeater. */
@@ -46,7 +50,7 @@ function download(name: string, content: string) {
   setTimeout(() => URL.revokeObjectURL(url), 1000);
 }
 
-export function ResultsPanel({ nearby, radiusKm, mode, center, trail, label, activeId, focusId, onFocused, onSelect, onClear, onWiden }: Props) {
+export function ResultsPanel({ nearby, sight, radiusKm, mode, center, trail, label, activeId, focusId, onFocused, onSelect, onClear, onWiden }: Props) {
   const list = useRef<HTMLOListElement>(null);
 
   // Coming back from a repeater's details: keep the keyboard on its row, once.
@@ -124,6 +128,7 @@ export function ResultsPanel({ nearby, radiusKm, mode, center, trail, label, act
                 {BAND_TEXT[r.band]} · {r.municipio}/{r.uf} · subtom {toneText(r)}
                 {r.position && !r.position.exact && ' · posição aproximada'}
                 {r.onAir === false && <> · {onAirText(r)}</>}
+                {sight.get(r.id) && <span class={`rp-sight rp-sight--${sight.get(r.id)!.verdict}`}> · {VERDICT_TEXT[sight.get(r.id)!.verdict]}</span>}
               </span>
             </button>
           </li>

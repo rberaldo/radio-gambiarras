@@ -229,6 +229,10 @@ donation-funded, no SLA. Attribution must stay visible.
 | AWS Terrain Tiles | Elevation fallback (same Terrarium encoding) | `https://s3.amazonaws.com/elevation-tiles-prod/terrarium/{z}/{x}/{y}.png` | "SRTM / GMTED2010 courtesy of the U.S. Geological Survey; ETOPO1 NOAA; Mapzen" |
 | OpenTopoMap | Raster topo fallback layer (CC-BY-SA, light use only) | `https://{a,b,c}.tile.opentopomap.org/{z}/{x}/{y}.png` | "Kartendaten: © OpenStreetMap-Mitwirkende, SRTM, Kartendarstellung: © OpenTopoMap (CC-BY-SA)" |
 
+Line of sight reads the same Mapterhorn tiles directly (zoom 12, decoded
+in the browser, at most 30 tiles cached). Copernicus GLO-30 is a surface
+model: buildings and forest canopy count as terrain.
+
 Libraries: MapLibre GL JS 6.x (BSD-3, ~295 KB gzipped), maplibre-contour
 0.1.x (BSD-3; MapLibre 6 support unverified, smoke-test).
 

@@ -545,8 +545,20 @@ Later the same day (user's request) the trail became visible: a pixel-art
 localização" next to "Ir", so phones can open a GPX too. Still to do:
 readers for KML/KMZ, GeoJSON and TCX (one entry each in `read.ts`).
 
+Line of sight, done 2026-11-09 (user's choices): a "Visada" section in the
+repeater details (terrain profile with Earth bulge, the line between
+antennas and 60% of the first Fresnel zone; verdict livre / no limite /
+bloqueada with where) and the verdict in list rows, worked out in the
+background. Only for repeaters with a known or probable site; town seats get
+an explanation instead. Fixed heights: 1.5 m for the person, 15 m for the
+repeater. From the picked point, or along a trail from its nearest spot.
+Elevation from the map's Mapterhorn tiles (zoom 12, a surface model, so roofs
+and trees count; obstacles within 250 m of either end are ignored).
+`src/lib/radio/los.ts`, `src/lib/dem/terrarium.ts`,
+`src/tools/repetidoras/elevation.ts`, `useLineOfSight.ts`, `LineOfSight.tsx`.
+
 Later (not in this milestone): anonymous "confirmo que funciona" votes (a small
-Netlify Function + Blobs); line-of-sight hints from the elevation data.
+Netlify Function + Blobs); a coverage map (where a repeater reaches).
 
 ## M4 — APRS symbols (`/aprs`)
 
