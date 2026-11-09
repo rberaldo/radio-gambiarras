@@ -1,7 +1,7 @@
 // The repeater map: MapLibre with the Gaia-like style (mapStyle.ts),
 // clustered repeater markers, the selection circle and the open repeater.
 // Created once; everything else is synced from props.
-import type { FeatureCollection, Point as GeoPoint } from 'geojson';
+import type { Feature, FeatureCollection, Point as GeoPoint } from 'geojson';
 import mlcontour from 'maplibre-contour';
 import * as maplibregl from 'maplibre-gl';
 import type { GeoJSONSource, MapLayerMouseEvent, MapMouseEvent, StyleSpecification } from 'maplibre-gl';
@@ -13,6 +13,7 @@ import neighbours from '../../../data/geo/vizinhos.json';
 import type { Point } from '../../lib/repeaters/geo.ts';
 import type { Repeater } from '../../lib/repeaters/merge.ts';
 import { EMPTY, circlePolygon, repeaterPoints } from './mapData.ts';
+import { spiderOffsets } from './spider.ts';
 import { BASE_STYLE_URL, BRAZIL_BOUNDS, DEM_MAX_ZOOM, DEM_URL, RELIEF_ATTRIBUTION, buildStyle } from './mapStyle.ts';
 
 maplibregl.setWorkerUrl(workerUrl);
@@ -97,7 +98,43 @@ interface Props {
 }
 
 /** Layers with one clickable repeater per feature. */
-const POINT_LAYERS = ['repeater-points', 'repeater-diamonds'];
+const POINT_LAYERS = ['repeater-points', 'repeater-diamonds', 'spider-points', 'spider-diamonds'];
+
+/** The deepest zoom. Stacks stay grouped up to here, so they never hide behind one marker. */
+const MAX_ZOOM = 17;
+
+const CLUSTER_FILTER: maplibregl.ExpressionSpecification = ['has', 'point_count'];
+
+/**
+ * One repeater per marker: circles for FM, diamonds for digital. Exact
+ * positions are filled, approximate ones (município seat) hollow; inside
+ * the selection circle, green.
+ */
+function addMarkerLayers(map: maplibregl.Map, prefix: string, source: string, filter: maplibregl.ExpressionSpecification) {
+  map.addLayer({
+    id: `${prefix}-points`,
+    type: 'circle',
+    source,
+    filter: ['all', filter, ['!', ['get', 'digital']]],
+    paint: {
+      'circle-radius': ['case', ['==', ['get', 'sel'], 1], 7, 6],
+      'circle-color': ['case', ['==', ['get', 'sel'], 1], COLORS.green, ['get', 'exact'], COLORS.navy, COLORS.white],
+      'circle-stroke-color': ['case', ['==', ['get', 'sel'], 1], COLORS.white, COLORS.navy],
+      'circle-stroke-width': 2,
+    },
+  });
+  map.addLayer({
+    id: `${prefix}-diamonds`,
+    type: 'symbol',
+    source,
+    filter: ['all', filter, ['get', 'digital']],
+    layout: {
+      'icon-image': ['case', ['==', ['get', 'sel'], 1], 'diamond-sel', ['get', 'exact'], 'diamond-exact', 'diamond-approx'],
+      'icon-allow-overlap': true,
+      'icon-ignore-placement': true,
+    },
+  });
+}
 
 function addRepeaterLayers(map: maplibregl.Map) {
   map.addSource('repeaters', {
@@ -105,13 +142,16 @@ function addRepeaterLayers(map: maplibregl.Map) {
     data: EMPTY,
     cluster: true,
     clusterRadius: 28,
-    clusterMaxZoom: 14,
+    clusterMaxZoom: MAX_ZOOM,
     // Each cluster counts how many of its repeaters are inside the circle.
     clusterProperties: { sel: ['+', ['get', 'sel']] },
   });
   map.addSource('circle', { type: 'geojson', data: EMPTY });
   map.addSource('active', { type: 'geojson', data: EMPTY });
   map.addSource('center', { type: 'geojson', data: EMPTY });
+  map.addSource('spider', { type: 'geojson', data: EMPTY });
+  map.addSource('spider-legs', { type: 'geojson', data: EMPTY });
+  map.addSource('spider-hub', { type: 'geojson', data: EMPTY });
   map.addImage('center-pin', pinImage(), { pixelRatio: 2 });
   map.addImage('diamond-approx', diamondImage(21, COLORS.white, COLORS.navy), { pixelRatio: 2 });
   map.addImage('diamond-exact', diamondImage(21, COLORS.navy, COLORS.navy), { pixelRatio: 2 });
@@ -130,7 +170,7 @@ function addRepeaterLayers(map: maplibregl.Map) {
     id: 'clusters',
     type: 'circle',
     source: 'repeaters',
-    filter: ['has', 'point_count'],
+    filter: CLUSTER_FILTER,
     paint: {
       // All inside: green; some inside: green ring; none: white.
       'circle-color': ['case', ['==', ['get', 'sel'], ['get', 'point_count']], COLORS.green, COLORS.white],
@@ -143,7 +183,7 @@ function addRepeaterLayers(map: maplibregl.Map) {
     id: 'cluster-count',
     type: 'symbol',
     source: 'repeaters',
-    filter: ['has', 'point_count'],
+    filter: CLUSTER_FILTER,
     layout: {
       // "2/4" when only some of the cluster is inside the circle.
       'text-field': [
@@ -160,31 +200,16 @@ function addRepeaterLayers(map: maplibregl.Map) {
       'text-color': ['case', ['==', ['get', 'sel'], ['get', 'point_count']], COLORS.white, ['>', ['get', 'sel'], 0], COLORS.darkGreen, COLORS.navy],
     },
   });
+  addMarkerLayers(map, 'repeater', 'repeaters', ['!', ['has', 'point_count']]);
+  // A stack fanned out: thin legs to the shared point, then the markers.
+  map.addLayer({ id: 'spider-legs', type: 'line', source: 'spider-legs', paint: { 'line-color': COLORS.navy, 'line-width': 1.5 } });
   map.addLayer({
-    id: 'repeater-points',
+    id: 'spider-hub',
     type: 'circle',
-    source: 'repeaters',
-    filter: ['all', ['!', ['has', 'point_count']], ['!', ['get', 'digital']]],
-    paint: {
-      'circle-radius': ['case', ['==', ['get', 'sel'], 1], 7, 6],
-      // Exact positions are filled, approximate ones (município seat) hollow.
-      'circle-color': ['case', ['==', ['get', 'sel'], 1], COLORS.green, ['get', 'exact'], COLORS.navy, COLORS.white],
-      'circle-stroke-color': ['case', ['==', ['get', 'sel'], 1], COLORS.white, COLORS.navy],
-      'circle-stroke-width': 2,
-    },
+    source: 'spider-hub',
+    paint: { 'circle-radius': 4, 'circle-color': COLORS.navy, 'circle-stroke-color': COLORS.white, 'circle-stroke-width': 1.5 },
   });
-  // Digital repeaters: diamonds, same colors as the circles.
-  map.addLayer({
-    id: 'repeater-diamonds',
-    type: 'symbol',
-    source: 'repeaters',
-    filter: ['all', ['!', ['has', 'point_count']], ['get', 'digital']],
-    layout: {
-      'icon-image': ['case', ['==', ['get', 'sel'], 1], 'diamond-sel', ['get', 'exact'], 'diamond-exact', 'diamond-approx'],
-      'icon-allow-overlap': true,
-      'icon-ignore-placement': true,
-    },
-  });
+  addMarkerLayers(map, 'spider', 'spider', ['literal', true]);
   map.addLayer({
     id: 'active-point',
     type: 'circle',
@@ -203,6 +228,53 @@ function circleBounds(c: Point, km: number): [[number, number], [number, number]
   ];
 }
 
+/** A stack fanned out: the cluster it came from and where each repeater was drawn. */
+interface Spider {
+  clusterId: number;
+  positions: ReadonlyMap<string, [number, number]>;
+}
+
+const SPIDER_LAYERS = ['spider-points', 'spider-diamonds'];
+const SPIDER_SOURCES = ['spider', 'spider-legs', 'spider-hub'];
+
+const pointFeature = (coordinates: [number, number], properties: Record<string, unknown> = {}): Feature<GeoPoint> => ({
+  type: 'Feature',
+  properties,
+  geometry: { type: 'Point', coordinates },
+});
+
+/** Fans out a cluster's repeaters around its point, hiding the cluster badge meanwhile. */
+async function openSpider(map: maplibregl.Map, clusterId: number, hub: [number, number]): Promise<Spider> {
+  const source = map.getSource('repeaters') as GeoJSONSource;
+  const leaves = (await source.getClusterLeaves(clusterId, 1000, 0)) as Feature<GeoPoint>[];
+  leaves.sort((a, b) => String(a.properties?.id).localeCompare(String(b.properties?.id)));
+  const c = map.project(hub);
+  const positions = new Map<string, [number, number]>();
+  const markers = spiderOffsets(leaves.length).map(([dx, dy], i) => {
+    const at = map.unproject([c.x + dx, c.y + dy]);
+    const xy: [number, number] = [at.lng, at.lat];
+    positions.set(String(leaves[i]!.properties?.id), xy);
+    return pointFeature(xy, leaves[i]!.properties ?? {});
+  });
+  const legs: FeatureCollection = {
+    type: 'FeatureCollection',
+    features: markers.map((m) => ({ type: 'Feature', properties: {}, geometry: { type: 'LineString', coordinates: [hub, m.geometry.coordinates] } })),
+  };
+  (map.getSource('spider') as GeoJSONSource).setData({ type: 'FeatureCollection', features: markers });
+  (map.getSource('spider-legs') as GeoJSONSource).setData(legs);
+  (map.getSource('spider-hub') as GeoJSONSource).setData({ type: 'FeatureCollection', features: [pointFeature(hub)] });
+  const hide: maplibregl.FilterSpecification = ['all', CLUSTER_FILTER, ['!=', ['get', 'cluster_id'], clusterId]];
+  map.setFilter('clusters', hide);
+  map.setFilter('cluster-count', hide);
+  return { clusterId, positions };
+}
+
+function closeSpider(map: maplibregl.Map) {
+  for (const id of SPIDER_SOURCES) (map.getSource(id) as GeoJSONSource | undefined)?.setData(EMPTY);
+  map.setFilter('clusters', CLUSTER_FILTER);
+  map.setFilter('cluster-count', CLUSTER_FILTER);
+}
+
 export function RepeaterMap({ repeaters, inside, center, radiusKm, activeId, focus, onPick, onSelect }: Props) {
   const container = useRef<HTMLDivElement>(null);
   const mapRef = useRef<maplibregl.Map | undefined>(undefined);
@@ -211,6 +283,16 @@ export function RepeaterMap({ repeaters, inside, center, radiusKm, activeId, foc
   // Handlers change every render; the map's listeners read the latest ones.
   const handlers = useRef({ onPick, onSelect });
   handlers.current = { onPick, onSelect };
+  // The fanned-out stack, if any; state so the open repeater's ring can follow it.
+  const [spider, setSpider] = useState<Spider>();
+  const spiderRef = useRef<Spider | undefined>(undefined);
+  spiderRef.current = spider;
+  const unspider = () => {
+    if (!spiderRef.current || !mapRef.current) return;
+    closeSpider(mapRef.current);
+    spiderRef.current = undefined;
+    setSpider(undefined);
+  };
 
   useEffect(() => {
     let cancelled = false;
@@ -238,6 +320,7 @@ export function RepeaterMap({ repeaters, inside, center, radiusKm, activeId, foc
         ...initial,
         maxBounds: BRAZIL_BOUNDS,
         minZoom: 3,
+        maxZoom: MAX_ZOOM,
         attributionControl: { compact: true, customAttribution: RELIEF_ATTRIBUTION },
       });
       mapRef.current = map;
@@ -251,11 +334,27 @@ export function RepeaterMap({ repeaters, inside, center, radiusKm, activeId, foc
         map.getContainer().querySelector('.maplibregl-ctrl-attrib')?.classList.remove('maplibregl-compact-show');
         setReady(true);
       });
+      // A cluster splits by zooming in; one that cannot (its repeaters share a spot) fans out instead.
       map.on('click', 'clusters', async (e: MapLayerMouseEvent) => {
         const f = e.features?.[0];
-        if (!map || !f) return;
-        const zoom = await (map.getSource('repeaters') as GeoJSONSource).getClusterExpansionZoom(f.properties.cluster_id as number);
-        map.easeTo({ center: (f.geometry as GeoPoint).coordinates as [number, number], zoom: Math.min(zoom, 15) });
+        if (!map || !f || map.queryRenderedFeatures(e.point, { layers: SPIDER_LAYERS }).length) return;
+        const clusterId = f.properties.cluster_id as number;
+        const hub = (f.geometry as GeoPoint).coordinates as [number, number];
+        const source = map.getSource('repeaters') as GeoJSONSource;
+        const [zoom, leaves] = await Promise.all([source.getClusterExpansionZoom(clusterId), source.getClusterLeaves(clusterId, 1000, 0)]);
+        const [x0, y0] = (leaves[0]!.geometry as GeoPoint).coordinates;
+        const together = leaves.every((l) => {
+          const [x, y] = (l.geometry as GeoPoint).coordinates;
+          return x === x0 && y === y0;
+        });
+        if (!together && zoom <= MAX_ZOOM) {
+          map.easeTo({ center: hub, zoom });
+          return;
+        }
+        if (spiderRef.current) closeSpider(map);
+        const opened = await openSpider(map, clusterId, hub);
+        spiderRef.current = opened;
+        setSpider(opened);
       });
       for (const layer of POINT_LAYERS) {
         map.on('click', layer, (e: MapLayerMouseEvent) => {
@@ -265,8 +364,13 @@ export function RepeaterMap({ repeaters, inside, center, radiusKm, activeId, foc
       }
       map.on('click', (e: MapMouseEvent) => {
         if (!map || map.queryRenderedFeatures(e.point, { layers: ['clusters', ...POINT_LAYERS] }).length) return;
+        // The first click elsewhere only folds a fanned-out stack back.
+        if (spiderRef.current) return unspider();
         handlers.current.onPick({ lat: e.lngLat.lat, lon: e.lngLat.lng });
       });
+      // Fanned-out markers sit at screen distances, which a zoom would break.
+      map.on('zoomstart', unspider);
+      map.getContainer().addEventListener('keydown', (e) => e.key === 'Escape' && unspider());
       for (const layer of ['clusters', ...POINT_LAYERS]) {
         map.on('mouseenter', layer, () => (map!.getCanvas().style.cursor = 'pointer'));
         map.on('mouseleave', layer, () => (map!.getCanvas().style.cursor = ''));
@@ -279,7 +383,10 @@ export function RepeaterMap({ repeaters, inside, center, radiusKm, activeId, foc
   }, []);
 
   useEffect(() => {
-    if (ready) (mapRef.current!.getSource('repeaters') as GeoJSONSource).setData(repeaterPoints(repeaters, inside));
+    if (!ready) return;
+    // Cluster ids change with the data, so a fanned-out stack folds back.
+    unspider();
+    (mapRef.current!.getSource('repeaters') as GeoJSONSource).setData(repeaterPoints(repeaters, inside));
   }, [ready, repeaters, inside]);
 
   useEffect(() => {
@@ -295,11 +402,11 @@ export function RepeaterMap({ repeaters, inside, center, radiusKm, activeId, foc
   useEffect(() => {
     if (!ready) return;
     const r = activeId ? repeaters.find((x) => x.id === activeId) : undefined;
-    const data: FeatureCollection = r?.position
-      ? { type: 'FeatureCollection', features: [{ type: 'Feature', properties: {}, geometry: { type: 'Point', coordinates: [r.position.lon, r.position.lat] } }] }
-      : EMPTY;
+    // In a fanned-out stack the ring goes around the repeater's fanned-out marker.
+    const at = (activeId && spider?.positions.get(activeId)) ?? (r?.position ? ([r.position.lon, r.position.lat] as [number, number]) : undefined);
+    const data: FeatureCollection = at ? { type: 'FeatureCollection', features: [pointFeature(at)] } : EMPTY;
     (mapRef.current!.getSource('active') as GeoJSONSource).setData(data);
-  }, [ready, activeId, repeaters]);
+  }, [ready, activeId, repeaters, spider]);
 
   useEffect(() => {
     const map = mapRef.current;

@@ -500,6 +500,11 @@ Map:
   CHIRP file stays FM-only. Anatel has no mode, so only reported ones show
   as digital (59 on 2026-11-09). Status bar and intro say the repeaters are
   licensed, not necessarily on the air or even installed.
+- Pre-release change (2026-11-09, user's choice): repeaters sharing a spot
+  (848 of 1,213 sit on their town seat) stay grouped up to the deepest zoom
+  (17); clicking such a group fans it out ("spiderfy", circle up to 8,
+  spiral beyond; `src/tools/repetidoras/spider.ts`). A click elsewhere,
+  zooming, a filter change or Escape folds it back.
 - [ ] **M3.9 Release.** Credits (Anatel, OpenFreeMap/OpenMapTiles/OSM,
   Mapterhorn/Copernicus, OpenTopoMap if used) on the tool and `/sobre`;
   approximate-position explanation; registry entry to `available`; full
