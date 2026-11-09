@@ -17,7 +17,7 @@ import { toJson } from '../lib/json.ts';
 /** A town RepeaterBook names instead of Anatel's is kept as a note only within this distance. */
 const NEAR_TOWN_KM = 60;
 
-export const SOURCE = 'RepeaterBook, exportação de 2026-11-09 (a conferir)';
+export const SOURCE = 'Importação inicial de 2026-11-09 (a conferir)';
 
 export interface RbRow {
   output: number;

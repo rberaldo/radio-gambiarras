@@ -480,6 +480,12 @@ Map:
 - Pre-release change (2026-11-09, user's decision): digital-only repeaters
   are hidden (`SHOW_DIGITAL_ONLY` in `src/tools/repetidoras/useRepeaters.ts`);
   mixed FM + digital ones stay. The user will add digital support later.
+- Pre-release changes (2026-11-09, user's decisions): CHIRP names drop the
+  callsign's two-letter prefix (`RIO 1BEU`, at most 8 characters); imported
+  site positions show as "provável" until checked; overlay sources read
+  "Importação inicial" (no third-party name); the digital note is in the
+  intro and the status bar only. Private checklist of unverified entries:
+  `node scripts/repeaterbook/checklist.ts` → `private/conferir.md`.
 - [ ] **M3.9 Release.** Credits (Anatel, OpenFreeMap/OpenMapTiles/OSM,
   Mapterhorn/Copernicus, OpenTopoMap if used) on the tool and `/sobre`;
   approximate-position explanation; registry entry to `available`; full

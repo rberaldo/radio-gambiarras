@@ -55,7 +55,7 @@ export function RepeaterDetail({ repeater: r, distanceKm, picked, onClose }: Pro
         <dd>
           {r.position
             ? r.position.exact
-              ? `exata: ${r.position.lat.toFixed(5)}, ${r.position.lon.toFixed(5)}`
+              ? `${r.position.probable ? 'provável' : 'exata'}: ${r.position.lat.toFixed(5)}, ${r.position.lon.toFixed(5)}`
               : `aproximada: sede de ${r.municipio}`
             : 'desconhecida'}
         </dd>

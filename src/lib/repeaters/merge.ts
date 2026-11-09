@@ -13,8 +13,12 @@ export interface Repeater {
   shift: number;
   municipio: string;
   uf: string;
-  /** Where to draw it. "exact" comes from the overlay; otherwise it is the município's seat. */
-  position?: { lat: number; lon: number; exact: boolean };
+  /**
+   * Where to draw it. "exact" is the repeater's site, from the overlay;
+   * otherwise it is the município's seat. "probable" marks a site from a bulk
+   * import that nobody has checked yet.
+   */
+  position?: { lat: number; lon: number; exact: boolean; probable?: boolean };
   /** CTCSS tone in Hz, "none" when known to need none, undefined when unknown. */
   tone?: number | 'none';
   dcs?: string;
@@ -34,7 +38,7 @@ const round3 = (n: number) => Math.round(n * 1000) / 1000;
 function apply(base: Omit<Repeater, 'shift'>, e: OverlayEntry | undefined): Repeater {
   const r: Repeater = { ...base, shift: round3(base.input - base.output) };
   if (!e) return r;
-  if (e.lat !== undefined && e.lon !== undefined) r.position = { lat: e.lat, lon: e.lon, exact: true };
+  if (e.lat !== undefined && e.lon !== undefined) r.position = { lat: e.lat, lon: e.lon, exact: true, ...(e.unverified && { probable: true }) };
   if (e.tone !== undefined) r.tone = e.tone;
   if (e.dcs !== undefined) r.dcs = e.dcs;
   if (e.modes) r.modes = e.modes;

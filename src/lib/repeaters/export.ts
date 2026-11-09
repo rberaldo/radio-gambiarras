@@ -48,7 +48,7 @@ export function spreadsheetCsv(rows: readonly Nearby[]): string {
       r.uf,
       r.position ? ptNumber(r.position.lat, 5) : '',
       r.position ? ptNumber(r.position.lon, 5) : '',
-      r.position ? (r.position.exact ? 'exata' : 'aproximada (sede do município)') : 'desconhecida',
+      r.position ? (r.position.probable ? 'provável' : r.position.exact ? 'exata' : 'aproximada (sede do município)') : 'desconhecida',
       ptNumber(distanceKm, 1),
       LICENSE_LABELS[r.license],
       r.validUntil ?? '',
@@ -68,8 +68,11 @@ export const CHIRP_HEADER =
 /** Whether a repeater can be programmed as an analog FM channel. Unknown modes count as FM (most are). */
 export const isFm = (r: Repeater) => r.modes.length === 0 || r.modes.includes('FM');
 
-/** Channel name: the city tag, then the callsign ("RIO PY1XXX"). */
-export const chirpName = (r: Repeater) => [cityCode(r.municipio, r.uf), r.callsign].filter(Boolean).join(' ');
+/**
+ * Channel name: the city tag, then the callsign without its two-letter
+ * prefix ("RIO 1BEU" for PY1BEU), so it fits radios that show 8 characters.
+ */
+export const chirpName = (r: Repeater) => [cityCode(r.municipio, r.uf), r.callsign.replace(/^[A-Z]{2}(?=\d)/, '')].filter(Boolean).join(' ');
 
 /**
  * CHIRP generic CSV for the FM repeaters among `rows`, numbered from

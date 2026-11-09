@@ -61,12 +61,12 @@ describe('chirpCsv', () => {
   });
 
   it('writes minus shift with a tone', () => {
-    expect(lines([base({ tone: 88.5 })])[1]).toBe('1,SP PY2KJP,146.610000,-,0.600000,Tone,88.5,88.5,023,NN,023,Tone->Tone,FM,5.00,,50W,São Paulo/SP; posição aproximada,,,,');
+    expect(lines([base({ tone: 88.5 })])[1]).toBe('1,SP 2KJP,146.610000,-,0.600000,Tone,88.5,88.5,023,NN,023,Tone->Tone,FM,5.00,,50W,São Paulo/SP; posição aproximada,,,,');
   });
 
   it('writes plus shift, simplex and DCS', () => {
-    expect(lines([base({ output: 147.18, input: 147.78, shift: 0.6 })])[1]).toMatch(/^1,SP PY2KJP,147\.180000,\+,0\.600000,,/);
-    expect(lines([base({ output: 145.9, input: 145.9, shift: 0 })])[1]).toMatch(/^1,SP PY2KJP,145\.900000,,0\.000000,,/);
+    expect(lines([base({ output: 147.18, input: 147.78, shift: 0.6 })])[1]).toMatch(/^1,SP 2KJP,147\.180000,\+,0\.600000,,/);
+    expect(lines([base({ output: 145.9, input: 145.9, shift: 0 })])[1]).toMatch(/^1,SP 2KJP,145\.900000,,0\.000000,,/);
     expect(lines([base({ dcs: '754' })])[1]).toMatch(/,DTCS,88\.5,88\.5,754,NN,754,/);
   });
 
@@ -79,7 +79,7 @@ describe('chirpCsv', () => {
 
   it('numbers channels from the chosen start and skips digital-only repeaters', () => {
     const out = lines([base({}), base({ id: 'D', callsign: 'PY2DMR', modes: ['DMR'] }), base({ id: 'E', callsign: 'PY2E', modes: ['FM', 'DMR'] })], 100);
-    expect(out.slice(1).map((l) => l.split(',').slice(0, 2).join(','))).toEqual(['100,SP PY2KJP', '101,SP PY2E']);
+    expect(out.slice(1).map((l) => l.split(',').slice(0, 2).join(','))).toEqual(['100,SP 2KJP', '101,SP 2E']);
     expect(isFm(base({ modes: ['D-STAR'] }))).toBe(false);
   });
 

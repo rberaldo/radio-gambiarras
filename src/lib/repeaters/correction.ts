@@ -67,7 +67,7 @@ const pointText = (p: Point) => `${p.lat.toFixed(5)}, ${p.lon.toFixed(5)}`;
 export function repeaterCorrection(repo: string, r: Repeater, pageUrl: string, picked?: Point): CorrectionLink {
   const position = r.position
     ? r.position.exact
-      ? `exata, ${pointText(r.position)}`
+      ? `${r.position.probable ? 'provável' : 'exata'}, ${pointText(r.position)}`
       : `aproximada (sede de ${r.municipio})`
     : 'desconhecida';
   const lines = [

@@ -7,7 +7,6 @@ import type { Nearby, Point } from '../../lib/repeaters/geo.ts';
 import { site } from '../../site.ts';
 import { plural } from '../../lib/format.ts';
 import { EmptyState } from '../../ui/EmptyState.tsx';
-import { SHOW_DIGITAL_ONLY } from './useRepeaters.ts';
 
 interface Props {
   nearby: readonly Nearby[];
@@ -100,7 +99,6 @@ export function ResultsPanel({ nearby, radiusKm, center, label, activeId, focusI
           </li>
         ))}
       </ol>
-      {!SHOW_DIGITAL_ONLY && <p class="rp-results__note">Repetidoras só digitais (DMR, D-STAR, Fusion) ainda não aparecem no mapa: chegam em breve.</p>}
       <p class="rp-results__note">
         Falta alguma?{' '}
         <a href={correctionUrl(missingRepeater(site.repo, location.href, center))} target="_blank" rel="noopener">

@@ -33,7 +33,15 @@ describe('cityCode', () => {
 });
 
 describe('chirpName', () => {
-  it('puts the city tag before the callsign', () => {
-    expect(chirpName({ municipio: 'Porto Alegre', uf: 'RS', callsign: 'PY3ZZZ' } as Repeater)).toBe('POA PY3ZZZ');
+  it('puts the city tag before the callsign without its prefix', () => {
+    expect(chirpName({ municipio: 'Porto Alegre', uf: 'RS', callsign: 'PY3ZZZ' } as Repeater)).toBe('POA 3ZZZ');
+    expect(chirpName({ municipio: 'Rio de Janeiro', uf: 'RJ', callsign: 'PP1ZZ' } as Repeater)).toBe('RIO 1ZZ');
+  });
+
+  it('fits in 8 characters for every repeater in the data', async () => {
+    const { readFileSync } = await import('node:fs');
+    const file = JSON.parse(readFileSync('data/repeaters/anatel.json', 'utf8')) as { repeaters: Repeater[] };
+    const longest = Math.max(...file.repeaters.map((r) => chirpName(r).length));
+    expect(longest).toBeLessThanOrEqual(8);
   });
 });
