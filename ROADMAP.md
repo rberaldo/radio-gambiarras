@@ -228,7 +228,9 @@ Pipeline:
   needs re-enabling.
   Done when: a manual run on GitHub completes in under a minute and a run
   with unchanged data makes no commit.
-- [ ] **M2.7 Hosting cost check (user).** The Netlify account is on the Free
+- [x] **M2.7 Hosting cost check (user).** Done 2026-11-09. Free plan: 300
+  build minutes and 100 GB bandwidth a month. A real deploy took 12 s, so
+  even ~130 builds a month fit; no fallback needed. Original note: The Netlify account is on the Free
   plan (checked 2026-11-08). Confirm in Netlify's billing page what a deploy
   costs on this account and how many a month are included. Normal upstream
   activity is 10–50 changed rows on most days, so expect up to one deploy a
