@@ -8,7 +8,14 @@
    "modes": [
     "FM"
    ],
-   "notes": "Ligada a IRLP."
+   "notes": "Ligada a IRLP.",
+   "tone": 88.5
+  },
+  "PP1AVJ@147.390": {
+   "source": "Importação inicial de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "tone": 88.5
   },
   "PP1CDI@147.360": {
    "source": "Importação inicial de 2026-11-09; posição pelo nome do local no OpenStreetMap (a conferir)",
@@ -59,6 +66,12 @@
    ],
    "notes": "Local: Serra Santa Catarina."
   },
+  "PP1II@145.250": {
+   "source": "Importação inicial de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "tone": 88.5
+  },
   "PP1LN@145.350": {
    "source": "Importação inicial de 2026-11-09 (a conferir)",
    "date": "2026-11-09",
@@ -67,6 +80,12 @@
    "modes": [
     "FM"
    ]
+  },
+  "PP1LU@145.470": {
+   "source": "Importação inicial de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "tone": 88.5
   },
   "PP1MC@145.210": {
    "source": "Importação inicial de 2026-11-09 (a conferir)",
@@ -117,6 +136,18 @@
     "DMR"
    ]
   },
+  "PP1RPT@146.790": {
+   "source": "Importação inicial de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "tone": 88.5
+  },
+  "PP1SMJ@439.950": {
+   "source": "Importação inicial de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "tone": 88.5
+  },
   "PP1STA@145.270": {
    "source": "Importação inicial de 2026-11-09 (a conferir)",
    "date": "2026-11-09",
@@ -136,6 +167,12 @@
    ],
    "notes": "Local: São Pedro do Itabapoana."
   },
+  "PP2CLK@145.490": {
+   "source": "Importação inicial de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "tone": 88.5
+  },
   "PP2RDB@147.180": {
    "source": "Importação inicial de 2026-11-09 (a conferir)",
    "date": "2026-11-09",
@@ -153,6 +190,18 @@
     "FM"
    ],
    "notes": "Local: Senador Canedo."
+  },
+  "PP2RGY@145.370": {
+   "source": "Importação inicial de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "tone": 88.5
+  },
+  "PP2RPT@147.000": {
+   "source": "Importação inicial de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "tone": 88.5
   },
   "PP2RX@145.230": {
    "source": "Importação inicial de 2026-11-09 (a conferir)",
@@ -406,6 +455,30 @@
    "lat": -10.8441,
    "lon": -37.0684
   },
+  "PP7DD@146.950": {
+   "source": "Importação inicial de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "tone": 88.5
+  },
+  "PP8AAA@146.910": {
+   "source": "Importação inicial de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "tone": 88.5
+  },
+  "PP8LAB@146.950": {
+   "source": "Importação inicial de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "tone": 77
+  },
+  "PQ2PWM@146.830": {
+   "source": "Importação inicial de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "tone": 85.4
+  },
   "PR7AAA@147.000": {
    "source": "Importação inicial de 2026-11-09 (a conferir)",
    "date": "2026-11-09",
@@ -415,6 +488,48 @@
     "FM"
    ]
   },
+  "PR7CD@146.850": {
+   "source": "Importação inicial de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "tone": 88.5
+  },
+  "PR7CG@145.330": {
+   "source": "Importação inicial de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "tone": 88.5
+  },
+  "PR7CK@147.150": {
+   "source": "Importação inicial de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "tone": 88.5
+  },
+  "PR7GRG@146.750": {
+   "source": "Importação inicial de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "tone": 88.5
+  },
+  "PR7JPA@147.300": {
+   "source": "Importação inicial de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "tone": 110.9
+  },
+  "PR7PIJ@147.390": {
+   "source": "Importação inicial de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "tone": 88.5
+  },
+  "PR7SR@145.230": {
+   "source": "Importação inicial de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "tone": 88.5
+  },
   "PR8RMP@145.290": {
    "source": "Importação inicial de 2026-11-09 (a conferir)",
    "date": "2026-11-09",
@@ -422,7 +537,20 @@
    "modes": [
     "FM"
    ],
-   "notes": "Ligada a IRLP."
+   "notes": "Ligada a IRLP.",
+   "tone": 88.5
+  },
+  "PS7CRS@146.610": {
+   "source": "Importação inicial de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "tone": 88.5
+  },
+  "PS7GRN@145.210": {
+   "source": "Importação inicial de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "tone": 88.5
   },
   "PS7JCV@145.450": {
    "source": "Importação inicial de 2026-11-09 (a conferir)",
@@ -442,7 +570,20 @@
    ],
    "notes": "Local: LABRE.",
    "lat": -5.8136,
-   "lon": -35.19487
+   "lon": -35.19487,
+   "tone": 88.5
+  },
+  "PS7SJV@145.470": {
+   "source": "Importação inicial de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "tone": 88.5
+  },
+  "PS7TO@146.670": {
+   "source": "Importação inicial de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "tone": 88.5
   },
   "PS8GES@145.390": {
    "source": "Importação inicial de 2026-11-09 (a conferir)",
@@ -453,6 +594,18 @@
     "FM"
    ]
   },
+  "PS8LB@439.175": {
+   "source": "Importação inicial de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "tone": 123
+  },
+  "PS8MIT@147.390": {
+   "source": "Importação inicial de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "tone": 88.5
+  },
   "PS8ZM@439.175": {
    "source": "Importação inicial de 2026-11-09 (a conferir)",
    "date": "2026-11-09",
@@ -461,6 +614,12 @@
    "modes": [
     "FM"
    ]
+  },
+  "PT2AAS@145.210": {
+   "source": "Importação inicial de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "tone": 88.5
   },
   "PT2AAT@146.950": {
    "source": "Importação inicial de 2026-11-09 (a conferir)",
@@ -488,6 +647,48 @@
     "FM"
    ]
   },
+  "PT2GDX@439.975": {
+   "source": "Importação inicial de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "tone": 88.5
+  },
+  "PT2GPF@146.830": {
+   "source": "Importação inicial de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "tone": 88.5
+  },
+  "PT2JWW@145.450": {
+   "source": "Importação inicial de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "tone": 88.5
+  },
+  "PT2JWW@439.450": {
+   "source": "Importação inicial de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "tone": 88.5
+  },
+  "PT2LRR@439.525": {
+   "source": "Importação inicial de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "tone": 88.5
+  },
+  "PT2MTD@146.610": {
+   "source": "Importação inicial de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "tone": 88.5
+  },
+  "PT2OKK@145.330": {
+   "source": "Importação inicial de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "tone": 88.5
+  },
   "PT2RAP@146.650": {
    "source": "Importação inicial de 2026-11-09; posição pelo nome do local no OpenStreetMap (a conferir)",
    "date": "2026-11-09",
@@ -497,7 +698,14 @@
    ],
    "notes": "Local: Brazlândia.",
    "lat": -15.68089,
-   "lon": -48.19426
+   "lon": -48.19426,
+   "tone": 88.5
+  },
+  "PT2RAP@439.650": {
+   "source": "Importação inicial de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "tone": 88.5
   },
   "PT7RPD@145.250": {
    "source": "Importação inicial de 2026-11-09 (a conferir)",
@@ -508,6 +716,18 @@
     "FM"
    ]
   },
+  "PT9FS@147.240": {
+   "source": "Importação inicial de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "tone": 91.5
+  },
+  "PT9STL@145.310": {
+   "source": "Importação inicial de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "tone": 88.5
+  },
   "PV8AAA@146.950": {
    "source": "Importação inicial de 2026-11-09 (a conferir)",
    "date": "2026-11-09",
@@ -516,6 +736,18 @@
    "modes": [
     "FM"
    ]
+  },
+  "PW8ARM@146.990": {
+   "source": "Importação inicial de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "tone": 225.7
+  },
+  "PY1ARC@439.475": {
+   "source": "Importação inicial de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "tone": 88.5
   },
   "PY1ARF@439.700": {
    "source": "Importação inicial de 2026-11-09 (a conferir)",
@@ -526,6 +758,18 @@
     "FM"
    ]
   },
+  "PY1ASM@145.390": {
+   "source": "Importação inicial de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "tone": 88.5
+  },
+  "PY1ATO@439.200": {
+   "source": "Importação inicial de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "tone": 88.5
+  },
   "PY1BA@147.380": {
    "source": "Importação inicial de 2026-11-09 (a conferir)",
    "date": "2026-11-09",
@@ -535,6 +779,18 @@
     "FM"
    ]
   },
+  "PY1BAB@147.030": {
+   "source": "Importação inicial de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "tone": 88.5
+  },
+  "PY1BJM@147.360": {
+   "source": "Importação inicial de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "tone": 88.5
+  },
   "PY1CEU@146.750": {
    "source": "Importação inicial de 2026-11-09 (a conferir)",
    "date": "2026-11-09",
@@ -543,6 +799,12 @@
     "D-STAR"
    ]
   },
+  "PY1CPG@145.390": {
+   "source": "Importação inicial de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "tone": 82.5
+  },
   "PY1CPS@145.290": {
    "source": "Importação inicial de 2026-11-09 (a conferir)",
    "date": "2026-11-09",
@@ -550,7 +812,20 @@
    "modes": [
     "FM"
    ],
-   "notes": "Local: Morro do Itaoca."
+   "notes": "Local: Morro do Itaoca.",
+   "tone": 88.5
+  },
+  "PY1EBU@147.000": {
+   "source": "Importação inicial de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "tone": 88.5
+  },
+  "PY1EGR@439.900": {
+   "source": "Importação inicial de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "tone": 88.5
   },
   "PY1GDP@439.225": {
    "source": "Importação inicial de 2026-11-09 (a conferir)",
@@ -570,6 +845,12 @@
     "FM"
    ]
   },
+  "PY1GRF@145.470": {
+   "source": "Importação inicial de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "tone": 71.9
+  },
   "PY1GRO@146.690": {
    "source": "Importação inicial de 2026-11-09 (a conferir)",
    "date": "2026-11-09",
@@ -588,6 +869,12 @@
     "FM"
    ]
   },
+  "PY1GSL@146.910": {
+   "source": "Importação inicial de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "tone": 88.5
+  },
   "PY1GUN@439.825": {
    "source": "Importação inicial de 2026-11-09 (a conferir)",
    "date": "2026-11-09",
@@ -597,6 +884,12 @@
     "FM"
    ]
   },
+  "PY1GVZ@439.300": {
+   "source": "Importação inicial de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "tone": 88.5
+  },
   "PY1ITA@146.910": {
    "source": "Importação inicial de 2026-11-09 (a conferir)",
    "date": "2026-11-09",
@@ -604,7 +897,8 @@
    "modes": [
     "FM"
    ],
-   "notes": "Local: Morro do Itaoca."
+   "notes": "Local: Morro do Itaoca.",
+   "tone": 88.5
   },
   "PY1JDR@146.970": {
    "source": "Importação inicial de 2026-11-09 (a conferir)",
@@ -615,6 +909,18 @@
     "FM"
    ],
    "notes": "Local: Morro da Itaoca."
+  },
+  "PY1JGK@145.490": {
+   "source": "Importação inicial de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "tone": 110.9
+  },
+  "PY1JLU@146.850": {
+   "source": "Importação inicial de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "tone": 100
   },
   "PY1JPA@146.730": {
    "source": "Importação inicial de 2026-11-09; posição pelo nome do local no OpenStreetMap (a conferir)",
@@ -628,6 +934,30 @@
    "lat": -22.95317,
    "lon": -43.37158
   },
+  "PY1JUL@439.075": {
+   "source": "Importação inicial de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "tone": 88.5
+  },
+  "PY1KDD@146.970": {
+   "source": "Importação inicial de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "tone": 88.5
+  },
+  "PY1KDE@439.600": {
+   "source": "Importação inicial de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "tone": 88.5
+  },
+  "PY1KDF@146.810": {
+   "source": "Importação inicial de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "tone": 88.5
+  },
   "PY1KYZ@147.100": {
    "source": "Importação inicial de 2026-11-09 (a conferir)",
    "date": "2026-11-09",
@@ -638,6 +968,12 @@
     "DMR"
    ],
    "notes": "Ligada a EchoLink."
+  },
+  "PY1LAC@146.750": {
+   "source": "Importação inicial de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "tone": 88.5
   },
   "PY1LAE@146.890": {
    "source": "Importação inicial de 2026-11-09; posição pelo nome do local no OpenStreetMap (a conferir)",
@@ -651,6 +987,24 @@
    "lat": -22.84913,
    "lon": -43.54375
   },
+  "PY1LAL@439.350": {
+   "source": "Importação inicial de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "tone": 88.5
+  },
+  "PY1LAM@439.750": {
+   "source": "Importação inicial de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "tone": 88.5
+  },
+  "PY1LAQ@146.770": {
+   "source": "Importação inicial de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "tone": 88.5
+  },
   "PY1LFC@146.710": {
    "source": "Importação inicial de 2026-11-09 (a conferir)",
    "date": "2026-11-09",
@@ -659,6 +1013,18 @@
     "FM"
    ],
    "notes": "Local: São Gonçalo."
+  },
+  "PY1LMC@145.470": {
+   "source": "Importação inicial de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "tone": 88.5
+  },
+  "PY1LRP@147.330": {
+   "source": "Importação inicial de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "tone": 71.9
   },
   "PY1LXA@147.150": {
    "source": "Importação inicial de 2026-11-09 (a conferir)",
@@ -688,6 +1054,12 @@
    ],
    "notes": "Local: Morro do Cristo."
   },
+  "PY1MAC@145.350": {
+   "source": "Importação inicial de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "tone": 88.5
+  },
   "PY1MBU@145.230": {
    "source": "Importação inicial de 2026-11-09 (a conferir)",
    "date": "2026-11-09",
@@ -705,6 +1077,18 @@
    "modes": [
     "FM"
    ]
+  },
+  "PY1MKE@146.650": {
+   "source": "Importação inicial de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "tone": 88.5
+  },
+  "PY1MPM@145.210": {
+   "source": "Importação inicial de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "tone": 88.5
   },
   "PY1MRD@439.875": {
    "source": "Importação inicial de 2026-11-09; posição pelo nome do local no OpenStreetMap (a conferir)",
@@ -769,6 +1153,12 @@
    ],
    "notes": "Local: Recreio."
   },
+  "PY1OCA@439.300": {
+   "source": "Importação inicial de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "tone": 88.5
+  },
   "PY1ONR@147.090": {
    "source": "Importação inicial de 2026-11-09 (a conferir)",
    "date": "2026-11-09",
@@ -778,6 +1168,18 @@
     "FM"
    ]
   },
+  "PY1PKA@146.690": {
+   "source": "Importação inicial de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "tone": 88.5
+  },
+  "PY1PKB@439.550": {
+   "source": "Importação inicial de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "tone": 88.5
+  },
   "PY1PWJ@147.390": {
    "source": "Importação inicial de 2026-11-09 (a conferir)",
    "date": "2026-11-09",
@@ -785,7 +1187,20 @@
    "modes": [
     "FM"
    ],
-   "notes": "Local: Serra do Juramento."
+   "notes": "Local: Serra do Juramento.",
+   "tone": 88.5
+  },
+  "PY1RNF@147.180": {
+   "source": "Importação inicial de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "tone": 71.9
+  },
+  "PY1RRE@439.325": {
+   "source": "Importação inicial de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "tone": 100
   },
   "PY1SCF@145.430": {
    "source": "Importação inicial de 2026-11-09 (a conferir)",
@@ -843,6 +1258,12 @@
     "FM"
    ]
   },
+  "PY1UEB@147.240": {
+   "source": "Importação inicial de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "tone": 88.5
+  },
   "PY1UHF@439.025": {
    "source": "Importação inicial de 2026-11-09 (a conferir)",
    "date": "2026-11-09",
@@ -851,6 +1272,12 @@
     "FM"
    ],
    "notes": "Local: Mimoso do Sul."
+  },
+  "PY1UK@439.900": {
+   "source": "Importação inicial de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "tone": 88.5
   },
   "PY1URE@439.850": {
    "source": "Importação inicial de 2026-11-09 (a conferir)",
@@ -878,6 +1305,12 @@
     "FM"
    ]
   },
+  "PY1URS@439.975": {
+   "source": "Importação inicial de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "tone": 88.5
+  },
   "PY1UUS@439.450": {
    "source": "Importação inicial de 2026-11-09 (a conferir)",
    "date": "2026-11-09",
@@ -895,6 +1328,30 @@
    "modes": [
     "FM"
    ]
+  },
+  "PY1VRD@146.930": {
+   "source": "Importação inicial de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "tone": 88.5
+  },
+  "PY1WEM@146.650": {
+   "source": "Importação inicial de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "tone": 67
+  },
+  "PY1YBC@146.790": {
+   "source": "Importação inicial de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "tone": 88.5
+  },
+  "PY1YBR@439.100": {
+   "source": "Importação inicial de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "tone": 88.5
   },
   "PY2AA@147.060": {
    "source": "Importação inicial de 2026-11-09; posição pelo nome do local no OpenStreetMap (a conferir)",
@@ -1789,6 +2246,24 @@
    ],
    "notes": "Local: Paulista."
   },
+  "PY3ARC@147.120": {
+   "source": "Importação inicial de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "tone": 67
+  },
+  "PY3AWA@147.210": {
+   "source": "Importação inicial de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "tone": 123
+  },
+  "PY3BG@439.350": {
+   "source": "Importação inicial de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "tone": 123
+  },
   "PY3BK@439.100": {
    "source": "Importação inicial de 2026-11-09 (a conferir)",
    "date": "2026-11-09",
@@ -1797,6 +2272,18 @@
    "modes": [
     "FM"
    ]
+  },
+  "PY3EC@146.870": {
+   "source": "Importação inicial de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "tone": 123
+  },
+  "PY3ERV@145.290": {
+   "source": "Importação inicial de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "tone": 88.5
   },
   "PY3ETR@145.450": {
    "source": "Importação inicial de 2026-11-09 (a conferir)",
@@ -1816,6 +2303,12 @@
     "FM"
    ]
   },
+  "PY3HD@147.360": {
+   "source": "Importação inicial de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "tone": 123
+  },
   "PY3RAD@146.990": {
    "source": "Importação inicial de 2026-11-09 (a conferir)",
    "date": "2026-11-09",
@@ -1824,6 +2317,18 @@
     "FM"
    ],
    "notes": "Local: Bento Gonçalves."
+  },
+  "PY3RHV@146.610": {
+   "source": "Importação inicial de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "tone": 88.5
+  },
+  "PY3RIO@439.700": {
+   "source": "Importação inicial de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "tone": 88.5
   },
   "PY3RVT@146.930": {
    "source": "Importação inicial de 2026-11-09; posição do GPX (a conferir)",
@@ -1835,6 +2340,18 @@
    "notes": "Local: Lago Harmonia.",
    "lat": -29.40194,
    "lon": -51.80167
+  },
+  "PY3SRU@439.850": {
+   "source": "Importação inicial de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "tone": 123
+  },
+  "PY3UDA@146.690": {
+   "source": "Importação inicial de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "tone": 88.5
   },
   "PY4AGC@439.525": {
    "source": "Importação inicial de 2026-11-09 (a conferir)",
@@ -2295,6 +2812,12 @@
     "FM"
    ]
   },
+  "PY5AMZ@439.750": {
+   "source": "Importação inicial de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "tone": 91.5
+  },
   "PY5APU@146.770": {
    "source": "Importação inicial de 2026-11-09 (a conferir)",
    "date": "2026-11-09",
@@ -2332,7 +2855,8 @@
    "modes": [
     "FM"
    ],
-   "notes": "Local: Curitiba."
+   "notes": "Local: Curitiba.",
+   "tone": 110.9
   },
   "PY5CLB@439.850": {
    "source": "Importação inicial de 2026-11-09 (a conferir)",
@@ -2398,6 +2922,12 @@
     "DMR"
    ]
   },
+  "PY5ETI@146.970": {
+   "source": "Importação inicial de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "tone": 88.5
+  },
   "PY5FAB@147.210": {
    "source": "Importação inicial de 2026-11-09 (a conferir)",
    "date": "2026-11-09",
@@ -2425,6 +2955,18 @@
     "FM"
    ]
   },
+  "PY5FXA@146.790": {
+   "source": "Importação inicial de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "tone": 88.5
+  },
+  "PY5GFR@146.650": {
+   "source": "Importação inicial de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "tone": 146.2
+  },
   "PY5GRT@146.710": {
    "source": "Importação inicial de 2026-11-09 (a conferir)",
    "date": "2026-11-09",
@@ -2446,6 +2988,18 @@
    "lat": -25.89076,
    "lon": -48.95726
   },
+  "PY5GWR@145.450": {
+   "source": "Importação inicial de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "tone": 88.5
+  },
+  "PY5HAM@145.370": {
+   "source": "Importação inicial de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "tone": 110.9
+  },
   "PY5IGU@146.970": {
    "source": "Importação inicial de 2026-11-09 (a conferir)",
    "date": "2026-11-09",
@@ -2463,6 +3017,18 @@
     "DMR"
    ]
   },
+  "PY5LDN@146.610": {
+   "source": "Importação inicial de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "tone": 88.5
+  },
+  "PY5LON@146.650": {
+   "source": "Importação inicial de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "tone": 88.5
+  },
   "PY5MDG@147.240": {
    "source": "Importação inicial de 2026-11-09 (a conferir)",
    "date": "2026-11-09",
@@ -2470,7 +3036,8 @@
    "modes": [
     "FM"
    ],
-   "notes": "Ligada a EchoLink."
+   "notes": "Ligada a EchoLink.",
+   "tone": 88.5
   },
   "PY5MED@145.390": {
    "source": "Importação inicial de 2026-11-09; posição do GPX (a conferir)",
@@ -2522,6 +3089,12 @@
    "lat": -25.38682,
    "lon": -49.55262
   },
+  "PY5PYY@145.370": {
+   "source": "Importação inicial de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "tone": 88.5
+  },
   "PY5RCM@145.490": {
    "source": "Importação inicial de 2026-11-09 (a conferir)",
    "date": "2026-11-09",
@@ -2530,6 +3103,12 @@
    "modes": [
     "FM"
    ]
+  },
+  "PY5RPB@146.710": {
+   "source": "Importação inicial de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "tone": 88.5
   },
   "PY5STC@147.000": {
    "source": "Importação inicial de 2026-11-09 (a conferir)",
@@ -2563,6 +3142,12 @@
    ],
    "notes": "Local: Morro da Bocaina."
   },
+  "PY5UNO@147.000": {
+   "source": "Importação inicial de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "tone": 88.5
+  },
   "PY5VET@145.430": {
    "source": "Importação inicial de 2026-11-09 (a conferir)",
    "date": "2026-11-09",
@@ -2579,6 +3164,12 @@
    "modes": [
     "DMR"
    ]
+  },
+  "PY6ARC@146.810": {
+   "source": "Importação inicial de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "tone": 88.5
   },
   "PY6CG@146.910": {
    "source": "Importação inicial de 2026-11-09 (a conferir)",
@@ -2598,6 +3189,12 @@
     "DMR"
    ]
   },
+  "PY6ER@145.270": {
+   "source": "Importação inicial de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "tone": 88.5
+  },
   "PY6LF@439.500": {
    "source": "Importação inicial de 2026-11-09 (a conferir)",
    "date": "2026-11-09",
@@ -2605,6 +3202,18 @@
    "modes": [
     "DMR"
    ]
+  },
+  "PY6PS@146.970": {
+   "source": "Importação inicial de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "tone": 82.5
+  },
+  "PY6QB@146.970": {
+   "source": "Importação inicial de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "tone": 156.7
   },
   "PY6RVC@146.930": {
    "source": "Importação inicial de 2026-11-09 (a conferir)",
@@ -2614,6 +3223,66 @@
    "modes": [
     "FM"
    ]
+  },
+  "PY6VU@147.270": {
+   "source": "Importação inicial de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "tone": 88.5
+  },
+  "PY7AK@439.950": {
+   "source": "Importação inicial de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "tone": 100
+  },
+  "PY7BMC@146.970": {
+   "source": "Importação inicial de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "tone": 100
+  },
+  "PY7CRC@145.290": {
+   "source": "Importação inicial de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "tone": 88.5
+  },
+  "PY7CT@146.630": {
+   "source": "Importação inicial de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "tone": 100
+  },
+  "PY7DIG@145.450": {
+   "source": "Importação inicial de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "tone": 88.5
+  },
+  "PY7GA@439.400": {
+   "source": "Importação inicial de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "tone": 100
+  },
+  "PY7GR@147.120": {
+   "source": "Importação inicial de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "tone": 100
+  },
+  "PY7JMN@147.240": {
+   "source": "Importação inicial de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "tone": 100
+  },
+  "PY7SO@147.210": {
+   "source": "Importação inicial de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "tone": 88.5
   },
   "PY8AVC@145.410": {
    "source": "Importação inicial de 2026-11-09 (a conferir)",
@@ -2655,6 +3324,18 @@
    "modes": [
     "FM"
    ]
+  },
+  "PY8MPQ@147.390": {
+   "source": "Importação inicial de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "tone": 88.5
+  },
+  "PY8RCP@145.450": {
+   "source": "Importação inicial de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "tone": 88.5
   }
  }
 }

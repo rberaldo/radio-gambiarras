@@ -486,6 +486,12 @@ Map:
   "Importação inicial" (no third-party name); the digital note is in the
   intro and the status bar only. Private checklist of unverified entries:
   `node scripts/repeaterbook/checklist.ts` → `private/conferir.md`.
+- Pre-release change (2026-11-09, user's decision): 121 more tones from
+  Antena Ativa's list, saved by the user as a PDF
+  (`scripts/antenaativa/import.ts`, `docs/overlay.md`). Exact town +
+  frequency matches only; RepeaterBook tones kept where the two disagree
+  (10 cases). All `unverified`. The PDF lacks the tone column for CE, MG,
+  SC, SE and SP: the user may save those states again and rerun.
 - [ ] **M3.9 Release.** Credits (Anatel, OpenFreeMap/OpenMapTiles/OSM,
   Mapterhorn/Copernicus, OpenTopoMap if used) on the tool and `/sobre`;
   approximate-position explanation; registry entry to `available`; full

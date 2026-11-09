@@ -120,7 +120,9 @@ Modern amenities are not optional:
   exports (tone, modes, site name; only repeaters Anatel lists), via
   `scripts/repeaterbook/import.ts`. The exports stay in `private/`
   (gitignored). Imported entries are `unverified` and the site does not
-  name the source.
+  name the source. Same for tones from Antena Ativa's list, which the user
+  saved as a PDF (`scripts/antenaativa/import.ts`, exact town and
+  frequency matches only, never overriding a tone already there).
 
 ## Building tools
 

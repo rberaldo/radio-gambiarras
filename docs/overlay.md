@@ -77,6 +77,27 @@ Positions came next, with
 Sites not found (e.g. Morro do Itaoca, absent from OpenStreetMap) keep the
 município seat until a correction arrives.
 
+## More tones from Antena Ativa (2026-11-09)
+
+The maintainer saved Antena Ativa's list of analog repeaters as a PDF
+(`private/antenaativa.pdf`, never committed). Tones were added with:
+
+```
+pdftotext -layout private/antenaativa.pdf private/antenaativa.txt
+node scripts/antenaativa/import.ts private/antenaativa.txt
+```
+
+- The list has no callsigns, so a row counts only when its town (with
+  abbreviations like "Sta." spelled out) and output frequency match exactly
+  one Anatel repeater. Rows in a neighbouring town are not used, even close
+  ones: frequencies are reused, and the guesses were often wrong.
+- Only the tone is taken, and only where the overlay has none. Tones already
+  there (from RepeaterBook or a person) win, even when the list disagrees.
+- New tones are `unverified`, with the same neutral source as the first
+  import. Running it again is safe.
+- The PDF saved on 2026-11-09 lacks the tone column for CE, MG, SC, SE and
+  SP (the page cut it off). Save those states again and rerun to fill them.
+
 ## Corrections through GitHub issues
 
 People suggest corrections with the issue form "Correção de repetidora"
