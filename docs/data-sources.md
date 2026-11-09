@@ -232,9 +232,9 @@ donation-funded, no SLA. Attribution must stay visible.
 Libraries: MapLibre GL JS 6.x (BSD-3, ~295 KB gzipped), maplibre-contour
 0.1.x (BSD-3; MapLibre 6 support unverified, smoke-test).
 
-Netlify Forms (legacy free plan): 100 verified submissions per site per
+Netlify Forms (researched, not used: the user chose GitHub Issues): 100 verified submissions per site per
 month; Akismet always on; honeypot via `netlify-honeypot`; JS-rendered forms
 need a hidden static HTML form with the same fields; POST url-encoded with
 `form-name`. API: `GET https://api.netlify.com/api/v1/sites/{site_id}/submissions`
 with a personal access token. Exceeding a metered limit on the legacy free
-plan can pause every site on the account, hence the separate team (M3.0).
+plan can pause every site on the account.

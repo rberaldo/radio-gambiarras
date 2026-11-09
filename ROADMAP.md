@@ -313,9 +313,9 @@ Interface (M2.8 can start as soon as M2.1 and M2.3 are done):
 
 Goal: a topographic map of Brazil with every licensed 2 m and 70 cm repeater.
 Click a place (a peak, a town) and the repeaters within a radius light up;
-download them as a spreadsheet or for CHIRP. Visitors can suggest
-corrections (tone, exact position, on-air status) without logging in; the
-user approves them. Planned with the user on 2026-11-09.
+download them as a spreadsheet or for CHIRP. People suggest corrections
+(tone, exact position, on-air status) through GitHub Issues; the user
+approves them with a label. Planned with the user on 2026-11-09.
 
 Read the Repeaters section of `docs/data-sources.md`, `docs/chirp-csv.md`
 and `docs/ui-guidelines.md` first.
@@ -345,13 +345,15 @@ and `docs/ui-guidelines.md` first.
   OpenTopoMap raster as a fallback layer. MapLibre (~300 KB gzipped) loads
   only on this page. Build a prototype first (M3.6) for the user to judge on
   a phone.
-- **Corrections without login:** **Netlify Forms** with the user's approval.
-  The site moves to its **own Netlify team** first (M3.0) so a form or
-  bandwidth problem can only pause this site, never the user's other sites
-  (the legacy free plan allows 100 verified submissions a month and can
-  pause all sites on an account that exceeds a metered limit). Spam: Akismet
-  (automatic) + honeypot; no reCAPTCHA.
-- **Votes ("confirmo que funciona"):** later, after the map ships.
+- **Corrections:** **GitHub Issues** (decided 2026-11-09, replacing Netlify
+  Forms; contributors need a GitHub account). A "Sugerir correção" button
+  opens a GitHub issue form prefilled with the repeater and, optionally, the
+  last point clicked on the map as its position. The maintainer approves by
+  adding the label `aprovada`; a GitHub Action applies the answers to
+  `overlay.json`, validates, commits (which deploys), comments and closes the
+  issue, or comments the validation errors and changes nothing.
+- **Votes ("confirmo que funciona"):** later, after the map ships; possibly
+  👍 reactions on a repeater's issue, counted by the daily job.
 - **Updates:** daily, in the existing data job, from the same Anatel
   download. New and removed repeaters are recorded with a date. The overlay
   is never touched by the job.
@@ -360,11 +362,9 @@ and `docs/ui-guidelines.md` first.
 
 Setup:
 
-- [ ] **M3.0 Own Netlify team (user, guided).** Postponed by the user on
-  2026-11-09: **remind the user before starting M3.8** (needed before the form
-  goes live). Create a free Netlify team
-  for radio-gambiarras and transfer the site to it (Site configuration →
-  Transfer site). Re-check the GitHub link and deploys afterwards.
+- [x] **M3.0 Own Netlify team.** Dropped 2026-11-09: corrections go through
+  GitHub Issues instead of Netlify Forms, so the site never risks pausing the
+  user's other Netlify sites.
 
 Data:
 
@@ -442,13 +442,17 @@ Map:
   CHIRP" for the selection; URL state (`lat`, `lon`, `raio`, filters, selected
   repeater). A keyboard and screen-reader path: a place search or coordinates
   field and the text list. Data date and attribution in the status bar.
-- [ ] **M3.8 Corrections form.** "Sugerir correção" on each repeater: a
-  Preact form (tone, exact position via a map pick or coordinates, on-air
-  status, notes, optional callsign/contact), plus the hidden static form
-  Netlify needs for detection; honeypot; POST url-encoded with `form-name`.
-  `scripts/repeaters/suggestions.ts` lists verified submissions through the
-  Netlify API (personal access token, never committed) so the user can
-  approve them into `overlay.json`; `docs/overlay.md` explains the workflow.
+- [ ] **M3.8 Corrections through GitHub Issues.** An issue form
+  `.github/ISSUE_TEMPLATE/correcao-repetidora.yml` (repeater id, tone from
+  the CTCSS list plus "nenhum"/"não sei", DCS, lat/lon, modes, on air, notes,
+  how you know); the site's "Sugerir correção" builds the
+  `issues/new?template=…&<field>=…` URL to prefill it (repeater id, frequencies,
+  município, clicked point). `.github/workflows/correcoes.yml` runs when the
+  label `aprovada` is added: parse the form body (tested parser in
+  `scripts/repeaters/issue.ts`), merge into `overlay.json`, run
+  `validateOverlay`, commit and push, comment and close; on errors, comment
+  them and remove the label. Labels: `correcao`, `aprovada`. Document the flow
+  in `docs/overlay.md`.
 - [ ] **M3.9 Release.** Credits (Anatel, OpenFreeMap/OpenMapTiles/OSM,
   Mapterhorn/Copernicus, OpenTopoMap if used) on the tool and `/sobre`;
   approximate-position explanation; registry entry to `available`; full
@@ -567,5 +571,6 @@ Not planned. Move one into a milestone only when the user asks.
 | 2026-11-09 | APRS: port the old symbol search with a detail panel; typing help = table + character; Portuguese only; aprs.tools is dead. |
 | 2026-11-09 | APRS symbol tool released. UI refactored onto shared `src/ui/` blocks; fonts W95FA + Departure Mono; guidelines in docs/ui-guidelines.md. |
 | 2026-11-09 | Repeater map planned: MapLibre Gaia-like topo (OpenFreeMap + Mapterhorn + contours), radius 50 km (10–150), CSV + CHIRP, Netlify Forms corrections with approval, own Netlify team; votes and GPX later. |
+| 2026-11-09 | Repeater corrections via GitHub Issues + label `aprovada` + Action (Netlify Forms dropped; no separate Netlify team needed). |
 | 2026-11-09 | Site name: Rádio Gambiarras. Jokes (404, loading messages) left for the user to write later. |
 | 2026-11-09 | Quarantine history seeded from an April 2025 third-party snapshot, marked as uncertain. |

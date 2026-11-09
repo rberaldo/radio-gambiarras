@@ -42,5 +42,6 @@ merges it with Anatel's data (`src/lib/repeaters/merge.ts`).
 `src/lib/repeaters/overlay.ts`) and explains every problem in Portuguese.
 Run it before committing a change.
 
-How suggestions from the site's form become entries is described with the
-form (roadmap M3.8).
+Suggestions arrive as GitHub issues (form `correcao-repetidora`); adding the
+label `aprovada` applies them automatically (roadmap M3.8, documented here
+when built).
