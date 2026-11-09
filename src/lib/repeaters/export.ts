@@ -30,11 +30,14 @@ function toneLabel(r: Repeater): string {
  */
 export function spreadsheetCsv(rows: readonly Nearby[]): string {
   const d = ';';
+  // Along a trail, where on it each repeater comes closest.
+  const trail = rows.some((n) => n.alongKm !== undefined);
   const header = [
     'Sigla', 'Indicativo', 'Saída (MHz)', 'Entrada (MHz)', 'Deslocamento (MHz)', 'Subtom (Hz)', 'DCS', 'Modos', 'Município', 'UF',
-    'Latitude', 'Longitude', 'Posição', 'Distância (km)', 'Licença', 'Validade', 'No ar', 'Observações', 'Fonte da correção',
+    'Latitude', 'Longitude', 'Posição', trail ? 'Distância da trilha (km)' : 'Distância (km)', ...(trail ? ['Km da trilha'] : []),
+    'Licença', 'Validade', 'No ar', 'Observações', 'Fonte da correção',
   ];
-  const lines = rows.map(({ repeater: r, distanceKm }) =>
+  const lines = rows.map(({ repeater: r, distanceKm, alongKm }) =>
     [
       cityCode(r.municipio, r.uf),
       r.callsign,
@@ -50,6 +53,7 @@ export function spreadsheetCsv(rows: readonly Nearby[]): string {
       r.position ? ptNumber(r.position.lon, 5) : '',
       r.position ? (r.position.probable ? 'provável' : r.position.exact ? 'exata' : 'aproximada (sede do município)') : 'desconhecida',
       ptNumber(distanceKm, 1),
+      ...(trail ? [alongKm === undefined ? '' : ptNumber(alongKm, 1)] : []),
       LICENSE_LABELS[r.license],
       r.validUntil ?? '',
       r.onAir === undefined ? '' : r.onAir ? 'sim' : 'não',
@@ -82,9 +86,8 @@ export const chirpName = (r: Repeater) => [cityCode(r.municipio, r.uf), r.callsi
  */
 export function chirpCsv(rows: readonly Nearby[]): string {
   const lines = rows
-    .map((n) => n.repeater)
-    .filter(isFm)
-    .map((r, i) => {
+    .filter((n) => isFm(n.repeater))
+    .map(({ repeater: r, alongKm }, i) => {
       const duplex = r.shift > 0 ? '+' : r.shift < 0 ? '-' : '';
       let toneMode = '';
       let rTone = 88.5;
@@ -97,7 +100,12 @@ export function chirpCsv(rows: readonly Nearby[]): string {
         dcs = r.dcs;
       }
       const toneNote = r.tone === undefined && !r.dcs ? 'subtom desconhecido' : '';
-      const comment = [`${r.municipio}/${r.uf}`, toneNote, r.position && !r.position.exact ? 'posição aproximada' : '']
+      const comment = [
+        alongKm === undefined ? '' : `km ${Math.round(alongKm)} da trilha`,
+        `${r.municipio}/${r.uf}`,
+        toneNote,
+        r.position && !r.position.exact ? 'posição aproximada' : '',
+      ]
         .filter(Boolean)
         .join('; ');
       return [

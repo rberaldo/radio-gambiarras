@@ -26,6 +26,10 @@
   --m-quar-bg: #ffffcc;
   --m-quar-text: #665200;
   --m-quar-line: #999900;
+  /* A trail on the repeater map (same purple as its line) */
+  --m-trail: #800080;
+  /* Pale veil over content, e.g. while a file is dragged over the map */
+  --m-veil: rgb(255 255 255 / 0.85);
   --m-radius: 2px;
   --m-shadow: 2px 2px 0 rgb(0 0 0 / 0.25);
   --m-shadow-sm: 1px 1px 0 rgb(0 0 0 / 0.25);

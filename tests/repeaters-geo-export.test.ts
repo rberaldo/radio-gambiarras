@@ -87,3 +87,18 @@ describe('chirpCsv', () => {
     expect(chirpCsv([{ repeater: base({ tone: 123 }), distanceKm: 1 }])).not.toMatch(/\d,\d{3}\b.*MHz/);
   });
 });
+
+describe('exports along a trail', () => {
+  const rows = [{ repeater: base({ tone: 88.5 }), distanceKm: 4.24, alongKm: 12.36 }];
+
+  it('adds the km along the trail to the spreadsheet', () => {
+    const [header, row] = spreadsheetCsv(rows).replace(/^﻿/, '').trimEnd().split('\r\n');
+    const cols = header!.split(';');
+    expect(cols).toContain('Distância da trilha (km)');
+    expect(row!.split(';')[cols.indexOf('Km da trilha')]).toBe('12,4');
+  });
+
+  it('starts the CHIRP comment with the km along the trail', () => {
+    expect(chirpCsv(rows)).toContain(',km 12 da trilha; São Paulo/SP;');
+  });
+});

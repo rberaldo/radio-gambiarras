@@ -1,7 +1,8 @@
 // The repeater map tool: pick a point (click, place box or location), see
-// the repeaters within the radius, open one, download the list.
+// the repeaters within the radius, open one, download the list. Or drop a
+// trail file (hidden for now) and see the repeaters along it.
 import { useMemo, useState } from 'preact/hooks';
-import { withinRadius, type Point } from '../../lib/repeaters/geo.ts';
+import { alongTrack, withinRadius, type Point } from '../../lib/repeaters/geo.ts';
 import type { Repeater } from '../../lib/repeaters/merge.ts';
 import { plural } from '../../lib/format.ts';
 import { Loading, LoadError } from '../../ui/LoadState.tsx';
@@ -16,6 +17,11 @@ import { isDigital } from '../../lib/repeaters/display.ts';
 import { isFm } from '../../lib/repeaters/export.ts';
 import { correctionUrl, missingRepeater } from '../../lib/repeaters/correction.ts';
 import { site } from '../../site.ts';
+import { writeTrackHash } from '../../lib/tracks/link.ts';
+import { TrackError } from '../../lib/tracks/read.ts';
+import { trackBounds } from '../../lib/tracks/track.ts';
+import { TrackDrop } from './TrackDrop.tsx';
+import { useTrack } from './useTrack.ts';
 import './repeaters.css';
 
 /** "Município/UF" → seat, from the repeaters' approximate positions. */
@@ -27,6 +33,16 @@ function placesOf(repeaters: readonly Repeater[]): Map<string, Point> {
   return new Map([...places].sort(([a], [b]) => a.localeCompare(b, 'pt-BR')));
 }
 
+/** "Travessia Petrópolis–Teresópolis" → "travessia-petropolis-teresopolis", for file names. */
+const slug = (s: string) =>
+  s
+    .normalize('NFD')
+    .replace(/\p{M}/gu, '')
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-|-$/g, '')
+    .slice(0, 40) || 'trilha';
+
 const MODE_TEST: Record<ModeChoice, (r: Repeater) => boolean> = { todos: () => true, fm: isFm, digital: isDigital };
 
 function filterRepeaters(repeaters: readonly Repeater[], band: BandChoice, mode: ModeChoice): Repeater[] {
@@ -36,12 +52,20 @@ function filterRepeaters(repeaters: readonly Repeater[], band: BandChoice, mode:
 function Tool({ repeaters }: { repeaters: Repeater[] }) {
   const [state, set] = useUrlState(readState, writeState, DEFAULT_STATE);
   const center = state.lat !== undefined && state.lon !== undefined ? { lat: state.lat, lon: state.lon } : undefined;
-  // The map moves only when asked (place box, location, opening a link), not on every click.
-  const [focus, setFocus] = useState<Focus | undefined>(() => (center ? { center, radiusKm: state.radiusKm } : undefined));
+  const { track, loadFile, clearTrack } = useTrack();
+  const [trackProblem, setTrackProblem] = useState<string>();
+  // The map moves only when asked (place box, location, opening a link, a trail), not on every click.
+  const [focus, setFocus] = useState<Focus | undefined>(() =>
+    track ? { bounds: trackBounds(track.shown) } : center ? { center, radiusKm: state.radiusKm } : undefined,
+  );
 
   const shown = useMemo(() => filterRepeaters(repeaters, state.band, state.mode), [repeaters, state.band, state.mode]);
   const places = useMemo(() => placesOf(repeaters), [repeaters]);
-  const nearby = useMemo(() => (center ? withinRadius(shown, center, state.radiusKm) : []), [shown, center?.lat, center?.lon, state.radiusKm]);
+  // A trail replaces the point: repeaters along it, in walking order.
+  const nearby = useMemo(
+    () => (track ? alongTrack(shown, track.shared.lines, state.radiusKm) : center ? withinRadius(shown, center, state.radiusKm) : []),
+    [shown, track, center?.lat, center?.lon, state.radiusKm],
+  );
   const inside = useMemo(() => new Set(nearby.map((n) => n.repeater.id)), [nearby]);
   const active = state.selected ? repeaters.find((r) => r.id === state.selected) : undefined;
   const activeDistance = active ? nearby.find((n) => n.repeater.id === active.id)?.distanceKm : undefined;
@@ -53,12 +77,38 @@ function Tool({ repeaters }: { repeaters: Repeater[] }) {
     set({ selected: undefined });
   };
 
-  const pick = (point: Point) => set({ lat: point.lat, lon: point.lon });
+  // With a trail on the map, a click only opens repeaters; the search, location or a right click leave the trail.
+  const pick = (point: Point) => !track && set({ lat: point.lat, lon: point.lon });
   const go = (point: Point) => {
-    pick(point);
+    clearTrack();
+    set({ lat: point.lat, lon: point.lon });
     setFocus({ center: point, radiusKm: state.radiusKm });
   };
-  const label = center ? `${center.lat.toFixed(3)}_${center.lon.toFixed(3)}_${state.radiusKm}km` : 'brasil';
+  const clear = () => {
+    clearTrack();
+    setTrackProblem(undefined);
+    set({ lat: undefined, lon: undefined });
+  };
+  const dropTrack = async (file: File) => {
+    try {
+      const loaded = await loadFile(file);
+      setTrackProblem(undefined);
+      set({ lat: undefined, lon: undefined, selected: undefined });
+      setFocus({ bounds: trackBounds(loaded.shown) });
+    } catch (err) {
+      setTrackProblem(err instanceof TrackError ? err.message : 'Não consegui ler este arquivo.');
+    }
+  };
+  const label = track
+    ? `trilha-${slug(track.shown.name ?? 'sem-nome')}_${state.radiusKm}km`
+    : center
+      ? `${center.lat.toFixed(3)}_${center.lon.toFixed(3)}_${state.radiusKm}km`
+      : 'brasil';
+  const trail = track && {
+    name: track.shown.name,
+    lengthKm: track.lengthKm,
+    link: `${location.origin}${location.pathname}${writeState({ ...state, lat: undefined, lon: undefined, selected: undefined })}${writeTrackHash(track.shared)}`,
+  };
 
   return (
     <div class="tool-root">
@@ -72,27 +122,35 @@ function Tool({ repeaters }: { repeaters: Repeater[] }) {
         onBand={(band) => set({ band })}
         onMode={(mode) => set({ mode })}
       />
+      {trackProblem && (
+        <p class="rp-controls__problem" role="alert">
+          {trackProblem}
+        </p>
+      )}
+      <TrackDrop onFile={dropTrack}>
       <div class="rp-layout">
         <RepeaterMap
           repeaters={shown}
+          track={track?.shown}
           inside={inside}
           center={center}
           radiusKm={state.radiusKm}
           activeId={state.selected}
           focus={focus}
           onPick={pick}
-          onClear={() => set({ lat: undefined, lon: undefined })}
+          onClear={clear}
           onSelect={(selected) => set({ selected })}
         />
         <div class="rp-side">
           {active ? (
             <RepeaterDetail repeater={active} distanceKm={activeDistance} picked={center} onClose={closeDetail} />
-          ) : center ? (
+          ) : center || trail ? (
             <ResultsPanel
               nearby={nearby}
               radiusKm={state.radiusKm}
               mode={state.mode}
               center={center}
+              trail={trail}
               label={label}
               activeId={state.selected}
               focusId={lastClosed}
@@ -133,6 +191,7 @@ function Tool({ repeaters }: { repeaters: Repeater[] }) {
           )}
         </div>
       </div>
+      </TrackDrop>
     </div>
   );
 }

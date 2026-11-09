@@ -41,7 +41,7 @@ describe('parseCoordinates', () => {
   it.each(['', 'Rio de Janeiro', '-22.9', '200, 10', '1 2 3'])('rejects %j', (t) => expect(parseCoordinates(t)).toBeUndefined());
 });
 
-import { circlePolygon, repeaterPoints } from '../src/tools/repetidoras/mapData.ts';
+import { circlePolygon, corridorCircles, repeaterPoints } from '../src/tools/repetidoras/mapData.ts';
 import { distanceKm } from '../src/lib/repeaters/geo.ts';
 import type { Repeater } from '../src/lib/repeaters/merge.ts';
 
@@ -61,6 +61,19 @@ describe('map data', () => {
     const at = { lat: -22, lon: -43, exact: false };
     const fc = repeaterPoints([r('A@146.610', at, ['DMR']), r('B@146.610', at, ['FM', 'Fusion']), r('C@146.610', at, ['FM'])], new Set());
     expect(fc.features.map((f) => f.properties.digital)).toEqual([true, true, false]);
+  });
+
+  it('covers a trail with circles a quarter radius apart', () => {
+    // About 111 km east along the equator, in two pieces; radius 20 km → a circle every 5 km.
+    const trail = [[{ lat: 0, lon: 0 }, { lat: 0, lon: 0.3 }, { lat: 0, lon: 1 }]];
+    const fc = corridorCircles(trail, 20);
+    const centers = fc.features.map((f) => {
+      const ring = f.geometry.coordinates[0]!;
+      return (Math.max(...ring.map((c) => c[0]!)) + Math.min(...ring.map((c) => c[0]!))) / 2;
+    });
+    expect(fc.features.length).toBeGreaterThanOrEqual(23);
+    for (let i = 1; i < centers.length; i++) expect((centers[i]! - centers[i - 1]!) * 111.32).toBeLessThanOrEqual(5.01);
+    expect(corridorCircles(trail, 20, 10).features.length).toBeLessThanOrEqual(12);
   });
 
   it('draws a circle at the right distance', () => {

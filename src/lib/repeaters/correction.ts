@@ -64,6 +64,9 @@ export function correctionUrl({ repo, id, title, context }: CorrectionLink): str
 const pointText = (p: Point) => `${p.lat.toFixed(5)}, ${p.lon.toFixed(5)}`;
 
 /** Link to correct a repeater on the map, with what the site shows about it. */
+/** The page address without a trail after "#": it can be kilobytes long, too much for an issue link. */
+const withoutTrail = (url: string) => url.split('#')[0]!;
+
 export function repeaterCorrection(repo: string, r: Repeater, pageUrl: string, picked?: Point): CorrectionLink {
   const position = r.position
     ? r.position.exact
@@ -78,7 +81,7 @@ export function repeaterCorrection(repo: string, r: Repeater, pageUrl: string, p
     `Posição: ${position}`,
   ];
   if (picked) lines.push(`Ponto escolhido no mapa: ${pointText(picked)}`);
-  lines.push(pageUrl);
+  lines.push(withoutTrail(pageUrl));
   return { repo, id: r.id, title: `Correção: ${r.callsign} ${formatMHz(r.output)} MHz`, context: lines.join('\n') };
 }
 
@@ -86,6 +89,6 @@ export function repeaterCorrection(repo: string, r: Repeater, pageUrl: string, p
 export function missingRepeater(repo: string, pageUrl: string, picked?: Point): CorrectionLink {
   const lines = ['Repetidora que falta no mapa.'];
   if (picked) lines.push(`Ponto escolhido no mapa: ${pointText(picked)}`);
-  lines.push(pageUrl);
+  lines.push(withoutTrail(pageUrl));
   return { repo, title: 'Repetidora nova: ', context: lines.join('\n') };
 }

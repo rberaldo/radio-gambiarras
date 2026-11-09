@@ -55,6 +55,62 @@
   gap: var(--sp-3);
 }
 
+/* Drop target for trail files: takes the layout's place in the column */
+.rp-drop {
+  position: relative;
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  min-height: 0;
+}
+
+.rp-drop__overlay {
+  position: absolute;
+  z-index: 10;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  padding: var(--sp-5);
+  border: 2px dashed var(--c-select);
+  background: var(--m-veil);
+  pointer-events: none;
+}
+
+.rp-drop__overlay p {
+  max-width: 24rem;
+  margin: 0;
+  padding: var(--sp-4);
+  border: 1px solid var(--m-line);
+  background: var(--m-surface);
+  box-shadow: var(--m-shadow);
+  font-weight: bold;
+  text-align: center;
+}
+
+/* A trail's name, length and share link, above its list */
+.rp-trail {
+  display: flex;
+  gap: var(--sp-3);
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: var(--sp-3);
+  padding-bottom: var(--sp-3);
+  border-bottom: 1px solid var(--m-line-soft);
+}
+
+.rp-trail p {
+  min-width: 0;
+  margin: 0;
+}
+
+.rp-trail strong {
+  color: var(--m-trail);
+}
+
+.rp-trail__copy {
+  flex: none;
+}
+
 .rp-map {
   position: relative;
   display: flex;

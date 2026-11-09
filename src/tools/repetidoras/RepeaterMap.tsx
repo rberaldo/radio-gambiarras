@@ -12,13 +12,14 @@ import { useEffect, useRef, useState } from 'preact/hooks';
 import neighbours from '../../../data/geo/vizinhos.json';
 import type { Point } from '../../lib/repeaters/geo.ts';
 import type { Repeater } from '../../lib/repeaters/merge.ts';
-import { EMPTY, circlePolygon, repeaterPoints } from './mapData.ts';
+import { EMPTY, circlePolygon, corridorCircles, repeaterPoints } from './mapData.ts';
 import { spiderOffsets } from './spider.ts';
+import type { Track } from '../../lib/tracks/track.ts';
 import { BASE_STYLE_URL, BRAZIL_BOUNDS, DEM_MAX_ZOOM, DEM_URL, RELIEF_ATTRIBUTION, buildStyle } from './mapStyle.ts';
 
 maplibregl.setWorkerUrl(workerUrl);
 
-const COLORS = { navy: '#000080', green: '#008000', darkGreen: '#006400', white: '#ffffff', gold: '#ffcc00', red: '#cc0000', black: '#000000' };
+const COLORS = { purple: '#800080', navy: '#000080', green: '#008000', darkGreen: '#006400', white: '#ffffff', gold: '#ffcc00', red: '#cc0000', black: '#000000' };
 
 // The clicked point, as a pixel-art pushpin (X outline, R red, W white); the needle's tip is the point.
 const PIN = [
@@ -79,13 +80,17 @@ function diamondImage(half: number, fill: string, line: string, width = 4): Imag
 
 /** Where the map should move to; a new object moves it again. */
 export interface Focus {
-  center: Point;
+  center?: Point;
   radiusKm?: number;
   zoom?: number;
+  /** Fit these instead: [[west, south], [east, north]], e.g. a whole trail. */
+  bounds?: [[number, number], [number, number]];
 }
 
 interface Props {
   repeaters: readonly Repeater[];
+  /** A trail dropped on the map; drawn with a corridor `radiusKm` wide on each side. */
+  track?: Track;
   /** Repeaters inside the circle. */
   inside: ReadonlySet<string>;
   center?: Point;
@@ -169,6 +174,8 @@ function addRepeaterLayers(map: maplibregl.Map) {
     clusterProperties: { sel: ['+', ['get', 'sel']], dig: ['+', ['case', ['get', 'digital'], 1, 0]] },
   });
   map.addSource('circle', { type: 'geojson', data: EMPTY });
+  map.addSource('track', { type: 'geojson', data: EMPTY });
+  map.addSource('track-corridor', { type: 'geojson', data: EMPTY });
   map.addSource('active', { type: 'geojson', data: EMPTY });
   map.addSource('center', { type: 'geojson', data: EMPTY });
   map.addSource('spider', { type: 'geojson', data: EMPTY });
@@ -187,6 +194,27 @@ function addRepeaterLayers(map: maplibregl.Map) {
 
   map.addLayer({ id: 'circle-fill', type: 'fill', source: 'circle', paint: { 'fill-color': COLORS.navy, 'fill-opacity': 0.08 } });
   map.addLayer({ id: 'circle-line', type: 'line', source: 'circle', paint: { 'line-color': COLORS.navy, 'line-width': 2, 'line-dasharray': [2, 1] } });
+  // A trail's corridor: flat extrusions, because their opacity is the layer's, so overlaps do not darken.
+  map.addLayer({
+    id: 'track-corridor',
+    type: 'fill-extrusion',
+    source: 'track-corridor',
+    paint: { 'fill-extrusion-color': COLORS.navy, 'fill-extrusion-opacity': 0.1, 'fill-extrusion-height': 1, 'fill-extrusion-vertical-gradient': false },
+  });
+  map.addLayer({
+    id: 'track-casing',
+    type: 'line',
+    source: 'track',
+    layout: { 'line-join': 'round', 'line-cap': 'round' },
+    paint: { 'line-color': COLORS.white, 'line-width': 6 },
+  });
+  map.addLayer({
+    id: 'track-line',
+    type: 'line',
+    source: 'track',
+    layout: { 'line-join': 'round', 'line-cap': 'round' },
+    paint: { 'line-color': COLORS.purple, 'line-width': 3 },
+  });
   // Under the badges, so a cluster on the same spot keeps its count readable.
   map.addLayer({
     id: 'center-pin',
@@ -326,7 +354,7 @@ function closeSpider(map: maplibregl.Map) {
   for (const [layer, filter] of Object.entries(CLUSTER_LAYERS)) map.setFilter(layer, filter);
 }
 
-export function RepeaterMap({ repeaters, inside, center, radiusKm, activeId, focus, onPick, onClear, onSelect }: Props) {
+export function RepeaterMap({ repeaters, track, inside, center, radiusKm, activeId, focus, onPick, onClear, onSelect }: Props) {
   const container = useRef<HTMLDivElement>(null);
   const mapRef = useRef<maplibregl.Map | undefined>(undefined);
   const [ready, setReady] = useState(false);
@@ -364,7 +392,11 @@ export function RepeaterMap({ repeaters, inside, center, radiusKm, activeId, foc
         }),
         neighbours: neighbours as never,
       });
-      const initial = focus ? { bounds: circleBounds(focus.center, focus.radiusKm ?? 50) } : { bounds: BRAZIL_BOUNDS };
+      const initial = focus?.bounds
+        ? { bounds: focus.bounds, fitBoundsOptions: { padding: 48, maxZoom: 13 } }
+        : focus?.center
+          ? { bounds: circleBounds(focus.center, focus.radiusKm ?? 50) }
+          : { bounds: BRAZIL_BOUNDS };
       map = new maplibregl.Map({
         container: container.current,
         style,
@@ -471,9 +503,21 @@ export function RepeaterMap({ repeaters, inside, center, radiusKm, activeId, foc
   }, [ready, activeId, repeaters, spider]);
 
   useEffect(() => {
+    if (!ready) return;
+    const map = mapRef.current!;
+    const data: FeatureCollection = track
+      ? { type: 'FeatureCollection', features: [{ type: 'Feature', properties: {}, geometry: { type: 'MultiLineString', coordinates: track.lines.map((l) => l.map((p) => [p.lon, p.lat])) } }] }
+      : EMPTY;
+    (map.getSource('track') as GeoJSONSource).setData(data);
+    (map.getSource('track-corridor') as GeoJSONSource).setData(track ? corridorCircles(track.lines, radiusKm) : EMPTY);
+  }, [ready, track, radiusKm]);
+
+  useEffect(() => {
     const map = mapRef.current;
     if (!ready || !map || !focus) return;
-    if (focus.zoom !== undefined) map.flyTo({ center: [focus.center.lon, focus.center.lat], zoom: focus.zoom });
+    if (focus.bounds) map.fitBounds(focus.bounds, { padding: 48, maxZoom: 13 });
+    else if (!focus.center) return;
+    else if (focus.zoom !== undefined) map.flyTo({ center: [focus.center.lon, focus.center.lat], zoom: focus.zoom });
     else map.fitBounds(circleBounds(focus.center, focus.radiusKm ?? radiusKm), { padding: 24, maxZoom: 13 });
   }, [ready, focus]);
 

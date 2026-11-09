@@ -2,7 +2,7 @@
 // and the selection circle.
 import type { Feature, FeatureCollection, Point as GeoPoint, Polygon } from 'geojson';
 import { isDigital } from '../../lib/repeaters/display.ts';
-import type { Point } from '../../lib/repeaters/geo.ts';
+import { distanceKm, type Point } from '../../lib/repeaters/geo.ts';
 import type { Repeater } from '../../lib/repeaters/merge.ts';
 
 export interface PointProps {
@@ -39,6 +39,38 @@ export function circlePolygon(center: Point, km: number, steps = 96): Feature<Po
     ring.push([center.lon + dLon * Math.cos(a), center.lat + dLat * Math.sin(a)]);
   }
   return { type: 'Feature', properties: {}, geometry: { type: 'Polygon', coordinates: [ring] } };
+}
+
+/**
+ * A trail's corridor as circles spaced along it, at most a quarter radius
+ * apart, so their union is within 1% of the true outline. Drawn in one
+ * fill-extrusion layer, whose opacity applies to the layer as a whole, so
+ * overlaps (every circle, an out-and-back trail) do not darken.
+ */
+export function corridorCircles(lines: readonly (readonly Point[])[], km: number, maxCircles = 1500): FeatureCollection<Polygon> {
+  const centers: Point[] = [];
+  let lengthKm = 0;
+  for (const line of lines) for (let i = 1; i < line.length; i++) lengthKm += distanceKm(line[i - 1]!, line[i]!);
+  const step = Math.max(km / 4, lengthKm / maxCircles);
+  for (const line of lines) {
+    centers.push(line[0]!);
+    let since = 0;
+    for (let i = 1; i < line.length; i++) {
+      const a = line[i - 1]!;
+      const b = line[i]!;
+      const d = distanceKm(a, b);
+      // Fill the piece with evenly spaced centers, carrying the leftover into the next one.
+      let at = step - since;
+      while (at <= d) {
+        const t = at / d;
+        centers.push({ lat: a.lat + (b.lat - a.lat) * t, lon: a.lon + (b.lon - a.lon) * t });
+        at += step;
+      }
+      since = d - (at - step);
+    }
+    centers.push(line[line.length - 1]!);
+  }
+  return { type: 'FeatureCollection', features: centers.map((c) => circlePolygon(c, km, 48)) };
 }
 
 export const EMPTY: FeatureCollection = { type: 'FeatureCollection', features: [] };

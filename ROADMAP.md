@@ -516,8 +516,16 @@ Map:
   review (keyboard, phone, Safari, axe). The user signs off. Then test a
   CHIRP import in the real application.
 
-Later (not in this milestone): upload a GPX/KML route and light up the
-repeaters along it; anonymous "confirmo que funciona" votes (a small
+Done early (2026-11-09, user's request), hidden for now: drop a GPX file on
+the map to see the repeaters along the trail (`src/lib/tracks/`,
+`src/tools/repetidoras/useTrack.ts`, `TrackDrop.tsx`). Tracks and routes,
+no waypoints; the corridor is the radius on each side; the list and the
+CHIRP file are in walking order ("km 12 da trilha"); the trail goes in the
+link after `#` (simplified to about 3,000 characters), so it can be shared.
+Still to do: a visible "Abrir trilha…" button (phones cannot drag files),
+and readers for KML/KMZ, GeoJSON and TCX (one entry each in `read.ts`).
+
+Later (not in this milestone): anonymous "confirmo que funciona" votes (a small
 Netlify Function + Blobs); line-of-sight hints from the elevation data.
 
 ## M4 — APRS symbols (`/aprs`)

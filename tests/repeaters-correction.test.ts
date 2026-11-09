@@ -172,4 +172,10 @@ describe('correction links', () => {
     expect(url.searchParams.has(FIELDS.repeater.id)).toBe(false);
     expect(url.searchParams.get('title')).toBe('Repetidora nova: ');
   });
+
+  it('leave a trail out of the page address', () => {
+    const link = missingRepeater('https://github.com/o/r', 'https://site/repetidoras?raio=20#trilha=abc&nome=x');
+    expect(link.context).toContain('https://site/repetidoras?raio=20');
+    expect(link.context).not.toContain('trilha');
+  });
 });
