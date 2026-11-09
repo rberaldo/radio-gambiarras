@@ -322,7 +322,7 @@ function Browser({ index, dataDate }: { index: CallsignIndex; dataDate?: string 
               renderCell={(i) => cellButton(cells[i]!)}
             />
           ) : (
-            (searching || block) && <p class="cs-empty">{baseCells.length > 0 ? 'Nenhum indicativo livre aqui.' : 'Nenhum indicativo encontrado.'}</p>
+            (searching || block) && <p class="tool-empty">{baseCells.length > 0 ? 'Nenhum indicativo livre aqui.' : 'Nenhum indicativo encontrado.'}</p>
           )}
         </div>
         {selected && (

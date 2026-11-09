@@ -448,7 +448,11 @@ by name or code, see it large, and learn how to type it.
   ("/>" or ">"), the character alone, or words in the description (all words
   must match, in any order). Tests for positions (`!` → 0, `>` → 29, last
   cell), search cases, and that every entry has a non-empty description.
-- [ ] **M4.5 Interface.** `src/pages/aprs/index.astro` (fit layout, like the
+- [x] **M4.5 Interface.** Done 2026-11-09; page `/aprs` is live but unlinked
+  until M4.6. Shared tool styles extracted to `src/styles/tool.css`
+  (callsign tool pixel-identical). The island is `client:only`: a
+  server-rendered list was hydrated with stale icons when opened from a link.
+  `src/pages/aprs/index.astro` (fit layout, like the
   callsign tool) and `src/tools/aprs/`: search box; a "Tabela" segmented
   control (Todas | Primária `/` | Alternativa `\`); a grid of symbol tiles
   (icon plus code, crisp on retina via `image-set`); clicking or Enter

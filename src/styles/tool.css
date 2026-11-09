@@ -142,6 +142,16 @@
 }
 
 
+/* Nothing to show */
+.tool-empty {
+  padding: var(--sp-5);
+  border: 1px solid var(--m-line);
+  border-radius: var(--m-radius);
+  background: var(--m-surface);
+  color: var(--m-text-muted);
+  text-align: center;
+}
+
 /* Root of a tool's interactive part */
 .tool-root {
   display: flex;

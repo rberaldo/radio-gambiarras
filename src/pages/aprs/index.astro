@@ -1,0 +1,24 @@
+---
+import Desktop from '../../layouts/Desktop.astro';
+import Icon from '../../components/win95/Icon.astro';
+import Window from '../../components/win95/Window.astro';
+import AprsTool from '../../tools/aprs/AprsTool.tsx';
+---
+
+<Desktop
+  title="Símbolos APRS"
+  windowTitle="Símbolos APRS"
+  fit
+  description="Encontre símbolos APRS pela descrição ou pelo código e veja como digitá-los."
+>
+  <Window title="Símbolos APRS" current="/aprs">
+    <Icon slot="icon" name="aprs" size={16} />
+    {/* Rendered only in the browser: its first render depends on the URL, and a
+        server-rendered list would be hydrated with stale icons and input value. */}
+    <AprsTool client:only="preact" />
+    <Fragment slot="status">
+      <span>Imagens: <a href="https://github.com/hessu/aprs-symbols">hessu/aprs-symbols</a></span>
+      <span>Descrições: PU1JAZ</span>
+    </Fragment>
+  </Window>
+</Desktop>
