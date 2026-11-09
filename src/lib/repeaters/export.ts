@@ -79,6 +79,9 @@ export const CHIRP_HEADER =
 /** Whether a repeater can be programmed as an analog FM channel. Unknown modes count as FM (most are). */
 export const isFm = (r: Repeater) => r.modes.length === 0 || r.modes.includes('FM');
 
+/** What goes in the CHIRP file: FM, and not reported off the air. */
+export const isChirpable = (r: Repeater) => isFm(r) && r.onAir !== false;
+
 /**
  * Channel name: the city tag, then the callsign without its two-letter
  * prefix ("RIO 1BEU" for PY1BEU), so it fits radios that show 8 characters.
@@ -86,14 +89,15 @@ export const isFm = (r: Repeater) => r.modes.length === 0 || r.modes.includes('F
 export const chirpName = (r: Repeater) => [cityCode(r.municipio, r.uf), r.callsign.replace(/^[A-Z]{2}(?=\d)/, '')].filter(Boolean).join(' ');
 
 /**
- * CHIRP generic CSV for the FM repeaters among `rows`, numbered from 1
+ * CHIRP generic CSV for the FM repeaters among `rows` (leaving out those
+ * reported off the air), numbered from 1
  * (CHIRP lets people paste them into any memory slots). Every row has all
  * 21 columns, dot decimals, and CHIRP's own filler values where a setting
  * does not apply (blank cells make CHIRP reject the row).
  */
 export function chirpCsv(rows: readonly Nearby[]): string {
   const lines = rows
-    .filter((n) => isFm(n.repeater))
+    .filter((n) => isChirpable(n.repeater))
     .map(({ repeater: r, alongKm }, i) => {
       const duplex = r.shift > 0 ? '+' : r.shift < 0 ? '-' : '';
       let toneMode = '';

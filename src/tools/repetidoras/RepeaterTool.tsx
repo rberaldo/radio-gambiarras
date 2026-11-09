@@ -3,7 +3,7 @@
 // trail file (hidden for now) and see the repeaters along it.
 import { useEffect, useMemo, useRef, useState } from 'preact/hooks';
 import { slug } from '../../lib/format.ts';
-import { filterRepeaters, placesOf } from '../../lib/repeaters/filter.ts';
+import { filterRepeaters, offAirLast, placesOf } from '../../lib/repeaters/filter.ts';
 import { alongTrack, withinRadius, type Point } from '../../lib/repeaters/geo.ts';
 import type { Repeater } from '../../lib/repeaters/merge.ts';
 import { writeTrackHash } from '../../lib/tracks/link.ts';
@@ -48,9 +48,9 @@ export default function RepeaterTool() {
 
   const shown = useMemo(() => filterRepeaters(repeaters, state.band, state.mode), [repeaters, state.band, state.mode]);
   const places = useMemo(() => placesOf(repeaters), [repeaters]);
-  // Along a trail, in walking order; or around the point, nearest first.
+  // Along a trail, in walking order; or around the point, nearest first. Off the air last.
   const nearby = useMemo(
-    () => (track ? alongTrack(shown, track.shared.lines, state.radiusKm) : center ? withinRadius(shown, center, state.radiusKm) : []),
+    () => offAirLast(track ? alongTrack(shown, track.shared.lines, state.radiusKm) : center ? withinRadius(shown, center, state.radiusKm) : []),
     [shown, track, center?.lat, center?.lon, state.radiusKm],
   );
   const inside = useMemo(() => new Set(nearby.map((n) => n.repeater.id)), [nearby]);

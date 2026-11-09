@@ -116,6 +116,7 @@ export function correctionFromIssue(answers: FormAnswers, meta: IssueMeta): Pars
   const onAir = (answers.onAir ?? '').trim();
   if (onAir === ON_AIR_OPTIONS.yes) entry.onAir = true;
   else if (onAir === ON_AIR_OPTIONS.no) entry.onAir = false;
+  if (entry.onAir !== undefined) entry.onAirDate = meta.date;
 
   const input = (answers.input ?? '').trim();
   if (input) {

@@ -34,7 +34,12 @@ merges it with Anatel's data (`src/lib/repeaters/merge.ts`).
 - `lat`/`lon` are the repeater's site (decimal degrees, negative south and
   west), not the town.
 - `modes`: any of FM, DMR, D-STAR, Fusion, NXDN, P25, M17.
-- `onAir`: `true` when confirmed working, `false` when confirmed off the air.
+- `onAir`: `true` when confirmed working, `false` when reported off the air.
+  Off-air repeaters stay on the map in gray, go to the end of the list and
+  are left out of the CHIRP file.
+- `onAirDate`: when `onAir` was reported (`AAAA-MM-DD`); the site shows it
+  ("relatada fora do ar em 05/10/2026"). An approved issue sets it to the
+  approval date.
 - `unverified`: `true` for bulk-imported entries not yet checked (see below).
 - A repeater Anatel does not list also needs `input`, `municipio`, `uf`,
   `lat` and `lon`.

@@ -20,6 +20,7 @@ export const COLORS = {
   gold: '#ffcc00',
   red: '#cc0000',
   black: '#000000',
+  gray: '#808080',
 };
 
 /** The deepest zoom. Stacks stay grouped up to here, so they never hide behind one marker. */
@@ -36,9 +37,10 @@ export const SPIDER_SOURCES = ['spider', 'spider-legs', 'spider-hub'];
 // One visual meaning per trait (decided with the user, 2026-11-09):
 //   shape: circle = FM, diamond = digital (a group: diamond only when all are digital)
 //   fill:  solid = known site, hollow = town seat
-//   color: green = inside the circle or corridor, navy = outside
+//   color: green = inside the circle or corridor, navy = outside, gray = reported off the air
 const SEL: Expr = ['==', ['get', 'sel'], 1];
-const LINE: Expr = ['case', SEL, COLORS.green, COLORS.navy];
+const OFF: Expr = ['get', 'off'];
+const LINE: Expr = ['case', OFF, COLORS.gray, SEL, COLORS.green, COLORS.navy];
 
 const CLUSTER: Expr = ['has', 'point_count'];
 const ALL_DIGITAL: Expr = ['==', ['get', 'dig'], ['get', 'point_count']];
@@ -75,7 +77,7 @@ function addMarkerLayers(map: maplibregl.Map, prefix: string, source: string, fi
     source,
     filter: ['all', filter, ['get', 'digital']],
     layout: {
-      'icon-image': ['concat', 'diamond-', ['case', SEL, 'in', 'out'], '-', ['case', ['get', 'exact'], 'exact', 'approx']],
+      'icon-image': ['concat', 'diamond-', ['case', OFF, 'off', SEL, 'in', 'out'], '-', ['case', ['get', 'exact'], 'exact', 'approx']],
       'icon-allow-overlap': true,
       'icon-ignore-placement': true,
     },
@@ -85,7 +87,7 @@ function addMarkerLayers(map: maplibregl.Map, prefix: string, source: string, fi
 function addImages(map: maplibregl.Map) {
   const at2x = { pixelRatio: 2 };
   map.addImage('center-pin', pinImage({ outline: COLORS.black, head: COLORS.red, shine: COLORS.white }), at2x);
-  for (const [where, line] of [['in', COLORS.green], ['out', COLORS.navy]] as const) {
+  for (const [where, line] of [['in', COLORS.green], ['out', COLORS.navy], ['off', COLORS.gray]] as const) {
     map.addImage(`diamond-${where}-exact`, diamondImage(21, line, line), at2x);
     map.addImage(`diamond-${where}-approx`, diamondImage(21, COLORS.white, line), at2x);
   }

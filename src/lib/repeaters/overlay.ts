@@ -23,8 +23,10 @@ export interface OverlayEntry {
   lat?: number;
   lon?: number;
   modes?: Mode[];
-  /** Whether it was confirmed on the air (true) or off the air (false). */
+  /** Whether it was confirmed on the air (true) or reported off the air (false). */
   onAir?: boolean;
+  /** When onAir was last reported, ISO; the site shows it ("fora do ar em 05/10/2026"). */
+  onAirDate?: string;
   notes?: string;
   /** Only for repeaters Anatel does not list: */
   input?: number;
@@ -100,6 +102,9 @@ export function validateOverlay(file: OverlayFile, anatelIds: ReadonlySet<string
       }
     }
     if (e.unverified !== undefined && e.unverified !== true) err('unverified só pode ser true (ou ausente)');
+    if (e.onAirDate !== undefined && (e.onAir === undefined || !ISO_DATE.test(e.onAirDate) || Number.isNaN(Date.parse(e.onAirDate)))) {
+      err('onAirDate deve ser AAAA-MM-DD e acompanhar onAir');
+    }
     if (e.modes) for (const mode of e.modes) if (!MODES.includes(mode)) err(`modo ${mode} desconhecido`);
     if (!anatelIds.has(id) && !isOrphan(id, e, anatelIds)) {
       if (e.input === undefined || (band && bandOf(e.input) !== band)) err(`não está na Anatel: informe a entrada (input) na faixa de ${band ? BANDS[band].label : '?'}`);

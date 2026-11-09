@@ -1,6 +1,6 @@
 // Everything known about one repeater, with the accuracy of each piece made clear.
 import { correctionUrl, repeaterCorrection } from '../../lib/repeaters/correction.ts';
-import { BAND_TEXT, LICENSE_TEXT, formatKm, formatMHz, formatShift, modeBadge, toneText } from '../../lib/repeaters/display.ts';
+import { BAND_TEXT, LICENSE_TEXT, formatKm, formatMHz, formatShift, modeBadge, onAirText, toneText } from '../../lib/repeaters/display.ts';
 import type { Point } from '../../lib/repeaters/geo.ts';
 import type { Repeater } from '../../lib/repeaters/merge.ts';
 import { site } from '../../site.ts';
@@ -68,7 +68,7 @@ export function RepeaterDetail({ repeater: r, distanceKm, picked, onClose }: Pro
         {r.onAir !== undefined && (
           <>
             <dt>No ar</dt>
-            <dd>{r.onAir ? 'confirmada no ar' : 'relatada fora do ar'}</dd>
+            <dd class={r.onAir ? undefined : 'rp-unknown'}>{onAirText(r)}</dd>
           </>
         )}
       </dl>

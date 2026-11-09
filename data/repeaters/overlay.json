@@ -280,6 +280,13 @@
    "lat": -27.239,
    "lon": -52.01166
   },
+  "PP5CDQ@439.800": {
+   "source": "Relatos de radioamadores, 2026 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "onAir": false,
+   "onAirDate": "2026-11-04"
+  },
   "PP5CHA@439.200": {
    "source": "Importação inicial de 2026-11-09 (a conferir)",
    "date": "2026-11-09",
@@ -336,6 +343,13 @@
    "modes": [
     "FM"
    ]
+  },
+  "PP5MAF@146.890": {
+   "source": "Relatos de radioamadores, 2026 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "onAir": false,
+   "onAirDate": "2026-08-19"
   },
   "PP5MAR@147.150": {
    "source": "Importação inicial de 2026-11-09 (a conferir)",
@@ -434,6 +448,13 @@
     "DMR"
    ],
    "notes": "Local: Morro das Almas."
+  },
+  "PP5WER@145.310": {
+   "source": "Relatos de radioamadores, 2026 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "onAir": false,
+   "onAirDate": "2026-11-04"
   },
   "PP6DIG@439.500": {
    "source": "Importação inicial de 2026-11-09 (a conferir)",
@@ -605,6 +626,13 @@
    "date": "2026-11-09",
    "unverified": true,
    "tone": 88.5
+  },
+  "PS8VMP@145.490": {
+   "source": "Relatos de radioamadores, 2026 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "onAir": true,
+   "onAirDate": "2026-10-29"
   },
   "PS8ZM@439.175": {
    "source": "Importação inicial de 2026-11-09 (a conferir)",
@@ -900,6 +928,12 @@
    "notes": "Local: Morro do Itaoca.",
    "tone": 88.5
   },
+  "PY1JCB@145.250": {
+   "source": "Relatos de radioamadores, 2026 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "tone": "none"
+  },
   "PY1JDR@146.970": {
    "source": "Importação inicial de 2026-11-09 (a conferir)",
    "date": "2026-11-09",
@@ -973,7 +1007,9 @@
    "source": "Importação inicial de 2026-11-09 (a conferir)",
    "date": "2026-11-09",
    "unverified": true,
-   "tone": 88.5
+   "onAir": false,
+   "onAirDate": "2026-09-21",
+   "notes": "Relatada desativada em 2026; a de 145,250 em Barra Mansa (PY1JCB) seria a substituta."
   },
   "PY1LAE@146.890": {
    "source": "Importação inicial de 2026-11-09; posição pelo nome do local no OpenStreetMap (a conferir)",
@@ -2846,7 +2882,9 @@
    "tone": 110.9,
    "modes": [
     "FM"
-   ]
+   ],
+   "onAir": false,
+   "onAirDate": "2026-10-05"
   },
   "PY5BBS@439.650": {
    "source": "Importação inicial de 2026-11-09 (a conferir)",
@@ -2858,13 +2896,22 @@
    "notes": "Local: Curitiba.",
    "tone": 110.9
   },
+  "PY5CA@439.900": {
+   "source": "Relatos de radioamadores, 2026 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "onAir": false,
+   "onAirDate": "2026-10-05"
+  },
   "PY5CLB@439.850": {
    "source": "Importação inicial de 2026-11-09 (a conferir)",
    "date": "2026-11-09",
    "unverified": true,
    "modes": [
     "DMR"
-   ]
+   ],
+   "onAir": false,
+   "onAirDate": "2026-10-06"
   },
   "PY5COL@146.670": {
    "source": "Importação inicial de 2026-11-09 (a conferir)",
@@ -2944,7 +2991,9 @@
    "modes": [
     "FM"
    ],
-   "notes": "Local: Francisco Beltrão."
+   "notes": "Local: Francisco Beltrão.",
+   "onAir": false,
+   "onAirDate": "2026-07-20"
   },
   "PY5FGU@439.200": {
    "source": "Importação inicial de 2026-11-09 (a conferir)",
@@ -2954,6 +3003,13 @@
    "modes": [
     "FM"
    ]
+  },
+  "PY5FUS@439.100": {
+   "source": "Relatos de radioamadores, 2026 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "onAir": false,
+   "onAirDate": "2026-10-05"
   },
   "PY5FXA@146.790": {
    "source": "Importação inicial de 2026-11-09 (a conferir)",
@@ -2986,7 +3042,9 @@
    ],
    "notes": "Local: Morro dos Perdidos.",
    "lat": -25.89076,
-   "lon": -48.95726
+   "lon": -48.95726,
+   "onAir": false,
+   "onAirDate": "2026-10-09"
   },
   "PY5GWR@145.450": {
    "source": "Importação inicial de 2026-11-09 (a conferir)",
@@ -3022,6 +3080,13 @@
    "date": "2026-11-09",
    "unverified": true,
    "tone": 88.5
+  },
+  "PY5LIT@439.950": {
+   "source": "Relatos de radioamadores, 2026 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "onAir": false,
+   "onAirDate": "2026-10-09"
   },
   "PY5LON@146.650": {
    "source": "Importação inicial de 2026-11-09 (a conferir)",
@@ -3068,6 +3133,13 @@
     "FM"
    ]
   },
+  "PY5OM@437.700": {
+   "source": "Relatos de radioamadores, 2026 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "onAir": false,
+   "onAirDate": "2026-10-05"
+  },
   "PY5PGR@146.870": {
    "source": "Importação inicial de 2026-11-09 (a conferir)",
    "date": "2026-11-09",
@@ -3075,7 +3147,9 @@
    "tone": 110.9,
    "modes": [
     "FM"
-   ]
+   ],
+   "onAir": false,
+   "onAirDate": "2026-10-19"
   },
   "PY5PRD@147.090": {
    "source": "Importação inicial de 2026-11-09; posição pelo nome do local no OpenStreetMap (a conferir)",
@@ -3142,11 +3216,25 @@
    ],
    "notes": "Local: Morro da Bocaina."
   },
+  "PY5UNI@145.410": {
+   "source": "Relatos de radioamadores, 2026 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "onAir": false,
+   "onAirDate": "2026-10-05"
+  },
   "PY5UNO@147.000": {
    "source": "Importação inicial de 2026-11-09 (a conferir)",
    "date": "2026-11-09",
    "unverified": true,
    "tone": 88.5
+  },
+  "PY5UVA@439.600": {
+   "source": "Relatos de radioamadores, 2026 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "onAir": false,
+   "onAirDate": "2026-10-06"
   },
   "PY5VET@145.430": {
    "source": "Importação inicial de 2026-11-09 (a conferir)",
@@ -3156,6 +3244,13 @@
    "modes": [
     "FM"
    ]
+  },
+  "PY5WBZ@439.225": {
+   "source": "Relatos de radioamadores, 2026 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "onAir": false,
+   "onAirDate": "2026-10-05"
   },
   "PY5YSF@439.300": {
    "source": "Importação inicial de 2026-11-09 (a conferir)",

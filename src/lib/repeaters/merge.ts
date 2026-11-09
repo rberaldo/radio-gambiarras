@@ -25,6 +25,8 @@ export interface Repeater {
   /** Known modes; empty when unknown. */
   modes: Mode[];
   onAir?: boolean;
+  /** When onAir was reported, ISO. */
+  onAirDate?: string;
   /** Anatel license status, or "nao-listada" for repeaters only the overlay knows. */
   license: LicenseStatus | 'nao-listada';
   validUntil?: string;
@@ -43,6 +45,7 @@ function apply(base: Omit<Repeater, 'shift'>, e: OverlayEntry | undefined): Repe
   if (e.dcs !== undefined) r.dcs = e.dcs;
   if (e.modes) r.modes = e.modes;
   if (e.onAir !== undefined) r.onAir = e.onAir;
+  if (e.onAirDate !== undefined) r.onAirDate = e.onAirDate;
   if (e.notes) r.notes = e.notes;
   // Bulk-imported data shows as plain data, without a source line.
   if (!e.unverified) r.correction = { source: e.source, date: e.date };

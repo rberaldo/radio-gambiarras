@@ -255,6 +255,11 @@
   text-align: right;
 }
 
+/* Reported off the air: still listed, but faded and after the rest */
+.rp-row--off:not([aria-pressed='true']) {
+  color: var(--m-text-muted);
+}
+
 /* Digital modes ("DMR", "FM+DMR"); plain FM has none */
 .rp-badge {
   display: inline-block;

@@ -41,6 +41,11 @@ describe('validateOverlay', () => {
     expect(errors).toMatch(/informe a posição/);
   });
 
+  it('wants a valid date with an on-air report', () => {
+    expect(validateOverlay(overlay({ 'PY2KJP@146.610': { onAir: false, onAirDate: '2026-10-05', source: 'x', date: '2026-11-09' } }), ids)).toEqual([]);
+    expect(validateOverlay(overlay({ 'PY2KJP@146.610': { onAirDate: '05/10/2026', source: 'x', date: '2026-11-09' } }), ids).join()).toMatch(/onAirDate/);
+  });
+
   it('only warns about corrections for repeaters Anatel dropped, and the map skips them', () => {
     // A tone confirmed for PY2OLD, whose licence then disappeared from Anatel's file.
     const file = overlay({ 'PY2OLD@145.330': { tone: 88.5, source: 'clube', date: '2026-11-09' } });

@@ -103,6 +103,7 @@ describe('correctionFromIssue', () => {
         lon: -43.17278,
         modes: ['FM', 'DMR'],
         onAir: true,
+        onAirDate: '2026-11-09',
         notes: 'Morro do Cuca',
       },
     });

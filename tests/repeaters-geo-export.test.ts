@@ -112,3 +112,14 @@ describe('spreadsheet safety', () => {
     expect(csv).toMatch(/;-23,/);
   });
 });
+
+describe('repeaters reported off the air', () => {
+  it('stay out of the CHIRP file but in the spreadsheet', () => {
+    const rows = [
+      { repeater: base({ tone: 88.5 }), distanceKm: 1 },
+      { repeater: base({ id: 'X', callsign: 'PY2OFF', onAir: false, onAirDate: '2026-10-05' }), distanceKm: 2 },
+    ];
+    expect(chirpCsv(rows).trimEnd().split('\r\n')).toHaveLength(2);
+    expect(spreadsheetCsv(rows)).toContain('PY2OFF');
+  });
+});

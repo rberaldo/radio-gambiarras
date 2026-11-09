@@ -53,7 +53,7 @@ describe('map data', () => {
   it('turns positioned repeaters into points flagged when selected', () => {
     const fc = repeaterPoints([r('A@146.610', { lat: -22, lon: -43, exact: true }), r('B@146.610')], new Set(['A@146.610']));
     expect(fc.features).toHaveLength(1);
-    expect(fc.features[0]!.properties).toEqual({ id: 'A@146.610', exact: true, digital: false, sel: 1 });
+    expect(fc.features[0]!.properties).toEqual({ id: 'A@146.610', exact: true, digital: false, off: false, sel: 1 });
     expect(fc.features[0]!.geometry.coordinates).toEqual([-43, -22]);
   });
 

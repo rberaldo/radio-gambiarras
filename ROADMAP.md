@@ -525,6 +525,14 @@ Map:
   link length, a retry for the daily push. RepeaterMap split into
   mapLayers, mapSpider and markerImages. Still for the user: test a real
   CHIRP import and the correction workflow on a real issue.
+- Post-release (2026-11-09, user's decisions): status reports the user
+  pasted from recent repeater updates. 16 repeaters marked `onAir: false`
+  with the report date (archived or off-air reports; Curitiba, Ponta Grossa,
+  Guaratuba, Mafra, Garuva, Campo Alegre, Barra Mansa, Marmeleiro); PY1JCB
+  145.250 in Barra Mansa without tone (PY1LAC's replacement, whose 88.5 was
+  dropped); PS8VMP on the air. All `unverified`. New `onAirDate` field.
+  Off-air repeaters are gray on the map, last in the list, and left out of
+  the CHIRP file.
 
 Done early (2026-11-09, user's request), hidden for now: drop a GPX file on
 the map to see the repeaters along the trail (`src/lib/tracks/`,

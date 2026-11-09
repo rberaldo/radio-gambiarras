@@ -2,7 +2,7 @@
 // the place box.
 import { isDigital } from './display.ts';
 import { isFm } from './export.ts';
-import type { Point } from './geo.ts';
+import type { Nearby, Point } from './geo.ts';
 import type { Repeater } from './merge.ts';
 import type { Band } from './types.ts';
 
@@ -23,4 +23,9 @@ export function placesOf(repeaters: readonly Repeater[]): Map<string, Point> {
     if (r.position && !r.position.exact) places.set(`${r.municipio}/${r.uf}`, { lat: r.position.lat, lon: r.position.lon });
   }
   return new Map([...places].sort(([a], [b]) => a.localeCompare(b, 'pt-BR')));
+}
+
+/** Repeaters reported off the air go to the end, each group keeping its order. */
+export function offAirLast(nearby: readonly Nearby[]): Nearby[] {
+  return [...nearby.filter((n) => n.repeater.onAir !== false), ...nearby.filter((n) => n.repeater.onAir === false)];
 }

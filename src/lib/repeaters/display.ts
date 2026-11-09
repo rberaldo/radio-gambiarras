@@ -1,5 +1,6 @@
 // How repeater fields read in Portuguese, shared by the list, the detail
 // panel and anything else that shows a repeater.
+import { formatDate } from '../format.ts';
 import type { Repeater } from './merge.ts';
 
 const pt = (n: number, digits: number) => n.toFixed(digits).replace('.', ',');
@@ -42,3 +43,12 @@ export function modeBadge(r: Pick<Repeater, 'modes'>): string | undefined {
   const fm = r.modes.includes('FM') ? ['FM'] : [];
   return [...fm, ...r.modes.filter((m) => m !== 'FM')].join('+');
 }
+
+/** "relatada fora do ar em 05/10/2026", "confirmada no ar"; undefined when nobody said. */
+export function onAirText(r: Pick<Repeater, 'onAir' | 'onAirDate'>): string | undefined {
+  if (r.onAir === undefined) return undefined;
+  const when = r.onAirDate ? ` em ${formatDate(r.onAirDate)}` : '';
+  return r.onAir ? `confirmada no ar${when}` : `relatada fora do ar${when}`;
+}
+
+export const isOffAir = (r: Pick<Repeater, 'onAir'>) => r.onAir === false;

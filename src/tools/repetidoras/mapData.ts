@@ -10,6 +10,8 @@ export interface PointProps {
   exact: boolean;
   /** Known to carry a digital mode: drawn as a diamond. */
   digital: boolean;
+  /** Reported off the air: drawn in gray. */
+  off: boolean;
   /** 1 when inside the circle or corridor, so groups can add them up. */
   sel: 0 | 1;
 }
@@ -21,7 +23,7 @@ export function repeaterPoints(repeaters: readonly Repeater[], selected: Readonl
       .filter((r) => r.position)
       .map((r) => ({
         type: 'Feature',
-        properties: { id: r.id, exact: r.position!.exact, digital: isDigital(r), sel: selected.has(r.id) ? 1 : 0 },
+        properties: { id: r.id, exact: r.position!.exact, digital: isDigital(r), off: r.onAir === false, sel: selected.has(r.id) ? 1 : 0 },
         geometry: { type: 'Point', coordinates: [r.position!.lon, r.position!.lat] },
       })),
   };

@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { formatKm, formatMHz, formatShift, isDigital, modeBadge, toneText } from '../src/lib/repeaters/display.ts';
+import { formatKm, formatMHz, formatShift, isDigital, modeBadge, onAirText, toneText } from '../src/lib/repeaters/display.ts';
 
 describe('repeater display', () => {
   it('formats frequencies and shifts', () => {
@@ -27,5 +27,11 @@ describe('repeater display', () => {
     expect(modeBadge({ modes: ['DMR', 'FM'] })).toBe('FM+DMR');
     expect(isDigital({ modes: ['FM', 'Fusion'] })).toBe(true);
     expect(isDigital({ modes: [] })).toBe(false);
+  });
+
+  it('says when someone reported a repeater on or off the air', () => {
+    expect(onAirText({})).toBeUndefined();
+    expect(onAirText({ onAir: false, onAirDate: '2026-10-05' })).toBe('relatada fora do ar em 05/10/2026');
+    expect(onAirText({ onAir: true })).toBe('confirmada no ar');
   });
 });

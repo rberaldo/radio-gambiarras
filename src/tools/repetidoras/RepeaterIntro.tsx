@@ -19,8 +19,8 @@ export function RepeaterIntro({ count, band, mode }: { count: number; band: Band
         área.
       </p>
       <p class="rp-intro__note">
-        Marcadores cheios estão no local da antena; vazios, na sede do município. Verde é dentro do raio. Números agrupam várias
-        repetidoras: clique para aproximar ou abrir o grupo.
+        Marcadores cheios estão no local da antena; vazios, na sede do município. Verde é dentro do raio; cinza, relatada fora do
+        ar. Números agrupam várias repetidoras: clique para aproximar ou abrir o grupo.
       </p>
       <p class="rp-intro__note">
         Losangos são repetidoras digitais (DMR, D-STAR, Fusion), e um grupo só de digitais também; um losango pequeno no canto de um
