@@ -1,0 +1,131 @@
+/*
+  Form controls. Plain classes rather than components, so both Astro pages
+  and Preact islands use the same markup: <button class="btn">,
+  <input class="field">, <select class="field">, <label class="check">.
+*/
+
+.btn {
+  min-width: 5.5rem;
+  min-height: var(--control-h);
+  padding: var(--sp-1) var(--sp-4);
+  border: 0;
+  border-radius: 0;
+  background: var(--c-face);
+  box-shadow: var(--bevel-raised);
+  color: var(--c-text);
+  font: inherit;
+  cursor: pointer;
+}
+
+.btn:active:not(:disabled),
+.btn[aria-pressed='true'] {
+  box-shadow: var(--bevel-pressed);
+  padding: calc(var(--sp-1) + 1px) calc(var(--sp-4) - 1px) calc(var(--sp-1) - 1px) calc(var(--sp-4) + 1px);
+}
+
+.btn:focus-visible {
+  outline: var(--focus-ring);
+  outline-offset: -5px;
+}
+
+.btn:disabled {
+  color: var(--c-text-disabled);
+  text-shadow: 1px 1px 0 var(--c-text-disabled-emboss);
+  cursor: not-allowed;
+}
+
+.field {
+  min-height: var(--control-h);
+  padding: var(--sp-1) var(--sp-2);
+  border: 0;
+  border-radius: 0;
+  background: var(--c-field);
+  box-shadow: var(--bevel-sunken);
+  color: var(--c-text);
+  font: inherit;
+}
+
+.field:disabled {
+  background: var(--c-field-disabled);
+  color: var(--c-text-disabled);
+}
+
+select.field {
+  appearance: none;
+  padding-right: 1.75rem;
+  background:
+    linear-gradient(45deg, transparent 50%, var(--c-text) 50%) calc(100% - 0.85rem) 55% / 5px 5px no-repeat,
+    linear-gradient(135deg, var(--c-text) 50%, transparent 50%) calc(100% - 0.85rem + 5px) 55% / 5px 5px no-repeat,
+    var(--c-field);
+}
+
+.check {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sp-2);
+  cursor: pointer;
+}
+
+.check input {
+  appearance: none;
+  display: grid;
+  place-items: center;
+  width: 1rem;
+  height: 1rem;
+  margin: 0;
+  background: var(--c-field);
+  box-shadow: var(--bevel-sunken);
+}
+
+.check input[type='radio'] {
+  border-radius: 50%;
+}
+
+.check input[type='checkbox']:checked::after {
+  content: '';
+  width: 0.35rem;
+  height: 0.6rem;
+  margin-top: -0.15rem;
+  border: solid var(--c-text);
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+}
+
+.check input[type='radio']:checked::after {
+  content: '';
+  width: 0.35rem;
+  height: 0.35rem;
+  border-radius: 50%;
+  background: var(--c-text);
+}
+
+.check input:focus-visible {
+  outline: var(--focus-ring);
+  outline-offset: var(--focus-offset);
+}
+
+.fieldset {
+  margin: 0 0 var(--sp-4);
+  padding: var(--sp-3) var(--sp-4) var(--sp-4);
+  /* A real border, so the browser breaks the line around the legend */
+  border: 1px solid var(--c-shadow-inner);
+  box-shadow: inset 1px 1px 0 var(--c-light), 1px 1px 0 var(--c-light);
+}
+
+.fieldset > legend {
+  padding: 0 var(--sp-2);
+  /* Covers the inner highlight line where it passes behind the text */
+  background: var(--c-face);
+}
+
+.panel-sunken {
+  padding: var(--sp-3);
+  background: var(--c-field);
+  box-shadow: var(--bevel-sunken);
+}
+
+.panel-raised {
+  padding: var(--sp-3);
+  background: var(--c-face);
+  box-shadow: var(--bevel-raised);
+}

@@ -1,0 +1,122 @@
+---
+// A program window: title bar, site menu bar, body and an optional status
+// bar (pass it in the "status" slot). On narrow screens the window is
+// maximized and fills the viewport.
+import MenuBar from './MenuBar.astro';
+
+interface Props {
+  title: string;
+  /** Path of the current page, passed to the menu bar. */
+  current?: string;
+  /** Show the site menu bar (dialogs leave it out). */
+  menu?: boolean;
+  /** Heading level of the title; the main window of a page is the h1. */
+  headingLevel?: 1 | 2;
+  class?: string;
+}
+
+const { title, current, menu = true, headingLevel = 1, class: className } = Astro.props;
+const Heading = `h${headingLevel}` as 'h1' | 'h2';
+const hasStatus = Astro.slots.has('status');
+---
+
+<section class:list={['window', className]} aria-label={title}>
+  <header class="window__titlebar">
+    <slot name="icon" />
+    <Heading class="window__title">{title}</Heading>
+    <a class="window__close" href="/" aria-label="Fechar e voltar ao início" title="Fechar">
+      <span aria-hidden="true">×</span>
+    </a>
+  </header>
+  {menu && <MenuBar current={current} />}
+  <div class="window__body">
+    <slot />
+  </div>
+  {
+    hasStatus && (
+      <footer class="window__status">
+        <slot name="status" />
+      </footer>
+    )
+  }
+</section>
+
+<style>
+  .window {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    padding: 3px;
+    background: var(--c-face);
+    box-shadow: var(--bevel-window);
+  }
+
+  .window__titlebar {
+    display: flex;
+    align-items: center;
+    gap: var(--sp-2);
+    min-height: var(--titlebar-h);
+    padding: var(--sp-1) var(--sp-1) var(--sp-1) var(--sp-2);
+    background: linear-gradient(90deg, var(--c-title-active), var(--c-title-active-end));
+    color: var(--c-title-text);
+  }
+
+  .window__titlebar :global(img),
+  .window__titlebar :global(svg) {
+    width: 16px;
+    height: 16px;
+    image-rendering: pixelated;
+  }
+
+  .window__title {
+    flex: 1;
+    min-width: 0;
+    margin: 0;
+    overflow: hidden;
+    font-size: var(--fs-md);
+    font-weight: bold;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .window__close {
+    display: grid;
+    place-items: center;
+    width: 1.5rem;
+    height: 1.35rem;
+    background: var(--c-face);
+    box-shadow: var(--bevel-raised);
+    color: var(--c-text);
+    font-weight: bold;
+    line-height: 1;
+    text-decoration: none;
+  }
+
+  .window__close:active {
+    box-shadow: var(--bevel-pressed);
+  }
+
+  .window__close:focus-visible {
+    outline-color: var(--c-title-text);
+  }
+
+  .window__body {
+    flex: 1;
+    min-width: 0;
+    padding: var(--sp-4);
+  }
+
+  .window__status {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--sp-1);
+    margin-top: var(--sp-1);
+    font-size: var(--fs-sm);
+  }
+
+  .window__status :global(> *) {
+    flex: 1 1 auto;
+    padding: var(--sp-1) var(--sp-3);
+    box-shadow: var(--bevel-status);
+  }
+</style>

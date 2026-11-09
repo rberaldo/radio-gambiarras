@@ -1,0 +1,16 @@
+---
+import { iconSvg, isIconName } from '../../lib/icons';
+
+interface Props {
+  name: string;
+  /** Rendered size in CSS pixels; use multiples of 16. */
+  size?: number;
+}
+
+const { name, size = 32 } = Astro.props;
+const svg = isIconName(name)
+  ? iconSvg(name, `width="${size}" height="${size}" aria-hidden="true" focusable="false" class="icon"`)
+  : '';
+---
+
+<Fragment set:html={svg} />

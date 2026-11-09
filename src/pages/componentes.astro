@@ -1,0 +1,93 @@
+---
+// Internal showcase of the design system (M1.2). Not linked from the site.
+import Desktop from '../layouts/Desktop.astro';
+import Window from '../components/win95/Window.astro';
+import Icon from '../components/win95/Icon.astro';
+import { iconNames } from '../lib/icons';
+---
+
+<Desktop title="Componentes" windowTitle="Componentes" noindex>
+  <Window title="Componentes" current="/componentes">
+    <h2>Superfícies</h2>
+    <div class="row">
+      <div class="panel-raised">Elevada</div>
+      <div class="panel-sunken">Afundada</div>
+    </div>
+
+    <h2>Ícones</h2>
+    <div class="row icons">
+      {iconNames.map((name) => <figure><Icon name={name} size={64} /><figcaption>{name}</figcaption></figure>)}
+    </div>
+
+    <h2>Botões</h2>
+    <div class="row">
+      <button class="btn" type="button">OK</button>
+      <button class="btn" type="button" aria-pressed="true">Pressionado</button>
+      <button class="btn" type="button" disabled>Desativado</button>
+    </div>
+
+    <fieldset class="fieldset">
+      <legend>Campos</legend>
+      <div class="grid">
+        <label for="demo-text">Texto</label>
+        <input class="field" id="demo-text" type="text" placeholder="PY2ABC" />
+        <label for="demo-select">Lista</label>
+        <select class="field" id="demo-select">
+          <option>Classe A/B</option>
+          <option>Classe C</option>
+        </select>
+        <label for="demo-disabled">Desativado</label>
+        <input class="field" id="demo-disabled" type="text" value="Somente leitura" disabled />
+      </div>
+    </fieldset>
+
+    <fieldset class="fieldset">
+      <legend>Opções</legend>
+      <div class="row">
+        <label class="check"><input type="checkbox" checked /> Marcada</label>
+        <label class="check"><input type="checkbox" /> Desmarcada</label>
+        <label class="check"><input type="radio" name="demo-radio" checked /> 2 m</label>
+        <label class="check"><input type="radio" name="demo-radio" /> 70 cm</label>
+      </div>
+    </fieldset>
+
+    <Fragment slot="status">
+      <span>Barra de status</span>
+      <span>Segundo painel</span>
+    </Fragment>
+  </Window>
+
+  <Window title="Diálogo sem menu" menu={false} headingLevel={2} class="dialog">
+    <p>Janelas de diálogo não têm barra de menu.</p>
+    <button class="btn" type="button">OK</button>
+  </Window>
+</Desktop>
+
+<style>
+  .row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--sp-4);
+    margin-bottom: var(--sp-5);
+  }
+
+  .icons figure {
+    margin: 0;
+    text-align: center;
+  }
+
+  .icons :global(.icon) {
+    image-rendering: pixelated;
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: max-content minmax(0, 18rem);
+    gap: var(--sp-3) var(--sp-4);
+    align-items: center;
+  }
+
+  :global(.desktop > .window.dialog) {
+    width: min(100%, 24rem);
+  }
+</style>

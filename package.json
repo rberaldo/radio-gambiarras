@@ -1,0 +1,30 @@
+{
+  "name": "radio-gambiarras",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Ferramentas para o radioamador",
+  "engines": {
+    "node": ">=26"
+  },
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "check": "astro check",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "@astrojs/preact": "^6.1.2",
+    "astro": "^7.4.7",
+    "preact": "^11.2.0"
+  },
+  "devDependencies": {
+    "@astrojs/check": "^0.9.12",
+    "@axe-core/playwright": "^4.14.0",
+    "@types/node": "^26.6.6",
+    "playwright": "^1.65.0",
+    "typescript": "^6.0.3",
+    "vitest": "^5.1.0"
+  }
+}

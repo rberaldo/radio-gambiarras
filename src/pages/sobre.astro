@@ -1,0 +1,46 @@
+---
+import Desktop from '../layouts/Desktop.astro';
+import Icon from '../components/win95/Icon.astro';
+import Window from '../components/win95/Window.astro';
+import { site } from '../site';
+---
+
+<Desktop title="Sobre" windowTitle="Sobre">
+  <Window title={`Sobre o ${site.name}`} current="/sobre">
+    <Icon slot="icon" name="site" size={16} />
+
+    <p>
+      O {site.name} reúne ferramentas pequenas e práticas para radioamadores brasileiros. É um projeto
+      pessoal, gratuito, sem anúncios e sem rastreadores.
+    </p>
+
+    <fieldset class="fieldset">
+      <legend>Fontes de dados</legend>
+      <ul>
+        <li>
+          <strong>Anatel</strong>: dados abertos de estações licenciadas do Serviço de Radioamador, usados
+          nas ferramentas de indicativos e de repetidoras. Os dados são reduzidos ao necessário; nomes e
+          documentos de titulares não são publicados aqui.
+        </li>
+        <li>
+          <strong>Ato Anatel nº 3.448, de 11 de março de 2026</strong>: regras de formação dos indicativos
+          de chamada.
+        </li>
+      </ul>
+      <p>
+        As informações daqui são uma ajuda, não um documento oficial. Em caso de dúvida, vale o que diz a
+        Anatel.
+      </p>
+    </fieldset>
+
+    <fieldset class="fieldset">
+      <legend>Encontrou um problema?</legend>
+      <p>
+        Avise abrindo uma <a href={`${site.repo}/issues`}>issue no GitHub</a>. O código do site é aberto e
+        está no <a href={site.repo}>repositório do projeto</a>.
+      </p>
+    </fieldset>
+
+    <span slot="status">73!</span>
+  </Window>
+</Desktop>

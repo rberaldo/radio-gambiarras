@@ -1,0 +1,89 @@
+---
+// A desktop shortcut. Tools that cannot be opened yet render grayed out and
+// are not links.
+import Icon from './Icon.astro';
+
+interface Props {
+  icon: string;
+  label: string;
+  href?: string;
+  note?: string;
+  external?: boolean;
+}
+
+const { icon, label, href, note, external = false } = Astro.props;
+---
+
+{
+  href ? (
+    <a class="dicon" href={href} {...(external ? { rel: 'noopener' } : {})}>
+      <Icon name={icon} size={48} />
+      <span class="dicon__label">{label}</span>
+    </a>
+  ) : (
+    <span class="dicon dicon--disabled" aria-disabled="true">
+      <Icon name={icon} size={48} />
+      <span class="dicon__label">
+        {label}
+        {note && <small class="dicon__note">{note}</small>}
+      </span>
+    </span>
+  )
+}
+
+<style>
+  .dicon {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--sp-2);
+    width: 6.5rem;
+    padding: var(--sp-2);
+    color: var(--c-title-text);
+    text-align: center;
+    text-decoration: none;
+  }
+
+  .dicon :global(.icon) {
+    image-rendering: pixelated;
+  }
+
+  .dicon__label {
+    display: flex;
+    flex-direction: column;
+    padding: 0 var(--sp-1);
+    text-shadow: 1px 1px 0 var(--c-shadow);
+  }
+
+  a.dicon:hover .dicon__label,
+  a.dicon:focus-visible .dicon__label {
+    background: var(--c-select);
+    text-shadow: none;
+  }
+
+  a.dicon:focus-visible {
+    outline: var(--focus-ring);
+    outline-color: var(--c-title-text);
+  }
+
+  a.dicon:hover :global(.icon),
+  a.dicon:focus-visible :global(.icon) {
+    filter: drop-shadow(0 0 0 var(--c-select)) brightness(0.75) sepia(1) hue-rotate(180deg);
+  }
+
+  .dicon--disabled {
+    cursor: not-allowed;
+  }
+
+  .dicon--disabled :global(.icon) {
+    filter: grayscale(1) opacity(0.55);
+  }
+
+  .dicon--disabled .dicon__label {
+    color: var(--c-light-inner);
+  }
+
+  .dicon__note {
+    font-size: var(--fs-sm);
+  }
+</style>

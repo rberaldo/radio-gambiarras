@@ -1,0 +1,113 @@
+---
+import Desktop from '../layouts/Desktop.astro';
+import DesktopIcon from '../components/win95/DesktopIcon.astro';
+import Icon from '../components/win95/Icon.astro';
+import Window from '../components/win95/Window.astro';
+import { site } from '../site';
+import { toolHref, tools } from '../tools';
+
+const available = tools.filter((t) => t.status !== 'soon').length;
+---
+
+<Desktop windowTitle="Bem-vindo">
+  <div class="home">
+    <nav class="home__icons" aria-label="Ferramentas">
+      <h2 class="visually-hidden">Ferramentas</h2>
+      <ul role="list">
+        {
+          tools.map((tool) => (
+            <li>
+              <DesktopIcon
+                icon={tool.icon}
+                label={tool.title}
+                href={toolHref(tool)}
+                note="em breve"
+                external={tool.status === 'external'}
+              />
+            </li>
+          ))
+        }
+      </ul>
+    </nav>
+
+    <Window title={`Bem-vindo ao ${site.name}`} current="/" class="home__welcome">
+      <Icon slot="icon" name="site" size={16} />
+      <p>
+        Ferramentas pequenas e práticas para radioamadores brasileiros. Clique num ícone da área de
+        trabalho para abrir uma ferramenta.
+      </p>
+      <ul class="home__list">
+        {
+          tools.map((tool) => {
+            const href = toolHref(tool);
+            return (
+              <li>
+                {href ? <a href={href}>{tool.title}</a> : <strong>{tool.title}</strong>}
+                {' — '}
+                {tool.description}
+                {!href && <em> (em breve)</em>}
+              </li>
+            );
+          })
+        }
+      </ul>
+      <p>
+        Os dados vêm de fontes públicas, como a Anatel. Veja a página <a href="/sobre">Sobre</a> para
+        detalhes e créditos.
+      </p>
+      <Fragment slot="status">
+        <span>{tools.length} ferramentas</span>
+        <span>{available} disponíveis</span>
+      </Fragment>
+    </Window>
+  </div>
+</Desktop>
+
+<style>
+  .home {
+    display: grid;
+    grid-template-columns: auto minmax(0, 40rem);
+    gap: var(--sp-6);
+    align-items: start;
+    justify-content: center;
+    width: 100%;
+  }
+
+  .home__icons ul {
+    display: flex;
+    flex-direction: column;
+    gap: var(--sp-4);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .home__list {
+    padding-left: var(--sp-6);
+  }
+
+  .home__list li {
+    margin-bottom: var(--sp-2);
+  }
+
+  @media (max-width: 40rem) {
+    .home {
+      grid-template-columns: minmax(0, 1fr);
+      gap: var(--sp-4);
+    }
+
+    .home__icons {
+      padding: var(--sp-4) var(--gutter) 0;
+    }
+
+    .home__icons ul {
+      flex-direction: row;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .home :global(.home__welcome) {
+      min-height: 0;
+    }
+  }
+</style>

@@ -1,0 +1,92 @@
+/*
+  Design tokens. Every color, bevel and spacing value in the site comes from
+  here; components never use literal values.
+
+  The palette follows Windows 95's defaults. The site keeps the light look in
+  dark mode on purpose (it is part of the style), but the desktop dims a
+  little so the windows don't glare.
+*/
+
+:root {
+  /* Surfaces */
+  --c-desktop: #008080;
+  --c-face: #c0c0c0;
+  --c-field: #ffffff;
+  --c-field-disabled: #c0c0c0;
+
+  /* Bevel edges, outermost first */
+  --c-light: #ffffff;
+  --c-light-inner: #dfdfdf;
+  --c-shadow-inner: #808080;
+  --c-shadow: #000000;
+
+  /* Text */
+  --c-text: #000000;
+  --c-text-disabled: #808080;
+  --c-text-disabled-emboss: #ffffff;
+  --c-error: #e00000;
+  --c-link: #0000ee;
+  --c-link-visited: #551a8b;
+
+  /* Title bars and selection */
+  --c-title-active: #000080;
+  --c-title-active-end: #1084d0;
+  --c-title-inactive: #808080;
+  --c-title-inactive-end: #b5b5b5;
+  --c-title-text: #ffffff;
+  --c-select: #000080;
+  --c-select-text: #ffffff;
+
+  /* Focus ring: dotted, like the original, but thicker so it is visible */
+  --focus-ring: 2px dotted var(--c-text);
+  --focus-offset: 2px;
+
+  /* Bevels as box-shadow recipes */
+  --bevel-raised:
+    inset -1px -1px 0 var(--c-shadow), inset 1px 1px 0 var(--c-light),
+    inset -2px -2px 0 var(--c-shadow-inner), inset 2px 2px 0 var(--c-light-inner);
+  --bevel-pressed:
+    inset -1px -1px 0 var(--c-light), inset 1px 1px 0 var(--c-shadow),
+    inset -2px -2px 0 var(--c-light-inner), inset 2px 2px 0 var(--c-shadow-inner);
+  --bevel-sunken:
+    inset -1px -1px 0 var(--c-light), inset 1px 1px 0 var(--c-shadow-inner),
+    inset -2px -2px 0 var(--c-light-inner), inset 2px 2px 0 var(--c-shadow);
+  --bevel-window:
+    inset -1px -1px 0 var(--c-shadow), inset 1px 1px 0 var(--c-light-inner),
+    inset -2px -2px 0 var(--c-shadow-inner), inset 2px 2px 0 var(--c-light);
+  --bevel-status:
+    inset -1px -1px 0 var(--c-light), inset 1px 1px 0 var(--c-shadow-inner);
+
+  /* Type: system UI fonts at readable sizes, no web fonts */
+  --font-ui: 'Segoe UI', Tahoma, 'Helvetica Neue', Arial, system-ui, sans-serif;
+  --font-mono: 'Lucida Console', 'Courier New', ui-monospace, monospace;
+  --fs-sm: 0.875rem;
+  --fs-md: 1rem;
+  --fs-lg: 1.25rem;
+  --lh: 1.4;
+
+  /* Spacing */
+  --sp-1: 2px;
+  --sp-2: 4px;
+  --sp-3: 8px;
+  --sp-4: 12px;
+  --sp-5: 16px;
+  --sp-6: 24px;
+
+  /* Sizes */
+  --titlebar-h: 1.75rem;
+  --taskbar-h: 2.5rem;
+  --control-h: 1.75rem;
+  --icon-size: 32px;
+  --gutter: 16px;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='light']) {
+    --c-desktop: #004c4c;
+  }
+}
+
+:root[data-theme='dark'] {
+  --c-desktop: #004c4c;
+}

@@ -1,0 +1,66 @@
+---
+// Page frame: document head, desktop background and taskbar. Pages put one
+// or more windows in the default slot.
+import '../styles/base.css';
+import Taskbar from '../components/win95/Taskbar.astro';
+import { site } from '../site';
+
+interface Props {
+  /** Page title; the site name is appended. Omit on the home page. */
+  title?: string;
+  description?: string;
+  /** Title shown on the taskbar button for the open window. */
+  windowTitle?: string;
+  noindex?: boolean;
+}
+
+const { title, description = site.description, windowTitle, noindex = false } = Astro.props;
+const fullTitle = title ? `${title} · ${site.name}` : site.name;
+---
+
+<!doctype html>
+<html lang={site.lang}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{fullTitle}</title>
+    <meta name="description" content={description} />
+    <meta name="theme-color" content="#008080" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    {noindex && <meta name="robots" content="noindex" />}
+  </head>
+  <body>
+    <main class="desktop">
+      <slot />
+    </main>
+    <Taskbar windowTitle={windowTitle} />
+  </body>
+</html>
+
+<style>
+  .desktop {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--sp-6);
+    min-height: 100dvh;
+    padding: var(--sp-6) var(--gutter) calc(var(--taskbar-h) + var(--sp-6));
+  }
+
+  .desktop > :global(.window) {
+    width: min(100%, 64rem);
+  }
+
+  /* Narrow screens: windows are maximized */
+  @media (max-width: 40rem) {
+    .desktop {
+      padding: 0 0 var(--taskbar-h);
+      gap: 0;
+    }
+
+    .desktop > :global(.window) {
+      width: 100%;
+      min-height: calc(100dvh - var(--taskbar-h));
+    }
+  }
+</style>

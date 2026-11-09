@@ -1,0 +1,165 @@
+---
+// Site navigation only: the tools and the site's meta pages. A tool's own
+// controls never go here (see CLAUDE.md).
+//
+// Built on <details>, so the menus open and links work without JavaScript.
+// The script only adds the desktop niceties: one menu open at a time, close
+// on outside click or Escape.
+import { metaPages } from '../../site';
+import { toolHref, tools } from '../../tools';
+
+interface Props {
+  /** Path of the current page, to mark it in the menus. */
+  current?: string;
+}
+
+const { current } = Astro.props;
+const [home, ...otherMeta] = metaPages;
+---
+
+<nav class="menubar" aria-label="Navegação do site">
+  {
+    home && (
+      <a class="menubar__item" href={home.href} aria-current={current === home.href ? 'page' : undefined}>
+        {home.title}
+      </a>
+    )
+  }
+  <details class="menubar__menu">
+    <summary class="menubar__item">Ferramentas</summary>
+    <ul class="menubar__popup" role="list">
+      {
+        tools.map((tool) => {
+          const href = toolHref(tool);
+          return (
+            <li>
+              {href ? (
+                <a
+                  class="menubar__entry"
+                  href={href}
+                  aria-current={current === href ? 'page' : undefined}
+                  {...(tool.status === 'external' ? { rel: 'noopener' } : {})}
+                >
+                  {tool.title}
+                </a>
+              ) : (
+                <span class="menubar__entry menubar__entry--disabled" aria-disabled="true">
+                  {tool.title} <small>(em breve)</small>
+                </span>
+              )}
+            </li>
+          );
+        })
+      }
+    </ul>
+  </details>
+  {
+    otherMeta.map((page) => (
+      <a class="menubar__item" href={page.href} aria-current={current === page.href ? 'page' : undefined}>
+        {page.title}
+      </a>
+    ))
+  }
+</nav>
+
+<script>
+  const menus = () => document.querySelectorAll<HTMLDetailsElement>('.menubar__menu');
+
+  for (const menu of menus()) {
+    menu.addEventListener('toggle', () => {
+      if (!menu.open) return;
+      for (const other of menus()) if (other !== menu) other.open = false;
+    });
+  }
+
+  document.addEventListener('click', (event) => {
+    for (const menu of menus()) {
+      if (menu.open && !menu.contains(event.target as Node)) menu.open = false;
+    }
+  });
+
+  document.addEventListener('keydown', (event) => {
+    if (event.key !== 'Escape') return;
+    for (const menu of menus()) {
+      if (!menu.open) continue;
+      menu.open = false;
+      menu.querySelector('summary')?.focus();
+    }
+  });
+</script>
+
+<style>
+  .menubar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--sp-1);
+    padding: var(--sp-1) var(--sp-1) var(--sp-2);
+    border-bottom: 1px solid var(--c-shadow-inner);
+    box-shadow: 0 1px 0 var(--c-light);
+  }
+
+  .menubar__menu {
+    position: relative;
+  }
+
+  .menubar__item {
+    display: block;
+    padding: var(--sp-1) var(--sp-3);
+    color: var(--c-text);
+    text-decoration: none;
+    cursor: default;
+    list-style: none;
+  }
+
+  .menubar__item::-webkit-details-marker {
+    display: none;
+  }
+
+  .menubar__item:hover,
+  .menubar__menu[open] > .menubar__item {
+    background: var(--c-select);
+    color: var(--c-select-text);
+  }
+
+  .menubar__item[aria-current='page'] {
+    text-decoration: underline;
+  }
+
+  .menubar__popup {
+    position: absolute;
+    z-index: 10;
+    top: 100%;
+    left: 0;
+    min-width: 14rem;
+    margin: 0;
+    padding: var(--sp-1);
+    list-style: none;
+    background: var(--c-face);
+    box-shadow: var(--bevel-window);
+  }
+
+  .menubar__entry {
+    display: block;
+    padding: var(--sp-2) var(--sp-5);
+    color: var(--c-text);
+    text-decoration: none;
+  }
+
+  a.menubar__entry:hover,
+  a.menubar__entry:focus-visible {
+    background: var(--c-select);
+    color: var(--c-select-text);
+  }
+
+  a.menubar__entry[aria-current='page']::before {
+    content: '✓';
+    position: absolute;
+    left: var(--sp-2);
+  }
+
+  .menubar__entry--disabled {
+    color: var(--c-text-disabled);
+    text-shadow: 1px 1px 0 var(--c-text-disabled-emboss);
+    cursor: not-allowed;
+  }
+</style>

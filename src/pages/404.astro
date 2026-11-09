@@ -1,0 +1,63 @@
+---
+import Desktop from '../layouts/Desktop.astro';
+import Window from '../components/win95/Window.astro';
+---
+
+<Desktop title="Página não encontrada" windowTitle="Erro" noindex>
+  <Window title="Erro" menu={false} class="error-dialog">
+    <div class="error">
+      <span class="error__icon" aria-hidden="true">✕</span>
+      <div>
+        <p><strong>Página não encontrada.</strong></p>
+        <p>O endereço pode estar errado, ou a página mudou de lugar.</p>
+      </div>
+    </div>
+    <div class="error__actions">
+      <a class="btn" href="/">OK</a>
+    </div>
+  </Window>
+</Desktop>
+
+<style>
+  :global(.desktop > .window.error-dialog) {
+    width: min(100%, 26rem);
+    margin-top: 15vh;
+  }
+
+  .error {
+    display: flex;
+    gap: var(--sp-5);
+    align-items: flex-start;
+  }
+
+  .error__icon {
+    display: grid;
+    flex: none;
+    place-items: center;
+    width: 2rem;
+    height: 2rem;
+    border: 2px solid var(--c-shadow);
+    border-radius: 50%;
+    background: var(--c-error);
+    color: var(--c-title-text);
+    font-weight: bold;
+  }
+
+  .error__actions {
+    display: flex;
+    justify-content: center;
+    margin-top: var(--sp-3);
+  }
+
+  .error__actions .btn {
+    display: inline-grid;
+    place-items: center;
+    text-decoration: none;
+  }
+
+  @media (max-width: 40rem) {
+    :global(.desktop > .window.error-dialog) {
+      margin-top: 0;
+    }
+  }
+</style>

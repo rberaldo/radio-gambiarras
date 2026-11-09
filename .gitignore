@@ -1,0 +1,12 @@
+node_modules/
+dist/
+.astro/
+.netlify/
+.env
+.env.*
+.DS_Store
+*.log
+
+# Raw upstream downloads contain personal data and must never be committed.
+scripts/**/raw/
+*.zip
