@@ -1,7 +1,9 @@
 @import './tokens.css';
+@import './fonts.css';
 @import './controls.css';
 @import './tool.css';
 @import './interior.css';
+@import './print.css';
 
 *,
 *::before,
@@ -10,6 +12,9 @@
 }
 
 html {
+  /* Light only until there is a designed dark theme: keeps native controls light */
+  color-scheme: light;
+  accent-color: var(--c-select);
   -webkit-text-size-adjust: 100%;
   text-size-adjust: 100%;
 }
@@ -33,9 +38,11 @@ svg {
 
 h1,
 h2,
-h3 {
+h3,
+legend {
   margin: 0 0 var(--sp-3);
   line-height: 1.2;
+  text-wrap: balance;
 }
 
 h1 {
@@ -47,8 +54,19 @@ h3 {
   font-size: var(--fs-md);
 }
 
+p,
+li {
+  text-wrap: pretty;
+}
+
 p {
   margin: 0 0 var(--sp-3);
+}
+
+/* Counts and dates line up and do not jiggle as they change */
+time,
+.tabular {
+  font-variant-numeric: tabular-nums;
 }
 
 a {
@@ -73,6 +91,41 @@ samp {
 ::selection {
   background: var(--c-select);
   color: var(--c-select-text);
+}
+
+/*
+  The Windows 95 chrome uses the W95FA pixel font, which has a single weight:
+  no synthetic bold (it smears the pixels). Its sizes stay at 16px or more.
+*/
+.window__titlebar,
+.window__status,
+.menubar,
+.taskbar,
+.dicon__label {
+  font-family: var(--font-chrome);
+  font-synthesis: none;
+}
+
+/* Skip link: first thing a keyboard user reaches, visible only when focused */
+.skip-link {
+  position: absolute;
+  z-index: 1000;
+  top: var(--sp-2);
+  left: var(--sp-2);
+  padding: var(--sp-2) var(--sp-4);
+  background: var(--c-face);
+  box-shadow: var(--bevel-raised);
+  color: var(--c-text);
+  font-weight: bold;
+  transform: translateY(-200%);
+}
+
+.skip-link:focus {
+  transform: none;
+}
+
+#conteudo:focus {
+  outline: none;
 }
 
 .visually-hidden {

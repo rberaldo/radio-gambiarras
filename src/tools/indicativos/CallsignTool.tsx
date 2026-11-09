@@ -13,6 +13,7 @@ import {
   type StatusCounts,
 } from '../../lib/callsigns/index.ts';
 import { formatNumber, plural } from '../../lib/format.ts';
+import { EmptyState } from '../../ui/EmptyState.tsx';
 import { Loading, LoadError } from '../../ui/LoadState.tsx';
 import { SearchField } from '../../ui/SearchField.tsx';
 import { useUrlState } from '../../ui/useUrlState.ts';
@@ -118,9 +119,22 @@ function Browser({ index, dataDate }: { index: CallsignIndex; dataDate?: string 
               renderCell={(i) => cellButton(cells[i]!)}
             />
           ) : (
-            (searching || block) && (
-              <p class="tool-empty">{baseCells.length > 0 ? 'Nenhum indicativo livre aqui.' : 'Nenhum indicativo encontrado.'}</p>
-            )
+            (searching || block) &&
+            (baseCells.length > 0 ? (
+              <EmptyState action={{ label: 'Mostrar todos', onClick: () => set({ show: 'todos' }) }}>
+                Nenhum indicativo nesta situação aqui.
+              </EmptyState>
+            ) : (
+              <EmptyState
+                action={
+                  uf
+                    ? { label: 'Buscar em todos os estados', onClick: () => set({ uf: 'todos', prefix: undefined }) }
+                    : { label: 'Limpar busca', onClick: () => set({ query: '' }) }
+                }
+              >
+                Nenhum indicativo encontrado para “{query.trim()}” em {where}.
+              </EmptyState>
+            ))
           )}
         </div>
         {selected && <DetailPanel callsign={selected} index={index} onClose={() => select(undefined)} renderCell={cellButton} />}

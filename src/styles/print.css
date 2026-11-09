@@ -1,0 +1,44 @@
+/*
+  Printing: just the window's content, black on white. The desktop, taskbar,
+  menus and the tools' search and filters are left out.
+*/
+@media print {
+  body,
+  .desktop {
+    min-height: 0;
+    padding: 0;
+    background: #fff;
+  }
+
+  .taskbar,
+  .menubar,
+  .window__close,
+  .skip-link,
+  .home__icons,
+  .tool-search,
+  .tool-filters,
+  .tool-panel__close,
+  .tool-panel__actions,
+  .tool-panel__copy,
+  .tool-search__shortcut {
+    display: none !important;
+  }
+
+  .window,
+  .window__body,
+  .panel-raised,
+  .fieldset {
+    box-shadow: none !important;
+    background: #fff !important;
+  }
+
+  .window__titlebar {
+    background: none !important;
+    color: #000 !important;
+    border-bottom: 1px solid #000;
+  }
+
+  a {
+    color: #000;
+  }
+}

@@ -64,7 +64,7 @@
 }
 
 .aprs-tile__code {
-  font-family: var(--m-label-font);
+  font-family: var(--font-mono);
   font-size: var(--fs-sm);
   font-weight: bold;
 }
@@ -119,7 +119,7 @@
 }
 
 .aprs-panel__code code {
-  font-size: var(--fs-lg);
+  font-size: calc(var(--fs-label) * 2);
 }
 
 .aprs-example code {
@@ -128,7 +128,7 @@
   border: 1px solid var(--m-line-soft);
   border-radius: var(--m-radius);
   background: var(--m-paper);
-  font-family: var(--m-label-font);
+  font-family: var(--font-mono);
   font-size: var(--fs-md);
   word-break: break-all;
 }

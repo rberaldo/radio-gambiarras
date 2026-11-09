@@ -117,7 +117,18 @@ Modern amenities are not optional:
   forbids this kind of site). Do not scrape it or any other third-party
   repeater list.
 
+## Building tools
+
+Reuse the shared building blocks in `src/ui/` (search field, segmented
+control, detail panel, copy button, empty and loading states, URL state) and
+`src/lib/format.ts`, and the `tool-*` layout classes in `src/styles/tool.css`.
+Follow `docs/ui-guidelines.md` for typography, controls, feedback and
+keyboard behaviour. Tool-specific components live in `src/tools/<slug>/`,
+one component per file.
+
 ## Reference docs
+
+- `docs/ui-guidelines.md`: how tools should look and behave, with sources.
 
 - `docs/data-sources.md`: where the data comes from, formats, pitfalls, and
   how to fetch it cheaply.

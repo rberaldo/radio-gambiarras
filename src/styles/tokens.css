@@ -60,9 +60,15 @@
   --bevel-status:
     inset -1px -1px 0 var(--c-light), inset 1px 1px 0 var(--c-shadow-inner);
 
-  /* Type: system UI fonts at readable sizes, no web fonts */
+  /* Type. Body text, inputs and results use the system UI font; the two
+     self-hosted pixel fonts are accents (fonts.css). */
   --font-ui: 'Segoe UI', Tahoma, 'Helvetica Neue', Arial, system-ui, sans-serif;
   --font-mono: 'Lucida Console', 'Courier New', ui-monospace, monospace;
+  /* Windows 95 chrome: title bars, menus, taskbar, desktop icons */
+  --font-chrome: 'W95FA', Tahoma, 'Segoe UI', system-ui, sans-serif;
+  /* Small labels, codes and numbers; crisp at multiples of 11px */
+  --font-label: 'Departure Mono', 'Lucida Console', ui-monospace, monospace;
+  --fs-label: 11px;
   --fs-sm: 0.875rem;
   --fs-md: 1rem;
   --fs-lg: 1.25rem;
@@ -80,6 +86,9 @@
   --titlebar-h: 1.75rem;
   --taskbar-h: 2.5rem;
   --control-h: 1.75rem;
+  /* Minimum size of things you click or tap (WCAG 2.2: 24px minimum; 44px on touch) */
+  --target: 2.5rem;
+  --target-touch: 2.75rem;
   --icon-size: 32px;
   --gutter: 16px;
 }

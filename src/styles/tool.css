@@ -18,6 +18,10 @@
   min-width: 0;
 }
 
+.tool-search__clear--idle {
+  visibility: hidden;
+}
+
 .tool-search__hint {
   flex-basis: 100%;
   margin: 0;
@@ -186,6 +190,10 @@
 
 /* Nothing to show */
 .tool-empty {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-3);
+  align-items: center;
   padding: var(--sp-5);
   border: 1px solid var(--m-line);
   border-radius: var(--m-radius);
@@ -220,5 +228,16 @@
     flex: 1;
     height: auto;
     min-height: 15rem;
+  }
+}
+
+.tool-empty p {
+  margin: 0;
+}
+
+/* The keyboard shortcut hint only makes sense with a keyboard */
+@media (hover: none) {
+  .tool-search__shortcut {
+    display: none;
   }
 }

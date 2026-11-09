@@ -4,6 +4,7 @@ import { useMemo } from 'preact/hooks';
 import data from '../../../data/aprs/symbols.json';
 import { searchSymbols, symbolsFrom, type AprsSymbolsFile } from '../../lib/aprs/symbols.ts';
 import { plural } from '../../lib/format.ts';
+import { EmptyState } from '../../ui/EmptyState.tsx';
 import { SearchField } from '../../ui/SearchField.tsx';
 import { Segmented, type SegmentedOption } from '../../ui/Segmented.tsx';
 import { useUrlState } from '../../ui/useUrlState.ts';
@@ -71,7 +72,15 @@ export default function AprsTool() {
               ))}
             </ul>
           ) : (
-            <p class="tool-empty">Nenhum símbolo encontrado.</p>
+            <EmptyState
+              action={
+                state.table !== 'todas' && searchSymbols(SYMBOLS, state.query).length > 0
+                  ? { label: 'Buscar em todas as tabelas', onClick: () => set({ table: 'todas' }) }
+                  : { label: 'Limpar busca', onClick: () => set({ query: '' }) }
+              }
+            >
+              Nenhum símbolo encontrado para “{state.query.trim()}”.
+            </EmptyState>
           )}
         </div>
         {selected && <SymbolPanel symbol={selected} onClose={() => set({ selected: undefined })} />}
