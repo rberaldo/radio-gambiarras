@@ -442,7 +442,8 @@ by name or code, see it large, and learn how to type it.
   Vendor hessu's `aprs-symbols-64-0/1.png` and their `@2x` versions into
   `public/aprs/` with a short `README` naming the source, commit and link.
   Note the import in `docs/data-sources.md`. No pipeline: the data is static.
-- [ ] **M4.4 Library.** `src/lib/aprs/`: types, sprite position from table and
+- [x] **M4.4 Library.** Done 2026-11-09 (`src/lib/aprs/symbols.ts`, 13 tests);
+  sheet positions checked visually against hessu's images. `src/lib/aprs/`: types, sprite position from table and
   character, and search that ignores case and accents and matches the code
   ("/>" or ">"), the character alone, or words in the description (all words
   must match, in any order). Tests for positions (`!` → 0, `>` → 29, last
