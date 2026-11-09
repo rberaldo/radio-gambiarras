@@ -1,5 +1,5 @@
 // The callsign tool's interactive part: search, filters and the grid.
-import { useMemo, useState } from 'preact/hooks';
+import { useEffect, useMemo, useState } from 'preact/hooks';
 import {
   STATUS_INFO,
   UFS,
@@ -7,7 +7,6 @@ import {
   blockCells,
   blockChoices,
   countStatuses,
-  nearMisses,
   search,
   describeFreeFrom,
   freeFrom,
@@ -17,6 +16,7 @@ import {
   type Status,
   type Uf,
 } from '../../lib/callsigns/index.ts';
+import { DetailPanel } from './DetailPanel.tsx';
 import { LEGEND_ORDER, STATUS_MARK } from './statusStyle.ts';
 import { useCallsignIndex } from './useCallsignIndex.ts';
 import { VirtualGrid } from './VirtualGrid.tsx';
@@ -194,40 +194,6 @@ function CellButton({
   );
 }
 
-function ExactResult({ cell, index, onPick }: { cell: Cell; index: CallsignIndex; onPick: (cs: string) => void }) {
-  const info = STATUS_INFO[cell.status];
-  const free = freeFrom(cell.callsign, index);
-  const similar = useMemo(() => (info.requestable ? [] : nearMisses(cell.callsign, index)), [cell.callsign, info.requestable, index]);
-  return (
-    <section class="cs-exact panel-raised" aria-live="polite">
-      <p class="cs-exact__head">
-        <span class={`cs-cell cs-cell--${cell.status} cs-exact__call`}>{cell.callsign}</span>
-        <strong>{info.label}</strong>
-      </p>
-      <p>{info.description}</p>
-      {free && (
-        <p>
-          <strong>{describeFreeFrom(free)}</strong>
-        </p>
-      )}
-      {similar.length > 0 && (
-        <>
-          <p>
-            <strong>Parecidos e livres:</strong>
-          </p>
-          <ul class="cs-similar" role="list">
-            {similar.map((c) => (
-              <li key={c.callsign}>
-                <CellButton cell={c} index={index} selected={false} onSelect={onPick} />
-              </li>
-            ))}
-          </ul>
-        </>
-      )}
-    </section>
-  );
-}
-
 function Browser({ index }: { index: CallsignIndex }) {
   const [filters, setFilters] = useState<Filters>({ licenseClass: 'C', uf: 'SP', length: 2, show: 'todos' });
   const [query, setQuery] = useState('');
@@ -259,17 +225,23 @@ function Browser({ index }: { index: CallsignIndex }) {
   const where = uf ? UF_NAMES[uf] : 'todos os estados';
   const taken = counts['em-uso'] + counts.vencida;
   const maybe = counts['quarentena-incerta'] + counts.quarentena;
-  const pick = (cs: string) => {
-    setSelected(cs);
-    setQuery(cs);
-  };
+
+  // Typing a complete callsign selects it, so its properties show up.
+  const exact = result?.exact?.callsign;
+  useEffect(() => {
+    if (exact) setSelected(exact);
+  }, [exact]);
+
+  const cellButton = (cell: Cell) => (
+    <CellButton cell={cell} index={index} selected={selected === cell.callsign} onSelect={setSelected} />
+  );
 
   let summary;
   if (searching && !result) summary = <>Busca inválida: use letras, números, <kbd>?</kbd> e <kbd>*</kbd>.</>;
   else if (searching)
     summary = (
       <>
-        {fmt(baseCells.length)} resultados em {where}: <strong>{fmt(counts.livre)}</strong> livres, {fmt(maybe)} talvez em
+        {fmt(baseCells.length)} {baseCells.length === 1 ? 'resultado' : 'resultados'} em {where}: <strong>{fmt(counts.livre)}</strong> livres, {fmt(maybe)} talvez em
         quarentena, {fmt(taken)} em uso.
       </>
     );
@@ -287,23 +259,28 @@ function Browser({ index }: { index: CallsignIndex }) {
       <SearchBox query={query} setQuery={setQuery} />
       <FilterBar filters={filters} set={set} prefixes={searching ? [] : blocks.map((b) => b.prefix)} />
 
-      {result?.exact && <ExactResult cell={result.exact} index={index} onPick={pick} />}
-
       <p class="cs-summary" aria-live="polite">
         {summary}
       </p>
 
-      {cells.length > 0 ? (
-        <VirtualGrid
-          count={cells.length}
-          minCellWidth={84}
-          rowHeight={34}
-          label={searching ? 'Resultados da busca' : `Indicativos ${block?.prefix ?? ''}`}
-          renderCell={(i) => <CellButton cell={cells[i]!} index={index} selected={selected === cells[i]!.callsign} onSelect={setSelected} />}
-        />
-      ) : (
-        (searching || block) && <p class="cs-empty">{baseCells.length > 0 ? 'Nenhum indicativo livre aqui.' : 'Nenhum indicativo encontrado.'}</p>
-      )}
+      <div class={selected ? 'cs-main cs-main--detail' : 'cs-main'}>
+        <div class="cs-main__grid">
+          {cells.length > 0 ? (
+            <VirtualGrid
+              count={cells.length}
+              minCellWidth={84}
+              rowHeight={34}
+              label={searching ? 'Resultados da busca' : `Indicativos ${block?.prefix ?? ''}`}
+              renderCell={(i) => cellButton(cells[i]!)}
+            />
+          ) : (
+            (searching || block) && <p class="cs-empty">{baseCells.length > 0 ? 'Nenhum indicativo livre aqui.' : 'Nenhum indicativo encontrado.'}</p>
+          )}
+        </div>
+        {selected && (
+          <DetailPanel callsign={selected} index={index} onClose={() => setSelected(undefined)} renderCell={cellButton} />
+        )}
+      </div>
 
       <Legend />
     </div>

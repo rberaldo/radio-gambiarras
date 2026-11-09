@@ -281,7 +281,11 @@ Interface (M2.8 can start as soon as M2.1 and M2.3 are done):
   it for anything offensive). "Iniciais": the user types a name and gets
   suffixes built from its initials. Both respect the filters and the status
   model.
-- [ ] **M2.12 Detail panel.** Selecting a callsign shows: its state with a
+- [x] **M2.12 Detail panel.** Done 2026-11-09: side panel on wide screens,
+  above the grid on phones; replaces the search result card. Includes the
+  quarantine free-up date. Order changed with the user: M2.12, M2.13, M2.15
+  first; M2.11 and M2.14 after release.
+  Selecting a callsign shows: its state with a
   plain explanation; the phonetic spelling (ICAO alphabet as used in
   Portuguese, digits in Portuguese); Morse code as dots and dashes, a play
   button (Web Audio, adjustable speed) and the length in dot units so short,
