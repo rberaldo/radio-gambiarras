@@ -23,12 +23,13 @@ maplibregl.setWorkerUrl(workerUrl);
 const REPEATERS = mergeRepeaters((anatel as AnatelRepeatersFile).repeaters, overlay as OverlayFile);
 const RADIUS_KM = 50;
 
-function toGeoJson(): FeatureCollection<GeoPoint> {
+/** Repeaters as map points; `sel` is 1 for those inside the current circle, so clusters can count them. */
+function toGeoJson(selected: ReadonlySet<string> = new Set()): FeatureCollection<GeoPoint> {
   return {
     type: 'FeatureCollection',
     features: REPEATERS.filter((r) => r.position).map((r) => ({
       type: 'Feature',
-      properties: { id: r.id, callsign: r.callsign, band: r.band, exact: r.position!.exact },
+      properties: { id: r.id, callsign: r.callsign, band: r.band, exact: r.position!.exact, sel: selected.has(r.id) ? 1 : 0 },
       geometry: { type: 'Point', coordinates: [r.position!.lon, r.position!.lat] },
     })),
   };
@@ -86,9 +87,16 @@ export default function MapPrototype() {
 
       map.on('load', () => {
         if (!map) return;
-        map.addSource('repeaters', { type: 'geojson', data: toGeoJson(), cluster: true, clusterRadius: 28, clusterMaxZoom: 14 });
+        map.addSource('repeaters', {
+          type: 'geojson',
+          data: toGeoJson(),
+          cluster: true,
+          clusterRadius: 28,
+          clusterMaxZoom: 14,
+          // Each cluster counts how many of its repeaters are inside the circle.
+          clusterProperties: { sel: ['+', ['get', 'sel']] },
+        });
         map.addSource('selection', { type: 'geojson', data: { type: 'FeatureCollection', features: [] } });
-        map.addSource('selected', { type: 'geojson', data: { type: 'FeatureCollection', features: [] } });
 
         map.addLayer({ id: 'selection-fill', type: 'fill', source: 'selection', paint: { 'fill-color': '#000080', 'fill-opacity': 0.08 } });
         map.addLayer({ id: 'selection-line', type: 'line', source: 'selection', paint: { 'line-color': '#000080', 'line-width': 2, 'line-dasharray': [2, 1] } });
@@ -97,15 +105,33 @@ export default function MapPrototype() {
           type: 'circle',
           source: 'repeaters',
           filter: ['has', 'point_count'],
-          paint: { 'circle-color': '#ffffff', 'circle-stroke-color': '#000080', 'circle-stroke-width': 2, 'circle-radius': ['step', ['get', 'point_count'], 11, 10, 14, 50, 18] },
+          paint: {
+            // All inside: green; some inside: green ring; none: white.
+            'circle-color': ['case', ['==', ['get', 'sel'], ['get', 'point_count']], '#008000', '#ffffff'],
+            'circle-stroke-color': ['case', ['>', ['get', 'sel'], 0], '#008000', '#000080'],
+            'circle-stroke-width': ['case', ['>', ['get', 'sel'], 0], 3, 2],
+            'circle-radius': ['step', ['get', 'point_count'], 11, 10, 14, 50, 18],
+          },
         });
         map.addLayer({
           id: 'cluster-count',
           type: 'symbol',
           source: 'repeaters',
           filter: ['has', 'point_count'],
-          layout: { 'text-field': ['get', 'point_count_abbreviated'], 'text-font': ['Noto Sans Bold'], 'text-size': 11 },
-          paint: { 'text-color': '#000080' },
+          layout: {
+            // "2/4" when only some of the cluster is inside the circle.
+            'text-field': [
+              'case',
+              ['all', ['>', ['get', 'sel'], 0], ['<', ['get', 'sel'], ['get', 'point_count']]],
+              ['concat', ['to-string', ['get', 'sel']], '/', ['to-string', ['get', 'point_count']]],
+              ['get', 'point_count_abbreviated'],
+            ],
+            'text-font': ['Noto Sans Bold'],
+            'text-size': 11,
+          },
+          paint: {
+            'text-color': ['case', ['==', ['get', 'sel'], ['get', 'point_count']], '#ffffff', ['>', ['get', 'sel'], 0], '#006400', '#000080'],
+          },
         });
         map.addLayer({
           id: 'repeater-points',
@@ -113,17 +139,11 @@ export default function MapPrototype() {
           source: 'repeaters',
           filter: ['!', ['has', 'point_count']],
           paint: {
-            'circle-radius': 6,
-            'circle-color': ['case', ['get', 'exact'], '#000080', '#ffffff'],
-            'circle-stroke-color': '#000080',
+            'circle-radius': ['case', ['==', ['get', 'sel'], 1], 7, 6],
+            'circle-color': ['case', ['==', ['get', 'sel'], 1], '#008000', ['get', 'exact'], '#000080', '#ffffff'],
+            'circle-stroke-color': ['case', ['==', ['get', 'sel'], 1], '#ffffff', '#000080'],
             'circle-stroke-width': 2,
           },
-        });
-        map.addLayer({
-          id: 'selected-points',
-          type: 'circle',
-          source: 'selected',
-          paint: { 'circle-radius': 7, 'circle-color': '#008000', 'circle-stroke-color': '#ffffff', 'circle-stroke-width': 2 },
         });
         setStatus(`${REPEATERS.length} repetidoras. Clique num lugar para ver as que estão a até ${RADIUS_KM} km.`);
       });
@@ -140,10 +160,7 @@ export default function MapPrototype() {
         const center = { lat: e.lngLat.lat, lon: e.lngLat.lng };
         const near = withinRadius(REPEATERS, center, RADIUS_KM);
         (map.getSource('selection') as GeoJSONSource).setData(circle(center, RADIUS_KM));
-        (map.getSource('selected') as GeoJSONSource).setData({
-          type: 'FeatureCollection',
-          features: near.map((n) => ({ type: 'Feature', properties: {}, geometry: { type: 'Point', coordinates: [n.repeater.position!.lon, n.repeater.position!.lat] } })),
-        });
+        (map.getSource('repeaters') as GeoJSONSource).setData(toGeoJson(new Set(near.map((n) => n.repeater.id))));
         const exact = near.filter((n) => n.repeater.position?.exact).length;
         setStatus(
           `${near.length} repetidoras a até ${RADIUS_KM} km de ${center.lat.toFixed(4)}, ${center.lon.toFixed(4)}` +
