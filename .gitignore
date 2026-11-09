@@ -10,3 +10,7 @@ dist/
 # Raw upstream downloads contain personal data and must never be committed.
 scripts/**/raw/
 *.zip
+
+# The maintainer's own reference files (e.g. RepeaterBook exports). Their
+# terms forbid republishing, so they stay local and never reach the repo.
+private/

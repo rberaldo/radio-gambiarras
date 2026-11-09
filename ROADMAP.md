@@ -469,6 +469,12 @@ Map:
 - Pre-release change (2026-11-09, user's request): downloads put a city tag
   before the callsign (`RIO PY1XXX`, `POA PY3XXX`; `src/lib/repeaters/cityCode.ts`);
   the CSV has it in a "Sigla" column. CHIRP names grow to ~10 characters.
+- Pre-release change (2026-11-09, user's decision): overlay bootstrapped from
+  the user's RepeaterBook CSV exports (`scripts/repeaterbook/import.ts`,
+  `docs/overlay.md`): 282 entries for Anatel repeaters (204 tones, digital
+  modes, site names), marked `unverified`, source not shown on the site. The
+  user checks them by hand over time. GPX export rejected (town-centre
+  coordinates).
 - [ ] **M3.9 Release.** Credits (Anatel, OpenFreeMap/OpenMapTiles/OSM,
   Mapterhorn/Copernicus, OpenTopoMap if used) on the tool and `/sobre`;
   approximate-position explanation; registry entry to `available`; full

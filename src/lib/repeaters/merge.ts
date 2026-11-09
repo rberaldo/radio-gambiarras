@@ -40,7 +40,8 @@ function apply(base: Omit<Repeater, 'shift'>, e: OverlayEntry | undefined): Repe
   if (e.modes) r.modes = e.modes;
   if (e.onAir !== undefined) r.onAir = e.onAir;
   if (e.notes) r.notes = e.notes;
-  r.correction = { source: e.source, date: e.date };
+  // Bulk-imported data shows as plain data, without a source line.
+  if (!e.unverified) r.correction = { source: e.source, date: e.date };
   return r;
 }
 

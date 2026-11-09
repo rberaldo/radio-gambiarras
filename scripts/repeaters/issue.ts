@@ -131,6 +131,8 @@ export function applyCorrection(file: OverlayFile, id: string, entry: OverlayEnt
   const merged: OverlayEntry = { ...file.entries[id], ...entry };
   if (entry.tone !== undefined) delete merged.dcs;
   if (entry.dcs !== undefined) delete merged.tone;
+  // The maintainer approved it, so it is no longer an unchecked import.
+  delete merged.unverified;
   const entries = { ...file.entries, [id]: merged };
   // Sorted keys keep diffs small and the file stable.
   return { ...file, entries: Object.fromEntries(Object.keys(entries).sort().map((k) => [k, entries[k]!])) };

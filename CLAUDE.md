@@ -113,9 +113,14 @@ Modern amenities are not optional:
 - The daily refresh must stay cheap: a plain script (no AI), a ranged
   download of only the file it needs, and a commit only when the reduced
   data actually changed.
-- RepeaterBook's API and data are off limits for automated use (its policy
-  forbids this kind of site). Do not scrape it or any other third-party
-  repeater list.
+- RepeaterBook's API and website are off limits for automated use (its
+  policy forbids this kind of site). Do not scrape it or any other
+  third-party repeater list. Exception decided by the user on 2026-11-09:
+  a one-off bootstrap of the overlay from the user's own RepeaterBook CSV
+  exports (tone, modes, site name; only repeaters Anatel lists), via
+  `scripts/repeaterbook/import.ts`. The exports stay in `private/`
+  (gitignored). Imported entries are `unverified` and the site does not
+  name the source.
 
 ## Building tools
 

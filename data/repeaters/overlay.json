@@ -1,4 +1,2557 @@
 {
  "format": 1,
- "entries": {}
+ "entries": {
+  "PP1ARE@147.330": {
+   "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "modes": [
+    "FM"
+   ],
+   "notes": "Ligada a IRLP."
+  },
+  "PP1CDI@147.360": {
+   "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "tone": 88.5,
+   "modes": [
+    "FM"
+   ],
+   "notes": "Local: Morro de São Carlos."
+  },
+  "PP1CG@146.870": {
+   "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "tone": 88.5,
+   "modes": [
+    "FM"
+   ]
+  },
+  "PP1CI@145.230": {
+   "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "tone": 88.5,
+   "modes": [
+    "FM"
+   ],
+   "notes": "Local: Morro das Andorinhas."
+  },
+  "PP1DGT@145.310": {
+   "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "modes": [
+    "DMR"
+   ]
+  },
+  "PP1GUA@146.770": {
+   "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "tone": 88.5,
+   "modes": [
+    "FM"
+   ],
+   "notes": "Local: Serra Santa Catarina."
+  },
+  "PP1LN@145.350": {
+   "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "tone": 88.5,
+   "modes": [
+    "FM"
+   ]
+  },
+  "PP1MC@145.210": {
+   "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "tone": 88.5,
+   "modes": [
+    "FM"
+   ]
+  },
+  "PP1MDS@146.850": {
+   "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "tone": 88.5,
+   "modes": [
+    "FM"
+   ],
+   "notes": "Local: Morro Santa Marta."
+  },
+  "PP1MUQ@145.370": {
+   "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "tone": 88.5,
+   "modes": [
+    "FM"
+   ]
+  },
+  "PP1RDJ@145.450": {
+   "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "modes": [
+    "FM"
+   ],
+   "notes": "Local: Morro de São Carlos."
+  },
+  "PP1RK@147.180": {
+   "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "modes": [
+    "DMR"
+   ]
+  },
+  "PP1STA@145.270": {
+   "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "tone": 88.5,
+   "modes": [
+    "FM"
+   ]
+  },
+  "PP1VHF@146.690": {
+   "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "tone": 88.5,
+   "modes": [
+    "FM"
+   ],
+   "notes": "Local: São Pedro do Itabapoana."
+  },
+  "PP2RDB@147.180": {
+   "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "tone": 67,
+   "modes": [
+    "FM"
+   ]
+  },
+  "PP2RGO@146.910": {
+   "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "modes": [
+    "FM"
+   ],
+   "notes": "Local: Senador Canedo."
+  },
+  "PP2RX@145.230": {
+   "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "tone": 100,
+   "modes": [
+    "FM"
+   ]
+  },
+  "PP5AMC@146.770": {
+   "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "tone": 88.5,
+   "modes": [
+    "FM"
+   ],
+   "notes": "Local: Morro da Cruz."
+  },
+  "PP5ARA@145.490": {
+   "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "tone": 88.5,
+   "modes": [
+    "FM"
+   ]
+  },
+  "PP5ARC@145.210": {
+   "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "modes": [
+    "FM"
+   ],
+   "notes": "Local: Criciúma."
+  },
+  "PP5ARK@147.360": {
+   "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "tone": 88.5,
+   "modes": [
+    "FM"
+   ]
+  },
+  "PP5ARQ@146.730": {
+   "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "modes": [
+    "FM"
+   ],
+   "notes": "Local: Brusque."
+  },
+  "PP5ARS@147.210": {
+   "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "tone": 131.8,
+   "modes": [
+    "FM"
+   ]
+  },
+  "PP5CDA@146.610": {
+   "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "tone": 88.5,
+   "modes": [
+    "FM"
+   ]
+  },
+  "PP5CHA@439.200": {
+   "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "modes": [
+    "DMR"
+   ]
+  },
+  "PP5CRE@146.830": {
+   "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "modes": [
+    "FM"
+   ],
+   "notes": "Local: Pico Bradador."
+  },
+  "PP5CRS@147.120": {
+   "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "tone": 100,
+   "modes": [
+    "FM"
+   ]
+  },
+  "PP5GRA@145.470": {
+   "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "tone": 100,
+   "modes": [
+    "FM"
+   ]
+  },
+  "PP5JCR@146.770": {
+   "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "tone": 67,
+   "modes": [
+    "FM"
+   ]
+  },
+  "PP5JDS@146.950": {
+   "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "tone": 103.5,
+   "modes": [
+    "FM"
+   ]
+  },
+  "PP5MAR@147.150": {
+   "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "tone": 136.5,
+   "modes": [
+    "FM"
+   ]
+  },
+  "PP5MCO@147.390": {
+   "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "tone": 100,
+   "modes": [
+    "FM"
+   ]
+  },
+  "PP5MFA@439.675": {
+   "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "modes": [
+    "D-STAR"
+   ],
+   "notes": "Local: Alto de Mafra."
+  },
+  "PP5MFT@147.330": {
+   "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "tone": 123,
+   "modes": [
+    "FM"
+   ],
+   "notes": "Local: Morro do Funil. Ligada a EchoLink."
+  },
+  "PP5MPA@147.180": {
+   "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "tone": 100,
+   "modes": [
+    "FM"
+   ]
+  },
+  "PP5REU@147.390": {
+   "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "tone": 88.5,
+   "modes": [
+    "FM"
+   ]
+  },
+  "PP5ROL@439.600": {
+   "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "tone": 203.5,
+   "modes": [
+    "FM"
+   ]
+  },
+  "PP5RPT@147.330": {
+   "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "tone": 67,
+   "modes": [
+    "FM"
+   ],
+   "notes": "Local: Morro do Wanda. Ligada a EchoLink."
+  },
+  "PP5SAT@147.030": {
+   "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "tone": 88.5,
+   "modes": [
+    "FM"
+   ]
+  },
+  "PP5URP@439.100": {
+   "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "modes": [
+    "DMR"
+   ],
+   "notes": "Local: Morro das Almas."
+  },
+  "PP6DIG@439.500": {
+   "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "modes": [
+    "D-STAR"
+   ]
+  },
+  "PP6DV@146.610": {
+   "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "modes": [
+    "D-STAR",
+    "FM",
+    "DMR"
+   ]
+  },
+  "PR7AAA@147.000": {
+   "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "tone": 67,
+   "modes": [
+    "FM"
+   ]
+  },
+  "PR8RMP@145.290": {
+   "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "modes": [
+    "FM"
+   ],
+   "notes": "Ligada a IRLP."
+  },
+  "PS7JCV@145.450": {
+   "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "tone": 91.5,
+   "modes": [
+    "FM"
+   ]
+  },
+  "PS7LJV@146.930": {
+   "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "modes": [
+    "FM"
+   ],
+   "notes": "Local: LABRE."
+  },
+  "PS8GES@145.390": {
+   "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "tone": 123,
+   "modes": [
+    "FM"
+   ]
+  },
+  "PS8ZM@439.175": {
+   "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "tone": 123,
+   "modes": [
+    "FM"
+   ]
+  },
+  "PT2AAT@146.950": {
+   "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "tone": 88.5,
+   "modes": [
+    "FM"
+   ]
+  },
+  "PT2DV@147.300": {
+   "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "modes": [
+    "DMR"
+   ]
+  },
+  "PT2GDX@145.290": {
+   "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "tone": 88.5,
+   "modes": [
+    "FM"
+   ]
+  },
+  "PT2RAP@146.650": {
+   "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "modes": [
+    "FM"
+   ],
+   "notes": "Local: Brazlândia."
+  },
+  "PT7RPD@145.250": {
+   "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "tone": 71.9,
+   "modes": [
+    "FM"
+   ]
+  },
+  "PV8AAA@146.950": {
+   "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "tone": 88.5,
+   "modes": [
+    "FM"
+   ]
+  },
+  "PY1ARF@439.700": {
+   "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "tone": 88.5,
+   "modes": [
+    "FM"
+   ]
+  },
+  "PY1BA@147.380": {
+   "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "tone": 103.5,
+   "modes": [
+    "FM"
+   ]
+  },
+  "PY1CEU@146.750": {
+   "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "modes": [
+    "D-STAR"
+   ]
+  },
+  "PY1CPS@145.290": {
+   "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "modes": [
+    "FM"
+   ],
+   "notes": "Local: Morro do Itaoca."
+  },
+  "PY1GDP@439.225": {
+   "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "tone": 100,
+   "modes": [
+    "FM"
+   ]
+  },
+  "PY1GRE@147.300": {
+   "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "tone": 192.8,
+   "modes": [
+    "FM"
+   ]
+  },
+  "PY1GRO@146.690": {
+   "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "tone": 100,
+   "modes": [
+    "FM"
+   ]
+  },
+  "PY1GRU@439.775": {
+   "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "tone": 100,
+   "modes": [
+    "FM"
+   ]
+  },
+  "PY1GUN@439.825": {
+   "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "tone": 100,
+   "modes": [
+    "FM"
+   ]
+  },
+  "PY1ITA@146.910": {
+   "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "modes": [
+    "FM"
+   ],
+   "notes": "Local: Morro do Itaoca."
+  },
+  "PY1JDR@146.970": {
+   "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "tone": 88.5,
+   "modes": [
+    "FM"
+   ],
+   "notes": "Local: Morro da Itaoca."
+  },
+  "PY1JPA@146.730": {
+   "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "tone": 88.5,
+   "modes": [
+    "FM"
+   ],
+   "notes": "Local: Jacarepaguá."
+  },
+  "PY1KYZ@147.100": {
+   "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "tone": 88.5,
+   "modes": [
+    "FM",
+    "DMR"
+   ],
+   "notes": "Ligada a EchoLink."
+  },
+  "PY1LAE@146.890": {
+   "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "tone": 100,
+   "modes": [
+    "FM"
+   ],
+   "notes": "Local: Mendanha."
+  },
+  "PY1LFC@146.710": {
+   "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "modes": [
+    "FM"
+   ],
+   "notes": "Local: São Gonçalo."
+  },
+  "PY1LXA@147.150": {
+   "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "modes": [
+    "FM"
+   ],
+   "notes": "Local: Morro do Cristo."
+  },
+  "PY1LXB@439.150": {
+   "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "tone": 100,
+   "modes": [
+    "FM"
+   ],
+   "notes": "Local: Morro do Cristo."
+  },
+  "PY1LXD@439.700": {
+   "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "modes": [
+    "DMR"
+   ],
+   "notes": "Local: Morro do Cristo."
+  },
+  "PY1MBU@145.230": {
+   "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "tone": 88.5,
+   "modes": [
+    "FM"
+   ]
+  },
+  "PY1MDT@147.390": {
+   "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "tone": 131.8,
+   "modes": [
+    "FM"
+   ]
+  },
+  "PY1MRD@439.875": {
+   "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "modes": [
+    "DMR"
+   ],
+   "notes": "Local: Mendanha."
+  },
+  "PY1MRH@439.425": {
+   "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "modes": [
+    "DMR"
+   ]
+  },
+  "PY1MRM@439.550": {
+   "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "modes": [
+    "DMR"
+   ]
+  },
+  "PY1NDN@147.270": {
+   "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "modes": [
+    "DMR"
+   ]
+  },
+  "PY1NIL@147.000": {
+   "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "tone": 88.5,
+   "modes": [
+    "FM"
+   ]
+  },
+  "PY1NIT@146.870": {
+   "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "tone": 88.5,
+   "modes": [
+    "FM"
+   ]
+  },
+  "PY1OAB@439.475": {
+   "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "tone": 67,
+   "modes": [
+    "DMR"
+   ],
+   "notes": "Local: Recreio."
+  },
+  "PY1ONR@147.090": {
+   "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "tone": 67,
+   "modes": [
+    "FM"
+   ]
+  },
+  "PY1PWJ@147.390": {
+   "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "modes": [
+    "FM"
+   ],
+   "notes": "Local: Serra do Juramento."
+  },
+  "PY1SCF@145.430": {
+   "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "tone": 71.9,
+   "modes": [
+    "FM"
+   ],
+   "notes": "Local: Morro da rádio."
+  },
+  "PY1SCU@439.500": {
+   "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "tone": 100,
+   "modes": [
+    "FM"
+   ]
+  },
+  "PY1SMM@146.810": {
+   "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "tone": 100,
+   "modes": [
+    "FM"
+   ]
+  },
+  "PY1SVL@146.830": {
+   "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "tone": 100,
+   "modes": [
+    "FM"
+   ],
+   "notes": "Local: Alto do Soberbo."
+  },
+  "PY1TFA@147.000": {
+   "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "tone": 88.5,
+   "modes": [
+    "FM"
+   ]
+  },
+  "PY1TPS@146.650": {
+   "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "tone": 67,
+   "modes": [
+    "FM"
+   ]
+  },
+  "PY1UHF@439.025": {
+   "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "modes": [
+    "FM"
+   ],
+   "notes": "Local: Mimoso do Sul."
+  },
+  "PY1URE@439.850": {
+   "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "modes": [
+    "DMR"
+   ]
+  },
+  "PY1URE@439.900": {
+   "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "tone": 88.5,
+   "modes": [
+    "FM"
+   ]
+  },
+  "PY1URR@439.150": {
+   "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "tone": 71.9,
+   "modes": [
+    "FM"
+   ]
+  },
+  "PY1UUS@439.450": {
+   "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "tone": 100,
+   "modes": [
+    "FM"
+   ]
+  },
+  "PY1VAZ@439.650": {
+   "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "tone": 67,
+   "modes": [
+    "FM"
+   ]
+  },
+  "PY2AA@147.060": {
+   "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "tone": 123,
+   "modes": [
+    "FM"
+   ],
+   "notes": "Local: metrô Carrão."
+  },
+  "PY2APU@147.030": {
+   "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "tone": 127.3,
+   "modes": [
+    "FM"
+   ]
+  },
+  "PY2APU@439.575": {
+   "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "tone": 127.3,
+   "modes": [
+    "FM"
+   ],
+   "notes": "Local: São Paulo."
+  },
+  "PY2APU@439.700": {
+   "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "tone": 67,
+   "modes": [
+    "FM"
+   ],
+   "notes": "Local: Mairiporã, Pimenta."
+  },
+  "PY2ASP@145.490": {
+   "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "tone": 88.5,
+   "modes": [
+    "FM"
+   ],
+   "notes": "Local: Rainha da Serra."
+  },
+  "PY2BTM@439.725": {
+   "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "tone": 100,
+   "modes": [
+    "FM"
+   ]
+  },
+  "PY2FAA@439.425": {
+   "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "modes": [
+    "DMR"
+   ]
+  },
+  "PY2FBI@439.150": {
+   "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "tone": 82.5,
+   "modes": [
+    "FM"
+   ]
+  },
+  "PY2FEJ@147.300": {
+   "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "tone": 71.9,
+   "modes": [
+    "FM"
+   ]
+  },
+  "PY2FII@147.000": {
+   "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "tone": 82.5,
+   "modes": [
+    "FM"
+   ]
+  },
+  "PY2FJE@439.125": {
+   "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "tone": 71.9,
+   "modes": [
+    "FM"
+   ]
+  },
+  "PY2INT@145.250": {
+   "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "modes": [
+    "DMR"
+   ]
+  },
+  "PY2JZW@146.610": {
+   "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "tone": 91.5,
+   "modes": [
+    "FM"
+   ]
+  },
+  "PY2KAB@146.810": {
+   "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "tone": 82.5,
+   "modes": [
+    "FM"
+   ],
+   "notes": "Local: Observatório de Campinas."
+  },
+  "PY2KAC@146.710": {
+   "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "tone": 82.5,
+   "modes": [
+    "FM"
+   ]
+  },
+  "PY2KAD@145.350": {
+   "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "tone": 77,
+   "modes": [
+    "FM"
+   ]
+  },
+  "PY2KAF@439.350": {
+   "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "modes": [
+    "DMR"
+   ]
+  },
+  "PY2KAJ@439.625": {
+   "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "modes": [
+    "DMR"
+   ]
+  },
+  "PY2KAK@439.250": {
+   "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "modes": [
+    "DMR"
+   ]
+  },
+  "PY2KAL@146.830": {
+   "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "tone": 77,
+   "modes": [
+    "FM"
+   ]
+  },
+  "PY2KAM@146.910": {
+   "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "tone": 82.5,
+   "modes": [
+    "FM"
+   ]
+  },
+  "PY2KAO@146.930": {
+   "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "tone": 123,
+   "modes": [
+    "FM"
+   ]
+  },
+  "PY2KAP@146.770": {
+   "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "tone": 71.9,
+   "modes": [
+    "FM"
+   ]
+  },
+  "PY2KAP@439.950": {
+   "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "tone": 71.9,
+   "modes": [
+    "FM"
+   ]
+  },
+  "PY2KAR@146.670": {
+   "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "tone": 82.5,
+   "modes": [
+    "FM"
+   ]
+  },
+  "PY2KAS@146.890": {
+   "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "tone": 79.7,
+   "modes": [
+    "FM"
+   ],
+   "notes": "Local: Pico do Itapeva."
+  },
+  "PY2KAS@146.930": {
+   "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "modes": [
+    "DMR"
+   ]
+  },
+  "PY2KBC@146.930": {
+   "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "tone": 79.7,
+   "modes": [
+    "FM"
+   ],
+   "notes": "Local: Caixa D'água Municipal."
+  },
+  "PY2KBD@145.350": {
+   "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "tone": 67,
+   "modes": [
+    "FM"
+   ]
+  },
+  "PY2KBE@146.950": {
+   "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "tone": 88.5,
+   "modes": [
+    "FM"
+   ]
+  },
+  "PY2KBF@147.060": {
+   "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "tone": 88.5,
+   "modes": [
+    "FM"
+   ]
+  },
+  "PY2KBH@145.430": {
+   "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "tone": 74.4,
+   "modes": [
+    "D-STAR"
+   ]
+  },
+  "PY2KBS@145.330": {
+   "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "tone": 123,
+   "modes": [
+    "FM"
+   ]
+  },
+  "PY2KBX@146.610": {
+   "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "tone": 123,
+   "modes": [
+    "FM"
+   ]
+  },
+  "PY2KCA@145.230": {
+   "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "modes": [
+    "D-STAR"
+   ]
+  },
+  "PY2KCP@145.450": {
+   "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "modes": [
+    "DMR"
+   ]
+  },
+  "PY2KCR@145.450": {
+   "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "tone": 67,
+   "modes": [
+    "FM"
+   ]
+  },
+  "PY2KCR@439.025": {
+   "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "modes": [
+    "DMR"
+   ]
+  },
+  "PY2KCT@439.475": {
+   "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "tone": 100,
+   "modes": [
+    "FM"
+   ],
+   "notes": "Ligada a EchoLink."
+  },
+  "PY2KDB@147.150": {
+   "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "modes": [
+    "FM"
+   ],
+   "notes": "Local: Capelinha."
+  },
+  "PY2KDD@145.430": {
+   "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "tone": 100,
+   "modes": [
+    "FM"
+   ],
+   "notes": "Local: Jaboticabal."
+  },
+  "PY2KDE@147.180": {
+   "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "tone": 77,
+   "modes": [
+    "FM"
+   ]
+  },
+  "PY2KDG@146.630": {
+   "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "tone": 77,
+   "modes": [
+    "FM"
+   ]
+  },
+  "PY2KDK@145.450": {
+   "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "tone": 77,
+   "modes": [
+    "FM"
+   ]
+  },
+  "PY2KDL@439.300": {
+   "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "tone": 77,
+   "modes": [
+    "FM"
+   ]
+  },
+  "PY2KDM@147.150": {
+   "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "tone": 77,
+   "modes": [
+    "FM"
+   ]
+  },
+  "PY2KDO@147.330": {
+   "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "tone": 74.4,
+   "modes": [
+    "FM"
+   ],
+   "notes": "Local: Barreiro."
+  },
+  "PY2KDV@146.730": {
+   "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "tone": 77,
+   "modes": [
+    "FM"
+   ]
+  },
+  "PY2KDY@439.100": {
+   "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "tone": 123,
+   "modes": [
+    "FM"
+   ]
+  },
+  "PY2KEP@439.875": {
+   "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "tone": 123,
+   "modes": [
+    "FM"
+   ],
+   "notes": "Local: Nazaré Paulista."
+  },
+  "PY2KES@145.490": {
+   "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "tone": 100,
+   "modes": [
+    "FM"
+   ],
+   "notes": "Local: Serra do Itapeti."
+  },
+  "PY2KEV@145.470": {
+   "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "tone": 67,
+   "modes": [
+    "FM"
+   ]
+  },
+  "PY2KFD@146.650": {
+   "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "tone": 77,
+   "modes": [
+    "FM"
+   ]
+  },
+  "PY2KFI@439.800": {
+   "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "tone": 79.7,
+   "modes": [
+    "FM"
+   ]
+  },
+  "PY2KGL@439.975": {
+   "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "tone": 91.5,
+   "modes": [
+    "FM"
+   ]
+  },
+  "PY2KGV@145.310": {
+   "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "tone": 103.5,
+   "modes": [
+    "FM"
+   ]
+  },
+  "PY2KJF@439.550": {
+   "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "tone": 74.4,
+   "modes": [
+    "FM"
+   ],
+   "notes": "Local: Caixa d'água."
+  },
+  "PY2KJM@439.950": {
+   "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "tone": 94.8,
+   "modes": [
+    "FM"
+   ]
+  },
+  "PY2KJZ@146.770": {
+   "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "tone": 74.4,
+   "modes": [
+    "FM"
+   ],
+   "notes": "Local: Caixa d'água."
+  },
+  "PY2KKK@439.500": {
+   "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "tone": 82.5,
+   "modes": [
+    "FM"
+   ],
+   "notes": "Local: Cambuí."
+  },
+  "PY2KLF@147.300": {
+   "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "tone": 100,
+   "modes": [
+    "FM"
+   ]
+  },
+  "PY2KLM@146.830": {
+   "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "tone": 82.5,
+   "modes": [
+    "FM"
+   ]
+  },
+  "PY2KLM@439.825": {
+   "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "tone": 82.5,
+   "modes": [
+    "FM",
+    "DMR"
+   ]
+  },
+  "PY2KMA@145.330": {
+   "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "modes": [
+    "DMR"
+   ]
+  },
+  "PY2KMA@439.475": {
+   "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "tone": 67,
+   "modes": [
+    "FM"
+   ],
+   "notes": "Local: Palácio dos Bandeirantes."
+  },
+  "PY2KMB@439.725": {
+   "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "tone": 77,
+   "modes": [
+    "FM"
+   ]
+  },
+  "PY2KMX@146.730": {
+   "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "tone": 136.5,
+   "modes": [
+    "FM"
+   ],
+   "notes": "Local: Pico do Urubu - Serra do Itapety."
+  },
+  "PY2KNF@147.270": {
+   "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "tone": 67,
+   "modes": [
+    "FM"
+   ]
+  },
+  "PY2KOQ@146.690": {
+   "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "tone": 77,
+   "modes": [
+    "FM"
+   ]
+  },
+  "PY2KPD@146.970": {
+   "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "tone": 74.4,
+   "modes": [
+    "FM"
+   ]
+  },
+  "PY2KPE@147.120": {
+   "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "tone": 123,
+   "modes": [
+    "D-STAR"
+   ],
+   "notes": "Local: São Paulo."
+  },
+  "PY2KPE@439.650": {
+   "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "tone": 123,
+   "modes": [
+    "FM"
+   ]
+  },
+  "PY2KPG@147.030": {
+   "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "tone": 100,
+   "modes": [
+    "FM"
+   ]
+  },
+  "PY2KPM@439.275": {
+   "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "tone": 127.3,
+   "modes": [
+    "FM"
+   ],
+   "notes": "Local: G.S.A.T."
+  },
+  "PY2KPP@145.410": {
+   "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "tone": 123,
+   "modes": [
+    "FM"
+   ]
+  },
+  "PY2KPR@439.450": {
+   "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "tone": 123,
+   "modes": [
+    "FM"
+   ]
+  },
+  "PY2KQE@439.225": {
+   "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "tone": 88.5,
+   "modes": [
+    "FM"
+   ]
+  },
+  "PY2KRB@439.050": {
+   "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "tone": 67,
+   "modes": [
+    "FM"
+   ],
+   "notes": "Local: Taipas."
+  },
+  "PY2KRJ@147.180": {
+   "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "modes": [
+    "D-STAR"
+   ]
+  },
+  "PY2KRU@145.390": {
+   "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "tone": 77,
+   "modes": [
+    "FM"
+   ]
+  },
+  "PY2KSA@439.600": {
+   "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "tone": 123,
+   "modes": [
+    "FM"
+   ],
+   "notes": "Local: Paranapiacaba."
+  },
+  "PY2KSC@145.270": {
+   "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "tone": 123,
+   "modes": [
+    "FM"
+   ]
+  },
+  "PY2KSM@147.360": {
+   "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "modes": [
+    "DMR"
+   ],
+   "notes": "Local: Morro da pedra."
+  },
+  "PY2KSM@439.200": {
+   "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "tone": 123,
+   "modes": [
+    "FM"
+   ],
+   "notes": "Local: Mata Fria."
+  },
+  "PY2KSP@147.300": {
+   "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "modes": [
+    "FM",
+    "DMR"
+   ]
+  },
+  "PY2KSP@439.525": {
+   "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "modes": [
+    "DMR"
+   ]
+  },
+  "PY2KSR@145.210": {
+   "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "tone": 74.4,
+   "modes": [
+    "FM"
+   ],
+   "notes": "Local: Caixa d'água."
+  },
+  "PY2KSS@145.370": {
+   "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "tone": 82.5,
+   "modes": [
+    "FM"
+   ]
+  },
+  "PY2KZN@439.200": {
+   "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "modes": [
+    "DMR"
+   ]
+  },
+  "PY2LSP@145.250": {
+   "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "tone": 123,
+   "modes": [
+    "FM"
+   ]
+  },
+  "PY2RCA@439.375": {
+   "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "tone": 123,
+   "modes": [
+    "FM"
+   ]
+  },
+  "PY2RUY@439.725": {
+   "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "modes": [
+    "DMR"
+   ]
+  },
+  "PY2UNO@439.325": {
+   "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "tone": 103.5,
+   "modes": [
+    "FM"
+   ],
+   "notes": "Local: Paulista."
+  },
+  "PY3BK@439.100": {
+   "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "tone": 123,
+   "modes": [
+    "FM"
+   ]
+  },
+  "PY3ETR@145.450": {
+   "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "modes": [
+    "FM"
+   ],
+   "notes": "Ligada a EchoLink."
+  },
+  "PY3GEC@145.270": {
+   "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "tone": 123,
+   "modes": [
+    "FM"
+   ]
+  },
+  "PY3RAD@146.990": {
+   "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "modes": [
+    "FM"
+   ],
+   "notes": "Local: Bento Gonçalves."
+  },
+  "PY3RVT@146.930": {
+   "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "modes": [
+    "FM"
+   ],
+   "notes": "Local: Lago Harmonia."
+  },
+  "PY4AGC@439.525": {
+   "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "tone": 100,
+   "modes": [
+    "FM"
+   ]
+  },
+  "PY4ARG@147.300": {
+   "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "tone": 110.9,
+   "modes": [
+    "FM"
+   ]
+  },
+  "PY4ATQ@146.950": {
+   "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "modes": [
+    "FM"
+   ],
+   "notes": "Local: Pico do Ataque."
+  },
+  "PY4BO@146.730": {
+   "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "tone": 88.5,
+   "modes": [
+    "FM"
+   ]
+  },
+  "PY4BS@147.360": {
+   "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "tone": 123,
+   "modes": [
+    "FM"
+   ],
+   "notes": "Local: Coroado."
+  },
+  "PY4BUR@147.390": {
+   "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "tone": 103.5,
+   "modes": [
+    "FM"
+   ]
+  },
+  "PY4COT@439.500": {
+   "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "modes": [
+    "DMR"
+   ]
+  },
+  "PY4DIG@439.600": {
+   "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "modes": [
+    "DMR"
+   ]
+  },
+  "PY4DMR@439.550": {
+   "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "modes": [
+    "DMR"
+   ]
+  },
+  "PY4FA@146.870": {
+   "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "tone": 82.5,
+   "modes": [
+    "FM"
+   ]
+  },
+  "PY4FYR@145.230": {
+   "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "modes": [
+    "FM"
+   ],
+   "notes": "Local: Serra dos Ferreiras."
+  },
+  "PY4KTD@146.830": {
+   "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "tone": 77,
+   "modes": [
+    "FM"
+   ]
+  },
+  "PY4MCL@146.630": {
+   "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "tone": 88.5,
+   "modes": [
+    "FM"
+   ]
+  },
+  "PY4POC@147.180": {
+   "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "tone": 91.5,
+   "modes": [
+    "FM"
+   ]
+  },
+  "PY4RAT@439.925": {
+   "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "modes": [
+    "DMR",
+    "D-STAR",
+    "Fusion"
+   ],
+   "notes": "Local: Serra Bocaina."
+  },
+  "PY4RCC@145.270": {
+   "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "tone": 82.5,
+   "modes": [
+    "FM"
+   ],
+   "notes": "Local: Serra das Velhas."
+  },
+  "PY4RCK@439.200": {
+   "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "tone": 82.5,
+   "modes": [
+    "FM"
+   ]
+  },
+  "PY4RCR@147.000": {
+   "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "modes": [
+    "DMR"
+   ]
+  },
+  "PY4RDI@439.100": {
+   "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "modes": [
+    "D-STAR"
+   ]
+  },
+  "PY4RDL@147.030": {
+   "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "tone": 88.5,
+   "modes": [
+    "FM"
+   ]
+  },
+  "PY4RDV@146.850": {
+   "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "tone": 74.4,
+   "modes": [
+    "FM"
+   ]
+  },
+  "PY4RDZ@147.060": {
+   "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "tone": 77,
+   "modes": [
+    "FM"
+   ]
+  },
+  "PY4RE@439.125": {
+   "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "tone": 91.5,
+   "modes": [
+    "FM"
+   ],
+   "notes": "Local: Pico dos Cabritos. Ligada a EchoLink."
+  },
+  "PY4RFA@147.330": {
+   "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "tone": 71.9,
+   "modes": [
+    "FM"
+   ]
+  },
+  "PY4RFM@146.610": {
+   "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "modes": [
+    "D-STAR"
+   ]
+  },
+  "PY4RGI@145.490": {
+   "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "modes": [
+    "DMR"
+   ]
+  },
+  "PY4RIT@146.690": {
+   "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "tone": 97.4,
+   "modes": [
+    "FM"
+   ],
+   "notes": "Local: Pico dos Dias."
+  },
+  "PY4RJB@145.410": {
+   "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "tone": 77,
+   "modes": [
+    "FM"
+   ]
+  },
+  "PY4RLA@145.390": {
+   "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "tone": 82.5,
+   "modes": [
+    "FM"
+   ]
+  },
+  "PY4RMB@439.200": {
+   "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "modes": [
+    "DMR"
+   ]
+  },
+  "PY4RMO@145.310": {
+   "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "modes": [
+    "FM"
+   ],
+   "notes": "Local: Mariana."
+  },
+  "PY4RMP@146.970": {
+   "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "modes": [
+    "FM",
+    "DMR"
+   ]
+  },
+  "PY4ROL@146.890": {
+   "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "tone": 82.5,
+   "modes": [
+    "FM"
+   ]
+  },
+  "PY4RPB@146.810": {
+   "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "tone": 71.9,
+   "modes": [
+    "FM"
+   ]
+  },
+  "PY4RPF@439.900": {
+   "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "tone": 82.5,
+   "modes": [
+    "FM"
+   ]
+  },
+  "PY4RPI@147.380": {
+   "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "tone": 82.5,
+   "modes": [
+    "FM"
+   ]
+  },
+  "PY4RPO@147.060": {
+   "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "tone": 88.5,
+   "modes": [
+    "FM"
+   ]
+  },
+  "PY4RPR@146.950": {
+   "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "tone": 77,
+   "modes": [
+    "FM"
+   ]
+  },
+  "PY4RPT@145.290": {
+   "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "tone": 82.5,
+   "modes": [
+    "FM"
+   ],
+   "notes": "Local: Pico do Ibituruna."
+  },
+  "PY4RRI@147.030": {
+   "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "modes": [
+    "DMR"
+   ]
+  },
+  "PY4RRP@145.490": {
+   "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "tone": 110.9,
+   "modes": [
+    "FM"
+   ]
+  },
+  "PY4RSD@147.210": {
+   "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "tone": 67,
+   "modes": [
+    "FM"
+   ]
+  },
+  "PY4RTM@146.610": {
+   "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "tone": 77,
+   "modes": [
+    "FM"
+   ]
+  },
+  "PY4RTR@145.290": {
+   "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "tone": 67,
+   "modes": [
+    "FM"
+   ]
+  },
+  "PY4RUB@145.470": {
+   "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "tone": 88.5,
+   "modes": [
+    "FM"
+   ]
+  },
+  "PY4RUL@145.350": {
+   "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "tone": 162.2,
+   "modes": [
+    "FM"
+   ]
+  },
+  "PY4RVA@439.125": {
+   "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "modes": [
+    "DMR"
+   ]
+  },
+  "PY4SER@145.350": {
+   "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "tone": 103.5,
+   "modes": [
+    "FM"
+   ]
+  },
+  "PY4UAU@145.210": {
+   "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "tone": 151.4,
+   "modes": [
+    "FM"
+   ]
+  },
+  "PY5AMZ@146.650": {
+   "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "tone": 100,
+   "modes": [
+    "FM"
+   ]
+  },
+  "PY5APU@146.770": {
+   "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "tone": 110.9,
+   "modes": [
+    "FM"
+   ]
+  },
+  "PY5ART@147.210": {
+   "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "tone": 110.9,
+   "modes": [
+    "FM"
+   ],
+   "notes": "Local: Morro Azul."
+  },
+  "PY5AZA@439.500": {
+   "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "tone": 110.9,
+   "modes": [
+    "FM"
+   ]
+  },
+  "PY5BBS@439.650": {
+   "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "modes": [
+    "FM"
+   ],
+   "notes": "Local: Curitiba."
+  },
+  "PY5CLB@439.850": {
+   "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "modes": [
+    "DMR"
+   ]
+  },
+  "PY5COL@146.670": {
+   "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "tone": 110.9,
+   "modes": [
+    "FM"
+   ]
+  },
+  "PY5CPR@145.470": {
+   "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "tone": 88.5,
+   "modes": [
+    "FM"
+   ]
+  },
+  "PY5CRC@146.930": {
+   "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "tone": 110.9,
+   "modes": [
+    "FM"
+   ]
+  },
+  "PY5CTV@145.210": {
+   "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "tone": 110.9,
+   "modes": [
+    "FM"
+   ],
+   "notes": "Local: Pico Caratuva."
+  },
+  "PY5DCG@146.810": {
+   "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "tone": 88.5,
+   "modes": [
+    "FM"
+   ]
+  },
+  "PY5DMR@145.330": {
+   "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "modes": [
+    "DMR"
+   ]
+  },
+  "PY5FAB@147.210": {
+   "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "tone": 88.5,
+   "modes": [
+    "FM"
+   ]
+  },
+  "PY5FCO@147.330": {
+   "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "modes": [
+    "FM"
+   ],
+   "notes": "Local: Francisco Beltrão."
+  },
+  "PY5FGU@439.200": {
+   "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "tone": 88.5,
+   "modes": [
+    "FM"
+   ]
+  },
+  "PY5GRT@146.710": {
+   "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "tone": 100,
+   "modes": [
+    "FM"
+   ]
+  },
+  "PY5GRU@146.630": {
+   "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "tone": 110.9,
+   "modes": [
+    "FM"
+   ],
+   "notes": "Local: Morro dos Perdidos."
+  },
+  "PY5IGU@146.970": {
+   "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "modes": [
+    "FM",
+    "DMR"
+   ]
+  },
+  "PY5LDA@439.600": {
+   "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "modes": [
+    "DMR"
+   ]
+  },
+  "PY5MDG@147.240": {
+   "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "modes": [
+    "FM"
+   ],
+   "notes": "Ligada a EchoLink."
+  },
+  "PY5MED@145.390": {
+   "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "tone": 88.5,
+   "modes": [
+    "FM"
+   ]
+  },
+  "PY5MNG@145.450": {
+   "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "tone": 88.5,
+   "modes": [
+    "FM"
+   ]
+  },
+  "PY5MOR@145.250": {
+   "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "tone": 110.9,
+   "modes": [
+    "FM"
+   ]
+  },
+  "PY5PGR@146.870": {
+   "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "tone": 110.9,
+   "modes": [
+    "FM"
+   ]
+  },
+  "PY5PRD@147.090": {
+   "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "tone": 110.9,
+   "modes": [
+    "FM"
+   ],
+   "notes": "Local: Campo Magro, Morro do Cal."
+  },
+  "PY5RCM@145.490": {
+   "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "tone": 110.9,
+   "modes": [
+    "FM"
+   ]
+  },
+  "PY5STC@147.000": {
+   "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "tone": 82.5,
+   "modes": [
+    "FM"
+   ],
+   "notes": "Ligada a EchoLink."
+  },
+  "PY5TEL@146.770": {
+   "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "tone": 110.9,
+   "modes": [
+    "FM"
+   ],
+   "notes": "Local: Bigorrilho. Ligada a EchoLink."
+  },
+  "PY5TEP@147.060": {
+   "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "tone": 110.9,
+   "modes": [
+    "FM"
+   ],
+   "notes": "Local: Morro da Bocaina."
+  },
+  "PY5VET@145.430": {
+   "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "tone": 88.5,
+   "modes": [
+    "FM"
+   ]
+  },
+  "PY5YSF@439.300": {
+   "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "modes": [
+    "DMR"
+   ]
+  },
+  "PY6CG@146.910": {
+   "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "tone": 88.5,
+   "modes": [
+    "FM"
+   ]
+  },
+  "PY6CQ@146.950": {
+   "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "tone": 88.5,
+   "modes": [
+    "DMR"
+   ]
+  },
+  "PY6LF@439.500": {
+   "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "modes": [
+    "DMR"
+   ]
+  },
+  "PY6RVC@146.930": {
+   "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "tone": 250.3,
+   "modes": [
+    "FM"
+   ]
+  },
+  "PY8AVC@145.410": {
+   "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "modes": [
+    "DMR"
+   ]
+  },
+  "PY8BL@146.910": {
+   "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "modes": [
+    "DMR"
+   ]
+  },
+  "PY8DMR@439.800": {
+   "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "modes": [
+    "DMR"
+   ]
+  },
+  "PY8DV@439.900": {
+   "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "modes": [
+    "DMR"
+   ]
+  },
+  "PY8JES@146.950": {
+   "source": "RepeaterBook, exportação de 2026-11-09 (a conferir)",
+   "date": "2026-11-09",
+   "unverified": true,
+   "tone": 179.9,
+   "modes": [
+    "FM"
+   ]
+  }
+ }
 }

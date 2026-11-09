@@ -35,12 +35,34 @@ merges it with Anatel's data (`src/lib/repeaters/merge.ts`).
   west), not the town.
 - `modes`: any of FM, DMR, D-STAR, Fusion, NXDN, P25, M17.
 - `onAir`: `true` when confirmed working, `false` when confirmed off the air.
+- `unverified`: `true` for bulk-imported entries not yet checked (see below).
 - A repeater Anatel does not list also needs `input`, `municipio`, `uf`,
   `lat` and `lon`.
 
 `npm test` validates the file (`validateOverlay` in
 `src/lib/repeaters/overlay.ts`) and explains every problem in Portuguese.
 Run it before committing a change.
+
+## Bootstrap from RepeaterBook (2026-11-09)
+
+The overlay was seeded once from the maintainer's own RepeaterBook CSV
+exports (in `private/`, never committed) with
+`node scripts/repeaterbook/import.ts private/RB_*.csv`:
+
+- Only rows whose callsign and output (within 12.5 kHz) match an Anatel
+  repeater; the rest are ignored.
+- Taken: the CTCSS tone (snapped to the standard list; a blank means
+  unknown, not "none"), the modes (EchoLink/IRLP go into the notes), and the
+  site name as a note ("Local: Pico Caratuva"). A different town is kept
+  only within 60 km of Anatel's município.
+- Rows that say nothing beyond "FM" are skipped. Repeaters someone already
+  corrected are never touched, so the script can run again safely.
+- Entries carry `"unverified": true`. The site shows their data without a
+  source line; approving a correction for the repeater clears the flag. To
+  list what still needs checking: entries with `unverified`.
+
+RepeaterBook's GPX export was checked and not used: its coordinates are
+mostly the town centre, rounded to about 1 km, and some are far off.
 
 ## Corrections through GitHub issues
 

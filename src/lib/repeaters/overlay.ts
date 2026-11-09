@@ -34,6 +34,11 @@ export interface OverlayEntry {
   source: string;
   /** When it was confirmed, ISO date. Required. */
   date: string;
+  /**
+   * Imported in bulk and not yet checked by the maintainer. The site does not
+   * show it; approving a correction for the repeater clears it.
+   */
+  unverified?: boolean;
 }
 
 export interface OverlayFile {
@@ -77,6 +82,7 @@ export function validateOverlay(file: OverlayFile, anatelIds: ReadonlySet<string
         err(`posição ${e.lat}, ${e.lon} fora do Brasil (latitude e longitude trocadas?)`);
       }
     }
+    if (e.unverified !== undefined && e.unverified !== true) err('unverified só pode ser true (ou ausente)');
     if (e.modes) for (const mode of e.modes) if (!MODES.includes(mode)) err(`modo ${mode} desconhecido`);
     if (!anatelIds.has(id)) {
       if (e.input === undefined || (band && bandOf(e.input) !== band)) err(`não está na Anatel: informe a entrada (input) na faixa de ${band ? BANDS[band].label : '?'}`);

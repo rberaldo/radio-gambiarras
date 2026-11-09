@@ -78,7 +78,9 @@ export function RepeaterDetail({ repeater: r, distanceKm, picked, onClose }: Pro
         </p>
       ) : (
         <p class="rp-detail__source">
-          Dados da Anatel. A posição é a sede do município e o subtom é desconhecido até alguém informar.
+          Dados da Anatel.
+          {r.position && !r.position.exact && ' A posição é a sede do município, não o local da antena.'}
+          {r.tone === undefined && !r.dcs && ' O subtom é desconhecido até alguém informar.'}
         </p>
       )}
       <div class="rp-suggest">
