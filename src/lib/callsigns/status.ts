@@ -11,8 +11,6 @@ export type Status =
   | 'vencida'
   /** We saw it disappear less than a year ago. */
   | 'quarentena'
-  /** In use in an older snapshot and gone now, release date unknown. */
-  | 'quarentena-incerta'
   /** Forbidden suffix, or reserved for foreigners. */
   | 'reservado'
   /** Allowed by the rules and not found anywhere above. */
@@ -45,12 +43,6 @@ export const STATUS_INFO: Record<Status, StatusInfo> = {
       'Saiu da base da Anatel há menos de um ano. Indicativos cancelados ficam reservados por um ano, e o antigo titular pode recuperá-lo nesse período.',
     requestable: false,
   },
-  'quarentena-incerta': {
-    label: 'pode estar em quarentena',
-    description:
-      'Estava em uso em abril de 2025 e não consta mais na base. Não sabemos quando saiu, então pode ainda estar no período de um ano de reserva.',
-    requestable: true,
-  },
   reservado: {
     label: 'reservado',
     description: 'As regras da Anatel não permitem este sufixo, ou ele é reservado a estrangeiros.',
@@ -74,7 +66,6 @@ export interface CallsignIndex {
   expired: ReadonlySet<string>;
   /** Callsign to the date we saw it disappear. */
   released: ReadonlyMap<string, string>;
-  seeded: ReadonlySet<string>;
 }
 
 export function buildIndex(taken: TakenFile, released: ReleasedFile): CallsignIndex {
@@ -82,7 +73,6 @@ export function buildIndex(taken: TakenFile, released: ReleasedFile): CallsignIn
     active: expandGroups(taken.active),
     expired: expandGroups(taken.expired),
     released: new Map(Object.entries(released.released)),
-    seeded: new Set(released.seeded?.callsigns.split(' ').filter(Boolean) ?? []),
   };
 }
 
@@ -95,7 +85,6 @@ export function statusOf(callsign: string, index: CallsignIndex, kind?: 'regular
   if (index.active.has(callsign)) return 'em-uso';
   if (index.expired.has(callsign)) return 'vencida';
   if (index.released.has(callsign)) return 'quarentena';
-  if (index.seeded.has(callsign)) return 'quarentena-incerta';
   const k = kind ?? classify(callsign)?.kind;
   if (k === undefined) return 'invalido';
   if (k === 'forbidden' || k === 'foreigner') return 'reservado';

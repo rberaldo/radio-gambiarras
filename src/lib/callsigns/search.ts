@@ -147,8 +147,7 @@ export function nearMisses(raw: string, index: CallsignIndex, limit = 24): Cell[
       if (STATUS_INFO[cell.status].requestable) cells.push(cell);
       if (cells.length >= limit) break;
     }
-    // Clearly free before possibly in quarantine; the sort is stable, so closeness order stays.
-    return cells.sort((x, y) => Number(y.status === 'livre') - Number(x.status === 'livre'));
+    return cells;
   };
 
   const siblings = ALL_BLOCKS.filter(

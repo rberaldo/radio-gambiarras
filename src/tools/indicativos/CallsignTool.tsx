@@ -219,7 +219,7 @@ function Browser({ index }: { index: CallsignIndex }) {
 
   const where = uf ? UF_NAMES[uf] : 'todos os estados';
   const taken = counts['em-uso'] + counts.vencida;
-  const maybe = counts['quarentena-incerta'] + counts.quarentena;
+  const quarantine = counts.quarentena > 0 ? `, ${fmt(counts.quarentena)} em quarentena` : '';
   const pick = (cs: string) => {
     setSelected(cs);
     setQuery(cs);
@@ -230,15 +230,14 @@ function Browser({ index }: { index: CallsignIndex }) {
   else if (searching)
     summary = (
       <>
-        {fmt(baseCells.length)} resultados em {where}: <strong>{fmt(counts.livre)}</strong> livres, {fmt(maybe)} talvez em
-        quarentena, {fmt(taken)} em uso.
+        {fmt(baseCells.length)} resultados em {where}: <strong>{fmt(counts.livre)}</strong> livres{quarantine}, {fmt(taken)} em uso.
       </>
     );
   else if (block)
     summary = (
       <>
-        <strong>{block.prefix}</strong> · {where}: <strong>{fmt(counts.livre)}</strong> livres, {fmt(maybe)} talvez em quarentena,{' '}
-        {fmt(taken)} em uso, de {fmt(baseCells.length)}.
+        <strong>{block.prefix}</strong> · {where}: <strong>{fmt(counts.livre)}</strong> livres{quarantine}, {fmt(taken)} em uso, de{' '}
+        {fmt(baseCells.length)}.
       </>
     );
   else summary = <>Escolha um estado para ver a grade, ou faça uma busca.</>;

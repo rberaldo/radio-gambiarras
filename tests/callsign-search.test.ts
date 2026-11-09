@@ -117,16 +117,3 @@ describe('nearMisses', () => {
     expect(nearMisses('PX2AB', index)).toEqual([]);
   });
 });
-
-describe('nearMisses ordering', () => {
-  it('puts clearly free callsigns before possibly quarantined ones', () => {
-    const idx = buildIndex(
-      { format: 1, active: { PY2: 'RB' }, expired: {} },
-      { format: 1, released: {}, seeded: { source: 's', snapshotDate: '2025-04-09', until: '2027-10-23', callsigns: 'PY2BR' } },
-    );
-    const sameBlock = nearMisses('PY2RB', idx).filter((c) => /^PY2..$/.test(c.callsign));
-    expect(sameBlock[0]!.status).toBe('livre');
-    // With enough clearly free variants, the uncertain one is left out.
-    expect(sameBlock.map((c) => c.callsign)).not.toContain('PY2BR');
-  });
-});

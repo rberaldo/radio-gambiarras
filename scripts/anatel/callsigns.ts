@@ -13,7 +13,6 @@ import {
   expandTaken,
   type MetaFile,
   type ReleasedFile,
-  type SeededGroup,
   type TakenFile,
 } from '../../src/lib/callsigns/data.ts';
 import { brDateToIso, parseDelimited } from '../lib/csv.ts';
@@ -45,7 +44,7 @@ export const EXPECTED_HEADER = [
 /** Fail rather than publish when the row count drops more than this. */
 export const MAX_ROW_DROP = 0.2;
 
-export { FORMAT_VERSION, expandTaken, type MetaFile, type ReleasedFile, type SeededGroup, type TakenFile };
+export { FORMAT_VERSION, expandTaken, type MetaFile, type ReleasedFile, type TakenFile };
 
 export interface Reduction {
   taken: TakenFile;
@@ -151,12 +150,7 @@ export async function updateCallsigns(csvText: string, dataDir: string, today: s
     oldReleased?.released ?? {},
     today,
   );
-  const seeded = oldReleased?.seeded && updateSeeded(oldReleased.seeded, expandTaken(reduction.taken), today);
-  const newReleasedJson = toJson({
-    format: FORMAT_VERSION,
-    released,
-    ...(seeded ? { seeded } : {}),
-  } satisfies ReleasedFile);
+  const newReleasedJson = toJson({ format: FORMAT_VERSION, released } satisfies ReleasedFile);
   const releasedChanged = !oldReleased || toJson(oldReleased) !== newReleasedJson;
 
   if (!takenChanged && !releasedChanged) return { changed: false, reduction };
@@ -175,13 +169,6 @@ export async function updateCallsigns(csvText: string, dataDir: string, today: s
     await writeFile(join(dataDir, 'meta.json'), toJson(meta));
   }
   return { changed: true, reduction };
-}
-
-/** Drops seeded callsigns that are taken again, and the whole group once it expires. */
-export function updateSeeded(group: SeededGroup, now: Set<string>, today: string): SeededGroup | undefined {
-  if (today >= group.until) return undefined;
-  const callsigns = group.callsigns.split(' ').filter((cs) => cs && !now.has(cs));
-  return { ...group, callsigns: callsigns.join(' ') };
 }
 
 /** How long a released callsign stays in the history. */

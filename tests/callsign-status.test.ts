@@ -10,7 +10,6 @@ const index = buildIndex(
   {
     format: 1,
     released: { PY2AC: '2026-11-01' },
-    seeded: { source: 's', snapshotDate: '2025-04-09', until: '2027-10-23', callsigns: 'PY2AD PY2AA' },
   },
 );
 
@@ -20,7 +19,7 @@ describe('statusOf', () => {
     ['PU2KAA', 'em-uso'],
     ['PY2AB', 'vencida'],
     ['PY2AC', 'quarentena'],
-    ['PY2AD', 'quarentena-incerta'],
+    ['PY2AD', 'livre'],
     ['PY2QRZ', 'reservado'],
     ['PY2ZAB', 'reservado'],
     ['PY2AE', 'livre'],
@@ -33,10 +32,6 @@ describe('statusOf', () => {
 
   it('lets Anatel data win over the rules', () => {
     expect(statusOf('PY2SOS', index)).toBe('em-uso');
-  });
-
-  it('lets a callsign in use win over an outdated seed entry', () => {
-    expect(statusOf('PY2AA', index)).toBe('em-uso');
   });
 
   it('accepts a known kind to skip classification', () => {
