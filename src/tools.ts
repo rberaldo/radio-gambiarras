@@ -32,10 +32,10 @@ export const tools: readonly Tool[] = [
   },
   {
     slug: 'aprs',
-    title: 'Ícones APRS',
-    description: 'Tabela de símbolos APRS e como digitá-los.',
+    title: 'Símbolos APRS',
+    description: 'Encontre símbolos APRS pela descrição ou pelo código e veja como digitá-los.',
     icon: 'aprs',
-    status: 'soon',
+    status: 'available',
   },
 ];
 

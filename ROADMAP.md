@@ -462,7 +462,9 @@ by name or code, see it large, and learn how to type it.
   style and the callsign tool's patterns (search, segmented control, panel);
   extract shared pieces into `src/components/` only where both tools need
   them unchanged.
-- [ ] **M4.6 Credits and release.** Credit hessu/aprs-symbols on the tool
+- [x] **M4.6 Credits and release.** Released 2026-11-09 as "Símbolos APRS"
+  with the user's go-ahead; hessu credited in the status bar and on `/sobre`.
+  Credit hessu/aprs-symbols on the tool
   (status bar or panel footer) and on `/sobre`. Registry entry to
   `available`. Review: keyboard, phone, Safari engine, axe. The user signs
   off.
@@ -501,5 +503,6 @@ Not planned. Move one into a milestone only when the user asks.
 | 2026-11-09 | Repository: public `rberaldo/radio-gambiarras` on GitHub. |
 | 2026-11-09 | Design: Win95 frame, modern interior ("modern design drawn with 1995's tools"); web-safe semantic colors. See CLAUDE.md. |
 | 2026-11-09 | APRS: port the old symbol search with a detail panel; typing help = table + character; Portuguese only; aprs.tools is dead. |
+| 2026-11-09 | APRS symbol tool released. UI refactored onto shared `src/ui/` blocks; fonts W95FA + Departure Mono; guidelines in docs/ui-guidelines.md. |
 | 2026-11-09 | Site name: Rádio Gambiarras. Jokes (404, loading messages) left for the user to write later. |
 | 2026-11-09 | Quarantine history seeded from an April 2025 third-party snapshot, marked as uncertain. |
