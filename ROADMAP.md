@@ -32,8 +32,7 @@ conventions, then the docs a milestone points to.
    says using its data to build another repeater directory needs its written
    permission. The user plans to add entries manually over time; the overlay
    records a source per entry so this stays the user's call entry by entry.
-6. **APRS tool source code.** Where it lives, for M4. Probably the Netlify
-   project `aprs-symbols`, live at <https://aprs.tools>; confirm with the user.
+6. ~~APRS tool source code.~~ Settled: `rberaldo/aprs-symbol-search` (see M4.1).
 
 ---
 
@@ -394,7 +393,12 @@ Interface:
 
 Until this milestone the tool stays a grayed-out "em breve" entry.
 
-- [ ] **M4.1 Get the code (user).** Location of the existing tool's source.
+- [x] **M4.1 Get the code (user).** <https://github.com/rberaldo/aprs-symbol-search>
+  (live at <https://aprs.tools>). Plain HTML/CSS/JS, 14 files: `index.html`,
+  `pt-BR/index.html`, `scripts/main.js`, symbol data in
+  `symbols/symbols.json` (+ `symbols-pt-br.js`, `symbols.csv`) and a 64 px
+  sprite `symbols/aprs-symbols-64.png`. No license file; check where the
+  sprite comes from and its license in M4.2.
 - [ ] **M4.2 Review and plan.** Read it; list what it does, its data and
   assets, their licenses, and what must change to fit this site.
 - [ ] **M4.3 Port.** Bring it into `src/pages/aprs/` and `src/tools/aprs/`
