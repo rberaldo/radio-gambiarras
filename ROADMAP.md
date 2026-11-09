@@ -360,13 +360,20 @@ and `docs/ui-guidelines.md` first.
 
 Setup:
 
-- [ ] **M3.0 Own Netlify team (user, guided).** Create a free Netlify team
+- [ ] **M3.0 Own Netlify team (user, guided).** Postponed by the user on
+  2026-11-09: **remind the user before starting M3.8** (needed before the form
+  goes live). Create a free Netlify team
   for radio-gambiarras and transfer the site to it (Site configuration →
   Transfer site). Re-check the GitHub link and deploys afterwards.
 
 Data:
 
-- [ ] **M3.1 Repeater reduction.** `scripts/anatel/repeaters.ts`, reading the
+- [x] **M3.1 Repeater reduction.** Done 2026-11-09: 1,213 repeaters (832 on
+  2 m, 381 on 70 cm) from 1,241 rows, 582 municípios; 71 pairs on other bands
+  left out; 26 rejects logged. Cross-band pairs (e.g. 145.25 → 434.25) are
+  rejected for now (a later improvement). Shared CSV reading moved to
+  `scripts/anatel/stations.ts`, JSON helpers to `scripts/lib/json.ts`.
+  `scripts/anatel/repeaters.ts`, reading the
   CSV the daily job already fetches: keep `Tipo de Estação = Repetidora`;
   parse the frequency field tolerantly (several pairs, stray quotes, decimal
   commas, `N/I`, typos) into output frequency and shift; keep 2 m and 70 cm;

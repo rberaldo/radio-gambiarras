@@ -1,0 +1,15 @@
+{
+ "source": "Anatel, dados abertos: Estações licenciadas do Serviço de Radioamador",
+ "sourceUrl": "https://www.anatel.gov.br/dadosabertos/paineis_de_dados/outorga_e_licenciamento/estacoes_licenciadas.zip",
+ "updatedAt": "2026-11-09",
+ "counts": {
+  "rows": 1241,
+  "repeaters": 1213,
+  "byBand": {
+   "2m": 832,
+   "70cm": 381
+  },
+  "otherBands": 71,
+  "rejected": 26
+ }
+}

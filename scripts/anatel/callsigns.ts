@@ -16,31 +16,15 @@ import {
   type SeededGroup,
   type TakenFile,
 } from '../../src/lib/callsigns/data.ts';
-import { brDateToIso, parseDelimited } from '../lib/csv.ts';
+import { brDateToIso } from '../lib/csv.ts';
+import { readJson, toJson } from '../lib/json.ts';
+import { readStations } from './stations.ts';
 import { DEFAULT_OUT as DEFAULT_CSV } from './fetch.ts';
 
 export const DEFAULT_DATA_DIR = 'data/callsigns';
 
-export const EXPECTED_HEADER = [
-  'Tipo de Identificação',
-  'CNPJ ou CPF',
-  'Nome da Entidade',
-  'Fistel do Serviço da Estação',
-  'Serviço',
-  'Indicativo',
-  'Número da Estação',
-  'UF da Entidade',
-  'COER',
-  'Nome da Estação',
-  'Tipo de Estação',
-  'Frequências de Operação da Estação',
-  'Município da Estação',
-  'UF da Estação',
-  'Data do Primeiro Licenciamento',
-  'Data do Último Licenciamento',
-  'Data de Validade da Estação',
-  'Status da Validade',
-] as const;
+export { EXPECTED_HEADER } from './stations.ts';
+export { toJson } from '../lib/json.ts';
 
 /** Fail rather than publish when the row count drops more than this. */
 export const MAX_ROW_DROP = 0.2;
@@ -57,25 +41,16 @@ export interface Reduction {
 type Status = 'active' | 'expired';
 
 export function reduce(csvText: string): Reduction {
-  const [header, ...rows] = parseDelimited(csvText, ';');
-  const got = (header ?? []).map((h) => h.trim());
-  if (got.length !== EXPECTED_HEADER.length || got.some((h, i) => h !== EXPECTED_HEADER[i])) {
-    throw new Error(`unexpected header:\n  got      ${got.join(' | ')}\n  expected ${EXPECTED_HEADER.join(' | ')}`);
-  }
-  const col = (name: (typeof EXPECTED_HEADER)[number]) => EXPECTED_HEADER.indexOf(name);
+  const { rows, total, malformed, col } = readStations(csvText);
   const iCall = col('Indicativo');
   const iStatus = col('Status da Validade');
   const iLicensed = col('Data do Último Licenciamento');
 
   const statuses = new Map<string, Status>();
-  const rejected: string[] = [];
+  const rejected: string[] = Array.from({ length: malformed }, () => '(row with the wrong number of columns)');
   let newestLicensing: string | undefined;
 
   for (const row of rows) {
-    if (row.length !== EXPECTED_HEADER.length) {
-      rejected.push(`(row with ${row.length} columns)`);
-      continue;
-    }
     const parsed = parse(row[iCall]!);
     if (!parsed) {
       rejected.push(row[iCall]!);
@@ -101,23 +76,14 @@ export function reduce(csvText: string): Reduction {
   const active = [...statuses.values()].filter((s) => s === 'active').length;
   return {
     taken: { format: FORMAT_VERSION, active: serialize(groups.active), expired: serialize(groups.expired) },
-    counts: { rows: rows.length, callsigns: statuses.size, active, expired: statuses.size - active, rejected: rejected.length },
+    counts: { rows: total, callsigns: statuses.size, active, expired: statuses.size - active, rejected: rejected.length },
     newestLicensing,
     rejected,
   };
 }
 
 /** Stable serialization, so identical data gives identical bytes. */
-export const toJson = (value: unknown) => `${JSON.stringify(value, null, 1)}\n`;
 
-async function readJson<T>(path: string): Promise<T | undefined> {
-  try {
-    return JSON.parse(await readFile(path, 'utf8')) as T;
-  } catch (err) {
-    if ((err as NodeJS.ErrnoException).code === 'ENOENT') return undefined;
-    throw err;
-  }
-}
 
 export interface UpdateResult {
   changed: boolean;
