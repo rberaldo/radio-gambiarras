@@ -64,8 +64,11 @@ framework). Decided with the user on 2026-11-09 after comparing previews.
   (`src/styles/interior.css`, scoped to `.window__body`): a warm paper
   background, square corners, thin 1px gray borders, small *hard* offset
   shadows (never blurred), buttons that sink when pressed, segmented controls
-  instead of radio rows, cards instead of group boxes, monospace small
-  labels, and the dotted focus outline.
+  instead of radio rows, cards instead of group boxes, and the dotted focus
+  outline.
+- **Two type levels inside windows, never alike:** section titles are the UI
+  sans, bold, sentence case, with a small navy square in front; field labels
+  are small gray monospace caps.
 - **Semantic colors come from the web-safe palette:** navy `#000080` for
   selection, Windows green `#008000` on `#CCFFCC` for free/available,
   `#FFFFCC` for warnings and quarantine. Keep it restrained: an earlier

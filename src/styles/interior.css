@@ -96,29 +96,51 @@
 /* Group boxes become cards with a quiet label */
 .window__body .fieldset {
   position: relative;
-  /* Room for the label, which is positioned inside the top padding */
-  padding: calc(var(--sp-4) + 1.5rem) var(--sp-5) var(--sp-4);
+  /* Room for the title, which is positioned inside the top padding */
+  padding: calc(var(--sp-4) + 2rem) var(--sp-5) var(--sp-4);
   border: 1px solid var(--m-line);
   border-radius: var(--m-radius);
   background: var(--m-surface);
   box-shadow: var(--m-shadow);
 }
 
-/* Positioned, so no browser draws it on the border (Safari ignores a floated legend) */
+/*
+  Section titles: the UI sans, bold, sentence case, full ink, with a navy
+  "pixel" square in front. Field labels (below) stay small monospace caps,
+  so the two levels never look alike.
+  Positioned, so no browser draws the legend on the border (Safari ignores a
+  floated legend).
+*/
 .window__body .fieldset > legend {
   position: absolute;
   top: var(--sp-4);
   left: var(--sp-5);
+  display: flex;
+  align-items: center;
+  gap: var(--sp-2);
   padding: 0;
   background: none;
-  color: var(--m-text-muted);
-  font-family: var(--m-label-font);
-  font-size: 0.8125rem;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
+  color: var(--m-text);
+  font-family: var(--font-ui);
+  font-size: 1.0625rem;
+  font-weight: 700;
+  line-height: 1.2;
 }
 
-/* Small labels in a "system" monospace */
+.window__body .fieldset > legend::before {
+  content: '';
+  flex: none;
+  width: 0.5rem;
+  height: 0.5rem;
+  background: var(--m-select);
+}
+
+/* The first thing under a section title starts right below it */
+.window__body .fieldset > legend + * {
+  margin-top: 0;
+}
+
+/* Field labels: small "system" monospace caps */
 .window__body .cs-filters__label,
 .window__body .cs-detail__facts dt {
   color: var(--m-text-muted);
