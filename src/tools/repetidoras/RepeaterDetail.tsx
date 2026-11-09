@@ -38,7 +38,7 @@ export function RepeaterDetail({ repeater: r, distanceKm, picked, onClose }: Pro
       </p>
       <dl class="tool-panel__facts">
         <dt>Saída</dt>
-        <dd>{formatMHz(r.output)} MHz (o que você escuta)</dd>
+        <dd>{formatMHz(r.output)} MHz</dd>
         <dt>Entrada</dt>
         <dd>
           {formatMHz(r.input)} MHz ({formatShift(r.shift)})
