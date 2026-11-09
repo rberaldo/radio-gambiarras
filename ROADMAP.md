@@ -418,7 +418,14 @@ Library (pure, tested; can run in parallel with the data tasks):
 
 Map:
 
-- [ ] **M3.6 Map prototype (user reviews).** A throwaway page with the
+- [ ] **M3.6 Map prototype (user reviews).** Built 2026-11-09 at `/prototipo-mapa`
+  (noindex, unlinked): MapLibre 6.17 + maplibre-contour 0.1.1 work together
+  (worker bundled with `?worker&url`, `vite.worker.format: 'es'`). Map page
+  weight ≈ 520 KB gzipped (main 370 KB + worker 150 KB). Neighbours faded
+  with `data/geo/vizinhos.json` (Natural Earth, public domain) instead of a
+  world mask, which greyed bays. Waiting for the user's verdict. For M3.7:
+  collapse the attribution on phones; load repeater data separately.
+  A throwaway page with the
   Gaia-like style: OpenFreeMap Liberty edited (colors, PT-BR labels via
   `name:pt`), Mapterhorn hillshade (shared DEM via
   `demSource.sharedDemProtocolUrl`), labelled contours, peaks with elevation,

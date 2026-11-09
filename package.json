@@ -17,11 +17,14 @@
   "dependencies": {
     "@astrojs/preact": "^6.1.2",
     "astro": "^7.4.7",
+    "maplibre-contour": "0.1.1",
+    "maplibre-gl": "6.17.0",
     "preact": "^11.2.0"
   },
   "devDependencies": {
     "@astrojs/check": "^0.9.12",
     "@axe-core/playwright": "^4.14.0",
+    "@types/geojson": "^7946.0.16",
     "@types/node": "^26.6.6",
     "playwright": "^1.65.0",
     "typescript": "^6.0.3",
