@@ -1,5 +1,5 @@
 // The repeaters inside the circle, nearest first, with the downloads.
-import { useEffect, useRef, useState } from 'preact/hooks';
+import { useEffect, useRef } from 'preact/hooks';
 import { correctionUrl, missingRepeater } from '../../lib/repeaters/correction.ts';
 import { BAND_TEXT, formatKm, formatMHz, formatShift, toneText } from '../../lib/repeaters/display.ts';
 import { chirpCsv, isFm, spreadsheetCsv } from '../../lib/repeaters/export.ts';
@@ -32,7 +32,6 @@ function download(name: string, content: string) {
 }
 
 export function ResultsPanel({ nearby, radiusKm, center, label, activeId, focusId, onSelect, onWiden }: Props) {
-  const [firstChannel, setFirstChannel] = useState(1);
   const list = useRef<HTMLOListElement>(null);
 
   // Coming back from a repeater's details: keep the keyboard on its row.
@@ -65,21 +64,10 @@ export function ResultsPanel({ nearby, radiusKm, center, label, activeId, focusI
           <button class="btn" type="button" onClick={() => download(`repetidoras-${label}.csv`, spreadsheetCsv(nearby))}>
             Baixar CSV
           </button>
-          <button class="btn" type="button" disabled={fm === 0} onClick={() => download(`chirp-${label}.csv`, chirpCsv(nearby, firstChannel))}>
+          <button class="btn" type="button" disabled={fm === 0} onClick={() => download(`chirp-${label}.csv`, chirpCsv(nearby))}>
             Baixar para o CHIRP
           </button>
         </div>
-        <label class="rp-results__channel">
-          <span class="tool-filters__label">Canal inicial</span>
-          <input
-            class="field"
-            type="number"
-            min={0}
-            max={999}
-            value={firstChannel}
-            onInput={(e) => setFirstChannel(Math.max(0, Number((e.currentTarget as HTMLInputElement).value) || 0))}
-          />
-        </label>
       </div>
       {fm < nearby.length && <p class="rp-results__note">O arquivo do CHIRP leva só as {fm} repetidoras FM.</p>}
       <ol ref={list} class="rp-list" role="list">

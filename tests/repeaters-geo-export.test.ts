@@ -52,7 +52,7 @@ describe('spreadsheetCsv', () => {
 });
 
 describe('chirpCsv', () => {
-  const lines = (rs: Repeater[], first?: number) => chirpCsv(rs.map((repeater) => ({ repeater, distanceKm: 1 })), first).trimEnd().split('\r\n');
+  const lines = (rs: Repeater[]) => chirpCsv(rs.map((repeater) => ({ repeater, distanceKm: 1 }))).trimEnd().split('\r\n');
 
   it('starts with the 21-column header and keeps every row at 21 cells', () => {
     const out = lines([base({ tone: 88.5 }), base({ id: 'B', callsign: 'PY2B', notes: 'x' })]);
@@ -77,9 +77,9 @@ describe('chirpCsv', () => {
     expect(row).not.toContain('posição aproximada');
   });
 
-  it('numbers channels from the chosen start and skips digital-only repeaters', () => {
-    const out = lines([base({}), base({ id: 'D', callsign: 'PY2DMR', modes: ['DMR'] }), base({ id: 'E', callsign: 'PY2E', modes: ['FM', 'DMR'] })], 100);
-    expect(out.slice(1).map((l) => l.split(',').slice(0, 2).join(','))).toEqual(['100,SP 2KJP', '101,SP 2E']);
+  it('numbers channels from 1 and skips digital-only repeaters', () => {
+    const out = lines([base({}), base({ id: 'D', callsign: 'PY2DMR', modes: ['DMR'] }), base({ id: 'E', callsign: 'PY2E', modes: ['FM', 'DMR'] })]);
+    expect(out.slice(1).map((l) => l.split(',').slice(0, 2).join(','))).toEqual(['1,SP 2KJP', '2,SP 2E']);
     expect(isFm(base({ modes: ['D-STAR'] }))).toBe(false);
   });
 

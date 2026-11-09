@@ -158,16 +158,6 @@
   white-space: nowrap;
 }
 
-.rp-results__channel {
-  display: flex;
-  gap: var(--sp-2);
-  align-items: center;
-}
-
-.rp-results__channel .field {
-  width: 5rem;
-}
-
 .rp-list {
   margin: var(--sp-3) 0 0;
   padding: 0;

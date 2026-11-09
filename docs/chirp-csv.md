@@ -43,6 +43,6 @@ Location,Name,Frequency,Duplex,Offset,Tone,rToneFreq,cToneFreq,DtcsCode,DtcsPola
 - **Repeater with no or unknown tone:** `Tone` empty, and the filler values
   CHIRP itself writes: `88.5,88.5,023,NN,023,Tone->Tone`. Put
   "subtom desconhecido" in `Comment` when the tone is unknown.
-- Number `Location` sequentially from a start channel the user can choose.
+- Number `Location` sequentially from 1. CHIRP lets people paste the rows into any memory slots.
 - A header-only file fails to import, so disable the download when nothing is
   selected.

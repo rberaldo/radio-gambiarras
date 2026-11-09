@@ -75,12 +75,12 @@ export const isFm = (r: Repeater) => r.modes.length === 0 || r.modes.includes('F
 export const chirpName = (r: Repeater) => [cityCode(r.municipio, r.uf), r.callsign.replace(/^[A-Z]{2}(?=\d)/, '')].filter(Boolean).join(' ');
 
 /**
- * CHIRP generic CSV for the FM repeaters among `rows`, numbered from
- * `firstChannel`. Every row has all 21 columns, dot decimals, and CHIRP's
- * own filler values where a setting does not apply (blank cells make CHIRP
- * reject the row).
+ * CHIRP generic CSV for the FM repeaters among `rows`, numbered from 1
+ * (CHIRP lets people paste them into any memory slots). Every row has all
+ * 21 columns, dot decimals, and CHIRP's own filler values where a setting
+ * does not apply (blank cells make CHIRP reject the row).
  */
-export function chirpCsv(rows: readonly Nearby[], firstChannel = 1): string {
+export function chirpCsv(rows: readonly Nearby[]): string {
   const lines = rows
     .map((n) => n.repeater)
     .filter(isFm)
@@ -101,7 +101,7 @@ export function chirpCsv(rows: readonly Nearby[], firstChannel = 1): string {
         .filter(Boolean)
         .join('; ');
       return [
-        String(firstChannel + i),
+        String(i + 1),
         chirpName(r),
         r.output.toFixed(6),
         duplex,
