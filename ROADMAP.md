@@ -212,7 +212,10 @@ Pipeline:
 - [ ] **M2.5 History seed (user decision, optional).** See open question 3.
   If approved, mark callsigns that were in use in April 2025 and are absent
   now as possibly in quarantine, with the uncertainty stated in the UI.
-- [ ] **M2.6 Scheduled workflow.** `.github/workflows/dados.yml`: daily cron
+- [x] **M2.6 Scheduled workflow.** Written 2026-11-09 (`.github/workflows/dados.yml`,
+  daily at 15:30 UTC, no npm install). Still to confirm on GitHub: a manual
+  run finishes in under a minute and makes no commit when data is unchanged.
+  `.github/workflows/dados.yml`: daily cron
   and manual trigger; run fetch, reduction and history; commit and push only
   if `data/` changed. Emit a warning annotation when the newest licensing
   date is more than 14 days old (the upstream feed froze in late October

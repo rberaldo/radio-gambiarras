@@ -1,0 +1,50 @@
+# Daily data refresh. Downloads only the amateur CSV from Anatel's archive
+# (about 3.3 MB), reduces it, and commits data/ only when it changed. A commit
+# triggers a Netlify deploy; a quiet day costs a few seconds and nothing else.
+# The scripts use only Node built-ins, so there is no npm install.
+name: Atualizar dados
+
+on:
+  schedule:
+    # Anatel rebuilds the archive around 11:00 UTC; its CDN caches it for up to 4 hours.
+    - cron: '30 15 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: dados
+  cancel-in-progress: false
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: actions/setup-node@v5
+        with:
+          node-version-file: .nvmrc
+
+      - name: Download Anatel data
+        run: node scripts/anatel/fetch.ts
+
+      - name: Reduce callsigns
+        run: node scripts/anatel/callsigns.ts
+
+      - name: Check freshness
+        run: node scripts/anatel/freshness.ts
+
+      - name: Commit changes
+        run: |
+          git add data/
+          if git diff --cached --quiet; then
+            echo "No data changes."
+            exit 0
+          fi
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git commit -m "Atualiza dados da Anatel ($(date -u +%F))"
+          git push
