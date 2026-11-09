@@ -32,7 +32,8 @@ conventions, then the docs a milestone points to.
    says using its data to build another repeater directory needs its written
    permission. The user plans to add entries manually over time; the overlay
    records a source per entry so this stays the user's call entry by entry.
-6. **APRS tool source code.** Where it lives, for M4.
+6. **APRS tool source code.** Where it lives, for M4. Probably the Netlify
+   project `aprs-symbols`, live at <https://aprs.tools>; confirm with the user.
 
 ---
 
@@ -54,11 +55,9 @@ relies on.
   `indicativos`, `repetidoras`, `aprs`, all with status `soon` for now.
   Types for the registry, and a unit test that slugs are unique.
   Done when: a page can import the registry and list the tools.
-- [ ] **M0.3 Repository and hosting (user).** The GitHub repository exists
-  (`rberaldo/radio-gambiarras`, public; local `origin` already points to it).
-  Remaining: the Netlify site connected to it, and `netlify.toml` (build
-  command, publish directory, Node version). Ask before the first push.
-  Done when: a push to the main branch produces a live Netlify deploy.
+- [x] **M0.3 Repository and hosting (user).** Done 2026-11-09. GitHub
+  `rberaldo/radio-gambiarras` (public; push over SSH), Netlify project
+  `radio-gambiarras` deploying `main` to <https://radio-gambiarras.netlify.app>.
 
 ## M1 — Win95 shell and landing page
 
