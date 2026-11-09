@@ -23,6 +23,8 @@
   /* Text */
   --c-text: #000000;
   --c-text-disabled: #808080;
+  /* Grayed out but still readable (4.6:1 on --c-face), for clickable items */
+  --c-text-muted: #4d4d4d;
   --c-text-disabled-emboss: #ffffff;
   --c-error: #e00000;
   --c-link: #0000ee;

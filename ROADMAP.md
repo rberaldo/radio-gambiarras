@@ -249,7 +249,11 @@ Interface (M2.8 can start as soon as M2.1 and M2.3 are done):
   Load `taken.json` and
   `released.json` once, lazily, and expose `statusOf(callsign)` implementing
   the status model. Loading and error states in Win95 style.
-- [ ] **M2.9 Filters and grid.** Filters for class (A/B or C), state, and
+- [x] **M2.9 Filters and grid.** Done 2026-11-09. Phone size with 4× CPU
+  throttling: 16,900-cell block renders in ~60 ms, scrolls at 60 fps, 62
+  cells in the DOM. Grid uses list semantics (axe: 0 violations); grayed
+  text uses `--c-text-muted` (4.6:1). Defaults: class C, SP.
+  Filters for class (A/B or C), state, and
   suffix length (2 or 3 letters, A/B only), plus "mostrar só livres". A
   virtualized grid of the selected block in alphabetical order with a
   letter index to jump around. In-use callsigns are grayed out; each state
