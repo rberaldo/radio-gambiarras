@@ -1,5 +1,5 @@
-// Drop a trail file anywhere on the tool. Nothing shows until a file is
-// dragged over, so the feature stays hidden for now.
+// Drop a trail file anywhere on the tool (the button in ControlBar opens one
+// too). The overlay shows only while a file is dragged over.
 import type { ComponentChildren } from 'preact';
 import { useRef, useState } from 'preact/hooks';
 

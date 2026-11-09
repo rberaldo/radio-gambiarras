@@ -1,6 +1,6 @@
-// The repeater map tool: pick a point (click, place box or location), see
-// the repeaters within the radius, open one, download the list. Or drop a
-// trail file (hidden for now) and see the repeaters along it.
+// The repeater map tool: pick a point (click or place box), see the
+// repeaters within the radius, open one, download the list. Or open a GPX
+// trail (button or drop) and see the repeaters along it.
 import { useEffect, useMemo, useRef, useState } from 'preact/hooks';
 import { slug } from '../../lib/format.ts';
 import { filterRepeaters, offAirLast, placesOf } from '../../lib/repeaters/filter.ts';
@@ -143,6 +143,7 @@ export default function RepeaterTool() {
         band={state.band}
         mode={state.mode}
         onGo={go}
+        onTrailFile={dropTrack}
         onRadius={(radiusKm) => set({ radiusKm })}
         onBand={(band) => set({ band })}
         onMode={(mode) => set({ mode })}

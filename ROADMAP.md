@@ -540,8 +540,10 @@ the map to see the repeaters along the trail (`src/lib/tracks/`,
 no waypoints; the corridor is the radius on each side; the list and the
 CHIRP file are in walking order ("km 12 da trilha"); the trail goes in the
 link after `#` (simplified to about 3,000 characters), so it can be shared.
-Still to do: a visible "Abrir trilha…" button (phones cannot drag files),
-and readers for KML/KMZ, GeoJSON and TCX (one entry each in `read.ts`).
+Later the same day (user's request) the trail became visible: a pixel-art
+"open trail" button (folded map with an upload arrow) replaced "Minha
+localização" next to "Ir", so phones can open a GPX too. Still to do:
+readers for KML/KMZ, GeoJSON and TCX (one entry each in `read.ts`).
 
 Later (not in this milestone): anonymous "confirmo que funciona" votes (a small
 Netlify Function + Blobs); line-of-sight hints from the elevation data.

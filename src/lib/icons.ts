@@ -111,6 +111,25 @@ const icons = {
     '..cccccccccccc..',
     '...cccccccccc...',
   ],
+  // Folded paper map with a trail, under an upload arrow: open a GPX trail.
+  trilha: [
+    '.......kk.......',
+    '......kbbk......',
+    '.....kbbbbk.....',
+    '....kbbbbbbk....',
+    '...kkkkbbkkkk...',
+    '......kbbk......',
+    '......kkkk......',
+    '................',
+    'kkkkkkkkkkkkkkkk',
+    'kwwwwkcccckwwwwk',
+    'kwrwwkccrckwwwwk',
+    'kwwrwkcrcrkwwrwk',
+    'kwwwrkrcccrwrwwk',
+    'kwwwwrcccckrwwwk',
+    'kwwwwkcccckwwwwk',
+    'kkkkkkkkkkkkkkkk',
+  ],
 } satisfies Record<string, readonly string[]>;
 
 export type IconName = keyof typeof icons;

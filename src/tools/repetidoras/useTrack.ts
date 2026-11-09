@@ -1,4 +1,4 @@
-// The trail dropped on the map (a hidden feature for now), kept in the link
+// The trail opened with the button or dropped on the map, kept in the link
 // after "#" so it can be shared and survives a reload.
 import { useEffect, useRef, useState } from 'preact/hooks';
 import { readTrackHash, shareableTrack, writeTrackHash } from '../../lib/tracks/link.ts';

@@ -18,6 +18,10 @@ export function RepeaterIntro({ count, band, mode }: { count: number; band: Band
         Clique num lugar do mapa (um pico, uma cidade) ou use a busca acima para ver as repetidoras ao redor. O botão direito apaga a
         área.
       </p>
+      <p>
+        Vai fazer uma trilha? Abra o arquivo GPX no botão do mapa ao lado de “Ir” (ou solte o arquivo no mapa) e veja as repetidoras
+        ao longo do caminho, na ordem da caminhada.
+      </p>
       <p class="rp-intro__note">
         Marcadores cheios estão no local da antena; vazios, na sede do município. Verde é dentro do raio; cinza, relatada fora do
         ar. Números agrupam várias repetidoras: clique para aproximar ou abrir o grupo.

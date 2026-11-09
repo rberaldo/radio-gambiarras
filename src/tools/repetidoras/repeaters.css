@@ -22,8 +22,20 @@
 }
 
 .rp-controls__place .field {
-  flex: 1 1 16rem;
+  /* Small enough that the field, "Ir" and the trail button share a row on a phone */
+  flex: 1 1 8rem;
   min-width: 0;
+}
+
+/* Open a GPX trail: the pixel-art map icon alone, square like the field is tall */
+.rp-controls__trail {
+  min-width: 0;
+  padding-inline: var(--sp-2);
+}
+
+.rp-controls__trail svg {
+  display: block;
+  image-rendering: pixelated;
 }
 
 .rp-controls__problem {

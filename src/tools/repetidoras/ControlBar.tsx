@@ -1,6 +1,7 @@
 // Where to look and how far: a place box (a town with repeaters or
-// coordinates), "minha localização", the radius, the band and the mode.
-import { useState } from 'preact/hooks';
+// coordinates), a button to open a GPX trail, the radius, the band and the mode.
+import { useRef, useState } from 'preact/hooks';
+import { iconSvg } from '../../lib/icons.ts';
 import { foldAccents } from '../../lib/format.ts';
 import { parseCoordinates } from '../../lib/repeaters/coordinates.ts';
 import type { Point } from '../../lib/repeaters/geo.ts';
@@ -26,15 +27,17 @@ interface Props {
   band: BandChoice;
   mode: ModeChoice;
   onGo: (point: Point) => void;
+  /** A trail file picked with the button (the same as dropping it on the map). */
+  onTrailFile: (file: File) => void;
   onRadius: (km: number) => void;
   onBand: (band: BandChoice) => void;
   onMode: (mode: ModeChoice) => void;
 }
 
-export function ControlBar({ places, radiusKm, band, mode, onGo, onRadius, onBand, onMode }: Props) {
+export function ControlBar({ places, radiusKm, band, mode, onGo, onTrailFile, onRadius, onBand, onMode }: Props) {
   const [text, setText] = useState('');
   const [problem, setProblem] = useState<string>();
-  const [locating, setLocating] = useState(false);
+  const fileInput = useRef<HTMLInputElement>(null);
 
   const go = (e: Event) => {
     e.preventDefault();
@@ -45,23 +48,6 @@ export function ControlBar({ places, radiusKm, band, mode, onGo, onRadius, onBan
       setProblem(undefined);
       onGo(point);
     } else setProblem('Não encontrei este lugar. Escolha uma cidade da lista ou digite coordenadas (-22,95 -43,28).');
-  };
-
-  const locate = () => {
-    if (!navigator.geolocation) return setProblem('Este navegador não informa a localização.');
-    setLocating(true);
-    navigator.geolocation.getCurrentPosition(
-      (pos) => {
-        setLocating(false);
-        setProblem(undefined);
-        onGo({ lat: pos.coords.latitude, lon: pos.coords.longitude });
-      },
-      () => {
-        setLocating(false);
-        setProblem('Não foi possível obter a sua localização (permissão negada ou sinal fraco).');
-      },
-      { enableHighAccuracy: true, timeout: 15000 },
-    );
   };
 
   return (
@@ -89,9 +75,27 @@ export function ControlBar({ places, radiusKm, band, mode, onGo, onRadius, onBan
         <button class="btn" type="submit">
           Ir
         </button>
-        <button class="btn" type="button" onClick={locate} disabled={locating}>
-          {locating ? 'Localizando…' : 'Minha localização'}
-        </button>
+        <button
+          class="btn rp-controls__trail"
+          type="button"
+          title="Abrir trilha (GPX)"
+          aria-label="Abrir trilha (arquivo GPX)"
+          onClick={() => fileInput.current?.click()}
+          dangerouslySetInnerHTML={{ __html: iconSvg('trilha', 'width="32" height="32" aria-hidden="true" focusable="false" class="icon"') }}
+        />
+        <input
+          ref={fileInput}
+          type="file"
+          accept=".gpx,application/gpx+xml"
+          hidden
+          onChange={(e) => {
+            const input = e.currentTarget as HTMLInputElement;
+            const file = input.files?.[0];
+            // Cleared, so picking the same file again still counts.
+            input.value = '';
+            if (file) onTrailFile(file);
+          }}
+        />
       </form>
       {problem && (
         <p id="rp-place-problem" class="rp-controls__problem" role="alert">
