@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { blockCells, blockChoices, buildIndex, countStatuses, letterOffsets } from '../src/lib/callsigns';
+import { blockCells, blockChoices, buildIndex, countStatuses } from '../src/lib/callsigns';
 
 const index = buildIndex(
   { format: 1, active: { PQ2: 'AA AB IAA' }, expired: { PQ2: 'AC' } },
@@ -42,12 +42,5 @@ describe('blockCells', () => {
     expect(counts.vencida).toBe(1);
     expect(counts.quarentena).toBe(1);
     expect(counts.livre).toBe(672);
-  });
-
-  it('finds where each first letter starts', () => {
-    const offsets = letterOffsets(cells);
-    expect(offsets.get('A')).toBe(0);
-    expect(offsets.get('B')).toBe(26);
-    expect(offsets.get('Z')).toBe(650);
   });
 });

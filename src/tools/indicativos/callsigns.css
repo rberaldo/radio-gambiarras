@@ -119,40 +119,18 @@
   margin: 0 0 var(--sp-3);
 }
 
-/* Letter index */
-.cs-letters {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--sp-1);
-  margin-bottom: var(--sp-3);
-}
-
-.cs-letters__btn {
-  min-width: 1.9rem;
-  min-height: 1.9rem;
-  padding: 0;
-  border: 0;
-  background: var(--c-face);
-  box-shadow: var(--bevel-raised);
-  color: var(--c-text);
-  font: inherit;
-  font-family: var(--font-mono);
-  cursor: pointer;
-}
-
-.cs-letters__btn:active {
-  box-shadow: var(--bevel-pressed);
-}
-
-.cs-letters__btn:focus-visible {
-  outline: var(--focus-ring);
-  outline-offset: -4px;
-}
-
 /* Virtual grid */
+.cs-browser {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  min-height: 0;
+}
+
 .vgrid {
   position: relative;
-  height: max(18rem, calc(100dvh - 26rem));
+  flex: none;
+  height: max(18rem, 60dvh);
   overflow-y: auto;
   overscroll-behavior: contain;
   background: var(--c-field);
@@ -259,4 +237,13 @@
   padding: 0;
   border-color: var(--c-shadow-inner);
   cursor: default;
+}
+
+/* When the window fits the screen (Desktop layout's `fit`), the grid takes the leftover height */
+@media (min-width: 40.0625rem) and (min-height: 34rem) {
+  .desktop--fit .vgrid {
+    flex: 1;
+    height: auto;
+    min-height: 8rem;
+  }
 }

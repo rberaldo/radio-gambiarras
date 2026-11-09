@@ -41,13 +41,3 @@ export function countStatuses(cells: readonly Cell[]): StatusCounts {
   for (const cell of cells) counts[cell.status]++;
   return counts;
 }
-
-/** Position of the first cell whose suffix starts with each letter. */
-export function letterOffsets(cells: readonly Cell[]): Map<string, number> {
-  const offsets = new Map<string, number>();
-  cells.forEach((cell, i) => {
-    const letter = cell.suffix[0]!;
-    if (!offsets.has(letter)) offsets.set(letter, i);
-  });
-  return offsets;
-}

@@ -1,13 +1,7 @@
 // A scrollable grid that renders only the rows in view, so blocks of
 // 16,900 callsigns stay fast on phones. Columns adapt to the width.
-import type { ComponentChildren, Ref } from 'preact';
-import { forwardRef, useImperativeHandle } from 'preact/compat';
+import type { ComponentChildren } from 'preact';
 import { useEffect, useLayoutEffect, useRef, useState } from 'preact/hooks';
-
-export interface VirtualGridHandle {
-  /** Scrolls so the item at this position is on the first visible row. */
-  scrollToItem(index: number): void;
-}
 
 interface Props {
   count: number;
@@ -19,10 +13,7 @@ interface Props {
   overscanRows?: number;
 }
 
-function VirtualGridImpl(
-  { count, minCellWidth, rowHeight, renderCell, label, overscanRows = 4 }: Props,
-  ref: Ref<VirtualGridHandle>,
-) {
+export function VirtualGrid({ count, minCellWidth, rowHeight, renderCell, label, overscanRows = 4 }: Props) {
   const scroller = useRef<HTMLDivElement>(null);
   const [width, setWidth] = useState(0);
   const [height, setHeight] = useState(0);
@@ -43,16 +34,6 @@ function VirtualGridImpl(
 
   const columns = Math.max(1, Math.floor(width / minCellWidth));
   const rows = Math.ceil(count / columns);
-
-  useImperativeHandle(
-    ref,
-    () => ({
-      scrollToItem(index: number) {
-        scroller.current?.scrollTo({ top: Math.floor(index / columns) * rowHeight });
-      },
-    }),
-    [columns, rowHeight],
-  );
 
   // A new list starts at the top.
   useEffect(() => {
@@ -92,5 +73,3 @@ function VirtualGridImpl(
     </div>
   );
 }
-
-export const VirtualGrid = forwardRef(VirtualGridImpl);

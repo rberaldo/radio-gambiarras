@@ -12,9 +12,16 @@ interface Props {
   /** Title shown on the taskbar button for the open window. */
   windowTitle?: string;
   noindex?: boolean;
+  /**
+   * Fit the window to the screen: it fills the space above the taskbar and
+   * its body becomes a flex column, so a tool can give the leftover height to
+   * one element (the page itself does not scroll). Only where there is room;
+   * phones and short screens scroll as usual.
+   */
+  fit?: boolean;
 }
 
-const { title, description = site.description, windowTitle, noindex = false } = Astro.props;
+const { title, description = site.description, windowTitle, noindex = false, fit = false } = Astro.props;
 const fullTitle = title ? `${title} · ${site.name}` : site.name;
 ---
 
@@ -30,7 +37,7 @@ const fullTitle = title ? `${title} · ${site.name}` : site.name;
     {noindex && <meta name="robots" content="noindex" />}
   </head>
   <body>
-    <main class="desktop">
+    <main class:list={['desktop', { 'desktop--fit': fit }]}>
       <slot />
     </main>
     <Taskbar windowTitle={windowTitle} />
@@ -49,6 +56,24 @@ const fullTitle = title ? `${title} · ${site.name}` : site.name;
 
   .desktop > :global(.window) {
     width: min(100%, 64rem);
+  }
+
+  /* The same media query appears in tools that let an element fill the window */
+  @media (min-width: 40.0625rem) and (min-height: 34rem) {
+    .desktop--fit {
+      height: 100dvh;
+    }
+
+    .desktop--fit > :global(.window) {
+      flex: 1;
+      min-height: 0;
+    }
+
+    .desktop--fit :global(.window__body) {
+      display: flex;
+      flex-direction: column;
+      min-height: 0;
+    }
   }
 
   /* Narrow screens: windows are maximized */

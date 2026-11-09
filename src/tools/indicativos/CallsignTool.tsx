@@ -1,5 +1,5 @@
 // The callsign tool's interactive part: search, filters and the grid.
-import { useMemo, useRef, useState } from 'preact/hooks';
+import { useMemo, useState } from 'preact/hooks';
 import {
   STATUS_INFO,
   UFS,
@@ -7,7 +7,6 @@ import {
   blockCells,
   blockChoices,
   countStatuses,
-  letterOffsets,
   nearMisses,
   search,
   type CallsignIndex,
@@ -17,7 +16,7 @@ import {
 } from '../../lib/callsigns/index.ts';
 import { LEGEND_ORDER, STATUS_MARK } from './statusStyle.ts';
 import { useCallsignIndex } from './useCallsignIndex.ts';
-import { VirtualGrid, type VirtualGridHandle } from './VirtualGrid.tsx';
+import { VirtualGrid } from './VirtualGrid.tsx';
 import './callsigns.css';
 
 const fmt = (n: number) => n.toLocaleString('pt-BR');
@@ -194,7 +193,6 @@ function Browser({ index }: { index: CallsignIndex }) {
   const [filters, setFilters] = useState<Filters>({ licenseClass: 'C', uf: 'SP', length: 2, onlyFree: false });
   const [query, setQuery] = useState('');
   const [selected, setSelected] = useState<string>();
-  const grid = useRef<VirtualGridHandle>(null);
   const set = (f: Partial<Filters>) => setFilters((old) => ({ ...old, ...f }));
 
   const uf = filters.uf === 'todos' ? undefined : filters.uf;
@@ -215,7 +213,6 @@ function Browser({ index }: { index: CallsignIndex }) {
     () => (filters.onlyFree ? baseCells.filter((c) => STATUS_INFO[c.status].requestable) : baseCells),
     [baseCells, filters.onlyFree],
   );
-  const offsets = useMemo(() => (searching ? new Map<string, number>() : letterOffsets(cells)), [cells, searching]);
 
   const where = uf ? UF_NAMES[uf] : 'todos os estados';
   const taken = counts['em-uso'] + counts.vencida;
@@ -253,19 +250,8 @@ function Browser({ index }: { index: CallsignIndex }) {
         {summary}
       </p>
 
-      {offsets.size > 0 && (
-        <nav class="cs-letters" aria-label="Ir para a letra">
-          {[...offsets.keys()].map((letter) => (
-            <button key={letter} type="button" class="cs-letters__btn" onClick={() => grid.current?.scrollToItem(offsets.get(letter)!)}>
-              {letter}
-            </button>
-          ))}
-        </nav>
-      )}
-
       {cells.length > 0 ? (
         <VirtualGrid
-          ref={grid}
           count={cells.length}
           minCellWidth={84}
           rowHeight={34}
