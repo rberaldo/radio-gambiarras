@@ -59,18 +59,18 @@ export function DetailPanel({ callsign, index, onClose, renderCell }: Props) {
   const cls = c ? (c.licenseClass === 'AB' ? 'classes A e B' : 'classe C') : undefined;
 
   return (
-    <aside class="cs-detail panel-raised" aria-label={`Propriedades de ${callsign}`}>
-      <header class="cs-detail__head">
+    <aside class="tool-panel panel-raised" aria-label={`Propriedades de ${callsign}`}>
+      <header class="tool-panel__head">
         <span class={`cs-cell cs-cell--${status} cs-detail__call`}>{callsign}</span>
-        <button class="btn cs-detail__copy" type="button" onClick={copy} aria-label={`Copiar ${callsign}`}>
+        <button class="btn tool-panel__copy" type="button" onClick={copy} aria-label={`Copiar ${callsign}`}>
           {copied ? 'Copiado!' : 'Copiar'}
         </button>
-        <button class="cs-detail__close" type="button" onClick={onClose} aria-label="Fechar propriedades" title="Fechar">
+        <button class="tool-panel__close" type="button" onClick={onClose} aria-label="Fechar propriedades" title="Fechar">
           <span aria-hidden="true">×</span>
         </button>
       </header>
 
-      <p class="cs-detail__status">
+      <p class="tool-panel__status">
         <strong>{info.label}</strong>
         {where && cls && (
           <>
@@ -86,7 +86,7 @@ export function DetailPanel({ callsign, index, onClose, renderCell }: Props) {
         </p>
       )}
 
-      <dl class="cs-detail__facts">
+      <dl class="tool-panel__facts">
         <dt>Fonética</dt>
         <dd>{phonetic(callsign).join(' ')}</dd>
         <dt>Morse</dt>
@@ -101,11 +101,11 @@ export function DetailPanel({ callsign, index, onClose, renderCell }: Props) {
         </dd>
       </dl>
 
-      <div class="cs-detail__actions">
+      <div class="tool-panel__actions">
         <button class="btn" type="button" onClick={() => (player.playing ? player.stop() : player.play(callsign, wpm))}>
           {player.playing ? '■ Parar' : '▶ Ouvir'}
         </button>
-        <label class="cs-detail__speed">
+        <label class="tool-panel__speed">
           <span class="visually-hidden">Velocidade</span>
           <select class="field" value={wpm} onChange={(e) => setWpm(Number((e.currentTarget as HTMLSelectElement).value))}>
             {SPEEDS.map((s) => (

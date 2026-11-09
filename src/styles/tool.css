@@ -1,0 +1,172 @@
+/*
+  Shared layout of a tool's interactive part: search box, filters, summary,
+  the main area (a grid of items plus a detail panel) and the panel itself.
+  Used by every tool; the interior theme (interior.css) styles them.
+*/
+
+/* Search */
+.tool-search {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--sp-2) var(--sp-3);
+  align-items: center;
+  margin-bottom: var(--sp-4);
+}
+
+.tool-search__input {
+  flex: 1 1 14rem;
+  min-width: 0;
+}
+
+.tool-search__hint {
+  flex-basis: 100%;
+  margin: 0;
+  font-size: var(--fs-sm);
+}
+
+/* Grid and detail panel */
+.tool-main {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: var(--sp-3);
+}
+
+.tool-main__grid {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  min-width: 0;
+}
+
+/* On phones the panel comes first, so it is seen without scrolling past the grid */
+.tool-panel {
+  order: -1;
+}
+
+@media (min-width: 56rem) {
+  .tool-main--detail {
+    flex-direction: row;
+  }
+
+  .tool-panel {
+    order: 0;
+    flex: none;
+    width: 21rem;
+    overflow-y: auto;
+    /* Take the grid's height and scroll inside, instead of stretching the window */
+    contain: size;
+  }
+}
+
+.tool-panel p {
+  margin-bottom: var(--sp-3);
+}
+
+.tool-panel__head {
+  display: flex;
+  gap: var(--sp-3);
+  align-items: center;
+  margin-bottom: var(--sp-3);
+}
+
+.tool-panel__copy {
+  min-width: 0;
+  height: 2.5rem;
+}
+
+.tool-panel__close {
+  display: grid;
+  place-items: center;
+  width: 1.75rem;
+  height: 1.6rem;
+  padding: 0;
+  color: var(--c-text);
+  font: inherit;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.tool-panel__close:focus-visible {
+  outline: var(--focus-ring);
+  outline-offset: -4px;
+}
+
+.tool-panel__facts {
+  display: grid;
+  grid-template-columns: max-content 1fr;
+  gap: var(--sp-2) var(--sp-3);
+  margin: 0 0 var(--sp-3);
+}
+
+.tool-panel__facts dt {
+  font-weight: bold;
+}
+
+.tool-panel__facts dd {
+  margin: 0;
+}
+
+.tool-panel__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--sp-2);
+  margin-bottom: var(--sp-3);
+}
+
+.tool-panel__actions .btn {
+  min-width: 0;
+}
+
+/* Filters */
+.tool-filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--sp-3) var(--sp-6);
+  align-items: center;
+}
+
+.tool-filters__group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--sp-2) var(--sp-4);
+  align-items: center;
+}
+
+.tool-filters__label {
+  font-weight: bold;
+}
+
+.tool-summary {
+  margin: 0 0 var(--sp-3);
+}
+
+
+/* Root of a tool's interactive part */
+.tool-root {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+}
+
+
+/* Safari adds its own clear button to search fields; tools have "Limpar" */
+.tool-search__input::-webkit-search-cancel-button {
+  appearance: none;
+}
+
+/* A scrolling list of items that fills the leftover height when the window fits the screen */
+.tool-scroll {
+  height: max(18rem, 60dvh);
+  contain: size;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+
+@media (min-width: 40.0625rem) and (min-height: 34rem) {
+  .desktop--fit .tool-scroll {
+    flex: 1;
+    height: auto;
+    min-height: 15rem;
+  }
+}

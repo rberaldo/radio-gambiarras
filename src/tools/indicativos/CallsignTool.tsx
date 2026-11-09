@@ -34,13 +34,13 @@ const SHOW_LABELS: Record<Show, string> = { todos: 'Todos', livres: 'Livres', qu
 
 function SearchBox({ query, setQuery }: { query: string; setQuery: (q: string) => void }) {
   return (
-    <div class="cs-search">
-      <label for="cs-query" class="cs-filters__label">
+    <div class="tool-search">
+      <label for="cs-query" class="tool-filters__label">
         Buscar
       </label>
       <input
         id="cs-query"
-        class="field cs-search__input"
+        class="field tool-search__input"
         type="search"
         value={query}
         placeholder="PY2RB, RBR, PY2?AB, *RB"
@@ -53,7 +53,7 @@ function SearchBox({ query, setQuery }: { query: string; setQuery: (q: string) =
       <button class="btn" type="button" disabled={!query} onClick={() => setQuery('')}>
         Limpar
       </button>
-      <p id="cs-query-hint" class="cs-search__hint">
+      <p id="cs-query-hint" class="tool-search__hint">
         Digite um indicativo, só o sufixo, ou use <kbd>?</kbd> para uma letra qualquer e <kbd>*</kbd> para várias.
       </p>
     </div>
@@ -62,10 +62,10 @@ function SearchBox({ query, setQuery }: { query: string; setQuery: (q: string) =
 
 function FilterBar({ filters, set, prefixes }: { filters: ToolState; set: (f: Partial<ToolState>) => void; prefixes: string[] }) {
   return (
-    <fieldset class="fieldset cs-filters">
+    <fieldset class="fieldset tool-filters">
       <legend>Filtros</legend>
-      <div class="cs-filters__group" role="radiogroup" aria-label="Classe">
-        <span class="cs-filters__label">Classe</span>
+      <div class="tool-filters__group" role="radiogroup" aria-label="Classe">
+        <span class="tool-filters__label">Classe</span>
         {(['AB', 'C'] as const).map((c) => (
           <label class="check" key={c}>
             <input
@@ -79,8 +79,8 @@ function FilterBar({ filters, set, prefixes }: { filters: ToolState; set: (f: Pa
         ))}
       </div>
 
-      <label class="cs-filters__group">
-        <span class="cs-filters__label">Estado</span>
+      <label class="tool-filters__group">
+        <span class="tool-filters__label">Estado</span>
         <select
           class="field"
           value={filters.uf}
@@ -96,8 +96,8 @@ function FilterBar({ filters, set, prefixes }: { filters: ToolState; set: (f: Pa
       </label>
 
       {filters.licenseClass === 'AB' && (
-        <div class="cs-filters__group" role="radiogroup" aria-label="Tamanho do sufixo">
-          <span class="cs-filters__label">Sufixo</span>
+        <div class="tool-filters__group" role="radiogroup" aria-label="Tamanho do sufixo">
+          <span class="tool-filters__label">Sufixo</span>
           {([2, 3] as const).map((n) => (
             <label class="check" key={n}>
               <input type="radio" name="cs-length" checked={filters.length === n} onChange={() => set({ length: n })} />
@@ -108,8 +108,8 @@ function FilterBar({ filters, set, prefixes }: { filters: ToolState; set: (f: Pa
       )}
 
       {prefixes.length > 1 && (
-        <label class="cs-filters__group">
-          <span class="cs-filters__label">Prefixo</span>
+        <label class="tool-filters__group">
+          <span class="tool-filters__label">Prefixo</span>
           <select
             class="field"
             value={filters.prefix ?? prefixes[0]}
@@ -124,8 +124,8 @@ function FilterBar({ filters, set, prefixes }: { filters: ToolState; set: (f: Pa
         </label>
       )}
 
-      <div class="cs-filters__group" role="radiogroup" aria-label="Mostrar">
-        <span class="cs-filters__label">Mostrar</span>
+      <div class="tool-filters__group" role="radiogroup" aria-label="Mostrar">
+        <span class="tool-filters__label">Mostrar</span>
         {(Object.keys(SHOW_LABELS) as Show[]).map((s) => (
           <label class="check" key={s}>
             <input type="radio" name="cs-show" checked={filters.show === s} onChange={() => set({ show: s })} />
@@ -302,17 +302,17 @@ function Browser({ index, dataDate }: { index: CallsignIndex; dataDate?: string 
   else summary = <>Escolha um estado para ver a grade, ou faça uma busca.</>;
 
   return (
-    <div class="cs-browser">
+    <div class="tool-root">
       <StaleNotice dataDate={dataDate} />
       <SearchBox query={query} setQuery={setQuery} />
       <FilterBar filters={filters} set={set} prefixes={searching ? [] : blocks.map((b) => b.prefix)} />
 
-      <p class="cs-summary" aria-live="polite">
+      <p class="tool-summary" aria-live="polite">
         {summary}
       </p>
 
-      <div class={selected ? 'cs-main cs-main--detail' : 'cs-main'}>
-        <div class="cs-main__grid">
+      <div class={selected ? 'tool-main tool-main--detail' : 'tool-main'}>
+        <div class="tool-main__grid">
           {cells.length > 0 ? (
             <VirtualGrid
               count={cells.length}

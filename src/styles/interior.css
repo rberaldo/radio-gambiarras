@@ -141,8 +141,8 @@
 }
 
 /* Field labels: small "system" monospace caps */
-.window__body .cs-filters__label,
-.window__body .cs-detail__facts dt {
+.window__body .tool-filters__label,
+.window__body .tool-panel__facts dt {
   color: var(--m-text-muted);
   font-family: var(--m-label-font);
   font-size: 0.8125rem;
@@ -156,7 +156,7 @@
   gap: 0;
 }
 
-.window__body [role='radiogroup'] > .cs-filters__label {
+.window__body [role='radiogroup'] > .tool-filters__label {
   margin-right: var(--sp-3);
 }
 
@@ -174,7 +174,7 @@
   font-weight: 600;
 }
 
-.window__body [role='radiogroup'] > .cs-filters__label + .check {
+.window__body [role='radiogroup'] > .tool-filters__label + .check {
   margin-left: 0;
 }
 
@@ -217,11 +217,11 @@
   border-radius: 0;
 }
 
-.window__body .cs-search {
+.window__body .tool-search {
   margin-bottom: var(--sp-5);
 }
 
-.window__body .cs-search > .cs-filters__label {
+.window__body .tool-search > .tool-filters__label {
   position: absolute;
   width: 1px;
   height: 1px;
@@ -229,7 +229,7 @@
   clip-path: inset(50%);
 }
 
-.window__body .cs-search__input.field {
+.window__body .tool-search__input.field {
   min-height: 3rem;
   padding: 0 var(--sp-4);
   box-shadow:
@@ -238,12 +238,12 @@
   font-size: 1.125rem;
 }
 
-.window__body .cs-search__hint,
-.window__body .cs-summary {
+.window__body .tool-search__hint,
+.window__body .tool-summary {
   color: var(--m-text-muted);
 }
 
-.window__body .cs-summary strong {
+.window__body .tool-summary strong {
   color: var(--m-free);
 }
 
@@ -323,7 +323,7 @@
 }
 
 /* Detail panel: one card, big callsign, quiet labels */
-.window__body .cs-detail.panel-raised {
+.window__body .tool-panel.panel-raised {
   padding: var(--sp-5);
   border: 1px solid var(--m-line);
   border-radius: var(--m-radius);
@@ -355,13 +355,13 @@
   color: var(--m-taken-text);
 }
 
-.window__body .cs-detail__copy.btn {
+.window__body .tool-panel__copy.btn {
   height: 2.25rem;
   min-height: 2.25rem;
   font-size: var(--fs-sm);
 }
 
-.window__body .cs-detail__close {
+.window__body .tool-panel__close {
   width: 2.25rem;
   height: 2.25rem;
   border: 1px solid var(--m-line);
@@ -370,12 +370,12 @@
   box-shadow: var(--m-shadow-sm);
 }
 
-.window__body .cs-detail__close:active {
+.window__body .tool-panel__close:active {
   transform: translate(2px, 2px);
   box-shadow: none;
 }
 
-.window__body .cs-detail__facts {
+.window__body .tool-panel__facts {
   padding: var(--sp-4) 0 0;
   border-top: 1px solid var(--m-line);
   background: none;
@@ -408,12 +408,12 @@
 
 /* Narrow screens: each filter label on its own row, segments share the width */
 @media (max-width: 40rem) {
-  .window__body .cs-filters__group {
+  .window__body .tool-filters__group {
     flex-wrap: wrap;
     width: 100%;
   }
 
-  .window__body .cs-filters__group > .cs-filters__label {
+  .window__body .tool-filters__group > .tool-filters__label {
     flex-basis: 100%;
     margin: 0 0 var(--sp-1);
   }
@@ -431,11 +431,11 @@
     text-align: center;
   }
 
-  .window__body [role='radiogroup'] > .cs-filters__label + .check {
+  .window__body [role='radiogroup'] > .tool-filters__label + .check {
     margin-left: 0;
   }
 
-  .window__body .cs-filters__group select.field {
+  .window__body .tool-filters__group select.field {
     flex: 1;
   }
 }

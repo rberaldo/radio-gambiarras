@@ -78,32 +78,6 @@
   margin-bottom: var(--sp-2);
 }
 
-/* Search */
-.cs-search {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--sp-2) var(--sp-3);
-  align-items: center;
-  margin-bottom: var(--sp-4);
-}
-
-.cs-search__input {
-  flex: 1 1 14rem;
-  min-width: 0;
-  font-family: var(--font-mono);
-  text-transform: uppercase;
-}
-
-.cs-search__input::placeholder {
-  text-transform: none;
-}
-
-.cs-search__hint {
-  flex-basis: 100%;
-  margin: 0;
-  font-size: var(--fs-sm);
-}
-
 .cs-similar {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(84px, 1fr));
@@ -116,94 +90,11 @@
   height: 30px;
 }
 
-/* Grid and detail panel */
-.cs-main {
-  display: flex;
-  flex: 1;
-  flex-direction: column;
-  gap: var(--sp-3);
-}
-
-.cs-main__grid {
-  display: flex;
-  flex: 1;
-  flex-direction: column;
-  min-width: 0;
-}
-
-/* On phones the panel comes first, so it is seen without scrolling past the grid */
-.cs-detail {
-  order: -1;
-}
-
-@media (min-width: 56rem) {
-  .cs-main--detail {
-    flex-direction: row;
-  }
-
-  .cs-detail {
-    order: 0;
-    flex: none;
-    width: 21rem;
-    overflow-y: auto;
-    /* Take the grid's height and scroll inside, instead of stretching the window */
-    contain: size;
-  }
-}
-
-.cs-detail p {
-  margin-bottom: var(--sp-3);
-}
-
-.cs-detail__head {
-  display: flex;
-  gap: var(--sp-3);
-  align-items: center;
-  margin-bottom: var(--sp-3);
-}
-
 .cs-detail__call {
   flex: 1;
   height: 2.5rem;
   font-size: var(--fs-lg);
   cursor: default;
-}
-
-.cs-detail__copy {
-  min-width: 0;
-  height: 2.5rem;
-}
-
-.cs-detail__close {
-  display: grid;
-  place-items: center;
-  width: 1.75rem;
-  height: 1.6rem;
-  padding: 0;
-  color: var(--c-text);
-  font: inherit;
-  font-weight: bold;
-  cursor: pointer;
-}
-
-.cs-detail__close:focus-visible {
-  outline: var(--focus-ring);
-  outline-offset: -4px;
-}
-
-.cs-detail__facts {
-  display: grid;
-  grid-template-columns: max-content 1fr;
-  gap: var(--sp-2) var(--sp-3);
-  margin: 0 0 var(--sp-3);
-}
-
-.cs-detail__facts dt {
-  font-weight: bold;
-}
-
-.cs-detail__facts dd {
-  margin: 0;
 }
 
 .cs-detail__morse {
@@ -213,47 +104,6 @@
   font-family: var(--font-mono);
   font-size: var(--fs-lg);
   letter-spacing: 0.1em;
-}
-
-.cs-detail__actions {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--sp-2);
-  margin-bottom: var(--sp-3);
-}
-
-.cs-detail__actions .btn {
-  min-width: 0;
-}
-
-/* Filters */
-.cs-filters {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--sp-3) var(--sp-6);
-  align-items: center;
-}
-
-.cs-filters__group {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--sp-2) var(--sp-4);
-  align-items: center;
-}
-
-.cs-filters__label {
-  font-weight: bold;
-}
-
-.cs-summary {
-  margin: 0 0 var(--sp-3);
-}
-
-/* Virtual grid */
-.cs-browser {
-  display: flex;
-  flex: 1;
-  flex-direction: column;
 }
 
 .vgrid {
@@ -274,6 +124,16 @@
 .vgrid__cell {
   position: absolute;
   padding: 2px;
+}
+
+/* The callsign search box shows callsigns: monospace capitals */
+#cs-query {
+  font-family: var(--font-mono);
+  text-transform: uppercase;
+}
+
+#cs-query::placeholder {
+  text-transform: none;
 }
 
 /* Callsign cells */
@@ -353,9 +213,4 @@
     height: auto;
     min-height: 15rem;
   }
-}
-
-/* Safari adds its own clear button to search fields; we have "Limpar" */
-.cs-search__input::-webkit-search-cancel-button {
-  appearance: none;
 }
