@@ -1,6 +1,7 @@
 ---
 // Bottom taskbar: start menu with the tools, the current window's title and
 // a clock. The start menu is a <details>, so it works without JavaScript.
+import Icon from './Icon.astro';
 import { metaPages, site } from '../../site';
 import { toolHref, tools } from '../../tools';
 
@@ -15,7 +16,7 @@ const { windowTitle } = Astro.props;
 <footer class="taskbar">
   <details class="start">
     <summary class="start__button">
-      <span class="start__logo" aria-hidden="true"></span>
+      <span class="start__logo"><Icon name="tux" size={16} /></span>
       Iniciar
     </summary>
     <nav class="start__menu" aria-label="Menu Iniciar">
@@ -122,15 +123,11 @@ const { windowTitle } = Astro.props;
     outline-offset: -5px;
   }
 
-  /* A small four-color flag-like mark, original to this site */
-  .start__logo {
-    width: 16px;
-    height: 14px;
-    background:
-      linear-gradient(var(--c-title-active), var(--c-title-active)) 0 0 / 7px 6px no-repeat,
-      linear-gradient(var(--c-desktop), var(--c-desktop)) 9px 0 / 7px 6px no-repeat,
-      linear-gradient(var(--c-title-active-end), var(--c-title-active-end)) 0 8px / 7px 6px no-repeat,
-      linear-gradient(var(--c-shadow-inner), var(--c-shadow-inner)) 9px 8px / 7px 6px no-repeat;
+  /* Tux, because why not */
+  .start__logo :global(.icon) {
+    width: 20px;
+    height: 20px;
+    image-rendering: pixelated;
   }
 
   .start__menu {

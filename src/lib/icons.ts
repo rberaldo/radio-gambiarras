@@ -35,6 +35,25 @@ const icons = {
     '...kddddddk.....',
     '...kkkkkkkk.....',
   ],
+  // Tux, for the start button.
+  tux: [
+    '......kkkk......',
+    '.....kkkkkk.....',
+    '.....kwkkwk.....',
+    '.....kkkkkk.....',
+    '.....kyyyyk.....',
+    '....kkyyyykk....',
+    '....kwwyywwk....',
+    '...kwwwwwwwwk...',
+    '...kwwwwwwwwk...',
+    '..kkwwwwwwwwkk..',
+    '..kkwwwwwwwwkk..',
+    '..kkwwwwwwwwkk..',
+    '...kwwwwwwwwk...',
+    '..yyykwwwwkyyy..',
+    '.yyyyykkkkyyyyy.',
+    '................',
+  ],
   // Licence card reading "PY".
   indicativos: [
     '................',
