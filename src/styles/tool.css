@@ -104,6 +104,8 @@
   display: grid;
   grid-template-columns: max-content 1fr;
   gap: var(--sp-2) var(--sp-3);
+  /* Small labels sit on the same line as their (larger) values */
+  align-items: baseline;
   margin: 0 0 var(--sp-3);
 }
 
