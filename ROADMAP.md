@@ -32,7 +32,7 @@ conventions, then the docs a milestone points to.
    says using its data to build another repeater directory needs its written
    permission. The user plans to add entries manually over time; the overlay
    records a source per entry so this stays the user's call entry by entry.
-6. ~~APRS tool source code.~~ Settled: `rberaldo/aprs-symbol-search` (see M4.1).
+6. ~~APRS tool source code.~~ Settled: `rberaldo/aprs-symbol-search` (see M4).
 
 ---
 
@@ -397,21 +397,69 @@ Interface:
   radius; credits ("Fonte: Anatel", OpenStreetMap); the approximate-position
   explanation; registry entry to `available`; full review.
 
-## M4 — APRS icons (`/aprs`)
+## M4 — APRS symbols (`/aprs`)
 
-Until this milestone the tool stays a grayed-out "em breve" entry.
+Goal: the user's APRS symbol search, rebuilt inside this site: find a symbol
+by name or code, see it large, and learn how to type it.
 
-- [x] **M4.1 Get the code (user).** <https://github.com/rberaldo/aprs-symbol-search>
-  (live at <https://aprs.tools>). Plain HTML/CSS/JS, 14 files: `index.html`,
-  `pt-BR/index.html`, `scripts/main.js`, symbol data in
-  `symbols/symbols.json` (+ `symbols-pt-br.js`, `symbols.csv`) and a 64 px
-  sprite `symbols/aprs-symbols-64.png`. No license file; check where the
-  sprite comes from and its license in M4.2.
-- [ ] **M4.2 Review and plan.** Read it; list what it does, its data and
-  assets, their licenses, and what must change to fit this site.
-- [ ] **M4.3 Port.** Bring it into `src/pages/aprs/` and `src/tools/aprs/`
-  with the `Window` layout and Win95 components, keeping its behaviour.
-- [ ] **M4.4 Release.** Registry entry to `available`; review.
+### What exists (reviewed 2026-11-09)
+
+- <https://github.com/rberaldo/aprs-symbol-search>, plain HTML/CSS/JS, last
+  changed April 2024. The old domain aprs.tools is dead: no redirect needed.
+- Data: 188 entries (94 primary `/`, 92 alternate `\`, 2 placeholders
+  `Skip1`/`Skip2`), 29 marked unused. Fields: `code` (table + character),
+  `description`, `tocall`, `unused`. Portuguese descriptions in
+  `symbols/symbols-pt-br.js` were written by the user; English in
+  `symbols.json`.
+- Behaviour: one search box filters by description, code or tocall
+  (case-insensitive substring); hovering a symbol shows code and description.
+  Hover does not work well on phones.
+- Images: one 1024×768 sprite taken from **hessu/aprs-symbols**. Hessu's repo
+  now ships one sheet per table (`png/aprs-symbols-64-0.png` primary,
+  `-1` alternate; 16×6 grid of 64 px, cell index = character code − 33, e.g.
+  `!` = 0, `>` = 29) plus `@2x` versions, and an overlay sheet (`-2`).
+  Terms: each symbol's source is documented in its COPYRIGHT.md and allows
+  reuse; the README asks users to link to
+  <https://github.com/hessu/aprs-symbols>.
+- The old footer says "73 de PU2URT" (the user's previous callsign).
+
+### Decisions (with the user, 2026-11-09)
+
+- Scope: port + detail panel. Overlays stay a later idea.
+- "How to type it": the code, explained as table + character. Nothing about
+  specific apps or radios for now.
+- Portuguese only. Not carried over: English names, the Pix link, tocall
+  search.
+
+### Tasks
+
+- [x] **M4.1 Get the code (user).**
+- [x] **M4.2 Review and plan.** This section.
+- [ ] **M4.3 Data and images.** Write `data/aprs/symbols.json` once from the
+  old repo's Portuguese list: `table` (`/` or `\`), `char`, `description`;
+  drop the placeholders and the unused entries (the old site hid them too).
+  Vendor hessu's `aprs-symbols-64-0/1.png` and their `@2x` versions into
+  `public/aprs/` with a short `README` naming the source, commit and link.
+  Note the import in `docs/data-sources.md`. No pipeline: the data is static.
+- [ ] **M4.4 Library.** `src/lib/aprs/`: types, sprite position from table and
+  character, and search that ignores case and accents and matches the code
+  ("/>" or ">"), the character alone, or words in the description (all words
+  must match, in any order). Tests for positions (`!` → 0, `>` → 29, last
+  cell), search cases, and that every entry has a non-empty description.
+- [ ] **M4.5 Interface.** `src/pages/aprs/index.astro` (fit layout, like the
+  callsign tool) and `src/tools/aprs/`: search box; a "Tabela" segmented
+  control (Todas | Primária `/` | Alternativa `\`); a grid of symbol tiles
+  (icon plus code, crisp on retina via `image-set`); clicking or Enter
+  opens a detail panel with the icon large, the description, and "Como
+  digitar": table (with its character) + character = code, and a Copiar
+  button for the code. URL state `?q=&tabela=&simbolo=`. Reuse the interior
+  style and the callsign tool's patterns (search, segmented control, panel);
+  extract shared pieces into `src/components/` only where both tools need
+  them unchanged.
+- [ ] **M4.6 Credits and release.** Credit hessu/aprs-symbols on the tool
+  (status bar or panel footer) and on `/sobre`. Registry entry to
+  `available`. Review: keyboard, phone, Safari engine, axe. The user signs
+  off.
 
 ## Ideas / later
 
@@ -422,6 +470,10 @@ Not planned. Move one into a milestone only when the user asks.
   of favorites ("Acompanhar") with a shareable link; special event
   callsigns (`ZV`–`ZZ`); islands in the UI; an alternative phonetic
   alphabet; spoken phonetics.
+- APRS: overlays (alternate symbols with a digit or letter on top; hessu's
+  overlay sheet makes this possible); typing help for specific apps and
+  radios (Direwolf, APRSdroid, Yaesu, Kenwood); best-practice tips per
+  symbol.
 - Repeaters: DMR details from RadioID or BrandMeister (check their terms
   first); other bands; other export formats; a "repeaters near me" view.
 - Site: a search box on the landing page once there are many tools; offline
@@ -442,5 +494,6 @@ Not planned. Move one into a milestone only when the user asks.
 | 2026-11-08 | Daily data refresh is a plain scheduled script that fetches about 3.3 MB and commits only on change. |
 | 2026-11-09 | Repository: public `rberaldo/radio-gambiarras` on GitHub. |
 | 2026-11-09 | Design: Win95 frame, modern interior ("modern design drawn with 1995's tools"); web-safe semantic colors. See CLAUDE.md. |
+| 2026-11-09 | APRS: port the old symbol search with a detail panel; typing help = table + character; Portuguese only; aprs.tools is dead. |
 | 2026-11-09 | Site name: Rádio Gambiarras. Jokes (404, loading messages) left for the user to write later. |
 | 2026-11-09 | Quarantine history seeded from an April 2025 third-party snapshot, marked as uncertain. |
