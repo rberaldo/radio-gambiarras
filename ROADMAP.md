@@ -311,91 +311,125 @@ Interface (M2.8 can start as soon as M2.1 and M2.3 are done):
 
 ## M3 — Repeater map (`/repetidoras`)
 
-Goal: a map of 2 m and 70 cm repeaters; pick the ones along a GPX track or
-within a radius of a point; export them for CHIRP.
+Goal: a topographic map of Brazil with every licensed 2 m and 70 cm repeater.
+Click a place (a peak, a town) and the repeaters within a radius light up;
+download them as a spreadsheet or for CHIRP. Visitors can suggest
+corrections (tone, exact position, on-air status) without logging in; the
+user approves them. Planned with the user on 2026-11-09.
 
-Read the Repeaters section of `docs/data-sources.md` and `docs/chirp-csv.md`
-first. Two facts shape everything:
+Read the Repeaters section of `docs/data-sources.md`, `docs/chirp-csv.md`
+and `docs/ui-guidelines.md` first.
 
-- Anatel has **no coordinates**: a repeater can only be placed at its
-  município's seat unless the overlay has its real position.
-- Anatel has **no tones**: the export has no tone unless the overlay has it.
+### Facts that shape the design
 
-So the tool must be honest about approximate positions and unknown tones,
-and the overlay is what makes it better over time.
+- Anatel's amateur file (already fetched daily for callsigns) lists about
+  1,166 licensed 2 m/70 cm repeaters with callsign, output and input
+  frequency, município and UF. **No coordinates, no CTCSS tones**, no mode,
+  and licensed does not mean on the air.
+- Positions start at the município seat, marked "posição aproximada"; the
+  overlay (corrections the user approves) adds exact positions and tones.
+- Anatel's file has been frozen since about 23/10/2026; show the data date.
+
+### Decisions (with the user, 2026-11-09)
+
+- **Selection:** click a point → circle with radius **50 km by default,
+  adjustable 10–150 km**; repeaters inside light up, sorted by distance.
+- **Downloads:** spreadsheet (CSV with all metadata, including distance and
+  position accuracy) and CHIRP CSV (FM only; unknown tones marked).
+- **Base map:** Gaia GPS-like topo, Brazil only: **MapLibre GL JS** with an
+  edited **OpenFreeMap** "Liberty" style (vector, keyless), **Mapterhorn**
+  hillshade (Copernicus 30 m DEM, keyless) and **maplibre-contour**
+  client-side contour lines, plus a peaks layer (`mountain_peak`, name +
+  elevation) the stock styles do not draw. View clamped to Brazil
+  (`maxBounds [[-75.5,-35.5],[-27.5,7.0]]`), neighbours faded with a mask.
+  OpenTopoMap raster as a fallback layer. MapLibre (~300 KB gzipped) loads
+  only on this page. Build a prototype first (M3.6) for the user to judge on
+  a phone.
+- **Corrections without login:** **Netlify Forms** with the user's approval.
+  The site moves to its **own Netlify team** first (M3.0) so a form or
+  bandwidth problem can only pause this site, never the user's other sites
+  (the legacy free plan allows 100 verified submissions a month and can
+  pause all sites on an account that exceeds a metered limit). Spam: Akismet
+  (automatic) + honeypot; no reCAPTCHA.
+- **Votes ("confirmo que funciona"):** later, after the map ships.
+- **Updates:** daily, in the existing data job, from the same Anatel
+  download. New and removed repeaters are recorded with a date. The overlay
+  is never touched by the job.
+
+### Tasks
+
+Setup:
+
+- [ ] **M3.0 Own Netlify team (user, guided).** Create a free Netlify team
+  for radio-gambiarras and transfer the site to it (Site configuration →
+  Transfer site). Re-check the GitHub link and deploys afterwards.
 
 Data:
 
 - [ ] **M3.1 Repeater reduction.** `scripts/anatel/repeaters.ts`, reading the
-  same fetched CSV as M2: keep `Tipo de Estação = Repetidora`; parse the
-  frequency field tolerantly (several pairs, stray quotes, decimal commas,
-  `N/I`, typos) into output frequency and shift; keep 2 m and 70 cm pairs;
-  one record per callsign + output frequency. Write
-  `data/repeaters/anatel.json` with callsign, output, shift, município, UF
-  and license validity. No names. Reject log to the job output.
-  Done when: tests cover each kind of dirty value listed in the docs.
-- [ ] **M3.2 Município coordinates.** Vendor the MIT-licensed município table
-  (keep its license notice) and join on normalized name + UF (case, accents,
-  apostrophes, the odd `Pr`). List unmatched names in the job output and fix
-  them with a small alias table.
-  Done when: every repeater has coordinates or appears in a short, explained
-  unmatched list.
-- [ ] **M3.3 Overlay.** `data/repeaters/overlay.json`, keyed by callsign +
-  output frequency. Optional fields: tone (CTCSS), DCS code, exact latitude
-  and longitude, mode (FM, DMR, D-STAR, Fusion), on-air status, notes; and
-  required for every entry: source and date. The overlay can also add a
-  repeater Anatel does not list. A schema check runs in tests. A merge
-  function in `src/lib/repeaters/` produces the final records and marks each
-  as "localização exata" or "localização aproximada".
-- [ ] **M3.4 Contributions.** A "Sugerir correção" link on each repeater that
-  opens a pre-filled GitHub issue form (callsign, frequency, tone, position,
-  how the person knows). Nothing is published automatically: the user
-  reviews each suggestion and edits the overlay. Document the steps for the
-  user in `docs/overlay.md`.
-- [ ] **M3.5 Wire into the daily job.** Extend the M2.6 workflow to produce
-  the repeater data from the same fetch.
+  CSV the daily job already fetches: keep `Tipo de Estação = Repetidora`;
+  parse the frequency field tolerantly (several pairs, stray quotes, decimal
+  commas, `N/I`, typos) into output frequency and shift; keep 2 m and 70 cm;
+  one record per callsign + output frequency; license validity; no personal
+  fields. Write `data/repeaters/anatel.json` and `meta.json`; record added and
+  removed repeaters with dates in `data/repeaters/changes.json`. Reject log
+  to the job output. Commit only on change. Tests for each kind of dirty
+  value listed in `docs/data-sources.md`.
+- [ ] **M3.2 Município coordinates.** Vendor the MIT-licensed
+  `kelvins/municipios-brasileiros` table (keep its license) and join on
+  normalized name + UF (case, accents, apostrophes, the odd `Pr`); a small
+  alias table for leftovers. Every repeater gets coordinates or appears in a
+  short, explained unmatched list.
+- [ ] **M3.3 Overlay and merge.** `data/repeaters/overlay.json`, keyed by
+  callsign + output frequency: optional tone (CTCSS), DCS, exact lat/lon,
+  mode (FM, DMR, D-STAR, Fusion), on-air status, notes; required source and
+  date for every entry. Can also add repeaters Anatel lacks. Schema check in
+  tests. A merge in `src/lib/repeaters/` produces the final records, each
+  marked "posição exata" or "posição aproximada".
+- [ ] **M3.4 Wire into the daily job.** Extend `.github/workflows/dados.yml`.
 
-Library (pure, tested; can be done in parallel with the data tasks):
+Library (pure, tested; can run in parallel with the data tasks):
 
-- [ ] **M3.6 Geometry.** Great-circle distance, and distance from a point to
-  a polyline (for the GPX corridor).
-- [ ] **M3.7 GPX parsing.** Tracks, routes and waypoints from a GPX file, in
-  the browser. The file is never uploaded anywhere. Reject files that are
-  not GPX with a clear message.
-- [ ] **M3.8 CHIRP writer.** Implements `docs/chirp-csv.md` exactly,
-  including the filler values for missing tones and dot decimals.
-  Done when: tests cover simplex, plus and minus shifts, tone, no tone and
-  unknown tone.
+- [ ] **M3.5 Geometry, CSV and CHIRP.** Great-circle distance and "within
+  radius, sorted by distance"; the spreadsheet writer; the CHIRP writer
+  exactly per `docs/chirp-csv.md` (filler values for unknown tones, dot
+  decimals). Tests for simplex/+/−, tone, no tone, unknown tone.
 
-Interface:
+Map:
 
-- [ ] **M3.9 Map.** Leaflet with OpenStreetMap tiles and attribution, inside
-  a window. Markers clustered at low zoom, with different markers for exact
-  and approximate positions. A popup or side panel per repeater: callsign,
-  output, shift, tone or "subtom desconhecido", city, license validity, and
-  the correction link. Filters: band, mode, state, "só com subtom
-  conhecido". A text list of the same repeaters for keyboard and
-  screen-reader users.
-- [ ] **M3.10 Point and radius.** Click or tap the map (or use the device's
-  location, with permission) and set a radius in kilometres; draw the
-  circle; select the repeaters inside. Repeaters with approximate positions
-  are included when their município seat is inside the radius plus a margin,
-  and are flagged.
-- [ ] **M3.11 GPX corridor.** Load a GPX file, draw the track, choose a
-  distance from the track, select the repeaters within it, ordered along the
-  route.
-- [ ] **M3.12 Selection list.** The selected repeaters in a table with a
-  checkbox each, "marcar todas" and "desmarcar todas", sortable by distance,
-  frequency or route order. Checking and unchecking updates the map.
-- [ ] **M3.13 Export.** "Baixar CSV para o CHIRP" for the checked FM
-  repeaters, with a choice of starting channel number. Digital-only
-  repeaters are shown on the map but left out of the export, with a note.
-  Disabled when nothing is checked.
-  Done when: a downloaded file has been imported into the real CHIRP
-  application without errors (user, or an agent with CHIRP installed).
-- [ ] **M3.14 Release.** URL state for filters and the chosen point and
-  radius; credits ("Fonte: Anatel", OpenStreetMap); the approximate-position
-  explanation; registry entry to `available`; full review.
+- [ ] **M3.6 Map prototype (user reviews).** A throwaway page with the
+  Gaia-like style: OpenFreeMap Liberty edited (colors, PT-BR labels via
+  `name:pt`), Mapterhorn hillshade (shared DEM via
+  `demSource.sharedDemProtocolUrl`), labelled contours, peaks with elevation,
+  Brazil bounds and mask, attribution. Pin MapLibre and maplibre-contour
+  versions (plugin support for MapLibre 6 is unverified: smoke-test). Check
+  bundle size, Safari, and smoothness on a phone profile. The user approves
+  the look before M3.7.
+- [ ] **M3.7 Repeater map.** The tool page (fit layout, lazy MapLibre
+  island): repeaters as a GeoJSON layer (exact vs approximate markers,
+  clustered at low zoom); click → circle with a 10–150 km slider; the
+  repeaters inside highlighted and listed in a panel sorted by distance
+  (callsign, output, shift, tone or "subtom desconhecido", city, distance,
+  accuracy); band and mode filters; "Baixar planilha" and "Baixar para o
+  CHIRP" for the selection; URL state (`lat`, `lon`, `raio`, filters, selected
+  repeater). A keyboard and screen-reader path: a place search or coordinates
+  field and the text list. Data date and attribution in the status bar.
+- [ ] **M3.8 Corrections form.** "Sugerir correção" on each repeater: a
+  Preact form (tone, exact position via a map pick or coordinates, on-air
+  status, notes, optional callsign/contact), plus the hidden static form
+  Netlify needs for detection; honeypot; POST url-encoded with `form-name`.
+  `scripts/repeaters/suggestions.ts` lists verified submissions through the
+  Netlify API (personal access token, never committed) so the user can
+  approve them into `overlay.json`; `docs/overlay.md` explains the workflow.
+- [ ] **M3.9 Release.** Credits (Anatel, OpenFreeMap/OpenMapTiles/OSM,
+  Mapterhorn/Copernicus, OpenTopoMap if used) on the tool and `/sobre`;
+  approximate-position explanation; registry entry to `available`; full
+  review (keyboard, phone, Safari, axe). The user signs off. Then test a
+  CHIRP import in the real application.
+
+Later (not in this milestone): upload a GPX/KML route and light up the
+repeaters along it; anonymous "confirmo que funciona" votes (a small
+Netlify Function + Blobs); line-of-sight hints from the elevation data.
 
 ## M4 — APRS symbols (`/aprs`)
 
@@ -504,5 +538,6 @@ Not planned. Move one into a milestone only when the user asks.
 | 2026-11-09 | Design: Win95 frame, modern interior ("modern design drawn with 1995's tools"); web-safe semantic colors. See CLAUDE.md. |
 | 2026-11-09 | APRS: port the old symbol search with a detail panel; typing help = table + character; Portuguese only; aprs.tools is dead. |
 | 2026-11-09 | APRS symbol tool released. UI refactored onto shared `src/ui/` blocks; fonts W95FA + Departure Mono; guidelines in docs/ui-guidelines.md. |
+| 2026-11-09 | Repeater map planned: MapLibre Gaia-like topo (OpenFreeMap + Mapterhorn + contours), radius 50 km (10–150), CSV + CHIRP, Netlify Forms corrections with approval, own Netlify team; votes and GPX later. |
 | 2026-11-09 | Site name: Rádio Gambiarras. Jokes (404, loading messages) left for the user to write later. |
 | 2026-11-09 | Quarantine history seeded from an April 2025 third-party snapshot, marked as uncertain. |

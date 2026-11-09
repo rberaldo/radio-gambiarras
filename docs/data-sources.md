@@ -207,3 +207,25 @@ inputs: do not import from them.
   are in that repo's COPYRIGHT.md; credit and link to the repo wherever the
   images are shown.
 - No pipeline: this data does not change upstream in any way we track.
+
+## Map services (repeater map, checked 2026-11-09)
+
+All keyless, free, CORS-enabled (`Access-Control-Allow-Origin: *` tested),
+donation-funded, no SLA. Attribution must stay visible.
+
+| Service | Use | URL | Attribution |
+|---|---|---|---|
+| OpenFreeMap | Vector base map (OpenMapTiles schema, max zoom 14; peaks in `mountain_peak` with `ele`) | Styles `https://tiles.openfreemap.org/styles/liberty`; TileJSON `https://tiles.openfreemap.org/planet` (tile paths rotate: always go through the TileJSON) | "OpenFreeMap © OpenMapTiles Data from OpenStreetMap" |
+| Mapterhorn | Elevation (Terrarium, 512 px WebP, max zoom 12 over Brazil, Copernicus GLO-30) | `https://tiles.mapterhorn.com/{z}/{x}/{y}.webp` | "© Mapterhorn"; "Copernicus GLO-30 © DLR/Airbus, provided under COPERNICUS by EU and ESA" |
+| AWS Terrain Tiles | Elevation fallback (same Terrarium encoding) | `https://s3.amazonaws.com/elevation-tiles-prod/terrarium/{z}/{x}/{y}.png` | "SRTM / GMTED2010 courtesy of the U.S. Geological Survey; ETOPO1 NOAA; Mapzen" |
+| OpenTopoMap | Raster topo fallback layer (CC-BY-SA, light use only) | `https://{a,b,c}.tile.opentopomap.org/{z}/{x}/{y}.png` | "Kartendaten: © OpenStreetMap-Mitwirkende, SRTM, Kartendarstellung: © OpenTopoMap (CC-BY-SA)" |
+
+Libraries: MapLibre GL JS 6.x (BSD-3, ~295 KB gzipped), maplibre-contour
+0.1.x (BSD-3; MapLibre 6 support unverified, smoke-test).
+
+Netlify Forms (legacy free plan): 100 verified submissions per site per
+month; Akismet always on; honeypot via `netlify-honeypot`; JS-rendered forms
+need a hidden static HTML form with the same fields; POST url-encoded with
+`form-name`. API: `GET https://api.netlify.com/api/v1/sites/{site_id}/submissions`
+with a personal access token. Exceeding a metered limit on the legacy free
+plan can pause every site on the account, hence the separate team (M3.0).
