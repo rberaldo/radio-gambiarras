@@ -9,11 +9,20 @@ import { site } from '../site';
   <Window title={`Sobre o ${site.name}`} current="/sobre">
     <Icon slot="icon" name="site" size={16} />
 
-    <p>
-      O {site.name} reúne ferramentas pequenas e práticas para radioamadores brasileiros. É um projeto
-      pessoal, gratuito, sem anúncios e sem rastreadores, feito por {site.author.name},{' '}
-      <strong>{site.author.callsign}</strong>.
-    </p>
+    <div class="author">
+      <img
+        class="author__photo"
+        src="/img/pu1jaz.png"
+        width="96"
+        height="96"
+        alt={`${site.author.name}, ${site.author.callsign}, em pixel art`}
+      />
+      <p>
+        O {site.name} reúne ferramentas pequenas e práticas para radioamadores brasileiros. É um projeto
+        pessoal, gratuito, sem anúncios e sem rastreadores, feito por {site.author.name},{' '}
+        <strong>{site.author.callsign}</strong>.
+      </p>
+    </div>
 
     <fieldset class="fieldset">
       <legend>Fontes de dados</legend>
@@ -45,3 +54,24 @@ import { site } from '../site';
     <span slot="status">73! de {site.author.callsign}</span>
   </Window>
 </Desktop>
+
+<style>
+  .author {
+    display: flex;
+    gap: var(--sp-4);
+    align-items: center;
+    margin-bottom: var(--sp-4);
+  }
+
+  .author p {
+    margin: 0;
+  }
+
+  .author__photo {
+    flex: none;
+    padding: var(--sp-1);
+    background: var(--c-field);
+    box-shadow: var(--bevel-sunken);
+    image-rendering: pixelated;
+  }
+</style>
