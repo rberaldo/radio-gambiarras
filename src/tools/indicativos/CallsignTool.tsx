@@ -270,10 +270,10 @@ function Browser({ index, dataDate }: { index: CallsignIndex; dataDate?: string 
   const taken = counts['em-uso'] + counts.vencida;
   const maybe = counts['quarentena-incerta'] + counts.quarentena;
 
-  // Typing a complete callsign selects it, so its properties show up. The
-  // first render keeps the selection that came in the URL.
+  // Typing a complete callsign selects it, so its properties show up. On the
+  // first render a selection that came in the URL (ind=) wins.
   const exact = result?.exact?.callsign;
-  const lastExact = useRef(exact);
+  const lastExact = useRef(selected ? exact : undefined);
   useEffect(() => {
     if (exact && exact !== lastExact.current) setSelected(exact);
     lastExact.current = exact;

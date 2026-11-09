@@ -125,7 +125,6 @@
   flex: 1;
   flex-direction: column;
   gap: var(--sp-3);
-  min-height: 0;
 }
 
 .cs-main__grid {
@@ -133,7 +132,6 @@
   flex: 1;
   flex-direction: column;
   min-width: 0;
-  min-height: 0;
 }
 
 /* On phones the panel comes first, so it is seen without scrolling past the grid */
@@ -151,6 +149,8 @@
     flex: none;
     width: 21rem;
     overflow-y: auto;
+    /* Take the grid's height and scroll inside, instead of stretching the window */
+    contain: size;
   }
 }
 
@@ -171,6 +171,11 @@
   border-color: var(--c-shadow-inner);
   font-size: var(--fs-lg);
   cursor: default;
+}
+
+.cs-detail__copy {
+  min-width: 0;
+  height: 2.5rem;
 }
 
 .cs-detail__close {
@@ -263,13 +268,14 @@
   display: flex;
   flex: 1;
   flex-direction: column;
-  min-height: 0;
 }
 
 .vgrid {
   position: relative;
   flex: none;
   height: max(18rem, 60dvh);
+  /* Size from the layout, never from the (huge) content, so it scrolls instead of growing */
+  contain: size;
   overflow-y: auto;
   overscroll-behavior: contain;
   background: var(--c-field);
@@ -388,6 +394,6 @@
   .desktop--fit .vgrid {
     flex: 1;
     height: auto;
-    min-height: 8rem;
+    min-height: 15rem;
   }
 }

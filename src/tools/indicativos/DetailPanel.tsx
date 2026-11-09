@@ -62,6 +62,9 @@ export function DetailPanel({ callsign, index, onClose, renderCell }: Props) {
     <aside class="cs-detail panel-raised" aria-label={`Propriedades de ${callsign}`}>
       <header class="cs-detail__head">
         <span class={`cs-cell cs-cell--${status} cs-detail__call`}>{callsign}</span>
+        <button class="btn cs-detail__copy" type="button" onClick={copy} aria-label={`Copiar ${callsign}`}>
+          {copied ? 'Copiado!' : 'Copiar'}
+        </button>
         <button class="cs-detail__close" type="button" onClick={onClose} aria-label="Fechar propriedades" title="Fechar">
           <span aria-hidden="true">×</span>
         </button>
@@ -112,9 +115,6 @@ export function DetailPanel({ callsign, index, onClose, renderCell }: Props) {
             ))}
           </select>
         </label>
-        <button class="btn" type="button" onClick={copy}>
-          {copied ? 'Copiado!' : 'Copiar'}
-        </button>
       </div>
 
       {info.requestable && (
