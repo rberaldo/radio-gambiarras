@@ -26,14 +26,14 @@ export const tools: readonly Tool[] = [
   {
     slug: 'repetidoras',
     title: 'Repetidoras',
-    description: 'Mapa de repetidoras de 2 m e 70 cm, com exportação para o CHIRP.',
+    description: 'Mapa de repetidoras de 2 m e 70 cm, com exportação para o CHIRP e suporte a GPX.',
     icon: 'repetidoras',
     status: 'available',
   },
   {
     slug: 'aprs',
     title: 'Símbolos APRS',
-    description: 'Encontre símbolos APRS pela descrição ou pelo código e veja como digitá-los.',
+    description: 'Encontre símbolos APRS pela descrição ou pelo código.',
     icon: 'aprs',
     status: 'available',
   },

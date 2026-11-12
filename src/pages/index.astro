@@ -34,8 +34,8 @@ const available = tools.filter((t) => t.status !== 'soon').length;
     <Window title={`Bem-vindo ao ${site.name}`} current="/" class="home__welcome">
       <Icon slot="icon" name="site" size={16} />
       <p>
-        Ferramentas pequenas e práticas para radioamadores brasileiros. Clique num ícone da área de
-        trabalho para abrir uma ferramenta.
+        Pequenas ferramentas para radioamadores brasileiros. Clique num ícone da área de trabalho ou
+        nos links abaixo para abrir uma ferramenta.
       </p>
       <ul class="home__list">
         {
@@ -53,7 +53,7 @@ const available = tools.filter((t) => t.status !== 'soon').length;
         }
       </ul>
       <p>
-        Feito por {site.author.name}, <strong>{site.author.callsign}</strong>. Os dados vêm de fontes públicas, como a
+        Criado por {site.author.name}, <strong>{site.author.callsign}</strong>. Os dados vêm de fontes públicas, como a
         Anatel. Veja a página <a href="/sobre">Sobre</a> para
         detalhes e créditos.
       </p>

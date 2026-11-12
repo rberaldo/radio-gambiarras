@@ -16,7 +16,7 @@ export function StaleNotice({ dataDate }: { dataDate?: string }) {
       </span>
       <span>
         A Anatel não atualiza estes dados desde <strong>{formatDate(dataDate)}</strong> ({days} dias). Indicativos atribuídos
-        depois disso aparecem como livres.
+        depois disso aparecerão livres.
       </span>
     </p>
   );
