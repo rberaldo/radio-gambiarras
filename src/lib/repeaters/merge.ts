@@ -31,6 +31,9 @@ export interface Repeater {
   license: LicenseStatus | 'nao-listada';
   validUntil?: string;
   notes?: string;
+  /** When the maintainer last vetted it, ISO, and how. */
+  checked?: string;
+  checkedHow?: string;
   /** Overlay source and date, when corrections were applied. */
   correction?: { source: string; date: string };
 }
@@ -47,6 +50,8 @@ function apply(base: Omit<Repeater, 'shift'>, e: OverlayEntry | undefined): Repe
   if (e.onAir !== undefined) r.onAir = e.onAir;
   if (e.onAirDate !== undefined) r.onAirDate = e.onAirDate;
   if (e.notes) r.notes = e.notes;
+  if (e.checked) r.checked = e.checked;
+  if (e.checkedHow) r.checkedHow = e.checkedHow;
   // Bulk-imported data shows as plain data, without a source line.
   if (!e.unverified) r.correction = { source: e.source, date: e.date };
   return r;

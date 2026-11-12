@@ -20,9 +20,11 @@ interface Props {
    * screens scroll as usual.
    */
   fit?: boolean;
+  /** A wider window, for a page that is a wide table. */
+  wide?: boolean;
 }
 
-const { title, description = site.description, windowTitle, noindex = false, fit = false } = Astro.props;
+const { title, description = site.description, windowTitle, noindex = false, fit = false, wide = false } = Astro.props;
 const fullTitle = title ? `${title} · ${site.name}` : site.name;
 ---
 
@@ -40,7 +42,7 @@ const fullTitle = title ? `${title} · ${site.name}` : site.name;
   </head>
   <body>
     <a class="skip-link" href="#conteudo">Pular para o conteúdo</a>
-    <main id="conteudo" tabindex="-1" class:list={['desktop', { 'desktop--fit': fit }]}>
+    <main id="conteudo" tabindex="-1" class:list={['desktop', { 'desktop--fit': fit, 'desktop--wide': wide }]}>
       <slot />
     </main>
     <Taskbar windowTitle={windowTitle} />
@@ -59,6 +61,10 @@ const fullTitle = title ? `${title} · ${site.name}` : site.name;
 
   .desktop > :global(.window) {
     width: min(100%, 64rem);
+  }
+
+  .desktop--wide > :global(.window) {
+    width: min(100%, 90rem);
   }
 
   /* The same media query appears in tools that let an element fill the window */

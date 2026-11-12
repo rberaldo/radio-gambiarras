@@ -40,6 +40,9 @@ merges it with Anatel's data (`src/lib/repeaters/merge.ts`).
 - `onAirDate`: when `onAir` was reported (`AAAA-MM-DD`); the site shows it
   ("relatada fora do ar em 05/10/2026"). An approved issue sets it to the
   approval date.
+- `checked`: when the maintainer last vetted the repeater (`AAAA-MM-DD`),
+  and `checkedHow`: how ("teste no ar", "escuta", "relato de PY1ABC"). Both
+  come from the vetting sheet (see below).
 - `unverified`: `true` for bulk-imported entries not yet checked (see below).
 - A repeater Anatel does not list also needs `input`, `municipio`, `uf`,
   `lat` and `lon`.
@@ -47,6 +50,29 @@ merges it with Anatel's data (`src/lib/repeaters/merge.ts`).
 `npm test` validates the file (`validateOverlay` in
 `src/lib/repeaters/overlay.ts`) and explains every problem in Portuguese.
 Run it before committing a change.
+
+## Vetting
+
+Each repeater shows a status worked out in the browser
+(`vettingStatus` in `src/lib/repeaters/vetting.ts`): *fora do ar* when
+`onAir` is `false` (never goes stale), *conferida* when `checked` is 90 days
+old or less, *conferida há mais de 3 meses* after that, *nunca conferida*
+without `checked`.
+
+The maintainer vets repeaters in a hidden sheet at `/repetidoras/conferir`
+(not linked, not indexed). It opens on RJ; each row takes a result (abriu, or
+não abriu / fora do ar, which count the same), how it was checked (own test,
+listening, or someone's report, which also counts), tone, position, modes, a
+date and a comment. The draft lives in the browser; "Exportar JSON" saves the
+annotated rows, and
+
+    node scripts/repeaters/apply-checks.ts conferencias-2026-11-11.json
+
+merges them: a result sets `onAir`, `onAirDate`, `checked` and
+`checkedHow`; tone, position and modes replace what was there. Comments are
+printed, never written. An imported entry keeps `unverified` (and its
+source) while its imported position is unconfirmed, so the map keeps calling
+that position "provável".
 
 ## When Anatel drops a repeater
 

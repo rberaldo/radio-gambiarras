@@ -557,6 +557,55 @@ and trees count; obstacles within 250 m of either end are ignored).
 `src/lib/radio/los.ts`, `src/lib/dem/terrarium.ts`,
 `src/tools/repetidoras/elevation.ts`, `useLineOfSight.ts`, `LineOfSight.tsx`.
 
+### Vetting (planned with the user, 2026-11-11)
+
+The maintainer starts vetting repeaters by hand, starting with RJ. A report
+from someone else that a repeater works counts as vetted; "não abriu" counts
+as off the air (both the user's calls, 2026-11-11). Each repeater gets a status,
+worked out in the browser from the overlay:
+
+- **Fora do ar** (red): `onAir: false`. Never goes stale.
+- **Conferida** (green): `checked` within the last 90 days.
+- **Conferida há mais de 3 meses** (yellow): `checked` older than that.
+- **Nunca conferida** (gray): no `checked` date.
+
+Map markers do not change (their color stays inside/outside/off the air).
+The status shows in the results list and the detail panel, always with a
+word or label as well as the color.
+
+- [x] **M3.10 Vetting fields and status.** Done 2026-11-11 (`src/lib/repeaters/vetting.ts`). Overlay fields `checked` (ISO
+  date) and `checkedHow` (free text: "teste no ar, abriu com 88,5"),
+  validated in `validateOverlay`; a vetting entry also clears `unverified`.
+  `vettingStatus(entry, today)` in `src/lib/repeaters/` returns one of the
+  four states. Document the fields in `docs/overlay.md`. Tests, including the
+  90-day boundary and off-air winning over a recent check.
+- [x] **M3.11 Vetting sheet (hidden).** Done 2026-11-11; opens on RJ.
+  "Não abriu" and "fora do ar" became one result; the date sits under the
+  result and today's status inside the repeater cell, so the table fits a
+  wider window (`Desktop wide`); cards below 80rem. A page only the maintainer knows
+  about, `/repetidoras/conferir`: `noindex`, not in the registry, the menus
+  or the sitemap. A spreadsheet with one row per repeater (virtualized),
+  filters for UF, município and current status, and sorting. Columns:
+  indicativo, frequência, município, current status and data; editable cells
+  as dropdowns where the values are fixed (resultado: abriu / não abriu =
+  fora do ar; subtom: the CTCSS list, sem tom, DCS; como:
+  teste meu no ar / escuta / relato de terceiro), plus position (lat, lon or
+  "aqui" from GPS), modes, date (today by default) and a comment. Edited rows
+  are highlighted. The draft autosaves in the browser (an unsent draft) and
+  can be exported and imported as JSON, so nothing is lost if storage is
+  cleared or the work moves to another device. "Exportar" downloads and
+  copies only the edited rows. Works at phone width.
+- [x] **M3.12 Apply script.** Done 2026-11-11. An imported entry stays
+  `unverified` while its imported position is unconfirmed. `scripts/repeaters/apply-checks.ts <file>`
+  validates an export and merges it into `data/repeaters/overlay.json`
+  (sets `checked`, `checkedHow`, tone, position, modes, `onAir`; keeps the
+  rest), then prints a summary of what changed. Logic pure and tested.
+- [ ] **M3.13 Status in the tool.** A small status icon beside the callsign
+  in each list row (with an accessible label); in the detail panel a
+  "Situação" row as the last fact after "Licença" (replacing "No ar"), such
+  as "conferida em 11/11/2026 (teste no ar)". A "Situação" filter in the
+  search, kept in the URL. Review at phone width, Safari engine, axe.
+
 Later (not in this milestone): anonymous "confirmo que funciona" votes (a small
 Netlify Function + Blobs); a coverage map (where a repeater reaches).
 
@@ -649,6 +698,18 @@ Not planned. Move one into a milestone only when the user asks.
   first); other bands; other export formats; a "repeaters near me" view.
 - Site: a search box on the landing page once there are many tools; offline
   use; a changelog page.
+- Desktop widget for the next ISS pass (time and peak elevation), studied
+  2026-11-11. Grayed until location is granted; clicking it asks for
+  permission (decided), and if refused it stays gray with a note on how to
+  allow it. Plan: daily CelesTrak TLE for the ISS into `data/sats/` (own
+  workflow, stale warning after ~3 days); passes computed in the browser with
+  `satellite.js` in `src/lib/sats/`, tested against Gpredict or Heavens-Above;
+  location never leaves the browser. Costs: first JavaScript on the landing
+  page (keep the island tiny, load the rest only once location is
+  available), a new desktop component separate from the tool registry, and a
+  near-daily data commit and deploy. Open: widget form (icon with a label,
+  mini window, or taskbar tray), widget only or also a `/satelites` page,
+  which passes count (peak ≥ 10°, any above the horizon, or visible only).
 - New tools: to be suggested by the user.
 
 ## Decision log

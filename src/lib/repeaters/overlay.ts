@@ -28,6 +28,10 @@ export interface OverlayEntry {
   /** When onAir was last reported, ISO; the site shows it ("fora do ar em 05/10/2026"). */
   onAirDate?: string;
   notes?: string;
+  /** When the maintainer last vetted it (a test on the air, listening, a report), ISO. */
+  checked?: string;
+  /** How that check was made, shown with its date ("teste no ar"). */
+  checkedHow?: string;
   /** Only for repeaters Anatel does not list: */
   input?: number;
   municipio?: string;
@@ -105,6 +109,8 @@ export function validateOverlay(file: OverlayFile, anatelIds: ReadonlySet<string
     if (e.onAirDate !== undefined && (e.onAir === undefined || !ISO_DATE.test(e.onAirDate) || Number.isNaN(Date.parse(e.onAirDate)))) {
       err('onAirDate deve ser AAAA-MM-DD e acompanhar onAir');
     }
+    if (e.checked !== undefined && (!ISO_DATE.test(e.checked) || Number.isNaN(Date.parse(e.checked)))) err('checked deve ser AAAA-MM-DD');
+    if (e.checkedHow !== undefined && (e.checked === undefined || !e.checkedHow.trim())) err('checkedHow deve dizer como foi conferida e acompanhar checked');
     if (e.modes) for (const mode of e.modes) if (!MODES.includes(mode)) err(`modo ${mode} desconhecido`);
     if (!anatelIds.has(id) && !isOrphan(id, e, anatelIds)) {
       if (e.input === undefined || (band && bandOf(e.input) !== band)) err(`não está na Anatel: informe a entrada (input) na faixa de ${band ? BANDS[band].label : '?'}`);

@@ -439,3 +439,39 @@
 .rp-row[aria-pressed='true'] .rp-sight {
   color: inherit;
 }
+
+/* Vetting status: a small square, never the only cue (a label or text goes with it) */
+.rp-vet {
+  display: inline-block;
+  flex: none;
+  width: 0.75rem;
+  height: 0.75rem;
+  border: 1px solid var(--m-line);
+  vertical-align: -0.05em;
+}
+
+.rp-vet--nunca {
+  border-color: var(--m-line-soft);
+  background: var(--m-line-soft);
+}
+
+.rp-vet--recente {
+  border-color: var(--m-free);
+  background: var(--m-free);
+}
+
+.rp-vet--antiga {
+  border-color: var(--m-quar-line);
+  background: var(--m-quar-bg);
+}
+
+.rp-vet--fora-do-ar {
+  border-color: var(--m-off);
+  background: var(--m-off);
+}
+
+.rp-vet-text {
+  display: inline-flex;
+  gap: var(--sp-2);
+  align-items: center;
+}

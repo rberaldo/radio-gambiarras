@@ -26,6 +26,9 @@
   --m-quar-bg: #ffffcc;
   --m-quar-text: #665200;
   --m-quar-line: #999900;
+  /* Off the air (repeater vetting status) */
+  --m-off: #cc0000;
+  --m-off-bg: #ffcccc;
   /* A trail on the repeater map (same purple as its line) */
   --m-trail: #800080;
   /* Pale veil over content, e.g. while a file is dragged over the map */

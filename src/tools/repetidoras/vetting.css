@@ -1,0 +1,272 @@
+/*
+  The vetting sheet: a table on wide screens, one card per repeater on
+  phones. Rows the maintainer annotated are tinted; rows with a problem get
+  the warning color.
+*/
+.vs {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-4);
+}
+
+.vs-search {
+  flex: 1 1 16rem;
+}
+
+.vs-search .field {
+  flex: 1;
+  min-width: 0;
+}
+
+.vs-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--sp-3) var(--sp-5);
+  align-items: center;
+  justify-content: space-between;
+}
+
+.vs-toolbar .tool-summary {
+  margin: 0;
+}
+
+.vs-toolbar__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--sp-3);
+}
+
+.vs-message {
+  flex-basis: 100%;
+  margin: 0;
+}
+
+.vs-message--problem,
+.vs-problem {
+  color: var(--m-quar-text);
+  font-weight: 600;
+}
+
+.vs-problem {
+  margin: var(--sp-2) 0 0;
+  font-size: var(--fs-sm);
+}
+
+.vs-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: var(--m-surface);
+  font-size: var(--fs-sm);
+}
+
+.vs-table thead th {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  padding: var(--sp-3);
+  border-bottom: 1px solid var(--m-line);
+  background: var(--m-paper);
+  color: var(--m-text-muted);
+  font-family: var(--m-label-font);
+  font-size: var(--fs-label);
+  font-weight: normal;
+  text-align: left;
+  text-transform: uppercase;
+}
+
+.vs-cell {
+  padding: var(--sp-3);
+  border-bottom: 1px solid var(--m-line-soft);
+  text-align: left;
+  vertical-align: top;
+}
+
+.vs-cell .field {
+  width: 100%;
+  min-width: 0;
+  font-size: var(--fs-sm);
+}
+
+.vs-cell .field + .field {
+  margin-top: var(--sp-2);
+}
+
+.vs-row--edited {
+  background: var(--m-select-soft);
+}
+
+.vs-row--problem {
+  background: var(--m-quar-bg);
+}
+
+.vs-cell--repeater {
+  min-width: 14rem;
+  font-weight: normal;
+}
+
+.vs-now {
+  display: block;
+  margin-top: var(--sp-3);
+}
+
+.vs-cell--result {
+  min-width: 11rem;
+}
+
+.vs-cell--how {
+  min-width: 10rem;
+}
+
+.vs-cell--tone {
+  min-width: 9rem;
+}
+
+.vs-cell--position {
+  min-width: 12rem;
+}
+
+.vs-call {
+  font-family: var(--font-mono);
+  font-weight: 700;
+}
+
+.vs-freq {
+  font-family: var(--font-mono);
+}
+
+.vs-meta {
+  display: block;
+  margin-top: var(--sp-1);
+  color: var(--m-text-muted);
+  white-space: normal;
+}
+
+.vs-cell--comment {
+  min-width: 12rem;
+}
+
+.vs-cell--comment textarea {
+  resize: vertical;
+}
+
+.vs-inline {
+  display: flex;
+  gap: var(--sp-2);
+}
+
+.vs-inline .field {
+  flex: 1;
+}
+
+.vs-inline .btn {
+  flex: none;
+  min-height: 0;
+  padding: 0 var(--sp-3);
+}
+
+.vs-cell--clear .btn {
+  min-height: 2rem;
+  padding: 0 var(--sp-3);
+}
+
+.vs-dcs {
+  max-width: 6rem;
+}
+
+.vs-keep {
+  color: var(--m-text-muted);
+}
+
+/* Modes: a disclosure that opens a small floating list */
+.vs-modes {
+  position: relative;
+}
+
+.vs-modes > summary {
+  display: flex;
+  align-items: center;
+  min-width: 7rem;
+  cursor: pointer;
+  list-style: none;
+}
+
+.vs-modes > summary::-webkit-details-marker {
+  display: none;
+}
+
+.vs-modes > summary::after {
+  margin-left: auto;
+  padding-left: var(--sp-3);
+  content: '▾';
+}
+
+.vs-modes__list {
+  position: absolute;
+  z-index: 2;
+  display: grid;
+  gap: var(--sp-2);
+  margin-top: var(--sp-2);
+  padding: var(--sp-3);
+  border: 1px solid var(--m-line);
+  background: var(--m-surface);
+  box-shadow: var(--m-shadow);
+}
+
+.vs-empty {
+  color: var(--m-text-muted);
+}
+
+/* Wide tables do not fit phones: each row becomes a card of labelled fields */
+@media (max-width: 79.99rem) {
+  .vs-table,
+  .vs-table tbody,
+  .vs-table tr {
+    display: block;
+  }
+
+  .vs-table thead {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+  }
+
+  .vs-table tr {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(10rem, 1fr));
+    margin-bottom: var(--sp-4);
+    border: 1px solid var(--m-line);
+    box-shadow: var(--m-shadow-sm);
+  }
+
+  .vs-cell {
+    display: block;
+    min-width: 0;
+    border-bottom: 0;
+  }
+
+  .vs-cell--repeater,
+  .vs-cell--position,
+  .vs-cell--comment {
+    grid-column: 1 / -1;
+  }
+
+  .vs-cell--repeater {
+    border-bottom: 1px solid var(--m-line-soft);
+  }
+
+  .vs-cell[data-label]::before {
+    display: block;
+    margin-bottom: var(--sp-2);
+    color: var(--m-text-muted);
+    font-family: var(--m-label-font);
+    font-size: var(--fs-label);
+    text-transform: uppercase;
+    content: attr(data-label);
+  }
+
+  .vs-cell--clear:empty {
+    display: none;
+  }
+}

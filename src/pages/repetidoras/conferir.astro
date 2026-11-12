@@ -1,0 +1,25 @@
+---
+// The maintainer's vetting sheet. Not in the registry, the menus or any link,
+// and not indexed: it is a working tool, not part of the site.
+import Desktop from '../../layouts/Desktop.astro';
+import Icon from '../../components/win95/Icon.astro';
+import Window from '../../components/win95/Window.astro';
+import VettingSheet from '../../tools/repetidoras/VettingSheet.tsx';
+import meta from '../../../data/repeaters/meta.json';
+import { formatDate } from '../../lib/format.ts';
+---
+
+<Desktop title="Conferência de repetidoras" windowTitle="Conferência de repetidoras" noindex wide>
+  <Window title="Conferência de repetidoras" current="/repetidoras">
+    <Icon slot="icon" name="repetidoras" size={16} />
+    <p>
+      Anote o que conferiu no ar. O rascunho fica neste navegador; exporte o JSON ao terminar e entregue para aplicar no
+      site.
+    </p>
+    <VettingSheet client:only="preact" />
+    <Fragment slot="status">
+      <span>Dados da Anatel de {formatDate(meta.updatedAt)}</span>
+      <span>Rascunho salvo só neste navegador</span>
+    </Fragment>
+  </Window>
+</Desktop>
