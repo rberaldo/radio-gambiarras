@@ -19,7 +19,7 @@ export const tools: readonly Tool[] = [
   {
     slug: 'indicativos',
     title: 'Indicativos',
-    description: 'Veja quais indicativos de chamada estão livres em cada região.',
+    description: 'Encontre indicativos de chamada livres por estado.',
     icon: 'indicativos',
     status: 'available',
   },
