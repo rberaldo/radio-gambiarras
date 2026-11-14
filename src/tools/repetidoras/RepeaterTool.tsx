@@ -47,7 +47,7 @@ export default function RepeaterTool() {
     if (track !== firstTrack.current) setFocus({ bounds: trackBounds(track.shown) });
   }, [track]);
 
-  const shown = useMemo(() => filterRepeaters(repeaters, state.band, state.mode), [repeaters, state.band, state.mode]);
+  const shown = useMemo(() => filterRepeaters(repeaters, state.band, state.mode, state.status), [repeaters, state.band, state.mode, state.status]);
   const places = useMemo(() => placesOf(repeaters), [repeaters]);
   // Along a trail, in walking order; or around the point, nearest first. Off the air last.
   const nearby = useMemo(
@@ -126,6 +126,7 @@ export default function RepeaterTool() {
         sight={sight}
         radiusKm={state.radiusKm}
         mode={state.mode}
+        status={state.status}
         center={center}
         trail={trail}
         label={label}
@@ -137,7 +138,7 @@ export default function RepeaterTool() {
         onWiden={state.radiusKm < RADIUS.max ? () => set({ radiusKm: Math.min(RADIUS.max, state.radiusKm * 2) }) : undefined}
       />
     ) : (
-      <RepeaterIntro count={shown.length} band={state.band} mode={state.mode} />
+      <RepeaterIntro count={shown.length} band={state.band} mode={state.mode} status={state.status} />
     );
 
   return (
@@ -147,11 +148,13 @@ export default function RepeaterTool() {
         radiusKm={state.radiusKm}
         band={state.band}
         mode={state.mode}
+        status={state.status}
         onGo={go}
         onTrailFile={dropTrack}
         onRadius={(radiusKm) => set({ radiusKm })}
         onBand={(band) => set({ band })}
         onMode={(mode) => set({ mode })}
+        onStatus={(status) => set({ status })}
       />
       {(trackProblem || brokenLink) && (
         <p class="rp-controls__problem" role="alert">

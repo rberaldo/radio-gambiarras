@@ -30,8 +30,14 @@ export interface OverlayEntry {
   notes?: string;
   /** When the maintainer last vetted it (a test on the air, listening, a report), ISO. */
   checked?: string;
-  /** How that check was made, shown with its date ("teste no ar"). */
+  /** How that check was made, shown with its date ("teste no ar, de Alto da Boa Vista"). */
   checkedHow?: string;
+  /**
+   * When a test last failed to open it, ISO, and how ("teste no ar, de Alto da
+   * Boa Vista"). Not the same as off the air: it may just be out of reach.
+   */
+  failed?: string;
+  failedHow?: string;
   /** Only for repeaters Anatel does not list: */
   input?: number;
   municipio?: string;
@@ -111,6 +117,8 @@ export function validateOverlay(file: OverlayFile, anatelIds: ReadonlySet<string
     }
     if (e.checked !== undefined && (!ISO_DATE.test(e.checked) || Number.isNaN(Date.parse(e.checked)))) err('checked deve ser AAAA-MM-DD');
     if (e.checkedHow !== undefined && (e.checked === undefined || !e.checkedHow.trim())) err('checkedHow deve dizer como foi conferida e acompanhar checked');
+    if (e.failed !== undefined && (!ISO_DATE.test(e.failed) || Number.isNaN(Date.parse(e.failed)))) err('failed deve ser AAAA-MM-DD');
+    if (e.failedHow !== undefined && (e.failed === undefined || !e.failedHow.trim())) err('failedHow deve dizer como foi o teste e acompanhar failed');
     if (e.modes) for (const mode of e.modes) if (!MODES.includes(mode)) err(`modo ${mode} desconhecido`);
     if (!anatelIds.has(id) && !isOrphan(id, e, anatelIds)) {
       if (e.input === undefined || (band && bandOf(e.input) !== band)) err(`não está na Anatel: informe a entrada (input) na faixa de ${band ? BANDS[band].label : '?'}`);

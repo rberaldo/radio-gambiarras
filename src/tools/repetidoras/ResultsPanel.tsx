@@ -1,7 +1,7 @@
 // The repeaters inside the circle, nearest first, or along a trail, in
 // walking order; with the downloads.
 import { useEffect, useRef } from 'preact/hooks';
-import { BAND_TEXT, formatKm, formatMHz, formatShift, modeBadge, onAirText, toneText } from '../../lib/repeaters/display.ts';
+import { BAND_TEXT, formatKm, formatMHz, formatShift, modeBadge, toneText } from '../../lib/repeaters/display.ts';
 import { chirpCsv, isChirpable, isFm, spreadsheetCsv } from '../../lib/repeaters/export.ts';
 import type { Nearby, Point } from '../../lib/repeaters/geo.ts';
 import { formatNumber, plural } from '../../lib/format.ts';
@@ -9,8 +9,10 @@ import { CopyButton } from '../../ui/CopyButton.tsx';
 import { EmptyState } from '../../ui/EmptyState.tsx';
 import type { LosResult } from '../../lib/radio/los.ts';
 import { VERDICT_TEXT } from './LineOfSight.tsx';
+import { vettingStatus } from '../../lib/repeaters/vetting.ts';
 import { MissingRepeaterLink } from './MissingRepeaterLink.tsx';
-import type { ModeChoice } from './urlState.ts';
+import type { ModeChoice, StatusChoice } from './urlState.ts';
+import { VettingBadge, vettingLabel } from './VettingBadge.tsx';
 
 interface Props {
   nearby: readonly Nearby[];
@@ -18,6 +20,7 @@ interface Props {
   sight: ReadonlyMap<string, LosResult>;
   radiusKm: number;
   mode: ModeChoice;
+  status: StatusChoice;
   /** The circle's center, passed on when someone reports a missing repeater. */
   center?: Point;
   /** A trail instead of a circle: its name, length and a link to share it. */
@@ -50,7 +53,7 @@ function download(name: string, content: string) {
   setTimeout(() => URL.revokeObjectURL(url), 1000);
 }
 
-export function ResultsPanel({ nearby, sight, radiusKm, mode, center, trail, label, activeId, focusId, onFocused, onSelect, onClear, onWiden }: Props) {
+export function ResultsPanel({ nearby, sight, radiusKm, mode, status, center, trail, label, activeId, focusId, onFocused, onSelect, onClear, onWiden }: Props) {
   const list = useRef<HTMLOListElement>(null);
 
   // Coming back from a repeater's details: keep the keyboard on its row, once.
@@ -86,7 +89,8 @@ export function ResultsPanel({ nearby, sight, radiusKm, mode, center, trail, lab
       <>
         {trailHead}
         <EmptyState action={onWiden ? { label: 'Aumentar o raio', onClick: onWiden } : undefined}>
-          {mode === 'digital' ? 'Nenhuma repetidora digital conhecida' : 'Nenhuma repetidora'} a até {radiusKm} km {where}. Conhece
+          {mode === 'digital' ? 'Nenhuma repetidora digital conhecida' : 'Nenhuma repetidora'}
+          {status === 'conferidas' && ' conferida'} a até {radiusKm} km {where}. Conhece
           uma?{' '}
           <MissingRepeaterLink picked={center}>Avise</MissingRepeaterLink>.
         </EmptyState>
@@ -117,7 +121,10 @@ export function ResultsPanel({ nearby, sight, radiusKm, mode, center, trail, lab
         {nearby.map(({ repeater: r, distanceKm, alongKm }) => (
           <li key={r.id}>
             <button type="button" class={r.onAir === false ? 'rp-row rp-row--off' : 'rp-row'} data-id={r.id} aria-pressed={activeId === r.id} onClick={() => onSelect(r.id)}>
-              <span class="rp-row__call">{r.callsign}</span>
+              <span class="rp-row__call">
+                {r.callsign}
+                <VettingBadge repeater={r} compact />
+              </span>
               <span class="rp-row__freq">
                 {formatMHz(r.output)} <small>{formatShift(r.shift)}</small>
                 {modeBadge(r) && <span class="rp-badge">{modeBadge(r)}</span>}
@@ -127,7 +134,8 @@ export function ResultsPanel({ nearby, sight, radiusKm, mode, center, trail, lab
                 {alongKm !== undefined && <>a {formatKm(distanceKm)} da trilha · </>}
                 {BAND_TEXT[r.band]} · {r.municipio}/{r.uf} · subtom {toneText(r)}
                 {r.position && !r.position.exact && ' · posição aproximada'}
-                {r.onAir === false && <> · {onAirText(r)}</>}
+                {/* The badge already names the status for screen readers. */}
+                {vettingStatus(r) !== 'nunca' && <span aria-hidden="true"> · {vettingLabel(r, true)}</span>}
                 {sight.get(r.id) && <span class={`rp-sight rp-sight--${sight.get(r.id)!.verdict}`}> · {VERDICT_TEXT[sight.get(r.id)!.verdict]}</span>}
               </span>
             </button>

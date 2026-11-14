@@ -771,6 +771,12 @@
    "unverified": true,
    "tone": 225.7
   },
+  "PY1ABL@147.180": {
+   "source": "Conferência (teste no ar, de Alto da Boa Vista)",
+   "date": "2026-11-14",
+   "failed": "2026-11-14",
+   "failedHow": "teste no ar, de Alto da Boa Vista"
+  },
   "PY1ARC@439.475": {
    "source": "Importação inicial de 2026-11-09 (a conferir)",
    "date": "2026-11-09",
@@ -811,7 +817,9 @@
    "source": "Importação inicial de 2026-11-09 (a conferir)",
    "date": "2026-11-09",
    "unverified": true,
-   "tone": 88.5
+   "tone": 88.5,
+   "failed": "2026-11-14",
+   "failedHow": "teste no ar, de Alto da Boa Vista"
   },
   "PY1BJM@147.360": {
    "source": "Importação inicial de 2026-11-09 (a conferir)",
@@ -966,7 +974,9 @@
    ],
    "notes": "Local: Jacarepaguá.",
    "lat": -22.95317,
-   "lon": -43.37158
+   "lon": -43.37158,
+   "failed": "2026-11-14",
+   "failedHow": "teste no ar, de Alto da Boa Vista"
   },
   "PY1JUL@439.075": {
    "source": "Importação inicial de 2026-11-09 (a conferir)",
@@ -990,7 +1000,9 @@
    "source": "Importação inicial de 2026-11-09 (a conferir)",
    "date": "2026-11-09",
    "unverified": true,
-   "tone": 88.5
+   "tone": 88.5,
+   "failed": "2026-11-14",
+   "failedHow": "teste no ar, de Alto da Boa Vista"
   },
   "PY1KYZ@147.100": {
    "source": "Importação inicial de 2026-11-09 (a conferir)",
@@ -1021,7 +1033,9 @@
    ],
    "notes": "Local: Mendanha.",
    "lat": -22.84913,
-   "lon": -43.54375
+   "lon": -43.54375,
+   "failed": "2026-11-14",
+   "failedHow": "teste no ar, de Alto da Boa Vista"
   },
   "PY1LAL@439.350": {
    "source": "Importação inicial de 2026-11-09 (a conferir)",
@@ -1124,7 +1138,9 @@
    "source": "Importação inicial de 2026-11-09 (a conferir)",
    "date": "2026-11-09",
    "unverified": true,
-   "tone": 88.5
+   "tone": 88.5,
+   "failed": "2026-11-14",
+   "failedHow": "teste no ar, de Alto da Boa Vista"
   },
   "PY1MRD@439.875": {
    "source": "Importação inicial de 2026-11-09; posição pelo nome do local no OpenStreetMap (a conferir)",
@@ -1267,14 +1283,17 @@
    ]
   },
   "PY1SVL@146.830": {
-   "source": "Importação inicial de 2026-11-09 (a conferir)",
-   "date": "2026-11-09",
-   "unverified": true,
+   "source": "Conferência (teste no ar, de Alto da Boa Vista)",
+   "date": "2026-11-14",
    "tone": 100,
    "modes": [
     "FM"
    ],
-   "notes": "Local: Alto do Soberbo."
+   "notes": "Local: Alto do Soberbo.",
+   "onAir": true,
+   "onAirDate": "2026-11-14",
+   "checked": "2026-11-14",
+   "checkedHow": "teste no ar, de Alto da Boa Vista"
   },
   "PY1TFA@147.000": {
    "source": "Importação inicial de 2026-11-09 (a conferir)",
@@ -1292,7 +1311,9 @@
    "tone": 67,
    "modes": [
     "FM"
-   ]
+   ],
+   "failed": "2026-11-14",
+   "failedHow": "teste no ar, de Alto da Boa Vista"
   },
   "PY1UEB@147.240": {
    "source": "Importação inicial de 2026-11-09 (a conferir)",
@@ -1357,13 +1378,16 @@
    ]
   },
   "PY1VAZ@439.650": {
-   "source": "Importação inicial de 2026-11-09 (a conferir)",
-   "date": "2026-11-09",
-   "unverified": true,
+   "source": "Conferência (teste no ar, de Alto da Boa Vista)",
+   "date": "2026-11-14",
    "tone": 67,
    "modes": [
     "FM"
-   ]
+   ],
+   "onAir": true,
+   "onAirDate": "2026-11-14",
+   "checked": "2026-11-14",
+   "checkedHow": "teste no ar, de Alto da Boa Vista"
   },
   "PY1VRD@146.930": {
    "source": "Importação inicial de 2026-11-09 (a conferir)",
@@ -1402,13 +1426,16 @@
    "lon": -46.53858
   },
   "PY2APU@147.030": {
-   "source": "Importação inicial de 2026-11-09 (a conferir)",
-   "date": "2026-11-09",
-   "unverified": true,
+   "source": "Conferência (teste no ar, de Campinas (GG67ke))",
+   "date": "2023-03-15",
    "tone": 127.3,
    "modes": [
     "FM"
-   ]
+   ],
+   "onAir": true,
+   "onAirDate": "2023-03-15",
+   "checked": "2023-03-15",
+   "checkedHow": "teste no ar, de Campinas (GG67ke)"
   },
   "PY2APU@439.575": {
    "source": "Importação inicial de 2026-11-09 (a conferir)",
@@ -1431,14 +1458,17 @@
    "notes": "Local: Mairiporã, Pimenta."
   },
   "PY2ASP@145.490": {
-   "source": "Importação inicial de 2026-11-09 (a conferir)",
-   "date": "2026-11-09",
-   "unverified": true,
+   "source": "Conferência (teste no ar, de Campinas (GG67ke))",
+   "date": "2023-03-15",
    "tone": 88.5,
    "modes": [
     "FM"
    ],
-   "notes": "Local: Rainha da Serra."
+   "notes": "Local: Rainha da Serra.",
+   "onAir": true,
+   "onAirDate": "2023-03-15",
+   "checked": "2023-03-15",
+   "checkedHow": "teste no ar, de Campinas (GG67ke)"
   },
   "PY2BTM@439.725": {
    "source": "Importação inicial de 2026-11-09 (a conferir)",
@@ -1514,6 +1544,15 @@
     "FM"
    ]
   },
+  "PY2KAA@146.870": {
+   "source": "Conferência (teste no ar, de Campinas (GG67ke))",
+   "date": "2023-03-15",
+   "onAir": true,
+   "onAirDate": "2023-03-15",
+   "checked": "2023-03-15",
+   "checkedHow": "teste no ar, de Campinas (GG67ke)",
+   "tone": 82.5
+  },
   "PY2KAB@146.810": {
    "source": "Importação inicial de 2026-11-09; posição do GPX (a conferir)",
    "date": "2026-11-09",
@@ -1524,7 +1563,9 @@
    ],
    "notes": "Local: Observatório de Campinas.",
    "lat": -22.90203,
-   "lon": -46.82749
+   "lon": -46.82749,
+   "failed": "2023-03-15",
+   "failedHow": "teste no ar, de Campinas (GG67ke)"
   },
   "PY2KAC@146.710": {
    "source": "Importação inicial de 2026-11-09; posição do GPX (a conferir)",
@@ -1580,13 +1621,16 @@
    ]
   },
   "PY2KAM@146.910": {
-   "source": "Importação inicial de 2026-11-09 (a conferir)",
-   "date": "2026-11-09",
-   "unverified": true,
+   "source": "Conferência (teste no ar, de Campinas (GG67ke))",
+   "date": "2023-03-15",
    "tone": 82.5,
    "modes": [
     "FM"
-   ]
+   ],
+   "onAir": true,
+   "onAirDate": "2023-03-15",
+   "checked": "2023-03-15",
+   "checkedHow": "teste no ar, de Campinas (GG67ke)"
   },
   "PY2KAO@146.930": {
    "source": "Importação inicial de 2026-11-09 (a conferir)",
@@ -1645,14 +1689,17 @@
    ]
   },
   "PY2KBC@146.930": {
-   "source": "Importação inicial de 2026-11-09 (a conferir)",
-   "date": "2026-11-09",
-   "unverified": true,
+   "source": "Conferência (teste no ar, de Campinas (GG67ke))",
+   "date": "2023-03-15",
    "tone": 79.7,
    "modes": [
     "FM"
    ],
-   "notes": "Local: Caixa D'água Municipal."
+   "notes": "Local: Caixa D'água Municipal.",
+   "onAir": true,
+   "onAirDate": "2023-03-15",
+   "checked": "2023-03-15",
+   "checkedHow": "teste no ar, de Campinas (GG67ke)"
   },
   "PY2KBD@145.350": {
    "source": "Importação inicial de 2026-11-09 (a conferir)",
@@ -1681,7 +1728,11 @@
     "FM"
    ],
    "lat": -23.07009,
-   "lon": -47.20759
+   "lon": -47.20759,
+   "onAir": true,
+   "onAirDate": "2023-03-15",
+   "checked": "2023-03-15",
+   "checkedHow": "teste no ar, de Campinas (GG67ke)"
   },
   "PY2KBH@145.430": {
    "source": "Importação inicial de 2026-11-09 (a conferir)",
@@ -1836,16 +1887,32 @@
    ],
    "notes": "Local: Barreiro.",
    "lat": -23.04802,
-   "lon": -46.92373
+   "lon": -46.92373,
+   "onAir": true,
+   "onAirDate": "2023-03-16",
+   "checked": "2023-03-16",
+   "checkedHow": "teste no ar, de Campinas (GG67ke)"
+  },
+  "PY2KDQ@439.900": {
+   "source": "Conferência (teste no ar, de Campinas (GG67ke))",
+   "date": "2023-03-15",
+   "onAir": true,
+   "onAirDate": "2023-03-15",
+   "checked": "2023-03-15",
+   "checkedHow": "teste no ar, de Campinas (GG67ke)",
+   "tone": 82.5
   },
   "PY2KDV@146.730": {
-   "source": "Importação inicial de 2026-11-09 (a conferir)",
-   "date": "2026-11-09",
-   "unverified": true,
+   "source": "Conferência (teste no ar, de Campinas (GG67ke))",
+   "date": "2023-03-15",
    "tone": 77,
    "modes": [
     "FM"
-   ]
+   ],
+   "onAir": true,
+   "onAirDate": "2023-03-15",
+   "checked": "2023-03-15",
+   "checkedHow": "teste no ar, de Campinas (GG67ke)"
   },
   "PY2KDY@439.100": {
    "source": "Importação inicial de 2026-11-09 (a conferir)",
@@ -1924,14 +1991,17 @@
    ]
   },
   "PY2KJF@439.550": {
-   "source": "Importação inicial de 2026-11-09 (a conferir)",
-   "date": "2026-11-09",
-   "unverified": true,
+   "source": "Conferência (teste no ar, de Campinas (GG67ke))",
+   "date": "2023-03-15",
    "tone": 74.4,
    "modes": [
     "FM"
    ],
-   "notes": "Local: Caixa d'água."
+   "notes": "Local: Caixa d'água.",
+   "onAir": true,
+   "onAirDate": "2023-03-15",
+   "checked": "2023-03-15",
+   "checkedHow": "teste no ar, de Campinas (GG67ke)"
   },
   "PY2KJM@439.950": {
    "source": "Importação inicial de 2026-11-09 (a conferir)",
@@ -1943,14 +2013,17 @@
    ]
   },
   "PY2KJZ@146.770": {
-   "source": "Importação inicial de 2026-11-09 (a conferir)",
-   "date": "2026-11-09",
-   "unverified": true,
+   "source": "Conferência (teste no ar, de Campinas (GG67ke))",
+   "date": "2023-03-15",
    "tone": 74.4,
    "modes": [
     "FM"
    ],
-   "notes": "Local: Caixa d'água."
+   "notes": "Local: Caixa d'água.",
+   "onAir": true,
+   "onAirDate": "2023-03-15",
+   "checked": "2023-03-15",
+   "checkedHow": "teste no ar, de Campinas (GG67ke)"
   },
   "PY2KKK@439.500": {
    "source": "Importação inicial de 2026-11-09; posição do GPX (a conferir)",
@@ -2230,13 +2303,16 @@
    "notes": "Local: Caixa d'água."
   },
   "PY2KSS@145.370": {
-   "source": "Importação inicial de 2026-11-09 (a conferir)",
-   "date": "2026-11-09",
-   "unverified": true,
+   "source": "Conferência (teste no ar, de Campinas (GG67ke))",
+   "date": "2023-03-15",
    "tone": 82.5,
    "modes": [
     "FM"
-   ]
+   ],
+   "onAir": true,
+   "onAirDate": "2023-03-15",
+   "checked": "2023-03-15",
+   "checkedHow": "teste no ar, de Campinas (GG67ke)"
   },
   "PY2KZN@439.200": {
    "source": "Importação inicial de 2026-11-09 (a conferir)",
@@ -2509,13 +2585,16 @@
    ]
   },
   "PY4POC@147.180": {
-   "source": "Importação inicial de 2026-11-09 (a conferir)",
-   "date": "2026-11-09",
-   "unverified": true,
+   "source": "Conferência (teste no ar, de Campinas (GG67ke))",
+   "date": "2023-03-15",
    "tone": 91.5,
    "modes": [
     "FM"
-   ]
+   ],
+   "onAir": true,
+   "onAirDate": "2023-03-15",
+   "checked": "2023-03-15",
+   "checkedHow": "teste no ar, de Campinas (GG67ke)"
   },
   "PY4RAT@439.925": {
    "source": "Importação inicial de 2026-11-09; posição pelo nome do local no OpenStreetMap (a conferir)",
@@ -2769,13 +2848,16 @@
    ]
   },
   "PY4RSD@147.210": {
-   "source": "Importação inicial de 2026-11-09 (a conferir)",
-   "date": "2026-11-09",
-   "unverified": true,
+   "source": "Conferência (teste no ar, de Campinas (GG67ke))",
+   "date": "2023-03-15",
    "tone": 67,
    "modes": [
     "FM"
-   ]
+   ],
+   "onAir": true,
+   "onAirDate": "2023-03-15",
+   "checked": "2023-03-15",
+   "checkedHow": "teste no ar, de Campinas (GG67ke)"
   },
   "PY4RTM@146.610": {
    "source": "Importação inicial de 2026-11-09 (a conferir)",
@@ -2787,13 +2869,16 @@
    ]
   },
   "PY4RTR@145.290": {
-   "source": "Importação inicial de 2026-11-09 (a conferir)",
-   "date": "2026-11-09",
-   "unverified": true,
+   "source": "Conferência (teste no ar, de Campinas (GG67ke))",
+   "date": "2023-03-15",
    "tone": 67,
    "modes": [
     "FM"
-   ]
+   ],
+   "onAir": true,
+   "onAirDate": "2023-03-15",
+   "checked": "2023-03-15",
+   "checkedHow": "teste no ar, de Campinas (GG67ke)"
   },
   "PY4RUB@145.470": {
    "source": "Importação inicial de 2026-11-09 (a conferir)",

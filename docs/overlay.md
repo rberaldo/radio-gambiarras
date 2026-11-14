@@ -41,8 +41,11 @@ merges it with Anatel's data (`src/lib/repeaters/merge.ts`).
   ("relatada fora do ar em 05/10/2026"). An approved issue sets it to the
   approval date.
 - `checked`: when the maintainer last vetted the repeater (`AAAA-MM-DD`),
-  and `checkedHow`: how ("teste no ar", "escuta", "relato de PY1ABC"). Both
-  come from the vetting sheet (see below).
+  and `checkedHow`: how and from where ("teste no ar", "escuta, de Alto da
+  Boa Vista", "relato de PY1ABC"). Both come from the vetting sheet (see
+  below).
+- `failed` and `failedHow`: the same for the last test that did not open it.
+  Not the same as off the air: the repeater may just be out of reach.
 - `unverified`: `true` for bulk-imported entries not yet checked (see below).
 - A repeater Anatel does not list also needs `input`, `municipio`, `uf`,
   `lat` and `lon`.
@@ -55,21 +58,27 @@ Run it before committing a change.
 
 Each repeater shows a status worked out in the browser
 (`vettingStatus` in `src/lib/repeaters/vetting.ts`): *fora do ar* when
-`onAir` is `false` (never goes stale), *conferida* when `checked` is 90 days
-old or less, *conferida há mais de 3 meses* after that, *nunca conferida*
-without `checked`.
+`onAir` is `false` (never goes stale), *não abriu* when `failed` is newer
+than `checked`, *conferida* when `checked` is 90 days old or less,
+*conferida há mais de 3 meses* after that, *nunca conferida* without
+`checked`. The map lists it beside each callsign and in the details, and
+filters by it (`?situacao=conferidas` or `sem-fora`).
 
 The maintainer vets repeaters in a hidden sheet at `/repetidoras/conferir`
-(not linked, not indexed). It opens on RJ; each row takes a result (abriu, or
-não abriu / fora do ar, which count the same), how it was checked (own test,
-listening, or someone's report, which also counts), tone, position, modes, a
-date and a comment. The draft lives in the browser; "Exportar JSON" saves the
+(not linked, not indexed). It opens on RJ; each row takes a result (abriu,
+não abriu, or fora do ar for a repeater known to be down), how it was
+checked (own test, listening, or someone's report, which also counts) and
+from where (a place, or the GPS button: coordinates to three decimals, since
+the overlay is public), tone, the antenna's position, modes, a date and a
+comment. The draft lives in the browser; "Exportar JSON" saves the
 annotated rows, and
 
     node scripts/repeaters/apply-checks.ts conferencias-2026-11-11.json
 
-merges them: a result sets `onAir`, `onAirDate`, `checked` and
-`checkedHow`; tone, position and modes replace what was there. Comments are
+merges them: abriu and fora do ar set `onAir`, `onAirDate`, `checked` and
+`checkedHow` (abriu also clears an older `failed`); não abriu sets only
+`failed` and `failedHow`, and alone confirms nothing (an imported entry
+stays `unverified`); tone, position and modes replace what was there. Comments are
 printed, never written. An imported entry keeps `unverified` (and its
 source) while its imported position is unconfirmed, so the map keeps calling
 that position "provável".

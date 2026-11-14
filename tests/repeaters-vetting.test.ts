@@ -25,6 +25,14 @@ describe('vettingStatus', () => {
     expect(vettingStatus({ onAir: false, checked: '2026-11-11' }, today)).toBe('fora-do-ar');
     expect(vettingStatus({ onAir: false }, today)).toBe('fora-do-ar');
     expect(vettingStatus({ onAir: false, checked: '2020-01-01' }, today)).toBe('fora-do-ar');
+    expect(vettingStatus({ onAir: false, failed: '2026-11-11' }, today)).toBe('fora-do-ar');
+  });
+
+  it('shows a failed test only while it is newer than the last good one', () => {
+    expect(vettingStatus({ failed: '2026-11-11' }, today)).toBe('nao-abriu');
+    expect(vettingStatus({ failed: '2026-11-11', checked: '2026-10-01' }, today)).toBe('nao-abriu');
+    expect(vettingStatus({ failed: '2026-11-11', checked: '2026-11-11' }, today)).toBe('recente');
+    expect(vettingStatus({ failed: '2023-03-15', checked: '2026-11-01' }, today)).toBe('recente');
   });
 });
 
@@ -35,6 +43,12 @@ describe('overlay check fields', () => {
     expect(mergeRepeaters(anatel, good)[0]).toMatchObject({ checked: '2026-11-11', checkedHow: 'teste no ar' });
     const bad = overlay({ 'PY1AA@146.610': { source: 'x', date: '2026-11-11', checked: '11/11/2026', checkedHow: ' ' } });
     expect(validateOverlay(bad, ids).join('\n')).toMatch(/checked deve ser AAAA-MM-DD[\s\S]*checkedHow/);
+    const failed = overlay({ 'PY1AA@146.610': { source: 'x', date: '2026-11-11', failed: '2026-11-14', failedHow: 'teste no ar' } });
+    expect(validateOverlay(failed, ids)).toEqual([]);
+    expect(mergeRepeaters(anatel, failed)[0]).toMatchObject({ failed: '2026-11-14', failedHow: 'teste no ar' });
+    expect(validateOverlay(overlay({ 'PY1AA@146.610': { source: 'x', date: '2026-11-11', failedHow: 'teste' } }), ids)).toEqual([
+      'PY1AA@146.610: failedHow deve dizer como foi o teste e acompanhar failed',
+    ]);
   });
 });
 
@@ -54,6 +68,7 @@ describe('validateChecks', () => {
     expect(errors).toMatch(/tom 88/);
     expect(errors).toMatch(/DCS 089/);
     expect(errors).toMatch(/latitude e longitude vão juntas/);
+    expect(validateChecks(file({ 'PY1AA@146.610': { date: '2026-11-11', from: ' ' } }))).toEqual(['PY1AA@146.610: "de onde" deve ter de 1 a 80 caracteres']);
   });
 });
 
@@ -102,8 +117,32 @@ describe('applyChecks', () => {
     ]);
   });
 
-  it('describes how a check was made', () => {
+  it('records a failed test without calling it off the air or confirming the import', () => {
+    const before = overlay({ 'PY1AA@146.610': imported });
+    const { file, outcomes } = applyChecks(before, {
+      'PY1AA@146.610': { date: '2026-11-14', result: 'nao-abriu', from: 'Alto da Boa Vista' },
+      'PY1BB@439.650': { date: '2026-11-14', result: 'nao-abriu' },
+    });
+    expect(file.entries['PY1AA@146.610']).toEqual({ ...imported, failed: '2026-11-14', failedHow: 'teste no ar, de Alto da Boa Vista' });
+    expect(file.entries['PY1BB@439.650']).toEqual({ source: 'Conferência (teste no ar)', date: '2026-11-14', failed: '2026-11-14', failedHow: 'teste no ar' });
+    expect(outcomes[0]!.applied).toEqual(['não abriu (teste no ar, de Alto da Boa Vista)']);
+    expect(validateOverlay(file, ids)).toEqual([]);
+  });
+
+  it('clears a failed test once the repeater opens', () => {
+    const before = overlay({ 'PY1AA@146.610': { source: 'x', date: '2026-11-14', failed: '2026-11-14', failedHow: 'teste no ar' } });
+    const opened = applyChecks(before, { 'PY1AA@146.610': { date: '2026-11-15', result: 'abriu' } }).file.entries['PY1AA@146.610']!;
+    expect(opened.failed).toBeUndefined();
+    expect(opened.failedHow).toBeUndefined();
+    expect(opened).toMatchObject({ onAir: true, checked: '2026-11-15' });
+    const older = applyChecks(before, { 'PY1AA@146.610': { date: '2023-03-15', result: 'abriu' } }).file.entries['PY1AA@146.610']!;
+    expect(older).toMatchObject({ failed: '2026-11-14', checked: '2023-03-15' });
+  });
+
+  it('describes how a check was made, and from where', () => {
     expect(howText({})).toBe('teste no ar');
     expect(howText({ how: 'relato', reporter: '  ' })).toBe('relato de terceiro');
+    expect(howText({ how: 'escuta', from: ' GG67ke ' })).toBe('escuta, de GG67ke');
+    expect(howText({ how: 'relato', reporter: 'PY1ZZ', from: 'Niterói' })).toBe('relato de PY1ZZ, de Niterói');
   });
 });

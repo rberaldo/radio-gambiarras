@@ -1,6 +1,6 @@
 // Everything known about one repeater, with the accuracy of each piece made clear.
 import { correctionUrl, repeaterCorrection } from '../../lib/repeaters/correction.ts';
-import { BAND_TEXT, LICENSE_TEXT, formatKm, formatMHz, formatShift, modeBadge, onAirText, toneText } from '../../lib/repeaters/display.ts';
+import { BAND_TEXT, LICENSE_TEXT, formatKm, formatMHz, formatShift, modeBadge, toneText } from '../../lib/repeaters/display.ts';
 import type { Point } from '../../lib/repeaters/geo.ts';
 import type { Repeater } from '../../lib/repeaters/merge.ts';
 import { site } from '../../site.ts';
@@ -8,6 +8,7 @@ import { formatDate } from '../../lib/format.ts';
 import { CopyButton } from '../../ui/CopyButton.tsx';
 import { ToolPanel } from '../../ui/ToolPanel.tsx';
 import { LineOfSight } from './LineOfSight.tsx';
+import { VettingBadge } from './VettingBadge.tsx';
 
 interface Props {
   repeater: Repeater;
@@ -68,12 +69,10 @@ export function RepeaterDetail({ repeater: r, distanceKm, losFrom, picked, onClo
           {LICENSE_TEXT[r.license]}
           {r.validUntil && ` até ${formatDate(r.validUntil)}`}
         </dd>
-        {r.onAir !== undefined && (
-          <>
-            <dt>No ar</dt>
-            <dd class={r.onAir ? undefined : 'rp-unknown'}>{onAirText(r)}</dd>
-          </>
-        )}
+        <dt>Situação</dt>
+        <dd>
+          <VettingBadge repeater={r} />
+        </dd>
       </dl>
       {r.notes && <p>{r.notes}</p>}
       <h3 class="rp-detail__section">Visada</h3>

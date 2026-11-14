@@ -600,7 +600,14 @@ word or label as well as the color.
   validates an export and merges it into `data/repeaters/overlay.json`
   (sets `checked`, `checkedHow`, tone, position, modes, `onAir`; keeps the
   rest), then prints a summary of what changed. Logic pure and tested.
-- [ ] **M3.13 Status in the tool.** A small status icon beside the callsign
+- [x] **M3.13 Status in the tool.** Done 2026-11-14. Changed with the user
+  the same day: "não abriu" is now its own result (`failed`, a red outline),
+  no longer the same as off the air, since it may only mean out of reach;
+  the sheet's GPS button records where the test was made from instead of
+  the antenna's position. Filter: Todas | Conferidas | Sem fora do ar
+  (`?situacao=`). Applied the Alto da Boa Vista checks (2026-11-14) and the
+  user's own Campinas tests from March 2023 (`private/`).
+  A small status icon beside the callsign
   in each list row (with an accessible label); in the detail panel a
   "Situação" row as the last fact after "Licença" (replacing "No ar"), such
   as "conferida em 11/11/2026 (teste no ar)". A "Situação" filter in the
@@ -732,3 +739,4 @@ Not planned. Move one into a milestone only when the user asks.
 | 2026-11-09 | Repeater corrections via GitHub Issues + label `aprovada` + Action (Netlify Forms dropped; no separate Netlify team needed). |
 | 2026-11-09 | Site name: Rádio Gambiarras. Jokes (404, loading messages) left for the user to write later. |
 | 2026-11-09 | Quarantine history seeded from an April 2025 third-party snapshot, marked as uncertain. |
+| 2026-11-14 | Vetting: "não abriu" is a failed test, not "fora do ar"; checks record where they were made from. |

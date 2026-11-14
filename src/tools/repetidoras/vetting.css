@@ -87,7 +87,8 @@
   font-size: var(--fs-sm);
 }
 
-.vs-cell .field + .field {
+.vs-cell .field + .field,
+.vs-cell .field + .vs-inline {
   margin-top: var(--sp-2);
 }
 
@@ -114,7 +115,7 @@
 }
 
 .vs-cell--how {
-  min-width: 10rem;
+  min-width: 13rem;
 }
 
 .vs-cell--tone {

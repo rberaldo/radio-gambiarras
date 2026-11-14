@@ -12,6 +12,14 @@ describe('filterRepeaters', () => {
     expect(filterRepeaters(all, 'todas', 'digital').map((x) => x.id)).toEqual(['dmr', 'mixed']);
     expect(filterRepeaters(all, '70cm', 'todos').map((x) => x.id)).toEqual(['mixed']);
   });
+
+  it('filters by vetting status', () => {
+    const today = new Date('2026-11-14T12:00:00Z');
+    const vetted = [r('never'), r('recent', { checked: '2026-11-01' }), r('old', { checked: '2023-03-15' }), r('failed', { failed: '2026-11-14' }), r('off', { onAir: false })];
+    expect(filterRepeaters(vetted, 'todas', 'todos', 'conferidas', today).map((x) => x.id)).toEqual(['recent', 'old']);
+    expect(filterRepeaters(vetted, 'todas', 'todos', 'sem-fora', today).map((x) => x.id)).toEqual(['never', 'recent', 'old', 'failed']);
+    expect(filterRepeaters(vetted, 'todas', 'todos', 'todas', today)).toHaveLength(5);
+  });
 });
 
 describe('offAirLast', () => {

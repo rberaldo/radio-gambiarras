@@ -7,30 +7,39 @@ import { daysSince } from '../format.ts';
 import type { Repeater } from './merge.ts';
 import { CTCSS_TONES, MODES, type Mode, type OverlayEntry, type OverlayFile } from './overlay.ts';
 
-export type VettingStatus = 'fora-do-ar' | 'recente' | 'antiga' | 'nunca';
+export type VettingStatus = 'fora-do-ar' | 'nao-abriu' | 'recente' | 'antiga' | 'nunca';
 
 /** A check this many days old or less counts as recent. */
 export const RECENT_DAYS = 90;
 
-/** Off the air wins and never goes stale; otherwise the age of the last check. */
-export function vettingStatus(r: Pick<Repeater, 'onAir' | 'checked'>, today: Date = new Date()): VettingStatus {
+/**
+ * Off the air wins and never goes stale; then a failed test newer than the
+ * last good one; otherwise the age of the last check.
+ */
+export function vettingStatus(r: Pick<Repeater, 'onAir' | 'checked' | 'failed'>, today: Date = new Date()): VettingStatus {
   if (r.onAir === false) return 'fora-do-ar';
+  if (r.failed && (!r.checked || r.failed > r.checked)) return 'nao-abriu';
   if (!r.checked) return 'nunca';
   return daysSince(r.checked, today) <= RECENT_DAYS ? 'recente' : 'antiga';
 }
 
 export const VETTING_TEXT: Record<VettingStatus, string> = {
   'fora-do-ar': 'fora do ar',
+  'nao-abriu': 'não abriu',
   recente: 'conferida',
   antiga: 'conferida há mais de 3 meses',
   nunca: 'nunca conferida',
 };
 
-/** "Não abriu" counts as off the air (the maintainer's call, 2026-11-11). */
-export type CheckResult = 'abriu' | 'fora-do-ar';
+/**
+ * "Não abriu" records a failed test, which may only mean out of reach; "fora
+ * do ar" is for a repeater known to be down (the maintainer's call,
+ * 2026-11-14, replacing "não abriu counts as off the air").
+ */
+export type CheckResult = 'abriu' | 'nao-abriu' | 'fora-do-ar';
 export type CheckHow = 'teste' | 'escuta' | 'relato';
 
-export const CHECK_RESULTS: Record<CheckResult, string> = { abriu: 'Abriu', 'fora-do-ar': 'Não abriu / fora do ar' };
+export const CHECK_RESULTS: Record<CheckResult, string> = { abriu: 'Abriu', 'nao-abriu': 'Não abriu', 'fora-do-ar': 'Fora do ar (desligada)' };
 export const CHECK_HOWS: Record<CheckHow, string> = { teste: 'Teste meu no ar', escuta: 'Escuta', relato: 'Relato de terceiro' };
 
 /** One row of the vetting sheet: what the maintainer found on a given day. */
@@ -41,6 +50,8 @@ export interface Check {
   how?: CheckHow;
   /** Who reported it, for "relato". */
   reporter?: string;
+  /** Where the test was made from: a place name or "lat, lon". */
+  from?: string;
   tone?: number | 'none';
   dcs?: string;
   lat?: number;
@@ -58,11 +69,12 @@ export interface ChecksFile {
   checks: Record<string, Check>;
 }
 
-/** "teste no ar", "escuta", "relato de PY1ABC". */
-export function howText(c: Pick<Check, 'how' | 'reporter'>): string {
-  if (c.how === 'escuta') return 'escuta';
-  if (c.how === 'relato') return c.reporter?.trim() ? `relato de ${c.reporter.trim()}` : 'relato de terceiro';
-  return 'teste no ar';
+/** "teste no ar", "escuta, de Alto da Boa Vista", "relato de PY1ABC". */
+export function howText(c: Pick<Check, 'how' | 'reporter' | 'from'>): string {
+  const from = c.from?.trim() ? `, de ${c.from.trim()}` : '';
+  if (c.how === 'escuta') return `escuta${from}`;
+  if (c.how === 'relato') return `${c.reporter?.trim() ? `relato de ${c.reporter.trim()}` : 'relato de terceiro'}${from}`;
+  return `teste no ar${from}`;
 }
 
 const ID = /^[A-Z0-9]{4,7}@\d{2,3}\.\d{3}$/;
@@ -81,6 +93,7 @@ export function validateChecks(file: unknown): string[] {
     if (!isDate(c.date)) err('data deve ser AAAA-MM-DD');
     if (c.result !== undefined && !(c.result in CHECK_RESULTS)) err(`resultado ${c.result} desconhecido`);
     if (c.how !== undefined && !(c.how in CHECK_HOWS)) err(`"como" ${c.how} desconhecido`);
+    if (c.from !== undefined && (typeof c.from !== 'string' || !c.from.trim() || c.from.length > 80)) err('"de onde" deve ter de 1 a 80 caracteres');
     if (c.tone !== undefined && c.tone !== 'none' && !CTCSS_TONES.includes(c.tone)) err(`tom ${c.tone} não é um tom CTCSS padrão`);
     if (c.dcs !== undefined && !/^[0-7]{3}$/.test(c.dcs)) err(`DCS ${c.dcs} deve ter três dígitos octais`);
     if (c.tone !== undefined && c.dcs !== undefined) err('use tom ou DCS, não os dois');
@@ -100,10 +113,12 @@ export interface CheckOutcome {
 }
 
 /**
- * The overlay with the checks applied. A result sets onAir and the check
- * date; a report from someone else counts as a check. Tone, position and modes replace
- * what was there. An imported (`unverified`) entry stays so while its
- * imported position is not confirmed, so the map keeps calling it "provável".
+ * The overlay with the checks applied. "Abriu" and "fora do ar" set onAir and
+ * the check date; a report from someone else counts as a check. "Não abriu"
+ * only records the failed test, and a later "abriu" clears it. Tone, position
+ * and modes replace what was there. An imported (`unverified`) entry stays so
+ * while its imported position is not confirmed, so the map keeps calling it
+ * "provável"; a failed test alone confirms nothing.
  */
 export function applyChecks(file: OverlayFile, checks: Record<string, Check>): { file: OverlayFile; outcomes: CheckOutcome[] } {
   const entries = { ...file.entries };
@@ -114,11 +129,19 @@ export function applyChecks(file: OverlayFile, checks: Record<string, Check>): {
     const how = howText(c);
     const applied: string[] = [];
 
-    if (c.result) {
+    if (c.result === 'nao-abriu') {
+      e.failed = c.date;
+      e.failedHow = how;
+      applied.push(`não abriu (${how})`);
+    } else if (c.result) {
       e.onAir = c.result === 'abriu';
       e.onAirDate = c.date;
       e.checked = c.date;
       e.checkedHow = how;
+      if (c.result === 'abriu' && e.failed && e.failed <= c.date) {
+        delete e.failed;
+        delete e.failedHow;
+      }
       applied.push(`${c.result === 'abriu' ? 'no ar' : 'fora do ar'} (${how})`);
     }
     if (c.tone !== undefined) {
@@ -144,7 +167,8 @@ export function applyChecks(file: OverlayFile, checks: Record<string, Check>): {
     if (applied.length) {
       // While an imported position is unconfirmed, the import's source still describes it.
       const keepsImportedPosition = before?.unverified && before.lat !== undefined && c.lat === undefined;
-      if (!keepsImportedPosition) {
+      const onlyFailed = c.result === 'nao-abriu' && applied.length === 1;
+      if (!before || (!keepsImportedPosition && !onlyFailed)) {
         delete e.unverified;
         e.source = `Conferência (${how})`;
         e.date = c.date;

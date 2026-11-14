@@ -1,12 +1,13 @@
 // Where to look and how far: a place box (a town with repeaters or
-// coordinates), a button to open a GPX trail, the radius, the band and the mode.
+// coordinates), a button to open a GPX trail, the radius, the band, the mode
+// and the vetting status.
 import { useRef, useState } from 'preact/hooks';
 import { iconSvg } from '../../lib/icons.ts';
 import { foldAccents } from '../../lib/format.ts';
 import { parseCoordinates } from '../../lib/repeaters/coordinates.ts';
 import type { Point } from '../../lib/repeaters/geo.ts';
 import { Segmented, type SegmentedOption } from '../../ui/Segmented.tsx';
-import { RADIUS, type BandChoice, type ModeChoice } from './urlState.ts';
+import { RADIUS, type BandChoice, type ModeChoice, type StatusChoice } from './urlState.ts';
 
 const BAND_OPTIONS: readonly SegmentedOption<BandChoice>[] = [
   { value: 'todas', label: 'Todas' },
@@ -20,21 +21,29 @@ const MODE_OPTIONS: readonly SegmentedOption<ModeChoice>[] = [
   { value: 'digital', label: 'Digital' },
 ];
 
+const STATUS_OPTIONS: readonly SegmentedOption<StatusChoice>[] = [
+  { value: 'todas', label: 'Todas' },
+  { value: 'conferidas', label: 'Conferidas' },
+  { value: 'sem-fora', label: 'Sem fora do ar' },
+];
+
 interface Props {
   /** "Município/UF" → its seat, for the place box suggestions. */
   places: ReadonlyMap<string, Point>;
   radiusKm: number;
   band: BandChoice;
   mode: ModeChoice;
+  status: StatusChoice;
   onGo: (point: Point) => void;
   /** A trail file picked with the button (the same as dropping it on the map). */
   onTrailFile: (file: File) => void;
   onRadius: (km: number) => void;
   onBand: (band: BandChoice) => void;
   onMode: (mode: ModeChoice) => void;
+  onStatus: (status: StatusChoice) => void;
 }
 
-export function ControlBar({ places, radiusKm, band, mode, onGo, onTrailFile, onRadius, onBand, onMode }: Props) {
+export function ControlBar({ places, radiusKm, band, mode, status, onGo, onTrailFile, onRadius, onBand, onMode, onStatus }: Props) {
   const [text, setText] = useState('');
   const [problem, setProblem] = useState<string>();
   const fileInput = useRef<HTMLInputElement>(null);
@@ -117,6 +126,7 @@ export function ControlBar({ places, radiusKm, band, mode, onGo, onTrailFile, on
         </label>
         <Segmented label="Faixa" name="rp-band" options={BAND_OPTIONS} value={band} onChange={onBand} />
         <Segmented label="Modo" name="rp-mode" options={MODE_OPTIONS} value={mode} onChange={onMode} />
+        <Segmented label="Situação" name="rp-status" options={STATUS_OPTIONS} value={status} onChange={onStatus} />
       </div>
     </div>
   );

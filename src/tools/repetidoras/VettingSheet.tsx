@@ -21,6 +21,7 @@ const SHOW: Record<Show, string> = {
   todas: 'Todas',
   nunca: 'Nunca conferidas',
   'fora-do-ar': 'Fora do ar',
+  'nao-abriu': 'Não abriram',
   recente: 'Conferidas',
   antiga: 'Conferidas há mais de 3 meses',
   anotadas: 'Anotadas neste rascunho',
@@ -215,9 +216,9 @@ export default function VettingSheet() {
             <tr>
               <th scope="col">Repetidora e hoje no site</th>
               <th scope="col">Resultado e data</th>
-              <th scope="col">Como</th>
+              <th scope="col">Como e de onde</th>
               <th scope="col">Subtom</th>
-              <th scope="col">Posição</th>
+              <th scope="col">Posição da antena</th>
               <th scope="col">Modos</th>
               <th scope="col">Comentário</th>
               <th scope="col">

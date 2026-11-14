@@ -34,6 +34,9 @@ export interface Repeater {
   /** When the maintainer last vetted it, ISO, and how. */
   checked?: string;
   checkedHow?: string;
+  /** When a test last failed to open it, ISO, and how. */
+  failed?: string;
+  failedHow?: string;
   /** Overlay source and date, when corrections were applied. */
   correction?: { source: string; date: string };
 }
@@ -52,6 +55,8 @@ function apply(base: Omit<Repeater, 'shift'>, e: OverlayEntry | undefined): Repe
   if (e.notes) r.notes = e.notes;
   if (e.checked) r.checked = e.checked;
   if (e.checkedHow) r.checkedHow = e.checkedHow;
+  if (e.failed) r.failed = e.failed;
+  if (e.failedHow) r.failedHow = e.failedHow;
   // Bulk-imported data shows as plain data, without a source line.
   if (!e.unverified) r.correction = { source: e.source, date: e.date };
   return r;

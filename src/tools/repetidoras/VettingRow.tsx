@@ -43,13 +43,14 @@ export const VettingRow = memo(function VettingRow({ repeater: r, draft, today, 
   const set = (changes: Partial<RowDraft>) => onChange(r.id, changes);
   const [locating, setLocating] = useState(false);
 
+  // Where the test is made from; three decimals (about 100 m) are enough, and the overlay is public.
   const locate = () => {
     if (!navigator.geolocation) return;
     setLocating(true);
     navigator.geolocation.getCurrentPosition(
       (pos) => {
         setLocating(false);
-        set({ position: `${pos.coords.latitude.toFixed(5)}, ${pos.coords.longitude.toFixed(5)}` });
+        set({ from: `${pos.coords.latitude.toFixed(3)}, ${pos.coords.longitude.toFixed(3)}` });
       },
       () => setLocating(false),
       { enableHighAccuracy: true, timeout: 20_000 },
@@ -85,7 +86,7 @@ export const VettingRow = memo(function VettingRow({ repeater: r, draft, today, 
         </select>
         <input class="field" type="date" max={today} aria-label={`Data da conferência de ${name}`} value={d.date} onInput={(e) => set({ date: value(e) || today })} />
       </td>
-      <td class="vs-cell vs-cell--how" data-label="Como">
+      <td class="vs-cell vs-cell--how" data-label="Como e de onde">
         <select class="field" aria-label={`Como conferiu ${name}`} value={d.how ?? 'teste'} onChange={(e) => set({ how: value(e) as CheckHow })}>
           {Object.entries(CHECK_HOWS).map(([v, text]) => (
             <option value={v} key={v}>
@@ -96,6 +97,12 @@ export const VettingRow = memo(function VettingRow({ repeater: r, draft, today, 
         {d.how === 'relato' && (
           <input class="field" type="text" placeholder="quem? (indicativo)" aria-label={`Quem relatou ${name}`} value={d.reporter ?? ''} onInput={(e) => set({ reporter: value(e) })} />
         )}
+        <span class="vs-inline">
+          <input class="field" type="text" maxLength={80} placeholder="de onde?" aria-label={`De onde conferiu ${name}`} value={d.from ?? ''} onInput={(e) => set({ from: value(e) })} />
+          <button class="btn" type="button" onClick={locate} disabled={locating} aria-label={`Usar minha posição como o lugar de onde conferiu ${name}`} title="Usar minha posição">
+            {locating ? '…' : 'GPS'}
+          </button>
+        </span>
       </td>
       <td class="vs-cell vs-cell--tone" data-label="Subtom">
         <select class="field" aria-label={`Subtom de ${name}`} value={d.tone ?? ''} onChange={(e) => set({ tone: value(e) || undefined })}>
@@ -112,13 +119,8 @@ export const VettingRow = memo(function VettingRow({ repeater: r, draft, today, 
           <input class="field vs-dcs" type="text" inputMode="numeric" maxLength={3} placeholder="023" aria-label={`Código DCS de ${name}`} value={d.dcs ?? ''} onInput={(e) => set({ dcs: value(e) })} />
         )}
       </td>
-      <td class="vs-cell vs-cell--position" data-label="Posição">
-        <span class="vs-inline">
-          <input class="field" type="text" placeholder="lat, lon" aria-label={`Posição de ${name} (latitude, longitude)`} value={d.position ?? ''} onInput={(e) => set({ position: value(e) })} />
-          <button class="btn" type="button" onClick={locate} disabled={locating} aria-label={`Usar minha posição para ${name}`} title="Usar minha posição">
-            {locating ? '…' : 'GPS'}
-          </button>
-        </span>
+      <td class="vs-cell vs-cell--position" data-label="Posição da antena">
+        <input class="field" type="text" placeholder="lat, lon" aria-label={`Posição da antena de ${name} (latitude, longitude)`} value={d.position ?? ''} onInput={(e) => set({ position: value(e) })} />
       </td>
       <td class="vs-cell" data-label="Modos">
         <ModesPicker current={r.modes} value={d.modes} label={`Modos de ${name}`} onChange={(modes) => set({ modes })} />

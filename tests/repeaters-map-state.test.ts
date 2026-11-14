@@ -8,15 +8,15 @@ describe('map URL state', () => {
     expect(readState('')).toEqual(DEFAULT_STATE);
   });
 
-  it('round-trips a point, radius, band, mode and selection', () => {
-    const state = { lat: -22.9497, lon: -43.2851, radiusKm: 80, band: '2m' as const, mode: 'digital' as const, selected: 'PY1BAB@147.030' };
+  it('round-trips a point, radius, band, mode, status and selection', () => {
+    const state = { lat: -22.9497, lon: -43.2851, radiusKm: 80, band: '2m' as const, mode: 'digital' as const, status: 'conferidas' as const, selected: 'PY1BAB@147.030' };
     const qs = writeState(state);
-    expect(qs).toBe('?lat=-22.9497&lon=-43.2851&raio=80&banda=2m&modo=digital&rep=PY1BAB%40147.030');
+    expect(qs).toBe('?lat=-22.9497&lon=-43.2851&raio=80&banda=2m&modo=digital&situacao=conferidas&rep=PY1BAB%40147.030');
     expect(readState(qs)).toEqual(state);
   });
 
   it('ignores junk and points outside Brazil', () => {
-    expect(readState('?lat=48.85&lon=2.35&raio=999&banda=6m&modo=c4fm&rep=x')).toEqual(DEFAULT_STATE);
+    expect(readState('?lat=48.85&lon=2.35&raio=999&banda=6m&modo=c4fm&situacao=talvez&rep=x')).toEqual(DEFAULT_STATE);
     expect(readState('?lat=-22.9')).toEqual(DEFAULT_STATE);
   });
 });

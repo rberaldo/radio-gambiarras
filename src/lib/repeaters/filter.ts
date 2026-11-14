@@ -5,15 +5,31 @@ import { isFm } from './export.ts';
 import type { Nearby, Point } from './geo.ts';
 import type { Repeater } from './merge.ts';
 import type { Band } from './types.ts';
+import { vettingStatus } from './vetting.ts';
 
 export type BandChoice = 'todas' | Band;
 /** FM includes repeaters of unknown mode; mixed FM + digital ones are in both. */
 export type ModeChoice = 'todos' | 'fm' | 'digital';
+/** "Conferidas" counts old checks too; "sem-fora" hides the ones off the air. */
+export type StatusChoice = 'todas' | 'conferidas' | 'sem-fora';
 
 const MODE_TEST: Record<ModeChoice, (r: Repeater) => boolean> = { todos: () => true, fm: isFm, digital: isDigital };
 
-export function filterRepeaters(repeaters: readonly Repeater[], band: BandChoice, mode: ModeChoice): Repeater[] {
-  return repeaters.filter((r) => (band === 'todas' || r.band === band) && MODE_TEST[mode](r));
+function statusTest(status: StatusChoice, today: Date): (r: Repeater) => boolean {
+  if (status === 'conferidas') return (r) => ['recente', 'antiga'].includes(vettingStatus(r, today));
+  if (status === 'sem-fora') return (r) => r.onAir !== false;
+  return () => true;
+}
+
+export function filterRepeaters(
+  repeaters: readonly Repeater[],
+  band: BandChoice,
+  mode: ModeChoice,
+  status: StatusChoice = 'todas',
+  today: Date = new Date(),
+): Repeater[] {
+  const statusOk = statusTest(status, today);
+  return repeaters.filter((r) => (band === 'todas' || r.band === band) && MODE_TEST[mode](r) && statusOk(r));
 }
 
 /** "Município/UF" → its seat, sorted by name, from the repeaters placed at their seat. */
