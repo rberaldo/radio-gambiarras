@@ -115,6 +115,12 @@ export function RepeaterMap({ repeaters, track, inside, center, radiusKm, active
         pitchWithRotate: false,
         touchPitch: false,
         attributionControl: { compact: true, customAttribution: RELIEF_ATTRIBUTION },
+        locale: {
+          'Map.Title': 'Mapa',
+          'NavigationControl.ZoomIn': 'Aproximar',
+          'NavigationControl.ZoomOut': 'Afastar',
+          'AttributionControl.ToggleAttribution': 'Mostrar ou esconder os créditos',
+        },
       });
       mapRef.current = map;
       map.touchZoomRotate.disableRotation();
@@ -126,6 +132,10 @@ export function RepeaterMap({ repeaters, track, inside, center, radiusKm, active
         addRepeaterLayers(map);
         // The credits start collapsed (an "i" button), so they do not cover the map on phones.
         map.getContainer().querySelector('.maplibregl-ctrl-attrib')?.classList.remove('maplibregl-compact-show');
+        // On touch screens a tapped button's tooltip stays up (Safari); the aria-label still names it.
+        if (matchMedia('(hover: none)').matches) {
+          for (const b of map.getContainer().querySelectorAll('.maplibregl-ctrl button[title]')) b.removeAttribute('title');
+        }
         setReady(true);
       });
 

@@ -59,6 +59,77 @@
   font-weight: 600;
 }
 
+/* "Filtros" folds band, mode and status away on phones; elsewhere they sit in the row */
+.rp-controls__filters {
+  display: contents;
+}
+
+.rp-controls__toggle,
+.rp-controls__active {
+  display: none;
+}
+
+@media (max-width: 40rem) {
+  .rp-controls__row {
+    flex-wrap: nowrap;
+    gap: var(--sp-3);
+  }
+
+  /* The radius keeps its label beside the slider, unlike other filters on phones */
+  .window__body .rp-controls__radius {
+    flex: 1;
+    flex-wrap: nowrap;
+    width: auto;
+    min-width: 0;
+    gap: var(--sp-2);
+  }
+
+  .window__body .rp-controls__radius > .tool-filters__label {
+    flex-basis: auto;
+    margin: 0;
+  }
+
+  .rp-controls__radius input[type='range'] {
+    flex: 1;
+    width: auto;
+    min-width: 0;
+  }
+
+  .rp-controls__radius output {
+    min-width: 0;
+    white-space: nowrap;
+  }
+
+  .rp-controls__toggle {
+    display: inline-block;
+    flex: none;
+    white-space: nowrap;
+  }
+
+  .rp-controls__filters {
+    display: none;
+  }
+
+  /* Open, they take their own lines below the radius */
+  .rp-controls__row:has(.rp-controls__filters--open) {
+    flex-wrap: wrap;
+  }
+
+  .rp-controls__filters--open {
+    display: flex;
+    flex-basis: 100%;
+    flex-direction: column;
+    gap: var(--sp-3);
+  }
+
+  .rp-controls__active {
+    display: block;
+    margin: 0;
+    font-size: var(--fs-sm);
+    color: var(--m-text-muted);
+  }
+}
+
 /* Map beside the panel; on phones the map comes first */
 .rp-layout {
   display: flex;

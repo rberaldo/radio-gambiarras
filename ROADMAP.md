@@ -618,6 +618,42 @@ word or label as well as the color.
   as "conferida em 11/11/2026 (teste no ar)". A "Situação" filter in the
   search, kept in the URL. Review at phone width, Safari engine, axe.
 
+- [x] **M3.14 Filters on phones.** Done 2026-11-14 (user's request). Below
+  40rem, band, mode and status fold behind a "Filtros" button beside the
+  radius ("Filtros (2)" when any is on, with a "Filtrando: 2 m ·
+  Conferidas" line), so the map starts about half a screen higher. Desktop
+  unchanged. Map controls in Portuguese ("Aproximar", "Afastar"), and no
+  tooltips on touch screens, where Safari left "Zoom in" stuck.
+- [ ] **M3.15 Design cleanup.** Planned with the user 2026-11-14 from phone
+  screenshots. One pass over the repeater tool; check every change at phone
+  and desktop widths, Safari engine, axe.
+  - *List rows.* (a) The mode badge ("D-STAR") wraps onto a line of its own
+    under the frequency: move it to the start of the second line, and keep
+    the first line (callsign, frequency and shift, distance) from wrapping.
+    (b) When the second line wraps, a "·" starts the new line and values
+    split ("88,5 / Hz"): make each item unbreakable and keep the separator
+    with the item before it. (c) The gray "nunca conferida" square on almost
+    every row is noise: draw the square only when there is something to say
+    (green, yellow, red, outline). (d) "posição aproximada" repeats on 128 of
+    131 rows, which the header already counts: mark the rare rows whose site
+    is known instead. (e) "subtom desconhecido" is long for a row: shorter
+    wording.
+  - *Results header.* The count, two big download buttons and the CHIRP note
+    stack up before the first row on a phone: one line of count and
+    "Limpar", smaller download buttons in one row, the note under them.
+  - *Detail panel.* (f) "Saída" repeats the frequency in the header: put
+    input and shift in the header line and drop the row. (g) The source line
+    "Correção de Conferência (teste no ar, de …), em …" repeats Situação and
+    reads oddly: say what changed and when, or nothing when Situação already
+    says it. (h) Position says "sede de Teresópolis" while the note says
+    "Local: Alto do Soberbo": show the site name in the Posição row.
+  - *Intro panel.* Six paragraphs, with two legends written as prose, are
+    long on a phone: a small visual key drawn with the real markers and
+    status squares, plus two short how-to sentences.
+  - *Window.* The control bar takes two rows at 1280 px because Situação
+    wraps: a shorter slider or tighter gaps so it fits in one. On phones the
+    status bar text wraps to two lines: a shorter text there.
+
 Later (not in this milestone): anonymous "confirmo que funciona" votes (a small
 Netlify Function + Blobs); a coverage map (where a repeater reaches).
 

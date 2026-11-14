@@ -1,6 +1,7 @@
 // Where to look and how far: a place box (a town with repeaters or
 // coordinates), a button to open a GPX trail, the radius, the band, the mode
-// and the vetting status.
+// and the vetting status. On phones the last three fold behind "Filtros",
+// with a line saying which are on, so the map starts higher.
 import { useRef, useState } from 'preact/hooks';
 import { iconSvg } from '../../lib/icons.ts';
 import { foldAccents } from '../../lib/format.ts';
@@ -43,8 +44,20 @@ interface Props {
   onStatus: (status: StatusChoice) => void;
 }
 
+/** What the folded filters are set to, when not the defaults: "2 m · Conferidas". */
+function activeFilters(band: BandChoice, mode: ModeChoice, status: StatusChoice): string[] {
+  const label = <T extends string>(options: readonly SegmentedOption<T>[], value: T) => options.find((o) => o.value === value)!.label;
+  return [
+    band !== 'todas' && label(BAND_OPTIONS, band),
+    mode !== 'todos' && label(MODE_OPTIONS, mode),
+    status !== 'todas' && label(STATUS_OPTIONS, status),
+  ].filter((s): s is string => !!s);
+}
+
 export function ControlBar({ places, radiusKm, band, mode, status, onGo, onTrailFile, onRadius, onBand, onMode, onStatus }: Props) {
   const [text, setText] = useState('');
+  const [filtersOpen, setFiltersOpen] = useState(false);
+  const active = activeFilters(band, mode, status);
   const [problem, setProblem] = useState<string>();
   const fileInput = useRef<HTMLInputElement>(null);
 
@@ -124,10 +137,22 @@ export function ControlBar({ places, radiusKm, band, mode, status, onGo, onTrail
           />
           <output class="tabular">{radiusKm} km</output>
         </label>
-        <Segmented label="Faixa" name="rp-band" options={BAND_OPTIONS} value={band} onChange={onBand} />
-        <Segmented label="Modo" name="rp-mode" options={MODE_OPTIONS} value={mode} onChange={onMode} />
-        <Segmented label="Situação" name="rp-status" options={STATUS_OPTIONS} value={status} onChange={onStatus} />
+        <button
+          class="btn rp-controls__toggle"
+          type="button"
+          aria-expanded={filtersOpen}
+          aria-controls="rp-filters"
+          onClick={() => setFiltersOpen(!filtersOpen)}
+        >
+          Filtros{active.length > 0 && ` (${active.length})`}
+        </button>
+        <div id="rp-filters" class={`rp-controls__filters${filtersOpen ? ' rp-controls__filters--open' : ''}`}>
+          <Segmented label="Faixa" name="rp-band" options={BAND_OPTIONS} value={band} onChange={onBand} />
+          <Segmented label="Modo" name="rp-mode" options={MODE_OPTIONS} value={mode} onChange={onMode} />
+          <Segmented label="Situação" name="rp-status" options={STATUS_OPTIONS} value={status} onChange={onStatus} />
+        </div>
       </div>
+      {active.length > 0 && !filtersOpen && <p class="rp-controls__active">Filtrando: {active.join(' · ')}</p>}
     </div>
   );
 }
