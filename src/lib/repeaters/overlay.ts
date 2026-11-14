@@ -27,6 +27,8 @@ export interface OverlayEntry {
   onAir?: boolean;
   /** When onAir was last reported, ISO; the site shows it ("fora do ar em 05/10/2026"). */
   onAirDate?: string;
+  /** An off-air report nobody has confirmed (one person's view, an import): shown as "relatada". */
+  offAirUnconfirmed?: true;
   notes?: string;
   /** When the maintainer last vetted it (a test on the air, listening, a report), ISO. */
   checked?: string;
@@ -115,6 +117,7 @@ export function validateOverlay(file: OverlayFile, anatelIds: ReadonlySet<string
     if (e.onAirDate !== undefined && (e.onAir === undefined || !ISO_DATE.test(e.onAirDate) || Number.isNaN(Date.parse(e.onAirDate)))) {
       err('onAirDate deve ser AAAA-MM-DD e acompanhar onAir');
     }
+    if (e.offAirUnconfirmed !== undefined && (e.offAirUnconfirmed !== true || e.onAir !== false)) err('offAirUnconfirmed só pode ser true, e com onAir false');
     if (e.checked !== undefined && (!ISO_DATE.test(e.checked) || Number.isNaN(Date.parse(e.checked)))) err('checked deve ser AAAA-MM-DD');
     if (e.checkedHow !== undefined && (e.checked === undefined || !e.checkedHow.trim())) err('checkedHow deve dizer como foi conferida e acompanhar checked');
     if (e.failed !== undefined && (!ISO_DATE.test(e.failed) || Number.isNaN(Date.parse(e.failed)))) err('failed deve ser AAAA-MM-DD');

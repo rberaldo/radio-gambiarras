@@ -604,7 +604,12 @@ word or label as well as the color.
   the same day: "não abriu" is now its own result (`failed`, a red outline),
   no longer the same as off the air, since it may only mean out of reach;
   the sheet's GPS button records where the test was made from instead of
-  the antenna's position. Filter: Todas | Conferidas | Sem fora do ar
+  the antenna's position. Later the same day (user's choices): a failed test
+  only lowers confidence (green to yellow; gray stays gray, with the failure
+  in the text), the red outline went to the 11 single-editor off-air reports
+  from October (`offAirUnconfirmed`, "relatada fora do ar, não
+  confirmada"), and map groups made only of off-air repeaters are gray.
+  Filter: Todas | Conferidas | Fora do ar
   (`?situacao=`). Applied the Alto da Boa Vista checks (2026-11-14) and the
   user's own Campinas tests from March 2023 (`private/`).
   A small status icon beside the callsign
@@ -739,4 +744,4 @@ Not planned. Move one into a milestone only when the user asks.
 | 2026-11-09 | Repeater corrections via GitHub Issues + label `aprovada` + Action (Netlify Forms dropped; no separate Netlify team needed). |
 | 2026-11-09 | Site name: Rádio Gambiarras. Jokes (404, loading messages) left for the user to write later. |
 | 2026-11-09 | Quarantine history seeded from an April 2025 third-party snapshot, marked as uncertain. |
-| 2026-11-14 | Vetting: "não abriu" is a failed test, not "fora do ar"; checks record where they were made from. |
+| 2026-11-14 | Vetting: "não abriu" is a failed test, not "fora do ar", and only lowers green to yellow; checks record where they were made from; unconfirmed off-air reports shown as such. |

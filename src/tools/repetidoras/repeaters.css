@@ -475,8 +475,8 @@
   margin-right: var(--sp-2);
 }
 
-/* Failed a test, which may only mean out of reach: an outline, not the solid red of off the air */
-.rp-vet--nao-abriu {
+/* Reported off the air, not confirmed: an outline, not the solid red of off the air */
+.rp-vet--relatada {
   border-color: var(--m-off);
   background: var(--m-paper);
 }

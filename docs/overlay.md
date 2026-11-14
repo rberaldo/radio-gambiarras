@@ -46,6 +46,8 @@ merges it with Anatel's data (`src/lib/repeaters/merge.ts`).
   below).
 - `failed` and `failedHow`: the same for the last test that did not open it.
   Not the same as off the air: the repeater may just be out of reach.
+- `offAirUnconfirmed`: `true` on an off-air report nobody has confirmed (one
+  person's view, an import); shown as "relatada". A vetting result clears it.
 - `unverified`: `true` for bulk-imported entries not yet checked (see below).
 - A repeater Anatel does not list also needs `input`, `municipio`, `uf`,
   `lat` and `lon`.
@@ -57,12 +59,15 @@ Run it before committing a change.
 ## Vetting
 
 Each repeater shows a status worked out in the browser
-(`vettingStatus` in `src/lib/repeaters/vetting.ts`): *fora do ar* when
-`onAir` is `false` (never goes stale), *não abriu* when `failed` is newer
-than `checked`, *conferida* when `checked` is 90 days old or less,
-*conferida há mais de 3 meses* after that, *nunca conferida* without
-`checked`. The map lists it beside each callsign and in the details, and
-filters by it (`?situacao=conferidas` or `sem-fora`).
+(`vettingStatus` in `src/lib/repeaters/vetting.ts`), which says how
+confident we are that it works: *fora do ar* when `onAir` is `false` (never
+goes stale), or *relatada fora do ar, não confirmada* when
+`offAirUnconfirmed` is also set; *conferida* when `checked` is 90 days old
+or less; *conferida há mais de 3 meses* after that, or as soon as a later
+test fails (`failed` newer than `checked`); *nunca conferida* without
+`checked`. A failed test alone says little (distance, terrain, the radio),
+so it never makes a repeater worse than that: it only shows in the text. The map lists it beside each callsign and in the details, and
+filters by it (`?situacao=conferidas` or `fora-do-ar`).
 
 The maintainer vets repeaters in a hidden sheet at `/repetidoras/conferir`
 (not linked, not indexed). It opens on RJ; each row takes a result (abriu,

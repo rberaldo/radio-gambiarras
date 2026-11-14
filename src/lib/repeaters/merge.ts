@@ -27,6 +27,8 @@ export interface Repeater {
   onAir?: boolean;
   /** When onAir was reported, ISO. */
   onAirDate?: string;
+  /** The off-air report is unconfirmed. */
+  offAirUnconfirmed?: true;
   /** Anatel license status, or "nao-listada" for repeaters only the overlay knows. */
   license: LicenseStatus | 'nao-listada';
   validUntil?: string;
@@ -52,6 +54,7 @@ function apply(base: Omit<Repeater, 'shift'>, e: OverlayEntry | undefined): Repe
   if (e.modes) r.modes = e.modes;
   if (e.onAir !== undefined) r.onAir = e.onAir;
   if (e.onAirDate !== undefined) r.onAirDate = e.onAirDate;
+  if (e.offAirUnconfirmed) r.offAirUnconfirmed = true;
   if (e.notes) r.notes = e.notes;
   if (e.checked) r.checked = e.checked;
   if (e.checkedHow) r.checkedHow = e.checkedHow;

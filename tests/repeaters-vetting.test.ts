@@ -28,11 +28,17 @@ describe('vettingStatus', () => {
     expect(vettingStatus({ onAir: false, failed: '2026-11-11' }, today)).toBe('fora-do-ar');
   });
 
-  it('shows a failed test only while it is newer than the last good one', () => {
-    expect(vettingStatus({ failed: '2026-11-11' }, today)).toBe('nao-abriu');
-    expect(vettingStatus({ failed: '2026-11-11', checked: '2026-10-01' }, today)).toBe('nao-abriu');
+  it('lets a later failed test lower a recent check to old, and nothing more', () => {
+    expect(vettingStatus({ failed: '2026-11-11' }, today)).toBe('nunca');
+    expect(vettingStatus({ failed: '2026-11-11', checked: '2026-10-01' }, today)).toBe('antiga');
+    expect(vettingStatus({ failed: '2026-11-11', checked: '2023-03-15' }, today)).toBe('antiga');
     expect(vettingStatus({ failed: '2026-11-11', checked: '2026-11-11' }, today)).toBe('recente');
     expect(vettingStatus({ failed: '2023-03-15', checked: '2026-11-01' }, today)).toBe('recente');
+  });
+
+  it('tells an unconfirmed off-air report apart', () => {
+    expect(vettingStatus({ onAir: false, offAirUnconfirmed: true }, today)).toBe('relatada');
+    expect(vettingStatus({ onAir: true, offAirUnconfirmed: true }, today)).toBe('nunca');
   });
 });
 
@@ -48,6 +54,12 @@ describe('overlay check fields', () => {
     expect(mergeRepeaters(anatel, failed)[0]).toMatchObject({ failed: '2026-11-14', failedHow: 'teste no ar' });
     expect(validateOverlay(overlay({ 'PY1AA@146.610': { source: 'x', date: '2026-11-11', failedHow: 'teste' } }), ids)).toEqual([
       'PY1AA@146.610: failedHow deve dizer como foi o teste e acompanhar failed',
+    ]);
+    const reported = overlay({ 'PY1AA@146.610': { source: 'x', date: '2026-11-11', onAir: false, onAirDate: '2026-10-05', offAirUnconfirmed: true } });
+    expect(validateOverlay(reported, ids)).toEqual([]);
+    expect(mergeRepeaters(anatel, reported)[0]!.offAirUnconfirmed).toBe(true);
+    expect(validateOverlay(overlay({ 'PY1AA@146.610': { source: 'x', date: '2026-11-11', offAirUnconfirmed: true } }), ids)).toEqual([
+      'PY1AA@146.610: offAirUnconfirmed só pode ser true, e com onAir false',
     ]);
   });
 });
@@ -127,6 +139,15 @@ describe('applyChecks', () => {
     expect(file.entries['PY1BB@439.650']).toEqual({ source: 'Conferência (teste no ar)', date: '2026-11-14', failed: '2026-11-14', failedHow: 'teste no ar' });
     expect(outcomes[0]!.applied).toEqual(['não abriu (teste no ar, de Alto da Boa Vista)']);
     expect(validateOverlay(file, ids)).toEqual([]);
+  });
+
+  it('settles an unconfirmed off-air report with a result, but not with a failed test', () => {
+    const before = overlay({ 'PY1AA@146.610': { source: 'x', date: '2026-11-09', onAir: false, onAirDate: '2026-10-05', offAirUnconfirmed: true } });
+    const failed = applyChecks(before, { 'PY1AA@146.610': { date: '2026-11-14', result: 'nao-abriu' } }).file.entries['PY1AA@146.610']!;
+    expect(failed.offAirUnconfirmed).toBe(true);
+    const down = applyChecks(before, { 'PY1AA@146.610': { date: '2026-11-14', result: 'fora-do-ar' } }).file.entries['PY1AA@146.610']!;
+    expect(down.offAirUnconfirmed).toBeUndefined();
+    expect(down).toMatchObject({ onAir: false, onAirDate: '2026-11-14' });
   });
 
   it('clears a failed test once the repeater opens', () => {

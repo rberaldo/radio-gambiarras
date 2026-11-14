@@ -24,7 +24,7 @@ const MODE_OPTIONS: readonly SegmentedOption<ModeChoice>[] = [
 const STATUS_OPTIONS: readonly SegmentedOption<StatusChoice>[] = [
   { value: 'todas', label: 'Todas' },
   { value: 'conferidas', label: 'Conferidas' },
-  { value: 'sem-fora', label: 'Sem fora do ar' },
+  { value: 'fora-do-ar', label: 'Fora do ar' },
 ];
 
 interface Props {

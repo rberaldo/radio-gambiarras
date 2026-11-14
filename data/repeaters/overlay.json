@@ -2969,7 +2969,8 @@
     "FM"
    ],
    "onAir": false,
-   "onAirDate": "2026-10-05"
+   "onAirDate": "2026-10-05",
+   "offAirUnconfirmed": true
   },
   "PY5BBS@439.650": {
    "source": "Importação inicial de 2026-11-09 (a conferir)",
@@ -2986,7 +2987,8 @@
    "date": "2026-11-09",
    "unverified": true,
    "onAir": false,
-   "onAirDate": "2026-10-05"
+   "onAirDate": "2026-10-05",
+   "offAirUnconfirmed": true
   },
   "PY5CLB@439.850": {
    "source": "Importação inicial de 2026-11-09 (a conferir)",
@@ -2996,7 +2998,8 @@
     "DMR"
    ],
    "onAir": false,
-   "onAirDate": "2026-10-06"
+   "onAirDate": "2026-10-06",
+   "offAirUnconfirmed": true
   },
   "PY5COL@146.670": {
    "source": "Importação inicial de 2026-11-09 (a conferir)",
@@ -3094,7 +3097,8 @@
    "date": "2026-11-09",
    "unverified": true,
    "onAir": false,
-   "onAirDate": "2026-10-05"
+   "onAirDate": "2026-10-05",
+   "offAirUnconfirmed": true
   },
   "PY5FXA@146.790": {
    "source": "Importação inicial de 2026-11-09 (a conferir)",
@@ -3129,7 +3133,8 @@
    "lat": -25.89076,
    "lon": -48.95726,
    "onAir": false,
-   "onAirDate": "2026-10-09"
+   "onAirDate": "2026-10-09",
+   "offAirUnconfirmed": true
   },
   "PY5GWR@145.450": {
    "source": "Importação inicial de 2026-11-09 (a conferir)",
@@ -3171,7 +3176,8 @@
    "date": "2026-11-09",
    "unverified": true,
    "onAir": false,
-   "onAirDate": "2026-10-09"
+   "onAirDate": "2026-10-09",
+   "offAirUnconfirmed": true
   },
   "PY5LON@146.650": {
    "source": "Importação inicial de 2026-11-09 (a conferir)",
@@ -3223,7 +3229,8 @@
    "date": "2026-11-09",
    "unverified": true,
    "onAir": false,
-   "onAirDate": "2026-10-05"
+   "onAirDate": "2026-10-05",
+   "offAirUnconfirmed": true
   },
   "PY5PGR@146.870": {
    "source": "Importação inicial de 2026-11-09 (a conferir)",
@@ -3234,7 +3241,8 @@
     "FM"
    ],
    "onAir": false,
-   "onAirDate": "2026-10-19"
+   "onAirDate": "2026-10-19",
+   "offAirUnconfirmed": true
   },
   "PY5PRD@147.090": {
    "source": "Importação inicial de 2026-11-09; posição pelo nome do local no OpenStreetMap (a conferir)",
@@ -3306,7 +3314,8 @@
    "date": "2026-11-09",
    "unverified": true,
    "onAir": false,
-   "onAirDate": "2026-10-05"
+   "onAirDate": "2026-10-05",
+   "offAirUnconfirmed": true
   },
   "PY5UNO@147.000": {
    "source": "Importação inicial de 2026-11-09 (a conferir)",
@@ -3319,7 +3328,8 @@
    "date": "2026-11-09",
    "unverified": true,
    "onAir": false,
-   "onAirDate": "2026-10-06"
+   "onAirDate": "2026-10-06",
+   "offAirUnconfirmed": true
   },
   "PY5VET@145.430": {
    "source": "Importação inicial de 2026-11-09 (a conferir)",
@@ -3335,7 +3345,8 @@
    "date": "2026-11-09",
    "unverified": true,
    "onAir": false,
-   "onAirDate": "2026-10-05"
+   "onAirDate": "2026-10-05",
+   "offAirUnconfirmed": true
   },
   "PY5YSF@439.300": {
    "source": "Importação inicial de 2026-11-09 (a conferir)",

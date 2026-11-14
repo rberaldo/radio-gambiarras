@@ -47,6 +47,9 @@ const ALL_DIGITAL: Expr = ['==', ['get', 'dig'], ['get', 'point_count']];
 const SOME_DIGITAL: Expr = ['all', ['>', ['get', 'dig'], 0], ['<', ['get', 'dig'], ['get', 'point_count']]];
 const ALL_IN: Expr = ['==', ['get', 'sel'], ['get', 'point_count']];
 const SOME_IN: Expr = ['>', ['get', 'sel'], 0];
+/** A group of repeaters all reported off the air is gray, like each of them alone. */
+const ALL_OFF: Expr = ['==', ['get', 'off'], ['get', 'point_count']];
+const IN_COLOR: Expr = ['case', ALL_OFF, COLORS.gray, COLORS.green];
 
 /** Layers drawing group badges, with their filters; a fanned-out group is hidden from all of them. */
 export const CLUSTER_LAYERS: Record<string, Expr> = {
@@ -96,6 +99,9 @@ function addImages(map: maplibregl.Map) {
   map.addImage('cluster-diamond-some', diamondImage(30, COLORS.white, COLORS.green, 6), at2x);
   map.addImage('cluster-diamond-none', diamondImage(30, COLORS.white, COLORS.navy, 4), at2x);
   map.addImage('cluster-notch', diamondImage(11, COLORS.navy, COLORS.white, 3), at2x);
+  map.addImage('cluster-diamond-off-all', diamondImage(30, COLORS.gray, COLORS.gray, 6), at2x);
+  map.addImage('cluster-diamond-off-some', diamondImage(30, COLORS.white, COLORS.gray, 6), at2x);
+  map.addImage('cluster-diamond-off-none', diamondImage(30, COLORS.white, COLORS.gray, 4), at2x);
 }
 
 const ICON_ALWAYS = { 'icon-allow-overlap': true, 'icon-ignore-placement': true } as const;
@@ -107,8 +113,12 @@ export function addRepeaterLayers(map: maplibregl.Map) {
     cluster: true,
     clusterRadius: 28,
     clusterMaxZoom: MAX_ZOOM,
-    // Each group counts how many of its repeaters are inside the area, and how many are digital.
-    clusterProperties: { sel: ['+', ['get', 'sel']], dig: ['+', ['case', ['get', 'digital'], 1, 0]] },
+    // Each group counts how many of its repeaters are inside the area, digital, and off the air.
+    clusterProperties: {
+      sel: ['+', ['get', 'sel']],
+      dig: ['+', ['case', ['get', 'digital'], 1, 0]],
+      off: ['+', ['case', ['get', 'off'], 1, 0]],
+    },
   });
   for (const id of ['circle', 'track', 'track-corridor', 'active', 'center', ...SPIDER_SOURCES]) map.addSource(id, { type: 'geojson', data: EMPTY });
   addImages(map);
@@ -134,9 +144,9 @@ export function addRepeaterLayers(map: maplibregl.Map) {
     source: 'repeaters',
     filter: CLUSTER_LAYERS.clusters,
     paint: {
-      // All inside: green; some inside: green ring; none: white.
-      'circle-color': ['case', ALL_IN, COLORS.green, COLORS.white],
-      'circle-stroke-color': ['case', SOME_IN, COLORS.green, COLORS.navy],
+      // All inside: green; some inside: green ring; none: white. Gray instead of green when all are off the air.
+      'circle-color': ['case', ALL_IN, IN_COLOR, COLORS.white],
+      'circle-stroke-color': ['case', ALL_OFF, COLORS.gray, SOME_IN, COLORS.green, COLORS.navy],
       'circle-stroke-width': ['case', SOME_IN, 3, 2],
       'circle-radius': ['step', ['get', 'point_count'], 11, 10, 14, 50, 18],
     },
@@ -147,7 +157,11 @@ export function addRepeaterLayers(map: maplibregl.Map) {
     source: 'repeaters',
     filter: CLUSTER_LAYERS['cluster-diamonds'],
     layout: {
-      'icon-image': ['case', ALL_IN, 'cluster-diamond-all', SOME_IN, 'cluster-diamond-some', 'cluster-diamond-none'],
+      'icon-image': [
+        'concat',
+        ['case', ALL_OFF, 'cluster-diamond-off-', 'cluster-diamond-'],
+        ['case', ALL_IN, 'all', SOME_IN, 'some', 'none'],
+      ],
       // A diamond needs about 1.35× a circle's radius to look as big.
       'icon-size': ['step', ['get', 'point_count'], 1, 10, 1.25, 50, 1.6],
       ...ICON_ALWAYS,
@@ -182,7 +196,7 @@ export function addRepeaterLayers(map: maplibregl.Map) {
       'text-size': 11,
       'text-allow-overlap': true,
     },
-    paint: { 'text-color': ['case', ALL_IN, COLORS.white, SOME_IN, COLORS.darkGreen, COLORS.navy] },
+    paint: { 'text-color': ['case', ALL_IN, COLORS.white, ALL_OFF, COLORS.black, SOME_IN, COLORS.darkGreen, COLORS.navy] },
   });
   addMarkerLayers(map, 'repeater', 'repeaters', ['!', CLUSTER]);
 

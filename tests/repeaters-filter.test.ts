@@ -15,10 +15,17 @@ describe('filterRepeaters', () => {
 
   it('filters by vetting status', () => {
     const today = new Date('2026-11-14T12:00:00Z');
-    const vetted = [r('never'), r('recent', { checked: '2026-11-01' }), r('old', { checked: '2023-03-15' }), r('failed', { failed: '2026-11-14' }), r('off', { onAir: false })];
+    const vetted = [
+      r('never'),
+      r('recent', { checked: '2026-11-01' }),
+      r('old', { checked: '2023-03-15' }),
+      r('failed', { failed: '2026-11-14' }),
+      r('off', { onAir: false }),
+      r('reported', { onAir: false, offAirUnconfirmed: true }),
+    ];
     expect(filterRepeaters(vetted, 'todas', 'todos', 'conferidas', today).map((x) => x.id)).toEqual(['recent', 'old']);
-    expect(filterRepeaters(vetted, 'todas', 'todos', 'sem-fora', today).map((x) => x.id)).toEqual(['never', 'recent', 'old', 'failed']);
-    expect(filterRepeaters(vetted, 'todas', 'todos', 'todas', today)).toHaveLength(5);
+    expect(filterRepeaters(vetted, 'todas', 'todos', 'fora-do-ar', today).map((x) => x.id)).toEqual(['off', 'reported']);
+    expect(filterRepeaters(vetted, 'todas', 'todos', 'todas', today)).toHaveLength(6);
   });
 });
 

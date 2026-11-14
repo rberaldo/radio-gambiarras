@@ -13,7 +13,7 @@ export function RepeaterIntro({ count, band, mode, status }: { count: number; ba
         {digital ? 'conhecidas' : 'licenciadas na Anatel'}
         {band !== 'todas' && ' nesta faixa'}
         {status === 'conferidas' && ', já conferidas no ar'}
-        {status === 'sem-fora' && ', sem as relatadas fora do ar'}.
+        {status === 'fora-do-ar' && ', relatadas fora do ar'}.
       </p>
       <p class="rp-intro__note">
         Lista de repetidoras com licença na Anatel. Elas podem não estar no ar e algumas podem nem ter sido instaladas.
@@ -32,8 +32,8 @@ export function RepeaterIntro({ count, band, mode, status }: { count: number; ba
       </p>
       <p class="rp-intro__note">
         Na lista, o quadradinho ao lado do indicativo é a situação: verde, conferida no ar nos últimos 3 meses; amarelo,
-        conferida há mais tempo; contorno vermelho, não abriu no último teste (pode estar só fora do alcance); vermelho,
-        fora do ar; cinza, nunca conferida.
+        conferida há mais tempo, ou não abriu num teste depois (pode estar só fora do alcance); vermelho, fora do ar;
+        contorno vermelho, relatada fora do ar, sem confirmação; cinza, nunca conferida.
       </p>
       <p class="rp-intro__note">
         Losangos são repetidoras digitais (DMR, D-STAR, Fusion); um losango pequeno no canto de um grupo avisa que há

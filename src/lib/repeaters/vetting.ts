@@ -7,25 +7,30 @@ import { daysSince } from '../format.ts';
 import type { Repeater } from './merge.ts';
 import { CTCSS_TONES, MODES, type Mode, type OverlayEntry, type OverlayFile } from './overlay.ts';
 
-export type VettingStatus = 'fora-do-ar' | 'nao-abriu' | 'recente' | 'antiga' | 'nunca';
+export type VettingStatus = 'fora-do-ar' | 'relatada' | 'recente' | 'antiga' | 'nunca';
 
 /** A check this many days old or less counts as recent. */
 export const RECENT_DAYS = 90;
 
+/** A failed test newer than the last good one (or with none), which the status and its text take into account. */
+export const failedSince = (r: Pick<Repeater, 'checked' | 'failed'>) => !!r.failed && (!r.checked || r.failed > r.checked);
+
 /**
- * Off the air wins and never goes stale; then a failed test newer than the
- * last good one; otherwise the age of the last check.
+ * How confident we are that it works (the maintainer's model, 2026-11-14).
+ * Off the air wins and never goes stale; an unconfirmed report of it is
+ * told apart. Otherwise the last check: recent, or old once 90 days pass or
+ * a later test fails. A failed test alone says little (distance, terrain,
+ * the radio), so it never makes a repeater worse than "antiga" or "nunca".
  */
-export function vettingStatus(r: Pick<Repeater, 'onAir' | 'checked' | 'failed'>, today: Date = new Date()): VettingStatus {
-  if (r.onAir === false) return 'fora-do-ar';
-  if (r.failed && (!r.checked || r.failed > r.checked)) return 'nao-abriu';
+export function vettingStatus(r: Pick<Repeater, 'onAir' | 'offAirUnconfirmed' | 'checked' | 'failed'>, today: Date = new Date()): VettingStatus {
+  if (r.onAir === false) return r.offAirUnconfirmed ? 'relatada' : 'fora-do-ar';
   if (!r.checked) return 'nunca';
-  return daysSince(r.checked, today) <= RECENT_DAYS ? 'recente' : 'antiga';
+  return daysSince(r.checked, today) <= RECENT_DAYS && !failedSince(r) ? 'recente' : 'antiga';
 }
 
 export const VETTING_TEXT: Record<VettingStatus, string> = {
   'fora-do-ar': 'fora do ar',
-  'nao-abriu': 'não abriu',
+  relatada: 'relatada fora do ar, não confirmada',
   recente: 'conferida',
   antiga: 'conferida há mais de 3 meses',
   nunca: 'nunca conferida',
@@ -138,6 +143,7 @@ export function applyChecks(file: OverlayFile, checks: Record<string, Check>): {
       e.onAirDate = c.date;
       e.checked = c.date;
       e.checkedHow = how;
+      delete e.offAirUnconfirmed;
       if (c.result === 'abriu' && e.failed && e.failed <= c.date) {
         delete e.failed;
         delete e.failedHow;

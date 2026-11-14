@@ -9,10 +9,9 @@ import { CopyButton } from '../../ui/CopyButton.tsx';
 import { EmptyState } from '../../ui/EmptyState.tsx';
 import type { LosResult } from '../../lib/radio/los.ts';
 import { VERDICT_TEXT } from './LineOfSight.tsx';
-import { vettingStatus } from '../../lib/repeaters/vetting.ts';
 import { MissingRepeaterLink } from './MissingRepeaterLink.tsx';
 import type { ModeChoice, StatusChoice } from './urlState.ts';
-import { VettingBadge, vettingLabel } from './VettingBadge.tsx';
+import { VettingBadge, hasVettingNews, vettingLabel } from './VettingBadge.tsx';
 
 interface Props {
   nearby: readonly Nearby[];
@@ -90,7 +89,8 @@ export function ResultsPanel({ nearby, sight, radiusKm, mode, status, center, tr
         {trailHead}
         <EmptyState action={onWiden ? { label: 'Aumentar o raio', onClick: onWiden } : undefined}>
           {mode === 'digital' ? 'Nenhuma repetidora digital conhecida' : 'Nenhuma repetidora'}
-          {status === 'conferidas' && ' conferida'} a até {radiusKm} km {where}. Conhece
+          {status === 'conferidas' && ' conferida'}
+          {status === 'fora-do-ar' && ' fora do ar'} a até {radiusKm} km {where}. Conhece
           uma?{' '}
           <MissingRepeaterLink picked={center}>Avise</MissingRepeaterLink>.
         </EmptyState>
@@ -135,7 +135,7 @@ export function ResultsPanel({ nearby, sight, radiusKm, mode, status, center, tr
                 {BAND_TEXT[r.band]} · {r.municipio}/{r.uf} · subtom {toneText(r)}
                 {r.position && !r.position.exact && ' · posição aproximada'}
                 {/* The badge already names the status for screen readers. */}
-                {vettingStatus(r) !== 'nunca' && <span aria-hidden="true"> · {vettingLabel(r, true)}</span>}
+                {hasVettingNews(r) && <span aria-hidden="true"> · {vettingLabel(r, true)}</span>}
                 {sight.get(r.id) && <span class={`rp-sight rp-sight--${sight.get(r.id)!.verdict}`}> · {VERDICT_TEXT[sight.get(r.id)!.verdict]}</span>}
               </span>
             </button>

@@ -38,7 +38,7 @@ export function readState(search: string): MapState {
   const modo = p.get('modo');
   if (modo === 'fm' || modo === 'digital') state.mode = modo;
   const situacao = p.get('situacao');
-  if (situacao === 'conferidas' || situacao === 'sem-fora') state.status = situacao;
+  if (situacao === 'conferidas' || situacao === 'fora-do-ar') state.status = situacao;
   const rep = p.get('rep');
   if (rep && /^[A-Z0-9]{4,7}@\d{2,3}\.\d{3}$/.test(rep)) state.selected = rep;
   return state;

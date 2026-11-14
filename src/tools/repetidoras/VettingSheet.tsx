@@ -21,9 +21,9 @@ const SHOW: Record<Show, string> = {
   todas: 'Todas',
   nunca: 'Nunca conferidas',
   'fora-do-ar': 'Fora do ar',
-  'nao-abriu': 'Não abriram',
+  relatada: 'Relatadas fora do ar, não confirmadas',
   recente: 'Conferidas',
-  antiga: 'Conferidas há mais de 3 meses',
+  antiga: 'Conferidas há mais de 3 meses ou que falharam depois',
   anotadas: 'Anotadas neste rascunho',
 };
 

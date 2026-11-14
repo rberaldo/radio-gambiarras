@@ -10,14 +10,14 @@ import { vettingStatus } from './vetting.ts';
 export type BandChoice = 'todas' | Band;
 /** FM includes repeaters of unknown mode; mixed FM + digital ones are in both. */
 export type ModeChoice = 'todos' | 'fm' | 'digital';
-/** "Conferidas" counts old checks too; "sem-fora" hides the ones off the air. */
-export type StatusChoice = 'todas' | 'conferidas' | 'sem-fora';
+/** "Conferidas" counts old checks too; "fora-do-ar" shows only the ones off the air, confirmed or not. */
+export type StatusChoice = 'todas' | 'conferidas' | 'fora-do-ar';
 
 const MODE_TEST: Record<ModeChoice, (r: Repeater) => boolean> = { todos: () => true, fm: isFm, digital: isDigital };
 
 function statusTest(status: StatusChoice, today: Date): (r: Repeater) => boolean {
   if (status === 'conferidas') return (r) => ['recente', 'antiga'].includes(vettingStatus(r, today));
-  if (status === 'sem-fora') return (r) => r.onAir !== false;
+  if (status === 'fora-do-ar') return (r) => r.onAir === false;
   return () => true;
 }
 
