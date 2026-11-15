@@ -654,6 +654,50 @@ word or label as well as the color.
     wraps: a shorter slider or tighter gaps so it fits in one. On phones the
     status bar text wraps to two lines: a shorter text there.
 
+### Field vetting (planned with the user, 2026-11-15)
+
+Speed up vetting in two halves: plan at home where to go, then work through
+what is near you on the phone. Most repeaters sit at their town's seat (in
+RJ, 140 of 143), so a real line of sight to each repeater cannot drive the
+ranking yet: it rests on how many repeaters still need a check around a spot
+and on how open the spot's own horizon is. The user's idea: precomputed,
+reachable stops with a wide view, valued by repeater density.
+
+- [x] **M3.16 Quick mode on the sheet.** Done 2026-11-15. A "Perto de mim"
+  mode on `/repetidoras/conferir`: follows the GPS (or starts from a stop
+  passed in the URL, `?modo=perto&ponto=lat,lon&de=nome`), lists the
+  repeaters within 10–100 km across state lines, nearest first, with the
+  distance and direction ("8,8 km O") and whether the position is only the
+  town seat. One tap for "Abriu" or "Não abriu" records today's date and
+  where you are (three decimals); tapping again takes it back. "Mais…" opens
+  the repeater in the full sheet. New "Mostrar" option "A conferir" (never,
+  old, failed since, reported off the air). Pure part in
+  `quickResult`/`fromText` (`src/lib/repeaters/vettingDraft.ts`).
+- [x] **M3.17 Stops and their horizons.** Done 2026-11-15. A curated list
+  of 17 RJ stops (`scripts/stops/rj.json`; positions from OpenStreetMap,
+  looked up once by hand) and `node scripts/stops/build.ts`, which reads
+  Mapterhorn's relief tiles (decoded with `sharp`, a dev dependency, decided
+  by the user), moves each summit to the highest pixel nearby, works out a
+  72-direction horizon (terrain within 10 km, Earth curvature included) and
+  writes `data/repeaters/stops.json`. It refuses to write when a stop's
+  altitude is more than 100 m from OpenStreetMap's (a wrong position).
+  Scoring in `src/lib/repeaters/stops.ts`: each repeater that needs a check
+  within the radius counts 1 up to 15 km, falling to 0.3 at the radius, and a
+  quarter when the stop's horizon is blocked in its direction
+  (`src/lib/radio/horizon.ts`). The user prunes the list: some stops are
+  hard to reach (Pedra da Gávea, Agulhas Negras) or may be closed (Sumaré).
+- [x] **M3.18 Planning page.** Done 2026-11-15. `/repetidoras/conferir/plano`,
+  hidden like the sheet and linked from its intro (and back). The repeater
+  map with the repeaters that need a check and the stops in gold; stops
+  ranked by score, or, once an outing has started, by what each adds to it
+  (a repeater counts only for what it gains over the stops already chosen).
+  Opening a stop lists what it reaches with distance, direction and "atrás de
+  um morro"; clicking anywhere on the map scores that point, its horizon
+  worked out in the browser. An outing (in the URL,
+  `?roteiro=pico-da-tijuca;-22.970,-43.250`) downloads one CHIRP file with
+  every repeater it reaches, each under the stop that hears it best, in the
+  order of the day, and links each stop to the sheet's quick mode.
+
 Later (not in this milestone): anonymous "confirmo que funciona" votes (a small
 Netlify Function + Blobs); a coverage map (where a repeater reaches).
 
@@ -733,6 +777,11 @@ by name or code, see it large, and learn how to type it.
 
 Not planned. Move one into a milestone only when the user asks.
 
+- Field vetting: a real line of sight from each stop to each repeater once
+  repeater positions are confirmed (today almost all are town seats); stop
+  candidates found automatically from OpenStreetMap's peaks and viewpoints,
+  and stops outside RJ; a small horizon drawing (a 360° silhouette) in the
+  stop's details.
 - Callsigns: arrow-key navigation inside the grid (today Tab reaches only the
   rendered cells; search is the keyboard path to any callsign); a shortlist
   of favorites ("Acompanhar") with a shareable link; special event
@@ -781,3 +830,4 @@ Not planned. Move one into a milestone only when the user asks.
 | 2026-11-09 | Site name: Rádio Gambiarras. Jokes (404, loading messages) left for the user to write later. |
 | 2026-11-09 | Quarantine history seeded from an April 2025 third-party snapshot, marked as uncertain. |
 | 2026-11-14 | Vetting: "não abriu" is a failed test, not "fora do ar", and only lowers green to yellow; checks record where they were made from; unconfirmed off-air reports shown as such. |
+| 2026-11-15 | Field vetting: quick mode by distance on the sheet, plus a hidden planning page ranking precomputed stops (horizon from relief, `sharp` in scripts only) by the repeaters they reach that need a check. |

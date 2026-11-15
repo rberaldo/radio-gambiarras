@@ -232,6 +232,66 @@
   color: var(--m-text-muted);
 }
 
+/* Quick mode: one line per repeater, the result buttons big enough for a thumb outdoors */
+.vs-where {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--sp-2) var(--sp-3);
+  align-items: center;
+  margin: 0;
+}
+
+.vs-quick {
+  margin: 0;
+  padding: 0;
+  border: 1px solid var(--m-line);
+  background: var(--m-surface);
+  box-shadow: var(--m-shadow-sm);
+  list-style: none;
+}
+
+.vs-quick__row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--sp-3);
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--sp-3);
+  border-bottom: 1px solid var(--m-line-soft);
+}
+
+.vs-quick__row:last-child {
+  border-bottom: 0;
+}
+
+.vs-quick__what {
+  flex: 1 1 16rem;
+  min-width: 0;
+}
+
+.vs-quick__actions {
+  display: flex;
+  flex: 1 1 18rem;
+  gap: var(--sp-2);
+  max-width: 26rem;
+}
+
+.vs-quick__actions .btn {
+  flex: 1 1 0;
+  min-height: var(--target-touch);
+  padding: 0 var(--sp-3);
+}
+
+.vs-quick__actions .vs-quick__more {
+  flex: none;
+}
+
+.vs-quick__actions .btn[aria-pressed='true'] {
+  background: var(--m-select);
+  box-shadow: none;
+  color: var(--m-select-text);
+}
+
 /* Wide tables do not fit phones: each row becomes a card of labelled fields */
 @media (max-width: 79.99rem) {
   .vs-table,

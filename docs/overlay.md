@@ -88,6 +88,16 @@ printed, never written. An imported entry keeps `unverified` (and its
 source) while its imported position is unconfirmed, so the map keeps calling
 that position "provável".
 
+In the field, the sheet's "Perto de mim" mode lists the repeaters around
+you, nearest first, with one tap for abriu or não abriu (dated today, from
+where the GPS says you are). The planning page, `/repetidoras/conferir/plano`
+(hidden too), ranks precomputed stops by the repeaters within reach that need
+a check, builds an outing with one CHIRP file for the day, and opens the
+quick mode at each stop. The stops live in `scripts/stops/rj.json`;
+`node scripts/stops/build.ts` works out their altitude and horizon from the
+relief tiles and writes `data/repeaters/stops.json` (see
+`docs/data-sources.md`, "Stops").
+
 ## When Anatel drops a repeater
 
 An entry whose repeater no longer appears in Anatel's file, and which does

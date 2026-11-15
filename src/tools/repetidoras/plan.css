@@ -1,0 +1,165 @@
+/*
+  The planning page: the repeater map's layout (repeaters.css) with the
+  ranked stops, the open stop or the outing in the side column.
+*/
+.pl {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: var(--sp-4);
+}
+
+.pl .tool-filters,
+.pl .tool-filters__group {
+  min-width: 0;
+}
+
+.pl-summary {
+  margin: 0;
+  color: var(--m-text-muted);
+}
+
+/* Section titles inside the side column, as in the rest of the interior */
+.pl-title {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-2);
+  margin: 0 0 var(--sp-3);
+  font-family: var(--font-ui);
+  font-size: 1.0625rem;
+  font-weight: 700;
+}
+
+.pl-title::before {
+  content: '';
+  flex: none;
+  width: 0.5rem;
+  height: 0.5rem;
+  background: var(--m-select);
+}
+
+.tool-panel__head .pl-title {
+  flex: 1;
+  margin: 0;
+}
+
+.pl-stops,
+.pl-covered,
+.pl-outing__places {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.pl-stop {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 0 var(--sp-3);
+  width: 100%;
+  padding: var(--sp-3) var(--sp-2);
+  border: 0;
+  border-bottom: 1px solid var(--m-line-soft);
+  background: none;
+  color: var(--m-text);
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.pl-stop:hover {
+  background: var(--m-select-soft);
+}
+
+.pl-stop:focus-visible {
+  outline: var(--m-focus);
+  outline-offset: -3px;
+}
+
+.pl-stop__name {
+  font-weight: 700;
+}
+
+.pl-stop--chosen .pl-stop__name::after {
+  content: ' ✓';
+  color: var(--m-select);
+}
+
+.pl-stop__score {
+  font-family: var(--font-mono);
+  font-weight: 700;
+}
+
+.pl-stop .vs-meta {
+  grid-column: 1 / -1;
+}
+
+.pl-covered li {
+  padding: var(--sp-2) 0;
+  border-bottom: 1px solid var(--m-line-soft);
+}
+
+.pl-covered--active {
+  background: var(--m-select-soft);
+}
+
+.pl-outing {
+  margin-bottom: var(--sp-3);
+}
+
+.pl-outing__places {
+  margin-bottom: var(--sp-3);
+  counter-reset: stop;
+}
+
+.pl-outing__places li {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--sp-1) var(--sp-3);
+  align-items: center;
+  padding: var(--sp-2) 0;
+  border-bottom: 1px solid var(--m-line-soft);
+  counter-increment: stop;
+}
+
+.pl-outing__places li::before {
+  content: counter(stop) '.';
+  font-family: var(--font-mono);
+}
+
+.pl-link {
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--m-select);
+  font: inherit;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.pl-link--name {
+  flex: 1;
+  font-weight: 700;
+  text-align: left;
+}
+
+.pl-remove {
+  display: grid;
+  place-items: center;
+  width: 1.75rem;
+  height: 1.75rem;
+  margin-left: auto;
+  padding: 0;
+  border: 1px solid var(--m-line);
+  background: var(--m-surface);
+  color: var(--m-text);
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+@media (pointer: coarse) {
+  .pl-remove {
+    width: var(--target-touch);
+    height: var(--target-touch);
+  }
+}

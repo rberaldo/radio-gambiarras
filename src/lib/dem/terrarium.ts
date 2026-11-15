@@ -2,6 +2,11 @@
 // which tile and pixel hold a point, and the elevation a pixel's colour means.
 import type { Point } from '../repeaters/geo.ts';
 
+/** Mapterhorn's tiles: 512 px wide, about 18 m per pixel over Brazil at their deepest zoom. */
+export const DEM_URL = 'https://tiles.mapterhorn.com/{z}/{x}/{y}.webp';
+export const DEM_MAX_ZOOM = 12;
+export const DEM_TILE_SIZE = 512;
+
 /** Where a point falls in the Web Mercator tile grid at zoom `z`, for tiles `size` pixels wide. */
 export function tilePixel(p: Point, z: number, size: number): { x: number; y: number; px: number; py: number } {
   const n = 2 ** z;

@@ -37,6 +37,19 @@ export function isEdited(d: RowDraft | undefined): boolean {
   return !!d && !!(d.result || d.tone || d.position?.trim() || d.modes?.length || d.comment?.trim());
 }
 
+/** A spot as the "de onde" of a check: three decimals (about 100 m) are enough, and the overlay is public. */
+export const fromText = (p: { lat: number; lon: number }) => `${p.lat.toFixed(3)}, ${p.lon.toFixed(3)}`;
+
+/**
+ * One tap in the quick mode: the result, dated today, made from where the
+ * maintainer stands (unless the row already says from where). The same
+ * result again takes it back.
+ */
+export function quickResult(d: RowDraft | undefined, result: CheckResult, today: string, from?: string): Partial<RowDraft> {
+  if (d?.result === result) return { result: undefined };
+  return { result, date: today, ...(from && !d?.from?.trim() ? { from } : {}) };
+}
+
 /** The check a row describes, or what is wrong with it. */
 export function draftToCheck(d: RowDraft): { check: Check; problems: string[] } {
   const problems: string[] = [];

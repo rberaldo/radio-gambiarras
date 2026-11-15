@@ -33,6 +33,8 @@ export const FIT = { padding: 48, maxZoom: 13 };
 export const SPIDER_LAYERS = ['spider-points', 'spider-diamonds'];
 export const POINT_LAYERS = ['repeater-points', 'repeater-diamonds', ...SPIDER_LAYERS];
 export const SPIDER_SOURCES = ['spider', 'spider-legs', 'spider-hub'];
+/** Places marked on the map (the planning page's stops), clickable. */
+export const MARK_LAYERS = ['mark-points'];
 
 // One visual meaning per trait (decided with the user, 2026-11-09):
 //   shape: circle = FM, diamond = digital (a group: diamond only when all are digital)
@@ -120,7 +122,7 @@ export function addRepeaterLayers(map: maplibregl.Map) {
       off: ['+', ['case', ['get', 'off'], 1, 0]],
     },
   });
-  for (const id of ['circle', 'track', 'track-corridor', 'active', 'center', ...SPIDER_SOURCES]) map.addSource(id, { type: 'geojson', data: EMPTY });
+  for (const id of ['circle', 'track', 'track-corridor', 'active', 'center', 'marks', ...SPIDER_SOURCES]) map.addSource(id, { type: 'geojson', data: EMPTY });
   addImages(map);
 
   map.addLayer({ id: 'circle-fill', type: 'fill', source: 'circle', paint: { 'fill-color': COLORS.navy, 'fill-opacity': 0.08 } });
@@ -215,5 +217,34 @@ export function addRepeaterLayers(map: maplibregl.Map) {
     type: 'circle',
     source: 'active',
     paint: { 'circle-radius': 11, 'circle-color': 'rgba(0,0,0,0)', 'circle-stroke-color': COLORS.gold, 'circle-stroke-width': 3 },
+  });
+
+  // Marked places: gold, so they never read as a repeater; a navy rim once chosen, a thick black ring when open; named below.
+  const CHOSEN: Expr = ['==', ['get', 'chosen'], 1];
+  const OPEN: Expr = ['==', ['get', 'active'], 1];
+  map.addLayer({
+    id: 'mark-points',
+    type: 'circle',
+    source: 'marks',
+    paint: {
+      'circle-radius': ['case', OPEN, 9, CHOSEN, 8, 6],
+      'circle-color': COLORS.gold,
+      'circle-stroke-color': ['case', OPEN, COLORS.black, CHOSEN, COLORS.navy, COLORS.black],
+      'circle-stroke-width': ['case', OPEN, 3, CHOSEN, 3, 1.5],
+    },
+  });
+  map.addLayer({
+    id: 'mark-labels',
+    type: 'symbol',
+    source: 'marks',
+    layout: {
+      'text-field': ['get', 'name'],
+      'text-font': ['Noto Sans Bold'],
+      'text-size': 11,
+      'text-anchor': 'top',
+      'text-offset': [0, 0.9],
+      'text-optional': true,
+    },
+    paint: { 'text-color': COLORS.navy, 'text-halo-color': COLORS.white, 'text-halo-width': 1.5 },
   });
 }

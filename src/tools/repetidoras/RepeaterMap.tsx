@@ -1,8 +1,9 @@
 // The repeater map: MapLibre with the Gaia-like base style (mapStyle.ts) and
 // our layers (mapLayers.ts): grouped repeater markers, the selection circle
 // or a trail with its corridor, the open repeater, and stacked groups that
-// fan out on click (mapSpider.ts). The map is created once; everything else
-// is synced from props. Left click picks a point, right click clears.
+// fan out on click (mapSpider.ts), and optionally marked places (the
+// planning page's stops). The map is created once; everything else is synced
+// from props. Left click picks a point, right click clears.
 import type { FeatureCollection, Point as GeoPoint } from 'geojson';
 import mlcontour from 'maplibre-contour';
 import * as maplibregl from 'maplibre-gl';
@@ -16,7 +17,7 @@ import type { Point } from '../../lib/repeaters/geo.ts';
 import type { Repeater } from '../../lib/repeaters/merge.ts';
 import type { Track } from '../../lib/tracks/track.ts';
 import { EMPTY, circleBounds, circlePolygon, corridorCircles, pointFeature, repeaterPoints } from './mapData.ts';
-import { CLICKABLE_CLUSTERS, FIT, MAX_ZOOM, POINT_LAYERS, SPIDER_LAYERS, addRepeaterLayers } from './mapLayers.ts';
+import { CLICKABLE_CLUSTERS, FIT, MARK_LAYERS, MAX_ZOOM, POINT_LAYERS, SPIDER_LAYERS, addRepeaterLayers } from './mapLayers.ts';
 import { closeSpider, openSpider, shouldFanOut, type Spider } from './mapSpider.ts';
 import { BASE_STYLE_URL, BRAZIL_BOUNDS, DEM_MAX_ZOOM, DEM_URL, RELIEF_ATTRIBUTION, buildStyle } from './mapStyle.ts';
 
@@ -29,6 +30,14 @@ export interface Focus {
   zoom?: number;
   /** Fit these instead: [[west, south], [east, north]], e.g. a whole trail. */
   bounds?: [[number, number], [number, number]];
+}
+
+/** A place marked on the map, with its name shown below it. */
+export interface Mark extends Point {
+  id: string;
+  name: string;
+  /** Drawn filled: already part of a plan. */
+  chosen?: boolean;
 }
 
 interface Props {
@@ -46,6 +55,12 @@ interface Props {
   /** Right click: forget the picked point or trail. */
   onClear: () => void;
   onSelect: (id: string) => void;
+  marks?: readonly Mark[];
+  /** The mark that is open, ringed. */
+  activeMark?: string;
+  onMark?: (id: string) => void;
+  /** The map's accessible name. */
+  label?: string;
 }
 
 /** Map options that show `focus`, or all of Brazil. */
@@ -57,14 +72,14 @@ function initialView(focus: Focus | undefined): Partial<maplibregl.MapOptions> {
 
 const setSource = (map: maplibregl.Map, id: string, data: FeatureCollection) => (map.getSource(id) as GeoJSONSource).setData(data);
 
-export function RepeaterMap({ repeaters, track, inside, center, radiusKm, activeId, focus, onPick, onClear, onSelect }: Props) {
+export function RepeaterMap({ repeaters, track, inside, center, radiusKm, activeId, focus, onPick, onClear, onSelect, marks, activeMark, onMark, label = 'Mapa de repetidoras' }: Props) {
   const container = useRef<HTMLDivElement>(null);
   const mapRef = useRef<maplibregl.Map | undefined>(undefined);
   const [ready, setReady] = useState(false);
   const [error, setError] = useState<string>();
   // Handlers change every render; the map's listeners read the latest ones.
-  const handlers = useRef({ onPick, onClear, onSelect });
-  handlers.current = { onPick, onClear, onSelect };
+  const handlers = useRef({ onPick, onClear, onSelect, onMark });
+  handlers.current = { onPick, onClear, onSelect, onMark };
   // The focus the map was created with, so the focus effect does not move it again.
   const createdWith = useRef(focus);
 
@@ -166,8 +181,12 @@ export function RepeaterMap({ repeaters, track, inside, center, radiusKm, active
           if (id) handlers.current.onSelect(id);
         });
       }
+      map.on('click', MARK_LAYERS[0]!, (e: MapLayerMouseEvent) => {
+        const id = e.features?.[0]?.properties.id as string | undefined;
+        if (id) handlers.current.onMark?.(id);
+      });
       map.on('click', (e: MapMouseEvent) => {
-        if (!map || map.queryRenderedFeatures(e.point, { layers: [...CLICKABLE_CLUSTERS, ...POINT_LAYERS] }).length) return;
+        if (!map || map.queryRenderedFeatures(e.point, { layers: [...CLICKABLE_CLUSTERS, ...POINT_LAYERS, ...MARK_LAYERS] }).length) return;
         // The first click elsewhere only folds a fanned-out group back.
         if (spiderRef.current) {
           unspider();
@@ -185,7 +204,7 @@ export function RepeaterMap({ repeaters, track, inside, center, radiusKm, active
       // Fanned-out markers sit at screen distances, which a zoom would break.
       map.on('zoomstart', unspider);
       map.getContainer().addEventListener('keydown', onKey);
-      for (const layer of [...CLICKABLE_CLUSTERS, ...POINT_LAYERS]) {
+      for (const layer of [...CLICKABLE_CLUSTERS, ...POINT_LAYERS, ...MARK_LAYERS]) {
         map.on('mouseenter', layer, () => (map!.getCanvas().style.cursor = 'pointer'));
         map.on('mouseleave', layer, () => (map!.getCanvas().style.cursor = ''));
       }
@@ -230,6 +249,12 @@ export function RepeaterMap({ repeaters, track, inside, center, radiusKm, active
   }, [ready, activeId, repeaters, spider]);
 
   useEffect(() => {
+    if (!ready) return;
+    const features = (marks ?? []).map((m) => pointFeature([m.lon, m.lat], { id: m.id, name: m.name, chosen: m.chosen ? 1 : 0, active: m.id === activeMark ? 1 : 0 }));
+    setSource(mapRef.current!, 'marks', { type: 'FeatureCollection', features });
+  }, [ready, marks, activeMark]);
+
+  useEffect(() => {
     const map = mapRef.current;
     if (!ready || !map || !focus || focus === createdWith.current) return;
     if (focus.bounds) map.fitBounds(focus.bounds, FIT);
@@ -240,7 +265,7 @@ export function RepeaterMap({ repeaters, track, inside, center, radiusKm, active
 
   return (
     <div class="rp-map">
-      <div ref={container} class="rp-map__canvas" role="region" aria-label="Mapa de repetidoras" />
+      <div ref={container} class="rp-map__canvas" role="region" aria-label={label} />
       {error && (
         <p class="rp-map__error" role="alert">
           Não foi possível carregar o mapa ({error}). A lista e os downloads continuam funcionando.

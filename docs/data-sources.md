@@ -233,6 +233,18 @@ Line of sight reads the same Mapterhorn tiles directly (zoom 12, decoded
 in the browser, at most 30 tiles cached). Copernicus GLO-30 is a surface
 model: buildings and forest canopy count as terrain.
 
+### Stops (planning page, 2026-11-15)
+
+`scripts/stops/build.ts` reads the same Mapterhorn tiles in Node, decoded
+with `sharp` (WebP is not readable by Node alone), for the stops in
+`scripts/stops/rj.json`: about 70 tiles for the RJ list, a few seconds. Stop
+positions and the altitudes used as a check come from OpenStreetMap
+(Nominatim, looked up once by hand; `natural=peak` and `tourism=viewpoint`).
+The Overpass API refused queries with `406 Not Acceptable` that day. The
+30 m model smooths needles: the Corcovado comes out 81 m low, the Pão de
+Açúcar 65 m; rounded summits within about 20 m. Not run by the daily job:
+re-run by hand after editing the list.
+
 Libraries: MapLibre GL JS 6.x (BSD-3, ~295 KB gzipped), maplibre-contour
 0.1.x (BSD-3; MapLibre 6 support unverified, smoke-test).
 

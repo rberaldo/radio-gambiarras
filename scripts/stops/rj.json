@@ -1,0 +1,22 @@
+{
+ "about": "Places to test repeaters from, in RJ. Positions and known altitudes from OpenStreetMap (2026-11-15). summit: move to the highest point within snapM (default 300 m). Pruned by the maintainer.",
+ "stops": [
+  { "id": "pico-da-tijuca", "name": "Pico da Tijuca", "lat": -22.944, "lon": -43.28671, "summit": true, "knownElevM": 1021, "note": "Trilha de 1h30 a partir do Bom Retiro, com escadaria no fim." },
+  { "id": "pedra-bonita", "name": "Pedra Bonita", "lat": -22.98918, "lon": -43.28409, "summit": true, "knownElevM": 693, "note": "Rampa de voo livre de carro; o cume, 30 min de trilha." },
+  { "id": "pedra-da-gavea", "name": "Pedra da Gávea", "lat": -22.99898, "lon": -43.28297, "summit": true, "knownElevM": 844, "note": "Trilha difícil, com escalaminhada." },
+  { "id": "vista-chinesa", "name": "Vista Chinesa", "lat": -22.97326, "lon": -43.24947, "note": "Mirante na estrada, de carro." },
+  { "id": "mesa-do-imperador", "name": "Mesa do Imperador", "lat": -22.97037, "lon": -43.25788, "note": "Mirante na estrada, de carro." },
+  { "id": "corcovado", "name": "Corcovado", "lat": -22.95195, "lon": -43.21058, "summit": true, "knownElevM": 710, "note": "Trem, van ou trilha do Parque Lage." },
+  { "id": "sumare", "name": "Morro do Sumaré", "lat": -22.93759, "lon": -43.2241, "summit": true, "knownElevM": 556, "note": "Estrada das antenas; o acesso ao topo pode ser restrito." },
+  { "id": "dona-marta", "name": "Mirante Dona Marta", "lat": -22.94514, "lon": -43.19643, "summit": true, "knownElevM": 364, "note": "Mirante de carro, na subida do Corcovado." },
+  { "id": "pao-de-acucar", "name": "Pão de Açúcar", "lat": -22.94949, "lon": -43.15616, "summit": true, "knownElevM": 392, "note": "Bondinho." },
+  { "id": "pico-da-pedra-branca", "name": "Pico da Pedra Branca", "lat": -22.93178, "lon": -43.4729, "summit": true, "knownElevM": 1025, "note": "Trilha longa a partir do Pau da Fome." },
+  { "id": "parque-da-cidade-niteroi", "name": "Parque da Cidade (Niterói)", "lat": -22.92971, "lon": -43.08758, "summit": true, "snapM": 600, "note": "Rampa de voo livre, de carro." },
+  { "id": "trono-de-fatima", "name": "Trono de Fátima (Petrópolis)", "lat": -22.51053, "lon": -43.18614, "note": "Mirante com trilha curta a partir da cidade." },
+  { "id": "mirante-do-soberbo", "name": "Mirante do Soberbo (Teresópolis)", "lat": -22.46266, "lon": -42.987, "knownElevM": 1000, "note": "Mirante na BR-116, de carro." },
+  { "id": "pedra-do-sino", "name": "Pedra do Sino", "lat": -22.46167, "lon": -43.03111, "summit": true, "knownElevM": 2255, "note": "Trilha longa, um dia inteiro (Parnaso)." },
+  { "id": "pico-da-caledonia", "name": "Pico da Caledônia (Nova Friburgo)", "lat": -22.35353, "lon": -42.58707, "summit": true, "knownElevM": 2257, "note": "Estrada até as antenas e escadaria até o cume." },
+  { "id": "morro-de-sao-joao", "name": "Morro de São João", "lat": -22.53759, "lon": -42.03307, "summit": true, "snapM": 1500, "note": "Trilha a partir de Barra de São João." },
+  { "id": "pico-das-agulhas-negras", "name": "Pico das Agulhas Negras", "lat": -22.38024, "lon": -44.66155, "summit": true, "knownElevM": 2791, "note": "Parte alta do Itatiaia, com escalada no fim." }
+ ]
+}

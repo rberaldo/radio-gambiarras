@@ -3,6 +3,7 @@
 import { useEffect, useRef } from 'preact/hooks';
 import { BAND_TEXT, formatKm, formatMHz, formatShift, modeBadge, toneText } from '../../lib/repeaters/display.ts';
 import { chirpCsv, isChirpable, isFm, spreadsheetCsv } from '../../lib/repeaters/export.ts';
+import { download } from '../../ui/download.ts';
 import type { Nearby, Point } from '../../lib/repeaters/geo.ts';
 import { formatNumber, plural } from '../../lib/format.ts';
 import { CopyButton } from '../../ui/CopyButton.tsx';
@@ -43,14 +44,6 @@ function chirpNote(chirpable: number, notFm: number, offAir: number): string {
   return `O arquivo do CHIRP leva ${chirpable}: ${why}.`;
 }
 
-function download(name: string, content: string) {
-  const url = URL.createObjectURL(new Blob([content], { type: 'text/csv;charset=utf-8' }));
-  const a = Object.assign(document.createElement('a'), { href: url, download: name });
-  document.body.append(a);
-  a.click();
-  a.remove();
-  setTimeout(() => URL.revokeObjectURL(url), 1000);
-}
 
 export function ResultsPanel({ nearby, sight, radiusKm, mode, status, center, trail, label, activeId, focusId, onFocused, onSelect, onClear, onWiden }: Props) {
   const list = useRef<HTMLOListElement>(null);

@@ -2,11 +2,9 @@
 // uses for relief (zoom 12, about 18 m per pixel over Brazil). Tiles are
 // fetched on demand and kept, so a second profile in the same area is free.
 // Tiles over the sea return 404: those points count as sea level.
-import { terrariumElevation, tilePixel } from '../../lib/dem/terrarium.ts';
+import { DEM_MAX_ZOOM, DEM_TILE_SIZE as SIZE, DEM_URL, terrariumElevation, tilePixel } from '../../lib/dem/terrarium.ts';
 import type { Point } from '../../lib/repeaters/geo.ts';
-import { DEM_MAX_ZOOM, DEM_URL } from './mapStyle.ts';
 
-const SIZE = 512;
 /** About 30 MB of pixels at most; the oldest tiles go first. */
 const MAX_TILES = 30;
 const tiles = new Map<string, Promise<Uint8ClampedArray | null>>();

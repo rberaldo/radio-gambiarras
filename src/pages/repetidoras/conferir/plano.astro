@@ -1,0 +1,26 @@
+---
+// The maintainer's planning page for vetting trips, next to the sheet: not in
+// the registry, the menus or any public link, and not indexed.
+import Desktop from '../../../layouts/Desktop.astro';
+import Icon from '../../../components/win95/Icon.astro';
+import Window from '../../../components/win95/Window.astro';
+import StopPlanner from '../../../tools/repetidoras/StopPlanner.tsx';
+import meta from '../../../../data/repeaters/meta.json';
+import stops from '../../../../data/repeaters/stops.json';
+import { formatDate } from '../../../lib/format.ts';
+---
+
+<Desktop title="Plano de conferência" windowTitle="Plano de conferência" noindex wide>
+  <Window title="Plano de conferência" current="/repetidoras">
+    <Icon slot="icon" name="repetidoras" size={16} />
+    <p>
+      De onde testar as repetidoras que faltam conferir. Monte um roteiro, baixe os canais para o rádio e, em cada parada,
+      abra a <a href="/repetidoras/conferir">planilha de conferência</a> no modo “perto de mim”.
+    </p>
+    <StopPlanner client:only="preact" />
+    <Fragment slot="status">
+      <span>Dados da Anatel de {formatDate(meta.updatedAt)}</span>
+      <span>Horizontes de {formatDate(stops.updatedAt)}</span>
+    </Fragment>
+  </Window>
+</Desktop>

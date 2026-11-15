@@ -5,10 +5,11 @@
 // Sources and attribution: docs/data-sources.md ("Map services").
 import type { MultiPolygon } from 'geojson';
 import type { ExpressionSpecification, LayerSpecification, StyleSpecification } from 'maplibre-gl';
+import { DEM_MAX_ZOOM, DEM_URL } from '../../lib/dem/terrarium.ts';
+
+export { DEM_MAX_ZOOM, DEM_URL };
 
 export const BASE_STYLE_URL = 'https://tiles.openfreemap.org/styles/liberty';
-export const DEM_URL = 'https://tiles.mapterhorn.com/{z}/{x}/{y}.webp';
-export const DEM_MAX_ZOOM = 12;
 export const RELIEF_ATTRIBUTION =
   'Relevo © <a href="https://mapterhorn.com/attribution" target="_blank" rel="noopener">Mapterhorn</a> (Copernicus GLO-30)';
 
