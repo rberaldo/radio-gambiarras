@@ -9,6 +9,21 @@
   gap: var(--sp-4);
 }
 
+/*
+  A fieldset is never narrower than its content unless told so, and a select
+  is as wide as its longest option (a town's name): let both shrink to the
+  screen.
+*/
+.vs .tool-filters,
+.vs .tool-filters__group {
+  min-width: 0;
+}
+
+.vs .tool-filters .field {
+  min-width: 0;
+  max-width: 100%;
+}
+
 .vs-search {
   flex: 1 1 16rem;
 }
