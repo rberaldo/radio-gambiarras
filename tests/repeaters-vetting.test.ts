@@ -160,6 +160,25 @@ describe('applyChecks', () => {
     expect(older).toMatchObject({ failed: '2026-11-14', checked: '2023-03-15' });
   });
 
+  it('counts a repeater heard but not opened as on the air, keeping the failed test', () => {
+    const before = overlay({ 'PY1AA@146.610': imported });
+    const { file, outcomes } = applyChecks(before, { 'PY1AA@146.610': { date: '2026-11-15', result: 'ouvida', from: 'Pico da Tijuca' } });
+    const e = file.entries['PY1AA@146.610']!;
+    expect(e).toMatchObject({
+      onAir: true,
+      onAirDate: '2026-11-15',
+      checked: '2026-11-15',
+      checkedHow: 'ouvida sem abrir, teste no ar, de Pico da Tijuca',
+      failed: '2026-11-15',
+      failedHow: 'teste no ar, de Pico da Tijuca',
+    });
+    expect(e.unverified).toBeUndefined();
+    expect(outcomes[0]!.applied).toEqual(['no ar, ouvida sem abrir (teste no ar, de Pico da Tijuca)']);
+    expect(vettingStatus(e, new Date('2026-11-16T12:00:00Z'))).toBe('recente');
+    expect(validateOverlay(file, ids)).toEqual([]);
+    expect(validateChecks({ format: 1, kind: 'conferencias', exportedAt: '', checks: { 'PY1AA@146.610': { date: '2026-11-15', result: 'ouvida' } } })).toEqual([]);
+  });
+
   it('describes how a check was made, and from where', () => {
     expect(howText({})).toBe('teste no ar');
     expect(howText({ how: 'relato', reporter: '  ' })).toBe('relato de terceiro');

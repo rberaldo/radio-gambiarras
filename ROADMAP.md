@@ -831,3 +831,4 @@ Not planned. Move one into a milestone only when the user asks.
 | 2026-11-09 | Quarantine history seeded from an April 2025 third-party snapshot, marked as uncertain. |
 | 2026-11-14 | Vetting: "não abriu" is a failed test, not "fora do ar", and only lowers green to yellow; checks record where they were made from; unconfirmed off-air reports shown as such. |
 | 2026-11-15 | Field vetting: quick mode by distance on the sheet, plus a hidden planning page ranking precomputed stops (horizon from relief, `sharp` in scripts only) by the repeaters they reach that need a check. |
+| 2026-11-15 | Vetting: new result "ouvida" (heard on the air, did not open): counts as checked and on the air, and keeps the failed test on the same day. |

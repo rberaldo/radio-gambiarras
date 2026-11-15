@@ -71,7 +71,8 @@ filters by it (`?situacao=conferidas` or `fora-do-ar`).
 
 The maintainer vets repeaters in a hidden sheet at `/repetidoras/conferir`
 (not linked, not indexed). It opens on RJ; each row takes a result (abriu,
-não abriu, or fora do ar for a repeater known to be down), how it was
+ouvi no ar mas não abriu, não abriu, or fora do ar for a repeater known to be
+down), how it was
 checked (own test, listening, or someone's report, which also counts) and
 from where (a place, or the GPS button: coordinates to three decimals, since
 the overlay is public), tone, the antenna's position, modes, a date and a
@@ -80,8 +81,10 @@ annotated rows, and
 
     node scripts/repeaters/apply-checks.ts conferencias-2026-11-11.json
 
-merges them: abriu and fora do ar set `onAir`, `onAirDate`, `checked` and
-`checkedHow` (abriu also clears an older `failed`); não abriu sets only
+merges them: abriu, ouvida and fora do ar set `onAir`, `onAirDate`, `checked`
+and `checkedHow` (abriu also clears an older `failed`; ouvida, heard on the
+air without opening, also sets `failed` to the same day, so it still counts
+as checked and `checkedHow` starts "ouvida sem abrir"); não abriu sets only
 `failed` and `failedHow`, and alone confirms nothing (an imported entry
 stays `unverified`); tone, position and modes replace what was there. Comments are
 printed, never written. An imported entry keeps `unverified` (and its
@@ -89,7 +92,7 @@ source) while its imported position is unconfirmed, so the map keeps calling
 that position "provável".
 
 In the field, the sheet's "Perto de mim" mode lists the repeaters around
-you, nearest first, with one tap for abriu or não abriu (dated today, from
+you, nearest first, with one tap for abriu, ouvi (heard, did not open) or não abriu (dated today, from
 where the GPS says you are). The planning page, `/repetidoras/conferir/plano`
 (hidden too), ranks precomputed stops by the repeaters within reach that need
 a check, builds an outing with one CHIRP file for the day, and opens the

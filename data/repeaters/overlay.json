@@ -863,6 +863,16 @@
    "unverified": true,
    "tone": 88.5
   },
+  "PY1FLU@439.550": {
+   "source": "Conferência (teste no ar)",
+   "date": "2026-11-15",
+   "onAir": true,
+   "onAirDate": "2026-11-15",
+   "checked": "2026-11-15",
+   "checkedHow": "ouvida sem abrir, teste no ar",
+   "failed": "2026-11-15",
+   "failedHow": "teste no ar"
+  },
   "PY1GDP@439.225": {
    "source": "Importação inicial de 2026-11-09 (a conferir)",
    "date": "2026-11-09",
@@ -1262,6 +1272,19 @@
    "date": "2026-11-09",
    "unverified": true,
    "tone": 100
+  },
+  "PY1RSU@439.950": {
+   "source": "Conferência (teste no ar)",
+   "date": "2026-11-15",
+   "onAir": true,
+   "onAirDate": "2026-11-15",
+   "checked": "2026-11-15",
+   "checkedHow": "ouvida sem abrir, teste no ar",
+   "failed": "2026-11-15",
+   "failedHow": "teste no ar",
+   "modes": [
+    "DMR"
+   ]
   },
   "PY1SCF@145.430": {
    "source": "Importação inicial de 2026-11-09 (a conferir)",

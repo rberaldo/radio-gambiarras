@@ -39,12 +39,20 @@ export const VETTING_TEXT: Record<VettingStatus, string> = {
 /**
  * "Não abriu" records a failed test, which may only mean out of reach; "fora
  * do ar" is for a repeater known to be down (the maintainer's call,
- * 2026-11-14, replacing "não abriu counts as off the air").
+ * 2026-11-14, replacing "não abriu counts as off the air"). "Ouvida" is a
+ * repeater heard on the air (its identification, a QSO) that did not open
+ * for us: it is on the air, so it counts as checked, and the failed test is
+ * kept beside it (2026-11-15).
  */
-export type CheckResult = 'abriu' | 'nao-abriu' | 'fora-do-ar';
+export type CheckResult = 'abriu' | 'ouvida' | 'nao-abriu' | 'fora-do-ar';
 export type CheckHow = 'teste' | 'escuta' | 'relato';
 
-export const CHECK_RESULTS: Record<CheckResult, string> = { abriu: 'Abriu', 'nao-abriu': 'Não abriu', 'fora-do-ar': 'Fora do ar (desligada)' };
+export const CHECK_RESULTS: Record<CheckResult, string> = {
+  abriu: 'Abriu',
+  ouvida: 'Ouvi no ar, não abriu',
+  'nao-abriu': 'Não abriu',
+  'fora-do-ar': 'Fora do ar (desligada)',
+};
 export const CHECK_HOWS: Record<CheckHow, string> = { teste: 'Teste meu no ar', escuta: 'Escuta', relato: 'Relato de terceiro' };
 
 /** One row of the vetting sheet: what the maintainer found on a given day. */
@@ -118,9 +126,10 @@ export interface CheckOutcome {
 }
 
 /**
- * The overlay with the checks applied. "Abriu" and "fora do ar" set onAir and
- * the check date; a report from someone else counts as a check. "Não abriu"
- * only records the failed test, and a later "abriu" clears it. Tone, position
+ * The overlay with the checks applied. "Abriu", "ouvida" and "fora do ar" set
+ * onAir and the check date; a report from someone else counts as a check.
+ * "Não abriu" only records the failed test, and a later "abriu" clears it;
+ * "ouvida" records both, the check and the failed test, on the same day. Tone, position
  * and modes replace what was there. An imported (`unverified`) entry stays so
  * while its imported position is not confirmed, so the map keeps calling it
  * "provável"; a failed test alone confirms nothing.
@@ -139,16 +148,20 @@ export function applyChecks(file: OverlayFile, checks: Record<string, Check>): {
       e.failedHow = how;
       applied.push(`não abriu (${how})`);
     } else if (c.result) {
-      e.onAir = c.result === 'abriu';
+      e.onAir = c.result !== 'fora-do-ar';
       e.onAirDate = c.date;
       e.checked = c.date;
-      e.checkedHow = how;
+      e.checkedHow = c.result === 'ouvida' ? `ouvida sem abrir, ${how}` : how;
       delete e.offAirUnconfirmed;
-      if (c.result === 'abriu' && e.failed && e.failed <= c.date) {
+      if (c.result === 'ouvida') {
+        // Same day as the check, so it does not count as failing since.
+        e.failed = c.date;
+        e.failedHow = how;
+      } else if (c.result === 'abriu' && e.failed && e.failed <= c.date) {
         delete e.failed;
         delete e.failedHow;
       }
-      applied.push(`${c.result === 'abriu' ? 'no ar' : 'fora do ar'} (${how})`);
+      applied.push(`${c.result === 'fora-do-ar' ? 'fora do ar' : c.result === 'ouvida' ? 'no ar, ouvida sem abrir' : 'no ar'} (${how})`);
     }
     if (c.tone !== undefined) {
       e.tone = c.tone;

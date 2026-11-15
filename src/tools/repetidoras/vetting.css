@@ -272,12 +272,15 @@
 .vs-quick__actions {
   display: flex;
   flex: 1 1 18rem;
+  flex-wrap: wrap;
   gap: var(--sp-2);
-  max-width: 26rem;
+  max-width: 28rem;
 }
 
+/* Grow to share the row; on the narrowest phones "Mais…" drops to its own line */
 .vs-quick__actions .btn {
-  flex: 1 1 0;
+  flex: 1 1 auto;
+  min-width: 0;
   min-height: var(--target-touch);
   padding: 0 var(--sp-3);
 }

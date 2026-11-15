@@ -18,9 +18,11 @@ interface Props {
   onMore: (r: Repeater) => void;
 }
 
-const BUTTONS: [CheckResult, string][] = [
-  ['abriu', 'Abriu'],
-  ['nao-abriu', 'Não abriu'],
+/** Button text, and what it means in full for screen readers. */
+const BUTTONS: [CheckResult, string, string][] = [
+  ['abriu', 'Abriu', 'Abriu'],
+  ['ouvida', 'Ouvi', 'Ouvi no ar, não abriu'],
+  ['nao-abriu', 'Não abriu', 'Não abriu'],
 ];
 
 export const QuickRow = memo(function QuickRow({ repeater: r, draft, distanceKm, bearing, onResult, onMore }: Props) {
@@ -38,8 +40,8 @@ export const QuickRow = memo(function QuickRow({ repeater: r, draft, distanceKm,
         </span>
       </div>
       <div class="vs-quick__actions">
-        {BUTTONS.map(([result, text]) => (
-          <button class="btn" type="button" key={result} aria-pressed={draft?.result === result} aria-label={`${text}: ${name}`} onClick={() => onResult(r.id, result)}>
+        {BUTTONS.map(([result, text, full]) => (
+          <button class="btn" type="button" key={result} aria-pressed={draft?.result === result} aria-label={`${full}: ${name}`} title={full} onClick={() => onResult(r.id, result)}>
             {text}
           </button>
         ))}
