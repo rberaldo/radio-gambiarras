@@ -45,7 +45,6 @@ export const VETTING_TEXT: Record<VettingStatus, string> = {
  * kept beside it (2026-11-15).
  */
 export type CheckResult = 'abriu' | 'ouvida' | 'nao-abriu' | 'fora-do-ar';
-export type CheckHow = 'teste' | 'escuta' | 'relato';
 
 export const CHECK_RESULTS: Record<CheckResult, string> = {
   abriu: 'Abriu',
@@ -53,16 +52,11 @@ export const CHECK_RESULTS: Record<CheckResult, string> = {
   'nao-abriu': 'Não abriu',
   'fora-do-ar': 'Fora do ar (desligada)',
 };
-export const CHECK_HOWS: Record<CheckHow, string> = { teste: 'Teste meu no ar', escuta: 'Escuta', relato: 'Relato de terceiro' };
 
 /** One row of the vetting sheet: what the maintainer found on a given day. */
 export interface Check {
   date: string;
   result?: CheckResult;
-  /** Absent means "teste". */
-  how?: CheckHow;
-  /** Who reported it, for "relato". */
-  reporter?: string;
   /** Where the test was made from: a place name or "lat, lon". */
   from?: string;
   tone?: number | 'none';
@@ -82,12 +76,17 @@ export interface ChecksFile {
   checks: Record<string, Check>;
 }
 
-/** "teste no ar", "escuta, de Alto da Boa Vista", "relato de PY1ABC". */
-export function howText(c: Pick<Check, 'how' | 'reporter' | 'from'>): string {
-  const from = c.from?.trim() ? `, de ${c.from.trim()}` : '';
-  if (c.how === 'escuta') return `escuta${from}`;
-  if (c.how === 'relato') return `${c.reporter?.trim() ? `relato de ${c.reporter.trim()}` : 'relato de terceiro'}${from}`;
-  return `teste no ar${from}`;
+/**
+ * How a check reads in the overlay: what happened, then from where. "abriu,
+ * de Alto da Boa Vista", "ouvida sem abrir", "de Niterói" (off the air or a
+ * failed test, which the status already names); empty when there is nothing
+ * to add. Until 2026-11-15 a check also said how it was made (own test,
+ * listening, someone's report): older entries keep that wording.
+ */
+export function howText(c: Pick<Check, 'result' | 'from'>): string {
+  const what = c.result === 'abriu' ? 'abriu' : c.result === 'ouvida' ? 'ouvida sem abrir' : '';
+  const where = c.from?.trim() ? `de ${c.from.trim()}` : '';
+  return [what, where].filter(Boolean).join(', ');
 }
 
 const ID = /^[A-Z0-9]{4,7}@\d{2,3}\.\d{3}$/;
@@ -105,7 +104,6 @@ export function validateChecks(file: unknown): string[] {
     if (!ID.test(id)) err('id deve ser INDICATIVO@frequência com 3 casas');
     if (!isDate(c.date)) err('data deve ser AAAA-MM-DD');
     if (c.result !== undefined && !(c.result in CHECK_RESULTS)) err(`resultado ${c.result} desconhecido`);
-    if (c.how !== undefined && !(c.how in CHECK_HOWS)) err(`"como" ${c.how} desconhecido`);
     if (c.from !== undefined && (typeof c.from !== 'string' || !c.from.trim() || c.from.length > 80)) err('"de onde" deve ter de 1 a 80 caracteres');
     if (c.tone !== undefined && c.tone !== 'none' && !CTCSS_TONES.includes(c.tone)) err(`tom ${c.tone} não é um tom CTCSS padrão`);
     if (c.dcs !== undefined && !/^[0-7]{3}$/.test(c.dcs)) err(`DCS ${c.dcs} deve ter três dígitos octais`);
@@ -141,27 +139,33 @@ export function applyChecks(file: OverlayFile, checks: Record<string, Check>): {
     const before: OverlayEntry | undefined = entries[id];
     const e: OverlayEntry = { ...(before ?? { source: '', date: c.date }) };
     const how = howText(c);
+    const where = howText({ from: c.from });
     const applied: string[] = [];
+    /** Sets a text field, or drops it when there is nothing to say. */
+    const text = (key: 'checkedHow' | 'failedHow', value: string) => {
+      if (value) e[key] = value;
+      else delete e[key];
+    };
 
     if (c.result === 'nao-abriu') {
       e.failed = c.date;
-      e.failedHow = how;
-      applied.push(`não abriu (${how})`);
+      text('failedHow', where);
+      applied.push(`não abriu${where ? ` (${where})` : ''}`);
     } else if (c.result) {
       e.onAir = c.result !== 'fora-do-ar';
       e.onAirDate = c.date;
       e.checked = c.date;
-      e.checkedHow = c.result === 'ouvida' ? `ouvida sem abrir, ${how}` : how;
+      text('checkedHow', how);
       delete e.offAirUnconfirmed;
       if (c.result === 'ouvida') {
         // Same day as the check, so it does not count as failing since.
         e.failed = c.date;
-        e.failedHow = how;
+        text('failedHow', where);
       } else if (c.result === 'abriu' && e.failed && e.failed <= c.date) {
         delete e.failed;
         delete e.failedHow;
       }
-      applied.push(`${c.result === 'fora-do-ar' ? 'fora do ar' : c.result === 'ouvida' ? 'no ar, ouvida sem abrir' : 'no ar'} (${how})`);
+      applied.push(`${c.result === 'fora-do-ar' ? 'fora do ar' : 'no ar'}${how ? ` (${how})` : ''}`);
     }
     if (c.tone !== undefined) {
       e.tone = c.tone;
@@ -189,7 +193,7 @@ export function applyChecks(file: OverlayFile, checks: Record<string, Check>): {
       const onlyFailed = c.result === 'nao-abriu' && applied.length === 1;
       if (!before || (!keepsImportedPosition && !onlyFailed)) {
         delete e.unverified;
-        e.source = `Conferência (${how})`;
+        e.source = where ? `Conferência (${where})` : 'Conferência';
         e.date = c.date;
       }
       entries[id] = e;

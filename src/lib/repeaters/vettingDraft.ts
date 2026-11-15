@@ -1,13 +1,11 @@
 // The vetting sheet's rows as typed (strings from inputs and dropdowns), and
 // their conversion to and from the Check records the export carries.
 import { CTCSS_TONES, type Mode } from './overlay.ts';
-import type { Check, CheckHow, CheckResult, ChecksFile } from './vetting.ts';
+import type { Check, CheckResult, ChecksFile } from './vetting.ts';
 
 export interface RowDraft {
   date: string;
   result?: CheckResult;
-  how?: CheckHow;
-  reporter?: string;
   /** Where the test was made from: a place name, or "lat, lon" from the GPS button. */
   from?: string;
   /** Tone dropdown: "" keeps what is there, "none", "dcs" (code in `dcs`) or Hz ("88.5"). */
@@ -32,7 +30,7 @@ export function parsePosition(text: string | undefined): { lat: number; lon: num
   return { lat: round(num(m[1]!)), lon: round(num(m[2]!)) };
 }
 
-/** Whether the row says anything beyond its default date and method. */
+/** Whether the row says anything beyond its default date and where from. */
 export function isEdited(d: RowDraft | undefined): boolean {
   return !!d && !!(d.result || d.tone || d.position?.trim() || d.modes?.length || d.comment?.trim());
 }
@@ -55,8 +53,6 @@ export function draftToCheck(d: RowDraft): { check: Check; problems: string[] } 
   const problems: string[] = [];
   const check: Check = { date: d.date };
   if (d.result) check.result = d.result;
-  if (d.how && d.how !== 'teste') check.how = d.how;
-  if (d.how === 'relato' && d.reporter?.trim()) check.reporter = d.reporter.trim();
   if (d.from?.trim()) {
     if (d.from.trim().length <= 80) check.from = d.from.trim();
     else problems.push('"de onde" deve ter até 80 caracteres');
@@ -83,8 +79,6 @@ export function draftToCheck(d: RowDraft): { check: Check; problems: string[] } 
 export function checkToDraft(c: Check): RowDraft {
   const d: RowDraft = { date: c.date };
   if (c.result) d.result = c.result;
-  if (c.how) d.how = c.how;
-  if (c.reporter) d.reporter = c.reporter;
   if (c.from) d.from = c.from;
   if (c.tone !== undefined) d.tone = String(c.tone);
   if (c.dcs) Object.assign(d, { tone: 'dcs', dcs: c.dcs });

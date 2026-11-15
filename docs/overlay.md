@@ -72,20 +72,22 @@ filters by it (`?situacao=conferidas` or `fora-do-ar`).
 The maintainer vets repeaters in a hidden sheet at `/repetidoras/conferir`
 (not linked, not indexed). It opens on RJ; each row takes a result (abriu,
 ouvi no ar mas não abriu, não abriu, or fora do ar for a repeater known to be
-down), how it was
-checked (own test, listening, or someone's report, which also counts) and
-from where (a place, or the GPS button: coordinates to three decimals, since
-the overlay is public), tone, the antenna's position, modes, a date and a
-comment. The draft lives in the browser; "Exportar JSON" saves the
+down), from where (a place, or the GPS button: coordinates to three decimals,
+since the overlay is public), tone, the antenna's position, modes, a date and
+a comment. Until 2026-11-15 a row also said how the repeater was checked (own
+test, listening, someone's report); that was dropped as unneeded, and older
+entries keep their wording ("teste no ar, de …"). The draft lives in the browser; "Exportar JSON" saves the
 annotated rows, and
 
     node scripts/repeaters/apply-checks.ts conferencias-2026-11-11.json
 
-merges them: abriu, ouvida and fora do ar set `onAir`, `onAirDate`, `checked`
-and `checkedHow` (abriu also clears an older `failed`; ouvida, heard on the
-air without opening, also sets `failed` to the same day, so it still counts
-as checked and `checkedHow` starts "ouvida sem abrir"); não abriu sets only
-`failed` and `failedHow`, and alone confirms nothing (an imported entry
+merges them: abriu, ouvida and fora do ar set `onAir`, `onAirDate` and
+`checked` (abriu also clears an older `failed`; ouvida, heard on the air
+without opening, also sets `failed` to the same day, so it still counts as
+checked); não abriu sets only `failed`, and alone confirms nothing. The text
+fields say what happened and from where: `checkedHow` "abriu, de Niterói" or
+"ouvida sem abrir", `failedHow` "de Niterói", each left out when there is
+nothing to say (an imported entry
 stays `unverified`); tone, position and modes replace what was there. Comments are
 printed, never written. An imported entry keeps `unverified` (and its
 source) while its imported position is unconfirmed, so the map keeps calling

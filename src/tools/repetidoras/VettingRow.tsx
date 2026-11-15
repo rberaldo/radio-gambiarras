@@ -5,7 +5,7 @@ import { useState } from 'preact/hooks';
 import { formatMHz, formatShift, toneText } from '../../lib/repeaters/display.ts';
 import type { Repeater } from '../../lib/repeaters/merge.ts';
 import { CTCSS_TONES } from '../../lib/repeaters/overlay.ts';
-import { CHECK_HOWS, CHECK_RESULTS, type CheckHow, type CheckResult } from '../../lib/repeaters/vetting.ts';
+import { CHECK_RESULTS, type CheckResult } from '../../lib/repeaters/vetting.ts';
 import { draftToCheck, isEdited, type RowDraft } from '../../lib/repeaters/vettingDraft.ts';
 import { ModesPicker } from './ModesPicker.tsx';
 import { VettingBadge } from './VettingBadge.tsx';
@@ -86,17 +86,7 @@ export const VettingRow = memo(function VettingRow({ repeater: r, draft, today, 
         </select>
         <input class="field" type="date" max={today} aria-label={`Data da conferência de ${name}`} value={d.date} onInput={(e) => set({ date: value(e) || today })} />
       </td>
-      <td class="vs-cell vs-cell--how" data-label="Como e de onde">
-        <select class="field" aria-label={`Como conferiu ${name}`} value={d.how ?? 'teste'} onChange={(e) => set({ how: value(e) as CheckHow })}>
-          {Object.entries(CHECK_HOWS).map(([v, text]) => (
-            <option value={v} key={v}>
-              {text}
-            </option>
-          ))}
-        </select>
-        {d.how === 'relato' && (
-          <input class="field" type="text" placeholder="quem? (indicativo)" aria-label={`Quem relatou ${name}`} value={d.reporter ?? ''} onInput={(e) => set({ reporter: value(e) })} />
-        )}
+      <td class="vs-cell vs-cell--from" data-label="De onde">
         <span class="vs-inline">
           <input class="field" type="text" maxLength={80} placeholder="de onde?" aria-label={`De onde conferiu ${name}`} value={d.from ?? ''} onInput={(e) => set({ from: value(e) })} />
           <button class="btn" type="button" onClick={locate} disabled={locating} aria-label={`Usar minha posição como o lugar de onde conferiu ${name}`} title="Usar minha posição">

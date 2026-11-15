@@ -15,7 +15,7 @@ describe('parsePosition', () => {
 
 describe('draft rows', () => {
   it('count as edited only when they say something', () => {
-    expect(isEdited({ date: '2026-11-11', how: 'escuta' })).toBe(false);
+    expect(isEdited({ date: '2026-11-11', from: 'Niterói' })).toBe(false);
     expect(isEdited({ date: '2026-11-11', comment: ' ' })).toBe(false);
     expect(isEdited({ date: '2026-11-11', result: 'abriu' })).toBe(true);
   });
@@ -24,8 +24,6 @@ describe('draft rows', () => {
     const { check, problems } = draftToCheck({
       date: '2026-11-11',
       result: 'abriu',
-      how: 'relato',
-      reporter: ' PY1ZZ ',
       from: ' Alto da Boa Vista ',
       tone: '88.5',
       position: '-22.95, -43.21',
@@ -33,7 +31,7 @@ describe('draft rows', () => {
       comment: 'sinal forte',
     });
     expect(problems).toEqual([]);
-    expect(check).toEqual({ date: '2026-11-11', result: 'abriu', how: 'relato', reporter: 'PY1ZZ', from: 'Alto da Boa Vista', tone: 88.5, lat: -22.95, lon: -43.21, modes: ['FM'], comment: 'sinal forte' });
+    expect(check).toEqual({ date: '2026-11-11', result: 'abriu', from: 'Alto da Boa Vista', tone: 88.5, lat: -22.95, lon: -43.21, modes: ['FM'], comment: 'sinal forte' });
     expect(draftToCheck(checkToDraft(check)).check).toEqual(check);
     expect(draftToCheck(checkToDraft({ date: '2026-11-11', dcs: '023' })).check).toEqual({ date: '2026-11-11', dcs: '023' });
   });

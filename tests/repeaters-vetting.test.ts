@@ -68,7 +68,11 @@ describe('validateChecks', () => {
   const file = (checks: ChecksFile['checks']): ChecksFile => ({ format: 1, kind: 'conferencias', exportedAt: '2026-11-11T20:00:00Z', checks });
 
   it('accepts a good export', () => {
-    expect(validateChecks(file({ 'PY1AA@146.610': { date: '2026-11-11', result: 'abriu', how: 'teste', tone: 88.5, modes: ['FM'] } }))).toEqual([]);
+    expect(validateChecks(file({ 'PY1AA@146.610': { date: '2026-11-11', result: 'abriu', tone: 88.5, modes: ['FM'] } }))).toEqual([]);
+  });
+
+  it('ignores how a check was made, which older exports still carry', () => {
+    expect(validateChecks(file({ 'PY1AA@146.610': { date: '2026-11-11', result: 'abriu', how: 'relato', reporter: 'PY1ZZ' } as never }))).toEqual([]);
   });
 
   it('rejects other files and bad rows', () => {
@@ -88,23 +92,23 @@ describe('applyChecks', () => {
   it('records an on-air test on a repeater with no overlay entry', () => {
     const { file, outcomes } = applyChecks(overlay({}), { 'PY1BB@439.650': { date: '2026-11-11', result: 'abriu', tone: 'none' } });
     expect(file.entries['PY1BB@439.650']).toEqual({
-      source: 'Conferência (teste no ar)',
+      source: 'Conferência',
       date: '2026-11-11',
       onAir: true,
       onAirDate: '2026-11-11',
       checked: '2026-11-11',
-      checkedHow: 'teste no ar',
+      checkedHow: 'abriu',
       tone: 'none',
     });
-    expect(outcomes[0]!.applied).toEqual(['no ar (teste no ar)', 'subtom nenhum']);
+    expect(outcomes[0]!.applied).toEqual(['no ar (abriu)', 'subtom nenhum']);
     expect(validateOverlay(file, ids)).toEqual([]);
   });
 
   it('confirms an import without a position, clearing unverified', () => {
-    const { file } = applyChecks(overlay({ 'PY1AA@146.610': imported }), { 'PY1AA@146.610': { date: '2026-11-11', result: 'abriu', how: 'escuta' } });
+    const { file } = applyChecks(overlay({ 'PY1AA@146.610': imported }), { 'PY1AA@146.610': { date: '2026-11-11', result: 'abriu', from: 'Niterói' } });
     const e = file.entries['PY1AA@146.610']!;
     expect(e.unverified).toBeUndefined();
-    expect(e).toMatchObject({ tone: 88.5, checked: '2026-11-11', checkedHow: 'escuta', source: 'Conferência (escuta)' });
+    expect(e).toMatchObject({ tone: 88.5, checked: '2026-11-11', checkedHow: 'abriu, de Niterói', source: 'Conferência (de Niterói)' });
   });
 
   it('keeps an import unverified while its position is unconfirmed', () => {
@@ -120,13 +124,14 @@ describe('applyChecks', () => {
   it('marks off the air on a report, and swaps tone and DCS', () => {
     const before = overlay({ 'PY1AA@146.610': { source: 'x', date: '2026-01-01', dcs: '023', checked: '2026-10-01', checkedHow: 'teste no ar' } });
     const { file, outcomes } = applyChecks(before, {
-      'PY1AA@146.610': { date: '2026-11-11', result: 'fora-do-ar', how: 'relato', reporter: 'PY1ZZ', tone: 88.5, comment: ' desligada para manutenção ' },
+      'PY1AA@146.610': { date: '2026-11-11', result: 'fora-do-ar', tone: 88.5, comment: ' desligada para manutenção ' },
     });
-    expect(file.entries['PY1AA@146.610']).toMatchObject({ onAir: false, onAirDate: '2026-11-11', tone: 88.5, checkedHow: 'relato de PY1ZZ' });
+    expect(file.entries['PY1AA@146.610']).toMatchObject({ onAir: false, onAirDate: '2026-11-11', tone: 88.5 });
+    // Nothing to add to "fora do ar": the old "teste no ar" goes.
+    expect(file.entries['PY1AA@146.610']!.checkedHow).toBeUndefined();
     expect(file.entries['PY1AA@146.610']!.dcs).toBeUndefined();
-    expect(outcomes).toEqual([
-      { id: 'PY1AA@146.610', applied: ['fora do ar (relato de PY1ZZ)', 'subtom 88.5'], comment: 'desligada para manutenção' },
-    ]);
+    expect(outcomes).toEqual([{ id: 'PY1AA@146.610', applied: ['fora do ar', 'subtom 88.5'], comment: 'desligada para manutenção' }]);
+    expect(validateOverlay(file, ids)).toEqual([]);
   });
 
   it('records a failed test without calling it off the air or confirming the import', () => {
@@ -135,9 +140,9 @@ describe('applyChecks', () => {
       'PY1AA@146.610': { date: '2026-11-14', result: 'nao-abriu', from: 'Alto da Boa Vista' },
       'PY1BB@439.650': { date: '2026-11-14', result: 'nao-abriu' },
     });
-    expect(file.entries['PY1AA@146.610']).toEqual({ ...imported, failed: '2026-11-14', failedHow: 'teste no ar, de Alto da Boa Vista' });
-    expect(file.entries['PY1BB@439.650']).toEqual({ source: 'Conferência (teste no ar)', date: '2026-11-14', failed: '2026-11-14', failedHow: 'teste no ar' });
-    expect(outcomes[0]!.applied).toEqual(['não abriu (teste no ar, de Alto da Boa Vista)']);
+    expect(file.entries['PY1AA@146.610']).toEqual({ ...imported, failed: '2026-11-14', failedHow: 'de Alto da Boa Vista' });
+    expect(file.entries['PY1BB@439.650']).toEqual({ source: 'Conferência', date: '2026-11-14', failed: '2026-11-14' });
+    expect(outcomes.map((o) => o.applied)).toEqual([['não abriu (de Alto da Boa Vista)'], ['não abriu']]);
     expect(validateOverlay(file, ids)).toEqual([]);
   });
 
@@ -151,7 +156,7 @@ describe('applyChecks', () => {
   });
 
   it('clears a failed test once the repeater opens', () => {
-    const before = overlay({ 'PY1AA@146.610': { source: 'x', date: '2026-11-14', failed: '2026-11-14', failedHow: 'teste no ar' } });
+    const before = overlay({ 'PY1AA@146.610': { source: 'x', date: '2026-11-14', failed: '2026-11-14', failedHow: 'de Niterói' } });
     const opened = applyChecks(before, { 'PY1AA@146.610': { date: '2026-11-15', result: 'abriu' } }).file.entries['PY1AA@146.610']!;
     expect(opened.failed).toBeUndefined();
     expect(opened.failedHow).toBeUndefined();
@@ -168,21 +173,22 @@ describe('applyChecks', () => {
       onAir: true,
       onAirDate: '2026-11-15',
       checked: '2026-11-15',
-      checkedHow: 'ouvida sem abrir, teste no ar, de Pico da Tijuca',
+      checkedHow: 'ouvida sem abrir, de Pico da Tijuca',
       failed: '2026-11-15',
-      failedHow: 'teste no ar, de Pico da Tijuca',
+      failedHow: 'de Pico da Tijuca',
     });
     expect(e.unverified).toBeUndefined();
-    expect(outcomes[0]!.applied).toEqual(['no ar, ouvida sem abrir (teste no ar, de Pico da Tijuca)']);
+    expect(outcomes[0]!.applied).toEqual(['no ar (ouvida sem abrir, de Pico da Tijuca)']);
     expect(vettingStatus(e, new Date('2026-11-16T12:00:00Z'))).toBe('recente');
     expect(validateOverlay(file, ids)).toEqual([]);
     expect(validateChecks({ format: 1, kind: 'conferencias', exportedAt: '', checks: { 'PY1AA@146.610': { date: '2026-11-15', result: 'ouvida' } } })).toEqual([]);
   });
 
-  it('describes how a check was made, and from where', () => {
-    expect(howText({})).toBe('teste no ar');
-    expect(howText({ how: 'relato', reporter: '  ' })).toBe('relato de terceiro');
-    expect(howText({ how: 'escuta', from: ' GG67ke ' })).toBe('escuta, de GG67ke');
-    expect(howText({ how: 'relato', reporter: 'PY1ZZ', from: 'Niterói' })).toBe('relato de PY1ZZ, de Niterói');
+  it('describes what happened, and from where', () => {
+    expect(howText({})).toBe('');
+    expect(howText({ result: 'abriu' })).toBe('abriu');
+    expect(howText({ result: 'ouvida', from: ' GG67ke ' })).toBe('ouvida sem abrir, de GG67ke');
+    expect(howText({ result: 'nao-abriu', from: 'Niterói' })).toBe('de Niterói');
+    expect(howText({ result: 'fora-do-ar', from: '  ' })).toBe('');
   });
 });

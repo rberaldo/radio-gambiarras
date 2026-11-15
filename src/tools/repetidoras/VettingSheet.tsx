@@ -316,7 +316,7 @@ export default function VettingSheet() {
             <tr>
               <th scope="col">Repetidora e hoje no site</th>
               <th scope="col">Resultado e data</th>
-              <th scope="col">Como e de onde</th>
+              <th scope="col">De onde</th>
               <th scope="col">Subtom</th>
               <th scope="col">Posição da antena</th>
               <th scope="col">Modos</th>
