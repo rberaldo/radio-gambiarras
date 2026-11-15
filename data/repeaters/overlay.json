@@ -936,6 +936,12 @@
    "notes": "Local: Morro do Itaoca.",
    "tone": 88.5
   },
+  "PY1JBW@146.710": {
+   "source": "Conferência (teste no ar, de -22.989, -43.284)",
+   "date": "2026-11-15",
+   "failed": "2026-11-15",
+   "failedHow": "teste no ar, de -22.989, -43.284"
+  },
   "PY1JCB@145.250": {
    "source": "Relatos de radioamadores, 2026 (a conferir)",
    "date": "2026-11-09",
@@ -975,8 +981,8 @@
    "notes": "Local: Jacarepaguá.",
    "lat": -22.95317,
    "lon": -43.37158,
-   "failed": "2026-11-14",
-   "failedHow": "teste no ar, de Alto da Boa Vista"
+   "failed": "2026-11-15",
+   "failedHow": "teste no ar, de -23.013, -43.316"
   },
   "PY1JUL@439.075": {
    "source": "Importação inicial de 2026-11-09 (a conferir)",
@@ -1001,8 +1007,8 @@
    "date": "2026-11-09",
    "unverified": true,
    "tone": 88.5,
-   "failed": "2026-11-14",
-   "failedHow": "teste no ar, de Alto da Boa Vista"
+   "failed": "2026-11-15",
+   "failedHow": "teste no ar, de -23.014, -43.301"
   },
   "PY1KYZ@147.100": {
    "source": "Importação inicial de 2026-11-09 (a conferir)",
@@ -1111,13 +1117,16 @@
    "tone": 88.5
   },
   "PY1MBU@145.230": {
-   "source": "Importação inicial de 2026-11-09 (a conferir)",
-   "date": "2026-11-09",
-   "unverified": true,
-   "tone": 88.5,
+   "source": "Conferência (teste no ar, de -22.990, -43.284)",
+   "date": "2026-11-15",
+   "tone": "none",
    "modes": [
     "FM"
-   ]
+   ],
+   "onAir": true,
+   "onAirDate": "2026-11-15",
+   "checked": "2026-11-15",
+   "checkedHow": "teste no ar, de -22.990, -43.284"
   },
   "PY1MDT@147.390": {
    "source": "Importação inicial de 2026-11-09 (a conferir)",
@@ -1283,17 +1292,17 @@
    ]
   },
   "PY1SVL@146.830": {
-   "source": "Conferência (teste no ar, de Alto da Boa Vista)",
-   "date": "2026-11-14",
+   "source": "Conferência (teste no ar, de -22.989, -43.284)",
+   "date": "2026-11-15",
    "tone": 100,
    "modes": [
     "FM"
    ],
    "notes": "Local: Alto do Soberbo.",
    "onAir": true,
-   "onAirDate": "2026-11-14",
-   "checked": "2026-11-14",
-   "checkedHow": "teste no ar, de Alto da Boa Vista"
+   "onAirDate": "2026-11-15",
+   "checked": "2026-11-15",
+   "checkedHow": "teste no ar, de -22.989, -43.284"
   },
   "PY1TFA@147.000": {
    "source": "Importação inicial de 2026-11-09 (a conferir)",
@@ -1305,15 +1314,16 @@
    ]
   },
   "PY1TPS@146.650": {
-   "source": "Importação inicial de 2026-11-09 (a conferir)",
-   "date": "2026-11-09",
-   "unverified": true,
+   "source": "Conferência (teste no ar, de -22.989, -43.284)",
+   "date": "2026-11-15",
    "tone": 67,
    "modes": [
     "FM"
    ],
-   "failed": "2026-11-14",
-   "failedHow": "teste no ar, de Alto da Boa Vista"
+   "onAir": true,
+   "onAirDate": "2026-11-15",
+   "checked": "2026-11-15",
+   "checkedHow": "teste no ar, de -22.989, -43.284"
   },
   "PY1UEB@147.240": {
    "source": "Importação inicial de 2026-11-09 (a conferir)",
@@ -1378,16 +1388,16 @@
    ]
   },
   "PY1VAZ@439.650": {
-   "source": "Conferência (teste no ar, de Alto da Boa Vista)",
-   "date": "2026-11-14",
+   "source": "Conferência (teste no ar, de -22.989, -43.284)",
+   "date": "2026-11-15",
    "tone": 67,
    "modes": [
     "FM"
    ],
    "onAir": true,
-   "onAirDate": "2026-11-14",
-   "checked": "2026-11-14",
-   "checkedHow": "teste no ar, de Alto da Boa Vista"
+   "onAirDate": "2026-11-15",
+   "checked": "2026-11-15",
+   "checkedHow": "teste no ar, de -22.989, -43.284"
   },
   "PY1VRD@146.930": {
    "source": "Importação inicial de 2026-11-09 (a conferir)",
